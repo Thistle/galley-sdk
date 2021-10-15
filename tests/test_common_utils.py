@@ -6,7 +6,8 @@ from galley.common import (
     validate_response_data_structure,
     validate_response_data,
     validate_fields,
-    make_request_to_galley
+    make_request_to_galley,
+    must_retry
 )
 from galley.queries import Query
 from galley.mutations import Mutation
@@ -124,12 +125,6 @@ class TestQueryGalleyDataOperation(TestCase):
         make_request_to_galley(op=Operation(Query))
         self.assertEqual(mock_endpoint_call.call_count, 1)
 
-    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'side_effect': Exception()})
-    def test_retrieve_retry(self, mock_endpoint_call):
-        result = make_request_to_galley(op=Operation(Query))
-        self.assertEqual(mock_endpoint_call.call_count, 2)
-        self.assertEqual(result, None)
-
 
 class TestMutateGalleyDataOperation(TestCase):
     @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
@@ -141,8 +136,13 @@ class TestMutateGalleyDataOperation(TestCase):
         make_request_to_galley(op=Operation(Mutation))
         self.assertEqual(mock_endpoint_call.call_count, 1)
 
-    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'side_effect': Exception()})
-    def test_mutation_retry(self, mock_endpoint_call):
-        result = make_request_to_galley(op=Operation(Mutation))
-        self.assertEqual(mock_endpoint_call.call_count, 2)
-        self.assertEqual(result, None)
+
+class TestMustRetry(TestCase):
+    def test_no_data_no_retry(self):
+        self.assertFalse(must_retry({}))
+
+    def test_status_OK_no_retry(self):
+        self.assertFalse(must_retry({'status': 200}))
+
+    def test_too_many_requests_retry(self):
+        self.assertTrue(must_retry({'errors': [{'too many requests'}], 'status': 429}))
