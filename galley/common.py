@@ -4,7 +4,7 @@ from typing import Dict, Optional, Any
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
-from galley import api_key, api_url, max_tries
+from galley import api_key, api_url, max_retries
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ def can_retry(data: Dict) -> bool:
 
 # REQUEST OPERATION FUNCTION TO QUERY / MUTATE GALLEY DATA
 
-@backoff.on_predicate(backoff.expo, predicate=can_retry, max_tries=max_tries)
+@backoff.on_predicate(backoff.expo, predicate=can_retry, max_tries=max_retries + 1)
 def make_request_to_galley(op: Operation, variables: Optional[Dict] = None) -> Optional[Dict]:
     endpoint = build_galley_endpoint()
     return endpoint(op, {} if variables is None else variables)

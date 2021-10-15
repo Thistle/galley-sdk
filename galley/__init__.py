@@ -1,3 +1,3 @@
 api_key = ''
 api_url = ''
-max_tries = 2
+max_retries = 2
