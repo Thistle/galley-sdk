@@ -7,7 +7,7 @@ from galley.common import (
     validate_response_data,
     validate_fields,
     make_request_to_galley,
-    must_retry
+    can_retry
 )
 from galley.queries import Query
 from galley.mutations import Mutation
@@ -137,12 +137,12 @@ class TestMutateGalleyDataOperation(TestCase):
         self.assertEqual(mock_endpoint_call.call_count, 1)
 
 
-class TestMustRetry(TestCase):
+class TestCanRetry(TestCase):
     def test_no_data_no_retry(self):
-        self.assertFalse(must_retry({}))
+        self.assertFalse(can_retry({}))
 
     def test_status_OK_no_retry(self):
-        self.assertFalse(must_retry({'status': 200}))
+        self.assertFalse(can_retry({'status': 200}))
 
     def test_too_many_requests_retry(self):
-        self.assertTrue(must_retry({'errors': [{'too many requests'}], 'status': 429}))
+        self.assertTrue(can_retry({'errors': [{'too many requests'}], 'status': 429}))
