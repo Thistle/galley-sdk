@@ -1,13 +1,13 @@
 from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
-from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data
-import logging
+from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, get_week_menu_data
+from galley.types import MenuNameInput
 
 logger = logging.getLogger(__name__)
 
 
-class TestQueryGalleyRecipes(TestCase):
+class TestQueryRecipes(TestCase):
     def setUp(self) -> None:
         # This string is to test the query we build for recipe matches query provided by galley.
         self.expected_query = '''query {
@@ -261,3 +261,92 @@ class TestQueryRecipeNutritionData(TestCase):
         result = get_recipe_nutrition_data('2')
         self.assertEqual(result, None)
 
+
+class TestQueryWeekMenuData(TestCase):
+    def setUp(self) -> None:
+        self.expected_query = '''query {
+            viewer {
+            menus (where: {name: "2021-10-04 1_2_3"}) {
+            id
+            name
+            date
+            location {
+                name
+            }
+            menuItems {
+                recipeId
+				categoryValues {
+                    category {
+                        itemType
+                    }
+                }
+            }
+            }
+            }'''.replace(' '*12, '')
+
+    def test_week_menu_data_query(self):
+        query_operation = Operation(Query)
+        query_operation.viewer().menus(where=MenuNameInput(name="2021-10-04 1_2_3")).__fields__('id', 'name', 'date', 'location', 'menuItems')
+        query_str = bytes(query_operation.__to_graphql__(auto_select_depth=3)).decode('utf-8')
+        self.assertEqual(query_str, self.expected_query)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_recipe_data_successful(self, mock_retrieval_method):
+        menus = [
+            {
+                'name': 'YYYY-MM-DD 1_2_3',
+                'id': 'MENU123ABC',
+                'date': 'YYYY-MM-DD',
+                'location': {
+                    'name': 'Vacaville'
+                },
+                'menuItems': [
+                    {
+                        'recipeId': 'RECIPE123ABC',
+                        'categoryValues': [{
+                            'category': {
+                                'itemType': 'menuItem'
+                            }
+                        }],
+                    },
+                    {
+                        'recipeId': 'RECIPE456DEF',
+                        'categoryValues': [{
+                            'category': {
+                                'itemType': 'menuItem'
+                            }
+                        }],
+                    },
+                ]
+
+            },
+
+        ]
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'menus': menus
+                }
+            }
+        }
+
+        result = get_week_menu_data()
+        self.assertEqual(result, menus)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_recipe_data_validation_failure(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'test': 'test'
+                }
+            }
+        }
+        result = get_week_menu_data()
+        self.assertEqual(result, None)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_recipe_data_null(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = None
+        result = get_week_menu_data()
+        self.assertEqual(result, None)

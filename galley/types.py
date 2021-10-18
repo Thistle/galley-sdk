@@ -1,4 +1,4 @@
-from sgqlc.types import Field, Type, Input
+from sgqlc.types import Field, Type, Input, datetime as d, Enum
 
 
 class Nutrition(Type):
@@ -64,7 +64,6 @@ class Nutrition(Type):
 
 
 class Recipe(Type):
-    # ID in galley is represented as unique identifier string
     id = str
     name = str
     instructions = str
@@ -74,7 +73,6 @@ class Recipe(Type):
 
 
 class RecipeInstruction(Type):
-    # ID in galley is represented as unique identifier string
     id = str
     text = str
     position = int
@@ -94,3 +92,40 @@ class RecipeInstructionInput(Input):
 class RecipeInstructionPayload(Type):
     recipeInstruction = Field(RecipeInstruction)
 
+
+class Location(Type):
+    name = str
+
+
+class CategoryItemTypeEnum(Enum):
+    __choices__ = ('menuItem',
+                   'ingredient',
+                   'recipe',
+                   'menu',
+                   'vendorItem',
+                   'purchaseOrder')
+
+
+class Category(Type):
+    itemType = Field(CategoryItemTypeEnum)
+
+
+class CategoryValue(Type):
+    category = Field(Category)
+
+
+class MenuItem(Type):
+    recipeId = str
+    categoryValues = Field(CategoryValue)
+
+
+class Menu(Type):
+    id = str
+    name = str
+    date = d.Date
+    location = Field(Location)
+    menuItems = Field(MenuItem)
+
+
+class MenuNameInput(Input):
+    name = str
