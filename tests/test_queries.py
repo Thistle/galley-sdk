@@ -351,3 +351,4 @@ class TestQueryWeekMenuData(TestCase):
         mock_retrieval_method.return_value = None
         result = get_week_menu_data('')
         self.assertEqual(result, None)
+
