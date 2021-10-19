@@ -114,6 +114,16 @@ class TestValidateResponseData(TestCase):
         self.assertEqual(checked, self.data)
 
 
+MockUnavailableResponse = {
+    'data': None,
+    'errors': [
+        {
+            'message': 'Service Unavailable',
+            'extensions': {'code': 'SERVICE_UNAVAILABLE'}}
+    ],
+    'status': 500
+}
+
 class TestQueryGalleyDataOperation(TestCase):
     @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
     def test_retrieve_successful(self, mock_endpoint_call):
@@ -125,6 +135,21 @@ class TestQueryGalleyDataOperation(TestCase):
         make_request_to_galley(op=Operation(Query))
         self.assertEqual(mock_endpoint_call.call_count, 1)
 
+    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'return_value': MockUnavailableResponse})
+    def test_retrieve_retry(self, mock_endpoint_call):
+        endpoint_response = {
+            'data': None,
+            'errors': [
+                {
+                    'message': 'Service Unavailable',
+                    'extensions': {'code': 'SERVICE_UNAVAILABLE'}}
+            ],
+            'status': 500
+        }
+        result = make_request_to_galley(op=Operation(Query))
+        self.assertEqual(mock_endpoint_call.call_count, 3)
+        self.assertEqual(result, MockUnavailableResponse)
+
 
 class TestMutateGalleyDataOperation(TestCase):
     @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
@@ -135,6 +160,12 @@ class TestMutateGalleyDataOperation(TestCase):
         }
         make_request_to_galley(op=Operation(Mutation))
         self.assertEqual(mock_endpoint_call.call_count, 1)
+
+    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'return_value': MockUnavailableResponse})
+    def test_mutation_retry(self, mock_endpoint_call):
+        result = make_request_to_galley(op=Operation(Mutation))
+        self.assertEqual(mock_endpoint_call.call_count, 3)
+        self.assertEqual(result, MockUnavailableResponse)
 
 
 class TestCanRetry(TestCase):
