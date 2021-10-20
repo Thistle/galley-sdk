@@ -3,8 +3,9 @@ from sgqlc.operation import Operation
 
 from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, get_week_menu_data
 from galley.types import MenuNameInput
+import logging
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class TestQueryRecipes(TestCase):
