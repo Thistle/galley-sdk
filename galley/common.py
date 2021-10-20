@@ -1,3 +1,5 @@
+import backoff
+from http import HTTPStatus
 from typing import Dict, Optional, Any
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
@@ -20,21 +22,25 @@ def build_galley_endpoint() -> HTTPEndpoint:
     return HTTPEndpoint(api_url, headers)
 
 
+def can_retry(data: Optional[Dict]) -> bool:
+    return data.get('status') in [
+        HTTPStatus.REQUEST_TIMEOUT,
+        HTTPStatus.TOO_MANY_REQUESTS,
+        HTTPStatus.INTERNAL_SERVER_ERROR,
+        HTTPStatus.SERVICE_UNAVAILABLE
+    ] if data else False
+
+
 # REQUEST OPERATION FUNCTION TO QUERY / MUTATE GALLEY DATA
 
-def make_request_to_galley(op: Operation, retries: int = 0, variables: Optional[Dict] = {}) -> Optional[Dict]:
+@backoff.on_predicate(lambda: backoff.constant(interval=0.5), predicate=can_retry, max_tries=max_retries + 1)
+def make_request_to_galley(op: Operation, variables: Optional[Dict] = None) -> Optional[Dict]:
     endpoint = build_galley_endpoint()
-    data = None
     try:
-        # Fires a request to galley and fetches data
-        data = endpoint(op, variables)
+        return endpoint(op, {} if variables is None else variables)
     except Exception as ex:
-        # TODO(Dip 20210831 - The exception is too broad but we will have followup ticket to elaborate this.)
-        logger.error(f"{GALLEY_ERROR_PREFIX} Unable to process operation request: {ex}")
-        retries += 1
-        if retries < max_retries:
-            make_request_to_galley(op, retries)
-    return data
+        logger.exception(ex)
+        return None
 
 
 # DATA VALIDATORS
