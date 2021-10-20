@@ -13,11 +13,11 @@ $ . venv/bin/activate
 $ python setup.py install
 ```
 
-To use galley-sdk within your application, you can install from this repository using [pip's version control system support](https://pip.pypa.io/en/stable/topics/vcs-support/#vcs-support).  This example assumes you are using Git:
-```
-pip install git+git://github.com/Thistle/galley-sdk.git@0.1.0#egg=galley-sdk
-```
+To use galley-sdk within your application, you can install from this repository using [pip's version control system support](https://pip.pypa.io/en/stable/topics/vcs-support/#vcs-support) to specify a git ref such as a branch name, commit hash, or tag name. This example assumes you are using Git:
 
+```
+pip install git+git://github.com/Thistle/galley-sdk.git@<git-ref>#egg=galley-sdk
+```
 
 ## Using galley-sdk
 After installing, you will need to set up credentials:
