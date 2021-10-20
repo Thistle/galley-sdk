@@ -137,15 +137,6 @@ class TestQueryGalleyDataOperation(TestCase):
 
     @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'return_value': MockUnavailableResponse})
     def test_retrieve_retry(self, mock_endpoint_call):
-        endpoint_response = {
-            'data': None,
-            'errors': [
-                {
-                    'message': 'Service Unavailable',
-                    'extensions': {'code': 'SERVICE_UNAVAILABLE'}}
-            ],
-            'status': 500
-        }
         result = make_request_to_galley(op=Operation(Query))
         self.assertEqual(mock_endpoint_call.call_count, 3)
         self.assertEqual(result, MockUnavailableResponse)
