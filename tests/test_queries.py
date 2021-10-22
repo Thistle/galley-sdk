@@ -15,7 +15,7 @@ class TestQueryRecipes(TestCase):
             viewer {
             recipes {
             id
-            name
+            externalName
             instructions
             notes
             description
@@ -25,7 +25,7 @@ class TestQueryRecipes(TestCase):
 
     def test_recipe_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().recipes().__fields__('id', 'name', 'instructions', 'notes', 'description')
+        query_operation.viewer().recipes().__fields__('id', 'externalName', 'instructions', 'notes', 'description')
         query_str = bytes(query_operation).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
@@ -39,14 +39,14 @@ class TestQueryRecipes(TestCase):
         recipes = [
             {
                 'id': '10000',
-                'name': 'test recipe 1',
+                'externalName': 'test recipe 1',
                 'instructions': 'testing',
                 'notes': 'testing notes',
                 'description': 'test'
             },
             {
                 'id': '10000',
-                'name': 'test recipe 1',
+                'externalName': 'test recipe 1',
                 'instructions': None,
                 'notes': None,
                 'description': None
@@ -88,8 +88,8 @@ class TestQueryRecipeNutritionData(TestCase):
             viewer {
             recipe(id: "cmVjaXBlOjE2NDgzMw") {
             id
-            name
-            calculatedNutritionals {
+            externalName
+            reconciledNutritionals {
             addedSugarG
             calciumMg
             calciumPercentRDI
@@ -156,7 +156,7 @@ class TestQueryRecipeNutritionData(TestCase):
 
     def test_nutrition_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().recipe(id="cmVjaXBlOjE2NDgzMw").__fields__('id', 'name', 'calculatedNutritionals')
+        query_operation.viewer().recipe(id="cmVjaXBlOjE2NDgzMw").__fields__('id', 'externalName', 'reconciledNutritionals')
         query_str = bytes(query_operation).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
@@ -169,8 +169,8 @@ class TestQueryRecipeNutritionData(TestCase):
     def test_get_recipe_nutrition_data_successful(self, mock_retrieval_method):
         recipe = {
             'id': '1',
-            'name': 'test recipe 1',
-            'calculatedNutritionals': {
+            'externalName': 'test recipe 1',
+            'reconciledNutritionals': {
                 'addedSugarG': 0,
                 'calciumMg': 111.98919574121712,
                 'calciumPercentRDI': 0.086,
@@ -277,7 +277,9 @@ class TestQueryWeekMenuData(TestCase):
             menuItems {
             recipeId
             categoryValues {
+            name
             category {
+            name
             itemType
             }
             }
@@ -293,7 +295,7 @@ class TestQueryWeekMenuData(TestCase):
         self.assertEqual(query_str.replace(' ', ''), self.expected_query.replace(' ', ''))
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_recipe_data_successful(self, mock_retrieval_method):
+    def test_get_week_menu_data_successful(self, mock_retrieval_method):
         menus = [
             {
                 'name': 'YYYY-MM-DD 1_2_3',
@@ -306,16 +308,20 @@ class TestQueryWeekMenuData(TestCase):
                     {
                         'recipeId': 'RECIPE123ABC',
                         'categoryValues': [{
+                            'name': 'dv1',
                             'category': {
-                                'itemType': 'menuItem'
+                                'itemType': 'menuItem',
+                                'name': 'menu item type'
                             }
                         }],
                     },
                     {
                         'recipeId': 'RECIPE456DEF',
                         'categoryValues': [{
+                            'name': 'dv2',
                             'category': {
-                                'itemType': 'menuItem'
+                                'itemType': 'menuItem',
+                                'name': 'menu item type'
                             }
                         }],
                     },
@@ -336,7 +342,7 @@ class TestQueryWeekMenuData(TestCase):
         self.assertEqual(result, menus)
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_recipe_data_validation_failure(self, mock_retrieval_method):
+    def test_get_week_menu_data_validation_failure(self, mock_retrieval_method):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
