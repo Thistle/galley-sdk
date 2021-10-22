@@ -26,7 +26,7 @@ class Query(Type):
                 'viewer': {
                     'recipes': [{
                         'id': str,
-                        'name': str,
+                        'externalName': str,
                         'instructions': Any,
                         'notes': Any,
                         'description': Any
@@ -42,7 +42,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
     # Initiate a query
     query = Operation(Query)
     # Call sub-type you need to build the query.
-    query.viewer().recipes().__fields__('id', 'name', 'instructions', 'notes', 'description')
+    query.viewer().recipes().__fields__('id', 'externalName', 'instructions', 'notes', 'description')
     # pass query as an argument to make_request_to_galley function.
     raw_data = make_request_to_galley(op=query)
     return validate_response_data(raw_data, 'recipes')
@@ -50,7 +50,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
 
 def get_recipe_nutrition_data(recipe_id) -> Optional[List[Dict]]:
     query = Operation(Query)
-    query.viewer().recipe(id=recipe_id).__fields__('id', 'name', 'calculatedNutritionals')
+    query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'reconciledNutritionals')
     raw_data = make_request_to_galley(op=query, variables={'id': recipe_id})
     return validate_response_data(raw_data, 'recipe')
 

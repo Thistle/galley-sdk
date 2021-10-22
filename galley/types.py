@@ -65,11 +65,11 @@ class Nutrition(Type):
 
 class Recipe(Type):
     id = str
-    name = str
+    externalName = str
     instructions = str
     notes = str
     description = str
-    calculatedNutritionals = Field(Nutrition)
+    reconciledNutritionals = Field(Nutrition)
 
 
 class RecipeInstruction(Type):
@@ -107,10 +107,12 @@ class CategoryItemTypeEnum(Enum):
 
 
 class Category(Type):
+    name = str
     itemType = Field(CategoryItemTypeEnum)
 
 
 class CategoryValue(Type):
+    name = str
     category = Field(Category)
 
 
