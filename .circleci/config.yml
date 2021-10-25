@@ -1,0 +1,52 @@
+version: 2
+
+jobs:
+  install_python_requirements:
+    working_directory: ~/galley-sdk
+    docker:
+      - image: cimg/python:3.9.7
+    steps:
+      - checkout
+      - run:
+          name: Pip install
+          command:  |
+            python -m venv venv
+            . venv/bin/activate
+            python setup.py install
+
+  lint_check_code:
+    working_directory: ~/galley-sdk
+    docker:
+      - image: cimg/python:3.9.7
+    steps:
+      - checkout
+      - run:
+          name: Run mypy
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            python setup.py install
+            mypy .
+
+  unit_tests:
+    working_directory: ~/galley-sdk
+    parallelism: 4
+    docker:
+      - image: cimg/python:3.9.7
+    steps:
+      - checkout
+      - run:
+          name: Run unittests with coverage
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            python setup.py install
+            python -m unittest tests/test_*
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - install_python_requirements
+      - lint_check_code
+      - unit_tests
