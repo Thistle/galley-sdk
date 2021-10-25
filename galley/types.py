@@ -1,5 +1,23 @@
 from sgqlc.types import Field, Type, Input, datetime as d, Enum
 
+class CategoryItemTypeEnum(Enum):
+    __choices__ = ('menuItem',
+                   'ingredient',
+                   'recipe',
+                   'menu',
+                   'vendorItem',
+                   'purchaseOrder')
+
+
+class Category(Type):
+    name = str
+    itemType = Field(CategoryItemTypeEnum)
+
+
+class CategoryValue(Type):
+    name = str
+    category = Field(Category)
+
 
 class Nutrition(Type):
     addedSugarG = float
@@ -70,6 +88,7 @@ class Recipe(Type):
     notes = str
     description = str
     reconciledNutritionals = Field(Nutrition)
+    categoryValues = Field(CategoryValue)
 
 
 class RecipeInstruction(Type):
@@ -95,25 +114,6 @@ class RecipeInstructionPayload(Type):
 
 class Location(Type):
     name = str
-
-
-class CategoryItemTypeEnum(Enum):
-    __choices__ = ('menuItem',
-                   'ingredient',
-                   'recipe',
-                   'menu',
-                   'vendorItem',
-                   'purchaseOrder')
-
-
-class Category(Type):
-    name = str
-    itemType = Field(CategoryItemTypeEnum)
-
-
-class CategoryValue(Type):
-    name = str
-    category = Field(Category)
 
 
 class MenuItem(Type):

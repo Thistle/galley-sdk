@@ -89,6 +89,15 @@ class TestQueryRecipeNutritionData(TestCase):
             recipe(id: "cmVjaXBlOjE2NDgzMw") {
             id
             externalName
+            notes
+            description
+            categoryValues {
+            name
+            category {
+            name
+            itemType
+            }
+            }
             reconciledNutritionals {
             addedSugarG
             calciumMg
@@ -156,7 +165,7 @@ class TestQueryRecipeNutritionData(TestCase):
 
     def test_nutrition_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().recipe(id="cmVjaXBlOjE2NDgzMw").__fields__('id', 'externalName', 'reconciledNutritionals')
+        query_operation.viewer().recipe(id="cmVjaXBlOjE2NDgzMw").__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
         query_str = bytes(query_operation).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
@@ -170,6 +179,39 @@ class TestQueryRecipeNutritionData(TestCase):
         recipe = {
             'id': '1',
             'externalName': 'test recipe 1',
+            'notes': 'No need to heat! Eat directly from the fridge.',
+            'description': 'Inspired by the traditional Balinese dish, this salad features lots of crunchy veggies.',
+            'categoryValues': [
+                {
+                    'name': 'vegan',
+                    'category': {
+                        'itemType': 'recipe',
+                        'name': 'protein'
+                    }
+                },
+                {
+                    'name': 'TS48',
+                    'category': {
+                        'itemType': 'recipe',
+                        'name': 'meal container'
+                    }
+                },
+                {
+                    'name': 'Dinner',
+                    'category': {
+                        'itemType': 'recipe',
+                        'name': 'meal type'
+                    }
+                },
+                {
+                    'name': 'true',
+                    'category': {
+                        'itemType': 'recipe',
+                        'name': 'is perishable'
+                    }
+                }
+                
+            ],
             'reconciledNutritionals': {
                 'addedSugarG': 0,
                 'calciumMg': 111.98919574121712,
