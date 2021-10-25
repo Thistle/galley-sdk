@@ -50,7 +50,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
 
 def get_recipe_nutrition_data(recipe_id) -> Optional[List[Dict]]:
     query = Operation(Query)
-    query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'reconciledNutritionals')
+    query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
     raw_data = make_request_to_galley(op=query, variables={'id': recipe_id})
     return validate_response_data(raw_data, 'recipe')
 
