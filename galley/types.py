@@ -81,6 +81,26 @@ class Nutrition(Type):
     zincPercentRDI = float
 
 
+
+class Ingredient(Type):
+    externalName = str
+    categoryValues = Field(CategoryValue)
+
+
+class SubRecipe(Type):
+    allIngredients = str
+
+
+class Preparation(Type):
+    name = str
+
+
+class RecipeItem(Type):
+    ingredient = Field(Ingredient)
+    subRecipe = Field(SubRecipe)
+    preparations = Field(Preparation)
+
+
 class Recipe(Type):
     id = str
     externalName = str
@@ -89,6 +109,7 @@ class Recipe(Type):
     description = str
     reconciledNutritionals = Field(Nutrition)
     categoryValues = Field(CategoryValue)
+    recipeItems = Field(RecipeItem)
 
 
 class RecipeInstruction(Type):
