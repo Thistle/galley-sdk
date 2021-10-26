@@ -10,7 +10,7 @@ $ git clone git@github.com:Thistle/galley-sdk.git
 $ cd galley-sdk
 $ virtualenv venv
 $ . venv/bin/activate
-$ python setup.py install
+$ pip install -r requirements.txt
 ```
 
 To use galley-sdk within your application, you can install from this repository using [pip's version control system support](https://pip.pypa.io/en/stable/topics/vcs-support/#vcs-support) to specify a git ref such as a branch name, commit hash, or tag name. This example assumes you are using Git:
