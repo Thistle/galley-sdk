@@ -1,3 +1,4 @@
-sgqlc==14.0
-mypy==0.782
 backoff==1.11.1
+mypy==0.782
+python-dotenv==0.19.1
+sgqlc==14.0
