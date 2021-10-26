@@ -485,11 +485,21 @@ class TestQueryRecipeIngredients(TestCase):
                     "category": {
                         "itemType": "ingredient"
                     }
+                    },
+                    {
+                    "name": None,           # Test empty categoryValue['name']
+                    "category": {
+                        "itemType": None    # Test empty category['itemType']
+                    }
                     }
                 ]
                 },
                 "subRecipe": None,
-                "recipeItemPreparations": []
+                "preparations": [                    
+                {
+                    "name": None            # Test empty preparations['name']
+                }
+                ]
             },
             {
                 "ingredient": {
@@ -505,7 +515,15 @@ class TestQueryRecipeIngredients(TestCase):
                 },
                 "subRecipe": None,
                 "preparations": []
-            }]
+            },
+            
+            # Test empty recipeItem
+            {
+                "ingredient": None,
+                "subRecipe": None,
+                "preparations": []
+            }
+            ]
         }
 
 

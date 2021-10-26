@@ -45,7 +45,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
     # Initiate a query
     query = Operation(Query)
     # Call sub-type you need to build the query.
-    query.viewer.recipes().__fields__('id', 'externalName', 'instructions', 'notes', 'description')
+    query.viewer().recipes().__fields__('id', 'externalName', 'instructions', 'notes', 'description')
     # pass query as an argument to make_request_to_galley function.
     raw_data = make_request_to_galley(op=query)
     return validate_response_data(raw_data, 'recipes')
@@ -89,7 +89,7 @@ def get_formatted_recipe_ingredients(recipe_id) -> Optional[Dict]:
             # Top Level Ingredient
             if recipe_item['ingredient']:
                 category_values = recipe_item['ingredient']['categoryValues']
-                is_packaging = next((True for cval in category_values if cval['name'] == FOOD_PACKAGING), False)
+                is_packaging = any(cval['name'] == FOOD_PACKAGING for cval in category_values)
 
                 if not is_packaging and recipe_item['ingredient']['externalName'] not in ingredients: 
                     ingredients.append(recipe_item['ingredient']['externalName'])
@@ -101,7 +101,7 @@ def get_formatted_recipe_ingredients(recipe_id) -> Optional[Dict]:
                 preparations = recipe_item['preparations']
             
                 if preparations:
-                    is_standalone = next((True for prep in preparations if prep['name'] == STANDALONE), False)                        
+                    is_standalone = any(prep['name'] == STANDALONE for prep in preparations)                       
 
                 if is_standalone:
                     for ingredient in item_ingredients:
