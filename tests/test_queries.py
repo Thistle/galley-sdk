@@ -1,5 +1,4 @@
 from unittest import mock, TestCase
-from unittest.case import expectedFailure
 from sgqlc.operation import Operation
 
 from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, \
