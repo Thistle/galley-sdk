@@ -5,6 +5,7 @@ from sgqlc.types import Field, Type, ArgDict
 from galley.common import make_request_to_galley, validate_response_data
 from galley.types import Recipe, Menu, MenuNameInput
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -48,11 +49,14 @@ def get_recipe_data() -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_recipe_nutrition_data(recipe_id) -> Optional[List[Dict]]:
-    query = Operation(Query)
-    query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
-    raw_data = make_request_to_galley(op=query, variables={'id': recipe_id})
-    return validate_response_data(raw_data, 'recipe')
+def get_recipe_nutrition_data(recipe_ids: List) -> Optional[Dict]:
+    recipes = {}
+    for recipe_id in recipe_ids:
+        query = Operation(Query)
+        query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
+        raw_data = make_request_to_galley(op=query, variables={'id': recipe_id})
+        recipes.setdefault(recipe_id, validate_response_data(raw_data, 'recipe'))
+    return recipes
 
 
 def get_week_menu_data(name):
