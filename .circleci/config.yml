@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   install_python_requirements:
@@ -7,12 +7,22 @@ jobs:
       - image: cimg/python:3.9.7
     steps:
       - checkout
+      - restore_cache:
+          name: Restore requirements cache
+          keys:
+            - python-requirements-{{ checksum "requirements.txt" }}
+            - python-requirements
       - run:
           name: Pip install
           command:  |
             python -m venv venv
             . venv/bin/activate
-            python setup.py install
+            pip install -r requirements.txt
+      - save_cache:
+          name: Save requirements cache
+          key: python-requirements-{{ checksum "requirements.txt" }}
+          paths:
+            - venv
 
   lint_check_code:
     working_directory: ~/galley-sdk
@@ -20,12 +30,13 @@ jobs:
       - image: cimg/python:3.9.7
     steps:
       - checkout
+      - restore_cache:
+          name: Restore requirements cache
+          key: python-requirements-{{ checksum "requirements.txt" }}
       - run:
           name: Run mypy
           command: |
-            python -m venv venv
             . venv/bin/activate
-            python setup.py install
             mypy .
 
   unit_tests:
@@ -35,12 +46,13 @@ jobs:
       - image: cimg/python:3.9.7
     steps:
       - checkout
+      - restore_cache:
+        name: Restore requirements cache
+        key: python-requirements-{{ checksum "requirements.txt" }}
       - run:
           name: Run unittests with coverage
           command: |
-            python -m venv venv
             . venv/bin/activate
-            python setup.py install
             python -m unittest tests/test_*
 
 workflows:
@@ -48,5 +60,9 @@ workflows:
   ci:
     jobs:
       - install_python_requirements
-      - lint_check_code
-      - unit_tests
+      - lint_check_code:
+          requires:
+            - install_python_requirements
+      - unit_tests:
+          requires:
+            - install_python_requirements
