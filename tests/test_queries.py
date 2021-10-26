@@ -52,6 +52,7 @@ class TestQueryRecipes(TestCase):
                 'description': None
             }
         ]
+
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
@@ -72,6 +73,7 @@ class TestQueryRecipes(TestCase):
                 }
             }
         }
+
         result = get_recipe_data()
         self.assertEqual(result, None)
 
@@ -177,10 +179,10 @@ class TestQueryRecipeNutritionData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_recipe_nutrition_data_successful(self, mock_retrieval_method):
         recipe = {
-            'id': '1',
-            'externalName': 'test recipe 1',
-            'notes': 'No need to heat! Eat directly from the fridge.',
-            'description': 'Inspired by the traditional Balinese dish, this salad features lots of crunchy veggies.',
+            'id': 'recipeID',
+            'externalName': 'Test Recipe Name',
+            'notes': 'Notes on how to cook this meal.',
+            'description': 'Description of this delicious recipe.',
             'categoryValues': [
                 {
                     'name': 'vegan',
@@ -210,7 +212,6 @@ class TestQueryRecipeNutritionData(TestCase):
                         'name': 'is perishable'
                     }
                 }
-                
             ],
             'reconciledNutritionals': {
                 'addedSugarG': 0,
@@ -275,7 +276,7 @@ class TestQueryRecipeNutritionData(TestCase):
             }
         }
 
-        mock_retrieval_method.return_value = {
+        return1 = {
             'data': {
                 'viewer': {
                     'recipe': recipe
@@ -283,8 +284,28 @@ class TestQueryRecipeNutritionData(TestCase):
             }
         }
 
-        result = get_recipe_nutrition_data('1')
-        self.assertEqual(result, recipe)
+        return2 = {
+            'data': {
+                'viewer': {
+                    'recipe': None
+                }
+            }
+        }
+
+        mock_retrieval_method.side_effect = [return1, return2, return1, return1, return1]
+
+        # test with one valid input and one invalid input
+        result1 = get_recipe_nutrition_data(['1', '2'])
+        self.assertEqual(result1, {'1': recipe})
+
+        # test with one valid input
+        result2 = get_recipe_nutrition_data(['1'])
+        self.assertEqual(result2, {'1': recipe})
+
+        # test with multiple valid input
+        result3 = get_recipe_nutrition_data(['1', '2'])
+        self.assertEqual(result3, {'1': recipe, '2': recipe})
+
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_recipe_nutrition_data_validation_failure(self, mock_retrieval_method):
@@ -295,13 +316,14 @@ class TestQueryRecipeNutritionData(TestCase):
                 }
             }
         }
-        result = get_recipe_nutrition_data('1')
+
+        result = get_recipe_nutrition_data(['1'])
         self.assertEqual(result, None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_nutrition_data_null(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
-        result = get_recipe_nutrition_data('2')
+        result = get_recipe_nutrition_data(['2'])
         self.assertEqual(result, None)
 
 
@@ -372,6 +394,7 @@ class TestQueryWeekMenuData(TestCase):
             },
 
         ]
+
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
@@ -392,6 +415,7 @@ class TestQueryWeekMenuData(TestCase):
                 }
             }
         }
+
         result = get_week_menu_data('YYYY-MM-DD 1_2_3')
         self.assertEqual(result, None)
 

@@ -55,11 +55,12 @@ def get_recipe_nutrition_data(recipe_ids: list) -> Optional[Dict]:
         query = Operation(Query)
         query.viewer().recipe(id=recipe_id).__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
         raw_data = make_request_to_galley(op=query, variables={'id': recipe_id})
-        recipes.setdefault(recipe_id, validate_response_data(raw_data, 'recipe'))
-    return recipes
+        if validate_response_data(raw_data, 'recipe'):
+            recipes.setdefault(recipe_id, validate_response_data(raw_data, 'recipe'))
+    return recipes if recipes else None
 
 
-def get_week_menu_data(name: str) -> Optional[List[Dict]]:
+def get_week_menu_data(name: str) -> Optional[List]:
     query = Operation(Query)
     query.viewer().menus(where=MenuNameInput(name=name)).__fields__('id', 'name', 'date', 'location', 'menuItems')
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': name})
