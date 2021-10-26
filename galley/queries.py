@@ -49,7 +49,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_recipe_nutrition_data(recipe_ids: List) -> Optional[Dict]:
+def get_recipe_nutrition_data(recipe_ids: list) -> Optional[Dict]:
     recipes = {}
     for recipe_id in recipe_ids:
         query = Operation(Query)
@@ -59,7 +59,7 @@ def get_recipe_nutrition_data(recipe_ids: List) -> Optional[Dict]:
     return recipes
 
 
-def get_week_menu_data(name):
+def get_week_menu_data(name: str) -> Optional[List[Dict]]:
     query = Operation(Query)
     query.viewer().menus(where=MenuNameInput(name=name)).__fields__('id', 'name', 'date', 'location', 'menuItems')
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': name})
