@@ -19,17 +19,17 @@ To use galley-sdk within your application, you can install from this repository 
 pip install git+git://github.com/Thistle/galley-sdk.git@<git-ref>#egg=galley-sdk
 ```
 
+## Configuration
+First, you will need to set up credentials. Create a file called `.env` in the root directory of the project and set these two environment variables with your valid credentials for Galley's API:
+```
+GALLEY_API_KEY=<your-organization's-API-key>
+GALLEY_URL=<Galley's-staging-or-production-url>
+```
+
 ## Using galley-sdk
-After installing, you will need to set up credentials:
+Now you can use the package to make requests to Galley. For example, to retrieve recipe data:
 ```
 import galley
-
-galley.api_key = <YOUR_API_KEY>
-galley.api_url = <YOUR_API_URL>
-```
-
-Then you can use the package to access Galley's API, for example to retrieve recipe data:
-```
 from galley.queries import get_recipe_data
 
 get_recipe_data()
