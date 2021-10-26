@@ -47,8 +47,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        name: Restore requirements cache
-        key: python-requirements-{{ checksum "requirements.txt" }}
+          name: Restore requirements cache
+          key: python-requirements-{{ checksum "requirements.txt" }}
       - run:
           name: Run unittests with coverage
           command: |
