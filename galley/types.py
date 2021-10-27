@@ -1,4 +1,4 @@
-from sgqlc.types import Field, Type, Input, datetime as d, Enum
+from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID
 
 class CategoryItemTypeEnum(Enum):
     __choices__ = ('menuItem',
@@ -129,5 +129,6 @@ class Menu(Type):
     menuItems = Field(MenuItem)
 
 
-class MenuNameInput(Input):
+class FilterInput(Input):
+    id = ID
     name = str

@@ -2,7 +2,7 @@ from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
 from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, get_week_menu_data
-from galley.types import MenuNameInput
+from galley.types import FilterInput
 import logging
 
 logger = logging.getLogger(__name__)
@@ -210,7 +210,7 @@ class TestQueryRecipeNutritionData(TestCase):
                         'name': 'is perishable'
                     }
                 }
-                
+
             ],
             'reconciledNutritionals': {
                 'addedSugarG': 0,
@@ -332,7 +332,7 @@ class TestQueryWeekMenuData(TestCase):
 
     def test_week_menu_data_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().menus(where=MenuNameInput(name="2021-10-04 1_2_3")).__fields__('id', 'name', 'date', 'location', 'menuItems')
+        query_operation.viewer().menus(where=FilterInput(name="2021-10-04 1_2_3")).__fields__('id', 'name', 'date', 'location', 'menuItems')
         query_str = query_operation.__to_graphql__(auto_select_depth=3)
         self.assertEqual(query_str.replace(' ', ''), self.expected_query.replace(' ', ''))
 
