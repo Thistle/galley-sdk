@@ -178,8 +178,8 @@ class TestQueryRecipeNutritionData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_recipe_nutrition_data_successful(self, mock_retrieval_method):
-        def recipe(ID): return(
-            {
+        def recipe(ID):
+            return ({
                 'id': ID,
                 'externalName': f'Test Recipe {ID}',
                 'notes': f'Some notes about recipe {ID}.',
