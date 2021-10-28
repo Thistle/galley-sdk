@@ -65,7 +65,7 @@ def get_week_menu_data(name: str) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'menus')
 
 
-def get_recipe_ingredients(recipe_id) -> Optional[List[Dict]]:
+def get_recipe_ingredients(recipe_id) -> Optional[Dict]:
     query = Operation(Query)
     query.viewer.recipe(id=recipe_id).__fields__('id', 'recipeItems')
     query.viewer.recipe.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
