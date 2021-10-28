@@ -432,96 +432,96 @@ class TestQueryRecipeIngredients(TestCase):
 
     def setUp(self) -> None:
         self.recipe = {
-            "id": "1",
-            "recipeItems": [
+            'id': '1',
+            'recipeItems': [
             {
-                "ingredient": None,
-                "subRecipe": {
-                "allIngredients": [
-                    "Unique 1",
-                    "Unique 2",
-                    "Duplicate 1",
-                    "Duplicate 2",
-                    "Duplicate 3"
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 1',
+                    'Unique 2',
+                    'Duplicate 1',
+                    'Duplicate 2',
+                    'Duplicate 3'
                 ]
                 },
-                "preparations": []
+                'preparations': []
             },
             {
-                "ingredient": None,
-                "subRecipe": {
-                "allIngredients": [
-                    "Unique 3",
-                    "Duplicate 1",
-                    "Duplicate 2"                    
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 3',
+                    'Duplicate 1',
+                    'Duplicate 2'                    
                 ]
                 },
-                "preparations": []
+                'preparations': []
             },
             {
-                "ingredient": None,
-                "subRecipe": {
-                "allIngredients": [
-                    "Unique 4",                               
-                    "Duplicate 2",
-                    "Duplicate 3"
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 4',                               
+                    'Duplicate 2',
+                    'Duplicate 3'
                 ]
                 },
-                "preparations": [
+                'preparations': [
                 {
-                    "name": "2 oz RAM"                    
+                    'name': '2 oz RAM'                    
                 },
                 {
-                    "name": "standalone"                
+                    'name': 'standalone'                
                 }
                 ]
             },
             {
-                "ingredient": {
-                "externalName": "Unique 5",
-                "categoryValues": [
+                'ingredient': {
+                'externalName': 'Unique 5',
+                'categoryValues': [
                     {
-                    "name": "send to plate",
-                    "category": {
-                        "itemType": "ingredient"
+                    'name': 'send to plate',
+                    'category': {
+                        'itemType': 'ingredient'
                     }
                     },
                     {
-                    "name": None,           # Test empty categoryValue['name']
-                    "category": {
-                        "itemType": None    # Test empty category['itemType']
+                    'name': None,           # Test empty categoryValue['name']
+                    'category': {
+                        'itemType': None    # Test empty category['itemType']
                     }
                     }
                 ]
                 },
-                "subRecipe": None,
-                "preparations": [                    
+                'subRecipe': None,
+                'preparations': [                    
                 {
-                    "name": None            # Test empty preparations['name']
+                    'name': None            # Test empty preparations['name']
                 }
                 ]
             },
             {
-                "ingredient": {
-                "externalName": "32 oz Meal Boxes",
-                "categoryValues": [
+                'ingredient': {
+                'externalName': '32 oz Meal Boxes',
+                'categoryValues': [
                     {
-                    "name": "food pkg",
-                    "category": {
-                        "itemType": "ingredient"
+                    'name': 'food pkg',
+                    'category': {
+                        'itemType': 'ingredient'
                     }
                     }
                 ]
                 },
-                "subRecipe": None,
-                "preparations": []
+                'subRecipe': None,
+                'preparations': []
             },
             
             # Test empty recipeItem
             {
-                "ingredient": None,
-                "subRecipe": None,
-                "preparations": []
+                'ingredient': None,
+                'subRecipe': None,
+                'preparations': []
             }
             ]
         }
@@ -552,18 +552,18 @@ class TestQueryRecipeIngredients(TestCase):
     def test_get_formatted_recipe_ingredients_successful(self, mock_retrieval_method):
         expected_result = { 
             'ingredients': [
-                "Unique 1",
-                "Unique 2",
-                "Duplicate 1",
-                "Duplicate 2",
-                "Duplicate 3",
-                "Unique 3",
-                "Unique 5"
+                'Unique 1',
+                'Unique 2',
+                'Duplicate 1',
+                'Duplicate 2',
+                'Duplicate 3',
+                'Unique 3',
+                'Unique 5'
             ],
             'standalone_ingredients': [
-                "Unique 4",                               
-                "Duplicate 2",
-                "Duplicate 3"
+                'Unique 4',                               
+                'Duplicate 2',
+                'Duplicate 3'
             ]
         }
         mock_retrieval_method.return_value = {
@@ -591,8 +591,8 @@ class TestQueryRecipeIngredients(TestCase):
             'data': {
                 'viewer': {
                     'recipe': {
-                        "id": "3",
-                        "recipeItems": []
+                        'id': '3',
+                        'recipeItems': []
                     }
                 }
             }

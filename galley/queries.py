@@ -32,7 +32,7 @@ class Query(Type):
                         'externalName': str,
                         'instructions': Any,
                         'notes': Any,
-                        'description': Any                                                
+                        'description': Any
                     }]
                 }
             }
@@ -76,33 +76,36 @@ def get_recipe_ingredients(recipe_id) -> Optional[List[Dict]]:
 
 
 # Returns a Dict of main recipe ingredients and ingredients of standalone components
-# { ingredients: [], standalone_components: [] }
+# { 'main_ingredients': [], 'standalone_components': [] }
 # Ingredients within each list are de-duped. Packaging 'ingredients' are disregarded.
 def get_formatted_recipe_ingredients(recipe_id) -> Optional[Dict]:
     recipe_ingredients_data = get_recipe_ingredients(recipe_id)
     if recipe_ingredients_data:
-        recipe_items = recipe_ingredients_data['recipeItems']
-        ingredients = []
+        recipe_items = recipe_ingredients_data.get('recipeItems', [])
+        main_ingredients = []
         standalone_ingredients = []
 
         for recipe_item in recipe_items:
+            ingredient_object = recipe_item.get('ingredient')
+            sub_recipe = recipe_item.get('subRecipe')
+            preparations = recipe_item.get('preparations', [])
 
             # Top Level Ingredient
-            if recipe_item['ingredient']:
-                category_values = recipe_item['ingredient']['categoryValues']
-                is_packaging = any(cval['name'] == FOOD_PACKAGING for cval in category_values)
+            if ingredient_object:
+                category_values = ingredient_object.get('categoryValues', [])
+                is_packaging = any(cat_val.get('name') == FOOD_PACKAGING for cat_val in category_values)
 
-                if not is_packaging and recipe_item['ingredient']['externalName'] not in ingredients: 
-                    ingredients.append(recipe_item['ingredient']['externalName'])
+                external_name = ingredient_object.get('externalName')
+                if not is_packaging and external_name not in main_ingredients: 
+                    main_ingredients.append(external_name)
 
             # SubRecipe Ingredients
-            elif recipe_item['subRecipe']:                    
+            elif sub_recipe:                    
                 is_standalone = False
-                item_ingredients = recipe_item['subRecipe']['allIngredients']
-                preparations = recipe_item['preparations']
+                item_ingredients = sub_recipe.get('allIngredients')
             
                 if preparations:
-                    is_standalone = any(prep['name'] == STANDALONE for prep in preparations)                       
+                    is_standalone = any(prep.get('name') == STANDALONE for prep in preparations)                       
 
                 if is_standalone:
                     for ingredient in item_ingredients:
@@ -110,9 +113,9 @@ def get_formatted_recipe_ingredients(recipe_id) -> Optional[Dict]:
                             standalone_ingredients.append(ingredient)
                 else:        
                     for ingredient in item_ingredients:
-                        if ingredient not in ingredients:
-                            ingredients.append(ingredient)
+                        if ingredient not in main_ingredients:
+                            main_ingredients.append(ingredient)
 
-        return {'ingredients': ingredients, 'standalone_ingredients': standalone_ingredients}
+        return {'ingredients': main_ingredients, 'standalone_ingredients': standalone_ingredients}
     else:
         return None
