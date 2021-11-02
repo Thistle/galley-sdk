@@ -1,8 +1,10 @@
 from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
-from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, get_week_menu_data
+from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, \
+    get_week_menu_data, get_recipe_ingredients, get_formatted_recipe_ingredients
 from galley.types import FilterInput
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -425,3 +427,176 @@ class TestQueryWeekMenuData(TestCase):
         result = get_week_menu_data('')
         self.assertEqual(result, None)
 
+
+class TestQueryRecipeIngredients(TestCase):
+
+    def setUp(self) -> None:
+        self.recipe = {
+            'id': '1',
+            'recipeItems': [
+            {
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 1',
+                    'Unique 2',
+                    'Duplicate 1',
+                    'Duplicate 2',
+                    'Duplicate 3'
+                ]
+                },
+                'preparations': []
+            },
+            {
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 3',
+                    'Duplicate 1',
+                    'Duplicate 2'                    
+                ]
+                },
+                'preparations': []
+            },
+            {
+                'ingredient': None,
+                'subRecipe': {
+                'allIngredients': [
+                    'Unique 4',                               
+                    'Duplicate 2',
+                    'Duplicate 3'
+                ]
+                },
+                'preparations': [
+                {
+                    'name': '2 oz RAM'                    
+                },
+                {
+                    'name': 'standalone'                
+                }
+                ]
+            },
+            {
+                'ingredient': {
+                'externalName': 'Unique 5',
+                'categoryValues': [
+                    {
+                    'name': 'send to plate',
+                    'category': {
+                        'itemType': 'ingredient'
+                    }
+                    },
+                    {
+                    'name': None,           # Test empty categoryValue['name']
+                    'category': {
+                        'itemType': None    # Test empty category['itemType']
+                    }
+                    }
+                ]
+                },
+                'subRecipe': None,
+                'preparations': [                    
+                {
+                    'name': None            # Test empty preparations['name']
+                }
+                ]
+            },
+            {
+                'ingredient': {
+                'externalName': '32 oz Meal Boxes',
+                'categoryValues': [
+                    {
+                    'name': 'food pkg',
+                    'category': {
+                        'itemType': 'ingredient'
+                    }
+                    }
+                ]
+                },
+                'subRecipe': None,
+                'preparations': []
+            },
+            
+            # Test empty recipeItem
+            {
+                'ingredient': None,
+                'subRecipe': None,
+                'preparations': []
+            }
+            ]
+        }
+
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_recipe_ingredients_successful(self, mock_retrieval_method):        
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipe': self.recipe
+                }
+            }
+        }
+
+        result = get_recipe_ingredients('1')
+        self.assertEqual(result, self.recipe)
+
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_recipe_ingredients_null(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = None
+        result = get_recipe_ingredients('2')
+        self.assertEqual(result, None)
+
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipe_ingredients_successful(self, mock_retrieval_method):
+        expected_result = { 
+            'ingredients': [
+                'Unique 1',
+                'Unique 2',
+                'Duplicate 1',
+                'Duplicate 2',
+                'Duplicate 3',
+                'Unique 3',
+                'Unique 5'
+            ],
+            'standalone_ingredients': [
+                'Unique 4',                               
+                'Duplicate 2',
+                'Duplicate 3'
+            ]
+        }
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipe': self.recipe
+                }
+            }
+        }
+
+        result = get_formatted_recipe_ingredients('1')
+        self.assertEqual(result, expected_result)
+    
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipe_ingredients_null(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = None
+        result = get_formatted_recipe_ingredients('2')
+        self.assertEqual(result, None)
+    
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipe_ingredients_no_ingredients(self, mock_retrieval_method):
+        expected_result = { 'ingredients': [], 'standalone_ingredients': [] }
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipe': {
+                        'id': '3',
+                        'recipeItems': []
+                    }
+                }
+            }
+        }
+
+        result = get_formatted_recipe_ingredients('3')
+        self.assertEqual(result, expected_result)
