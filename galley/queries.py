@@ -8,9 +8,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 FOOD_PACKAGING = 'food pkg'
 STANDALONE = 'standalone'
+
 
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
@@ -45,7 +45,9 @@ def get_recipe_data() -> Optional[List[Dict]]:
     # Initiate a query
     query = Operation(Query)
     # Call sub-type you need to build the query.
-    query.viewer.recipes.__fields__('id', 'externalName', 'instructions', 'notes', 'description')
+    query.viewer.recipes.__fields__(
+        'id', 'externalName', 'instructions', 'notes', 'description'
+    )
     # pass query as an argument to make_request_to_galley function.
     raw_data = make_request_to_galley(op=query)
     return validate_response_data(raw_data, 'recipes')
@@ -53,15 +55,19 @@ def get_recipe_data() -> Optional[List[Dict]]:
 
 def get_recipe_nutrition_data(recipe_ids: list) -> Optional[List[Dict]]:
     query = Operation(Query)
-    query.viewer().recipes(where=FilterInput(id=recipe_ids)).__fields__('id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals')
+    query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__(
+        'id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals'
+    )
     raw_data = make_request_to_galley(op=query, variables={'id': recipe_ids})
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_week_menu_data(name: str) -> Optional[List[Dict]]:
+def get_week_menu_data(names: list) -> Optional[List[Dict]]:
     query = Operation(Query)
-    query.viewer().menus(where=FilterInput(name=name)).__fields__('id', 'name', 'date', 'location', 'menuItems')
-    raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': name})
+    query.viewer.menus(where=FilterInput(name=names)).__fields__(
+        'id', 'name', 'date', 'location', 'menuItems'
+    )
+    raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')
 
 
@@ -96,22 +102,22 @@ def get_formatted_recipe_ingredients(recipe_id) -> Optional[Dict]:
                 is_packaging = any(cat_val.get('name') == FOOD_PACKAGING for cat_val in category_values)
 
                 external_name = ingredient_object.get('externalName')
-                if not is_packaging and external_name not in main_ingredients: 
+                if not is_packaging and external_name not in main_ingredients:
                     main_ingredients.append(external_name)
 
             # SubRecipe Ingredients
-            elif sub_recipe:                    
+            elif sub_recipe:
                 is_standalone = False
                 item_ingredients = sub_recipe.get('allIngredients')
-            
+
                 if preparations:
-                    is_standalone = any(prep.get('name') == STANDALONE for prep in preparations)                       
+                    is_standalone = any(prep.get('name') == STANDALONE for prep in preparations)
 
                 if is_standalone:
                     for ingredient in item_ingredients:
                         if ingredient not in standalone_ingredients:
                             standalone_ingredients.append(ingredient)
-                else:        
+                else:
                     for ingredient in item_ingredients:
                         if ingredient not in main_ingredients:
                             main_ingredients.append(ingredient)
