@@ -1,4 +1,4 @@
-from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID
+from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID, list_of
 
 class CategoryItemTypeEnum(Enum):
     __choices__ = ('menuItem',
@@ -81,7 +81,6 @@ class Nutrition(Type):
     zincPercentRDI = float
 
 
-
 class Ingredient(Type):
     externalName = str
     categoryValues = Field(CategoryValue)
@@ -152,4 +151,4 @@ class Menu(Type):
 
 class FilterInput(Input):
     id = ID
-    name = str
+    name = list_of(str)
