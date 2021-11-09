@@ -67,6 +67,10 @@ def get_week_menu_data(names: list) -> Optional[List[Dict]]:
     query.viewer.menus(where=FilterInput(name=names)).__fields__(
         'id', 'name', 'date', 'location', 'menuItems'
     )
+    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues', 'recipe')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
+    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
+    query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')
 

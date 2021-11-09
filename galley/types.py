@@ -97,6 +97,7 @@ class Preparation(Type):
 class RecipeItem(Type):
     ingredient = Field(Ingredient)
     subRecipe = Field(SubRecipe)
+    subRecipeId = str
     preparations = Field(Preparation)
 
 
@@ -139,6 +140,7 @@ class Location(Type):
 class MenuItem(Type):
     recipeId = str
     categoryValues = Field(CategoryValue)
+    recipe = Field(Recipe)
 
 
 class Menu(Type):
