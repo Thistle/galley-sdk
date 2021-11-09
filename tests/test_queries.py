@@ -351,6 +351,15 @@ class TestQueryWeekMenuData(TestCase):
             itemType
             }
             }
+            recipe {
+            externalName
+            recipeItems {
+            subRecipeId
+            preparations {
+            name
+            }
+            }
+            }
             }
             }
             }
@@ -358,7 +367,13 @@ class TestQueryWeekMenuData(TestCase):
 
     def test_week_menu_data_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().menus(where=FilterInput(name=["2021-10-04 1_2_3", "2021-10-04 4_5_6"])).__fields__('id', 'name', 'date', 'location', 'menuItems')
+        query_operation.viewer().menus(where=FilterInput(name=["2021-10-04 1_2_3", "2021-10-04 4_5_6"])).__fields__(
+            'id', 'name', 'date', 'location', 'menuItems'
+        )
+        query_operation.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues', 'recipe')
+        query_operation.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
+        query_operation.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
+        query_operation.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
         query_str = query_operation.__to_graphql__(auto_select_depth=3)
         self.assertEqual(query_str.replace(' ', ''), self.expected_query.replace(' ', ''))
 
@@ -382,6 +397,15 @@ class TestQueryWeekMenuData(TestCase):
                                 'name': 'menu item type'
                             }
                         }],
+                        'recipe': {
+                            'externalName': 'Test Recipe Name 1',
+                            'recipeItems': [{
+                                'preparations': [
+                                    {'name':  'standalone'}
+                                ],
+                                'subRecipeId': 'SUBRECIPEID456'
+                            }]
+                        },
                     },
                     {
                         'recipeId': 'RECIPE2DEF',
@@ -392,6 +416,15 @@ class TestQueryWeekMenuData(TestCase):
                                 'name': 'menu item type'
                             }
                         }],
+                        'recipe': {
+                            'externalName': 'Test Recipe Name 2',
+                            'recipeItems': [{
+                                'preparations': [
+                                    {'name':  'standalone'}
+                                ],
+                                'subRecipeId': 'SUBRECIPEID789'
+                            }]
+                        },
                     },
                 ]
             }) if name.split()[0] != '21-12-05' else []
