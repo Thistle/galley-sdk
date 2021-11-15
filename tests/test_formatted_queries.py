@@ -41,10 +41,10 @@ class TestGetFormattedRecipesData(TestCase):
                 'externalName': 'Test Recipe 1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
-                'protein': 'vegan',
+                'nutrition': mock_nutrition_data.mock_data,
+                'proteinType': 'vegan',
                 'mealContainer': 'ts48',
                 'mealType': 'dinner',
-                'isPerishable': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',                    
@@ -53,17 +53,16 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'nutrition': mock_nutrition_data.mock_data            
             },
             {
                 'id': '2',
                 'externalName': 'Test Recipe 2',
                 'notes': 'Some notes about recipe 2',
                 'description': 'Details about recipe 2',
-                'protein': 'vegan',
+                'nutrition': mock_nutrition_data.mock_data,
+                'proteinType': 'vegan',
                 'mealContainer': 'ts48',
                 'mealType': 'dinner',
-                'isPerishable': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -72,7 +71,6 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'nutrition': mock_nutrition_data.mock_data            
             }
         ]
 
@@ -87,7 +85,7 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
 
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(['1', '2'])
         self.assertEqual(result, expected_result)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -100,7 +98,7 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
 
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(['1', '2'])
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -113,5 +111,5 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
 
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(['1', '2'])
         self.assertEqual(result, [])

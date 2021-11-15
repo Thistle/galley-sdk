@@ -52,7 +52,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def recipes_data_query(recipe_ids: list) -> Optional[Operation]:
+def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__(
         'id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals', 'recipeItems'
@@ -63,7 +63,7 @@ def recipes_data_query(recipe_ids: list) -> Optional[Operation]:
 
     return query
 
-def get_raw_recipes_data(recipe_ids: list) -> Optional[List[Dict]]:
+def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     query = recipes_data_query(recipe_ids=recipe_ids)
     raw_data = make_request_to_galley(op=query, variables={'id': recipe_ids})
     return validate_response_data(raw_data, 'recipes')
