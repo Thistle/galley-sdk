@@ -24,7 +24,6 @@ def paginate_results(page_size=25):
                 return result
 
             for partition in range((len(input_list) // page_size) + 1):
-                print('making request')
                 chunk = input_list[partition * page_size: (partition + 1) * page_size]
                 if len(chunk) > 0:
                     result.extend(func(chunk))
