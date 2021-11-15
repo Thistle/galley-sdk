@@ -1,6 +1,7 @@
 from typing import Dict, Optional, List
 
 from galley.queries import get_raw_recipes_data
+from galley.pagination import paginate_results
 
 FOOD_PACKAGING = 'food pkg'
 STANDALONE = 'standalone'
@@ -38,6 +39,7 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
     return ingredients
 
 
+@paginate_results()
 def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids) or []
     formatted_recipes = []
