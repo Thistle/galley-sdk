@@ -11,6 +11,7 @@ def paginate_results(page_size=25):
 
     def decorating_function(func):
         def wrapper(*args):
+
             result = []
 
             try:
@@ -27,7 +28,7 @@ def paginate_results(page_size=25):
                 chunk = input_list[partition * page_size: (partition + 1) * page_size]
                 if len(chunk) > 0:
                     result.extend(func(chunk))
+
             return result
         return wrapper
-
     return decorating_function
