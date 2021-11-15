@@ -3,7 +3,7 @@ from sgqlc.operation import Operation
 from sgqlc.types import Field, Type, ArgDict
 
 from galley.common import make_request_to_galley, validate_response_data
-from galley.types import Recipe, Menu, FilterInput
+from galley.types import Recipe, Menu, FilterInput, MenuFilterInput
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args={'id': str})
-    menus = Field(Menu, args=(ArgDict({'where': FilterInput})))
+    menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
 
 
 # This is graphql root for querying data according to sgqlc lib. So this class name has to be Query.
@@ -67,21 +67,45 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-# MENU QUERIES
+def get_menu_data_for_date(date, location_name, menu_type="production") -> Optional[List[Dict]]:
+    """
+    Returns a list of dictionaries containing the menu data for the week.
 
-def menu_data_query(names: List[str]) -> Optional[Operation]:
+    :param date: The date for which the menu is to be fetched.
+    :param location_name: The name of the location for which the menu is to be fetched. 
+                            ex. "Vacaville"
+    :param menu_type: The type of menu to be fetched. ex. "production", "development"
+    """
     query = Operation(Query)
-    query.viewer.menus(where=FilterInput(name=names)).__fields__(
+    query.viewer.menus(where=MenuFilterInput(date=date)).__fields__(
         'id', 'name', 'date', 'location', 'menuItems'
     )
-    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues', 'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
-    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
-    query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
-    return query
+    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
+                                            'recipe')
+    query.viewer.menus.menuItems.categoryValues.__fields__('id', 'category',
+                                                           'name')
+    query.viewer.menus.menuItems.categoryValues.category.__fields__('id',
+                                                                    'name')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName',
+                                                   'recipeItems')
+    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
+                                                               'preparations')
+    query.viewer.menus.menuItems.recipe.recipeItems.preparations\
+                                                   .__fields__('name')
+    validated_response_data = validate_response_data(
+                make_request_to_galley(
+                    op=query.__to_graphql__(auto_select_depth=3),
+                    variables={'date': date}),
+                'menus')
+
+    if validate_response_data:
+        validated_response_data = [menu for menu in validated_response_data
+                                   if menu['location']['name'] == location_name]
+        
+    return validated_response_data
 
 
 def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
-    query = menu_data_query(names=names) # type: Operation
+    query = get_menu_data_for_date(names=names) # type: Operation
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')

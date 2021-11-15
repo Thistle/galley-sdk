@@ -155,3 +155,8 @@ class Menu(Type):
 class FilterInput(Input):
     id = ID
     name = list_of(str)
+
+
+class MenuFilterInput(Input):
+    id = ID
+    date = d.Date
