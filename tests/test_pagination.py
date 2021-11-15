@@ -19,6 +19,6 @@ class TestPaginateResults(TestCase):
         paginate_results(self.mock, page_size=10)([])
         self.assertEqual(1, self.mock.call_count)
 
-    def test_nocall_noerror_for_bad_arg(self):
+    def test_nocall_noexception_for_bad_arg(self):
         paginate_results(self.mock, page_size=10)(5)
         self.assertEqual(0, self.mock.call_count)
