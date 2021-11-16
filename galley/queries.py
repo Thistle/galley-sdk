@@ -67,25 +67,29 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_menu_data_for_date(date, location_name, menu_type="production") -> Optional[List[Dict]]:
+def get_menu_data_for_date(date: str,
+                           location_name: Optional[str]="Vacaville",
+                           menu_type: Optional[str]="production") -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
+    if there is no menu data for the week, returns None.
 
-    :param date: The date for which the menu is to be fetched.
-    :param location_name: The name of the location for which the menu is to be fetched. 
-                            ex. "Vacaville"
-    :param menu_type: The type of menu to be fetched. ex. "production", "development"
+    :param date: The date for which the menu is to be fetched. In the form
+    :param location_name: The name of the location for which the menu is to be
+    fetched. ex. "Vacaville"
+    :param menu_type: The type of menu to be fetched. ex. "production",
+    "development"
     """
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=date)).__fields__(
-        'id', 'name', 'date', 'location', 'menuItems'
+        'id', 'name', 'date', 'location', 'menuItems', 'categoryValues'
     )
+    query.viewer.menus.location.__fields__('name')
     query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
                                             'recipe')
-    query.viewer.menus.menuItems.categoryValues.__fields__('id', 'category',
+    query.viewer.menus.menuItems.categoryValues.__fields__('category',
                                                            'name')
-    query.viewer.menus.menuItems.categoryValues.category.__fields__('id',
-                                                                    'name')
+    query.viewer.menus.menuItems.categoryValues.category.__fields__('name')
     query.viewer.menus.menuItems.recipe.__fields__('externalName',
                                                    'recipeItems')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
@@ -98,11 +102,20 @@ def get_menu_data_for_date(date, location_name, menu_type="production") -> Optio
                     variables={'date': date}),
                 'menus')
 
-    if validate_response_data:
-        validated_response_data = [menu for menu in validated_response_data
-                                   if menu['location']['name'] == location_name]
-        
-    return validated_response_data
+    response = []
+    if validated_response_data:
+        for menu in validated_response_data:
+            if menu.get('location').get('name') == location_name:
+                for categoryValue in menu.get('categoryValues'):
+                    if (categoryValue.get('category').get('name') ==
+                       "menu type" and categoryValue.get('name') == menu_type):
+                            response.append(menu)
+
+    if len(response) > 1:
+        logger.error(f"Multiple menus found for {date} {location_name} \
+            {menu_type}")
+
+    return response if response else None
 
 
 def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
