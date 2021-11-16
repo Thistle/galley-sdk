@@ -67,7 +67,9 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_week_menu_data(names: list) -> Optional[List[Dict]]:
+# MENU QUERIES
+
+def menu_data_query(names: List[str]) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.menus(where=FilterInput(name=names)).__fields__(
         'id', 'name', 'date', 'location', 'menuItems'
@@ -76,47 +78,10 @@ def get_week_menu_data(names: list) -> Optional[List[Dict]]:
     query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
+    return query
+
+
+def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
+    query = menu_data_query(names=names)
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')
-
-
-def get_formatted_menu_data(names: list) -> Optional[List[Dict]]:
-    menus = get_week_menu_data(names)
-    formatted_menus = []
-
-    if not menus:
-        return None
-
-    for menu in menus:
-        formatted_menu = ({
-            'name': menu.get('name'),
-            'id': menu.get('id'),
-            'date': menu.get('date'),
-            'location': menu['location'].get('name'),
-            'menuItems': []
-        }) # type: Dict
-
-        menu_items = menu.get('menuItems', [])
-        for menu_item in menu_items:
-            recipe_items = menu_item.get('recipe', {}).get('recipeItems', [])
-
-            formatted_menu['menuItems'].append({
-                'itemCode': next((cv.get('name') for cv in menu_item['categoryValues']), None),
-                'recipeId': menu_item.get('recipeId'),
-                'standaloneRecipeId': get_standalone(recipe_items)
-            })
-
-        formatted_menus.append(formatted_menu)
-    return formatted_menus
-
-
-# Returns the subRecipeId if any 'standalone' item exists within recipeItems, else returns None
-# It is assumed that there is a max of ONE standalone item within the list of recipeItems, if any.
-def get_standalone(recipe_items):
-    for recipe_item in recipe_items:
-        preparations = recipe_item.get('preparations', [])
-        is_standalone = any(prep['name'] == 'standalone' for prep in preparations)
-
-        if is_standalone:
-            return recipe_item.get('subRecipeId')
-    return None

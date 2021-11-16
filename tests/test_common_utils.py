@@ -65,7 +65,6 @@ class TestValidateResponseData(TestCase):
                 "name": "Test Recipe",
             }
         }
-
         self.return_value = {
             "data": {
                 "viewer": self.data
@@ -96,7 +95,6 @@ class TestValidateResponseData(TestCase):
             'name': 'Test Testovich',
             'description': 'Test description.'
         }
-
         self.fields = {
             'item1': {
                 'item2': {
@@ -104,7 +102,6 @@ class TestValidateResponseData(TestCase):
                 }
             }
         }
-
         self.return_value = {
             'data': self.fields
         }
