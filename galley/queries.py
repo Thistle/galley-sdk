@@ -82,6 +82,6 @@ def menu_data_query(names: List[str]) -> Optional[Operation]:
 
 
 def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
-    query = menu_data_query(names=names)
+    query = menu_data_query(names=names) # type: Operation
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')
