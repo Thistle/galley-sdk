@@ -73,6 +73,7 @@ def validate_response_data(data, *fields):
         logger.error(f"{GALLEY_ERROR_PREFIX} Error retrieving response data")
         return None
 
+
 def validate_fields(data, keys):
     _data = data
     for key in keys:
@@ -82,6 +83,7 @@ def validate_fields(data, keys):
             logger.error(f"{GALLEY_ERROR_PREFIX} Error retrieving '{key}' data")
             return None
     return _data
+
 
 def validate_response_data_structure(forecasted_data_struct: Any, response_data: Any) -> bool:
     if isinstance(forecasted_data_struct, dict) and isinstance(response_data, dict):
@@ -100,4 +102,3 @@ def validate_response_data_structure(forecasted_data_struct: Any, response_data:
         return True
     else:
         return False
-

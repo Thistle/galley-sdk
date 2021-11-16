@@ -1,5 +1,6 @@
 from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID, list_of
 
+
 class CategoryItemTypeEnum(Enum):
     __choices__ = ('menuItem',
                    'ingredient',

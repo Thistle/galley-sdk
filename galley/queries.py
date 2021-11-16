@@ -9,8 +9,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
-
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args={'id': str})
@@ -60,8 +58,8 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query.viewer.recipe.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipe.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
     query.viewer.recipe.recipeItems.ingredient.categoryValues.__fields__('name')
-
     return query
+
 
 def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     query = recipes_data_query(recipe_ids=recipe_ids)
@@ -69,7 +67,9 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_week_menu_data(names: list) -> Optional[List[Dict]]:
+# MENU QUERIES
+
+def menu_data_query(names: List[str]) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.menus(where=FilterInput(name=names)).__fields__(
         'id', 'name', 'date', 'location', 'menuItems'
@@ -78,6 +78,10 @@ def get_week_menu_data(names: list) -> Optional[List[Dict]]:
     query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
+    return query
+
+
+def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
+    query = menu_data_query(names=names) # type: Operation
     raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
     return validate_response_data(raw_data, 'menus')
-
