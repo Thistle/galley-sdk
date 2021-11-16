@@ -257,31 +257,17 @@ class TestRecipesDataQuery(TestCase):
             recipeItems {
             ingredient {
             externalName
-            }
-            subRecipe {
-            allIngredients
-            }
-            subRecipeId
-            preparations {
-            name
-            }
-            }
-            }
-            recipe {
-            recipeItems {
-            ingredient {
-            externalName
             categoryValues {
             name
             }
             }
             subRecipe {
             allIngredients
-            }
+            }            
             preparations {
             name
             }
-            }
+            }                        
             }
             }
             }'''.replace(' '*12, '')
