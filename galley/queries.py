@@ -9,8 +9,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
-
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args={'id': str})
@@ -60,8 +58,8 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query.viewer.recipe.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipe.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
     query.viewer.recipe.recipeItems.ingredient.categoryValues.__fields__('name')
-
     return query
+
 
 def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     query = recipes_data_query(recipe_ids=recipe_ids)
@@ -99,7 +97,6 @@ def get_formatted_menu_data(names: list) -> Optional[List[Dict]]:
         }) # type: Dict
 
         menu_items = menu.get('menuItems', [])
-
         for menu_item in menu_items:
             recipe_items = menu_item.get('recipe', {}).get('recipeItems', [])
 

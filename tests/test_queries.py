@@ -1,9 +1,9 @@
 from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
-from galley.queries import Query, get_recipe_data, get_recipe_nutrition_data, \
-    get_week_menu_data, get_recipe_ingredients, get_formatted_recipe_ingredients, \
-    get_formatted_menu_data, get_raw_recipes_data
+from galley.queries import Query, get_raw_recipes_data, get_recipe_data, \
+    get_week_menu_data, recipes_data_query, get_recipe_ingredients, \
+    get_formatted_recipe_ingredients, get_formatted_menu_data
 from galley.types import FilterInput
 from tests.mock_responses import mock_recipes_data, mock_nutrition_data
 
@@ -193,13 +193,13 @@ class TestQueryWeekMenuData(TestCase):
         }) if name.split()[0] != '21-12-05' else []
 
     def response(self, *menus):
-            return ({
-                'data': {
-                    'viewer': {
-                        'menus': [m for m in menus if m]
-                    }
+        return ({
+            'data': {
+                'viewer': {
+                    'menus': [m for m in menus if m]
                 }
-            })
+            }
+        })
 
     def test_week_menu_data_query(self):
         query_operation = Operation(Query)
@@ -310,7 +310,7 @@ class TestQueryWeekMenuData(TestCase):
         self.assertEqual(result, None)
 
 
-class TestQueryRecipeIngredients(TestCase):
+class TestRecipesDataQuery(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
@@ -438,14 +438,8 @@ class TestQueryGetRawRecipesData(TestCase):
             }
         }
 
-        result = get_recipe_ingredients('1')
-        self.assertEqual(result, self.recipe)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_recipe_ingredients_null(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = None
-        result = get_recipe_ingredients('2')
-        self.assertEqual(result, None)
+        result = get_raw_recipes_data(['1'])
+        self.assertEqual(result, recipe_data)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_recipes_data_empty(self, mock_retrieval_method):
@@ -459,12 +453,6 @@ class TestQueryGetRawRecipesData(TestCase):
 
         result = get_raw_recipes_data(['Fake'])
         self.assertEqual(result, [])
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipe_ingredients_null(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = None
-        result = get_formatted_recipe_ingredients('2')
-        self.assertEqual(result, None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_recipes_data_missing(self, mock_retrieval_method):

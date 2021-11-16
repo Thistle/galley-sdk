@@ -31,11 +31,11 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
             if preparations:
                 is_standalone = any(prep.get('name') == STANDALONE for prep in preparations)
 
-            if not is_standalone:                    
+            if not is_standalone:
                 for ingredient in item_ingredients:
                     if ingredient not in ingredients:
                         ingredients.append(ingredient)
-    
+
     return ingredients
 
 
@@ -43,7 +43,7 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
 def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids) or []
     formatted_recipes = []
-    
+
     for recipe in recipes_data:
         formatted_recipe = {
             'id': recipe.get('id'),
@@ -66,7 +66,7 @@ def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
 
         recipe_items = recipe.get('recipeItems', [])
         formatted_recipe['ingredients'] = ingredients_from_recipe_items(recipe_items=recipe_items)
-        
+
         formatted_recipes.append(formatted_recipe)
 
     return formatted_recipes
