@@ -109,11 +109,21 @@ def get_menu_data_for_date(date: str,
                 for categoryValue in menu.get('categoryValues'):
                     if (categoryValue.get('category').get('name') ==
                        "menu type" and categoryValue.get('name') == menu_type):
-                            response.append(menu)
+                        """
+                        TODO [Drew] [2021-10-16]: should we keep a map of
+                        categoryValue ids instead of string matching here?
+                        do the ids match across dev and prod?
+                        """
+                        response.append(menu)
 
     if len(response) > 1:
+        """
+        TODO [Drew] [2021-10-16]: what should we do if there are multiple menus
+        for a date? For now, just return the first one.
+        """
         logger.error(f"Multiple menus found for {date} {location_name} \
             {menu_type}")
+        response = [response[0]]
 
     return response if response else None
 
