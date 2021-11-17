@@ -1,16 +1,19 @@
-def mock_menu(date):
+from galley.queries import MenuCategoryEnum
+
+
+def mock_menu(date, location_name="Vacaville", menu_type="production"):
     return ({
         'name': f"{date} 1_2_3",
         'id': 'MENU123ABC',
         'date': f"{date}",
         'location': {
-            'name': 'Vacaville'
+            'name': location_name,
         },
         'categoryValues': [{
-            'id': 'Y2F0ZWdvcnlWYWx1ZToxNTQ2NA==',
-            'name': 'production',
+            'id': '1',
+            'name': menu_type,
             'category': {
-                'id': 'Y2F0ZWdvcnk6MjQ2NQ==',
+                'id': MenuCategoryEnum.MENU_TYPE.value,
                 'name': 'menu type',
                 'itemType': 'menu'
             },

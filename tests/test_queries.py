@@ -191,6 +191,40 @@ class TestQueryWeekMenuData(TestCase):
         mock_retrieval_method.return_value = None
         result = get_raw_menu_data([])
         self.assertEqual(result, [])
+    
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_raw_menu_data_filters_by_location(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'menus': [
+                        mock_menu('2021-10-04', location_name='Vacaville'),
+                        mock_menu('2021-10-04', location_name='Long Beach'),
+                    ]
+                }
+            }
+        }
+        result = get_raw_menu_data(['2021-10-04'], location_name='Vacaville')
+        self.assertEqual(result, [mock_menu('2021-10-04',
+                                            location_name='Vacaville')])
+        self.assertEqual(len(result), 1)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_raw_menu_data_filter_by_menu_type(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'menus': [
+                        mock_menu('2021-10-04', menu_type='production'),
+                        mock_menu('2021-10-04', menu_type='development'),
+                    ]
+                }
+            }
+        }
+        result = get_raw_menu_data(['2021-10-04'], menu_type='production')
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result,
+                         [mock_menu('2021-10-04', menu_type='production')])
 
 
 class TestRecipesDataQuery(TestCase):
