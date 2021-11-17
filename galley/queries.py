@@ -67,9 +67,9 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_menu_data_for_date(date: str,
-                           location_name: Optional[str]="Vacaville",
-                           menu_type: Optional[str]="production") -> Optional[List[Dict]]:
+def get_week_menu_data(dates: List[str],
+                       location_name: Optional[str]="Vacaville",
+                       menu_type: Optional[str]="production") -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
     if there is no menu data for the week, returns None.
@@ -81,10 +81,9 @@ def get_menu_data_for_date(date: str,
     "development"
     """
     query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=date)).__fields__(
+    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
         'id', 'name', 'date', 'location', 'menuItems', 'categoryValues'
     )
-    query.viewer.menus.location.__fields__('name')
     query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
                                             'recipe')
     query.viewer.menus.menuItems.categoryValues.__fields__('category',
@@ -96,36 +95,29 @@ def get_menu_data_for_date(date: str,
                                                                'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations\
                                                    .__fields__('name')
+
     validated_response_data = validate_response_data(
                 make_request_to_galley(
                     op=query.__to_graphql__(auto_select_depth=3),
-                    variables={'date': date}),
+                    variables={'date': dates}),
                 'menus')
 
     response = []
     if validated_response_data:
         for menu in validated_response_data:
-            if menu.get('location').get('name') == location_name:
-                for categoryValue in menu.get('categoryValues'):
-                    if (categoryValue.get('category').get('name') ==
-                       "menu type" and categoryValue.get('name') == menu_type):
+            if menu['location']['name'] == location_name:
+                categoryValues = menu['categoryValues']
+                for categoryValue in categoryValues:
+                    if (categoryValue['category']['name'] ==
+                       "menu type" and categoryValue['name'] == menu_type):
                         """
-                        TODO [Drew] [2021-10-16]: should we keep a map of
-                        categoryValue ids instead of string matching here?
-                        do the ids match across dev and prod?
+                        TODO [Drew] [2021-10-16]: change this to category ids
+                        instead of string matching.
                         """
                         response.append(menu)
-
-    if len(response) > 1:
-        """
-        TODO [Drew] [2021-10-16]: what should we do if there are multiple menus
-        for a date? For now, just return the first one.
-        """
-        logger.error(f"Multiple menus found for {date} {location_name} \
-            {menu_type}")
-        response = [response[0]]
-
-    return response if response else None
+                    else:
+                        continue
+    return response
 
 
 def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:

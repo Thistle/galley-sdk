@@ -162,4 +162,4 @@ class FilterInput(Input):
 
 class MenuFilterInput(Input):
     id = ID
-    date = d.Date
+    date = list_of(d.Date)
