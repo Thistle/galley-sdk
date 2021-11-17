@@ -65,9 +65,9 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__(
         'id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals', 'recipeItems'
     )
-    query.viewer.recipe.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
-    query.viewer.recipe.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
-    query.viewer.recipe.recipeItems.ingredient.categoryValues.__fields__('name')
+    query.viewer.recipes.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
+    query.viewer.recipes.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
+    query.viewer.recipes.recipeItems.ingredient.categoryValues.__fields__('name')
     return query
 
 
