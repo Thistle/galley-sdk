@@ -263,11 +263,11 @@ class TestRecipesDataQuery(TestCase):
             }
             subRecipe {
             allIngredients
-            }            
+            }
             preparations {
             name
             }
-            }                        
+            }
             }
             }
             }'''.replace(' '*12, '')
