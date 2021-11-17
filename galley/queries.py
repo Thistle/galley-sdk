@@ -6,8 +6,24 @@ from galley.common import make_request_to_galley, validate_response_data
 from galley.types import Recipe, Menu, FilterInput, MenuFilterInput
 import logging
 
+from enum import Enum
+
 logger = logging.getLogger(__name__)
 
+FOOD_PACKAGING = 'food pkg'
+STANDALONE = 'standalone'
+
+class MenuCategoryEnum(Enum):
+    """
+    Enum for categories, for item type menu <category name>: <category id>
+    """
+    MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
+
+class MenuCategoryValueEnum(Enum):
+    """
+    Enum for category values, <category value name>: <category value id>
+    """
+    PRODUCTION = 'Y2F0ZWdvcnlWYWx1ZToxNTQ2NA=='
 
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
@@ -69,7 +85,8 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
 
 def get_week_menu_data(dates: List[str],
                        location_name: Optional[str]="Vacaville",
-                       menu_type: Optional[str]="production") -> Optional[List[Dict]]:
+                       menu_type: Optional[str]="production"
+                       ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
     if there is no menu data for the week, returns None.
@@ -108,12 +125,9 @@ def get_week_menu_data(dates: List[str],
             if menu['location']['name'] == location_name:
                 categoryValues = menu['categoryValues']
                 for categoryValue in categoryValues:
-                    if (categoryValue['category']['name'] ==
-                       "menu type" and categoryValue['name'] == menu_type):
-                        """
-                        TODO [Drew] [2021-10-16]: change this to category ids
-                        instead of string matching.
-                        """
+                    if (categoryValue['category']['id'] == MenuCategoryEnum.
+                       MENU_TYPE.value and categoryValue['id'] ==
+                       MenuCategoryValueEnum.PRODUCTION.value):
                         response.append(menu)
                     else:
                         continue

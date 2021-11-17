@@ -2,7 +2,8 @@ from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
 from galley.queries import Query, get_raw_recipes_data, get_recipe_data, \
-    get_raw_menu_data, recipes_data_query, get_week_menu_data
+    get_raw_menu_data, recipes_data_query, get_week_menu_data, MenuCategoryEnum, \
+    MenuCategoryValueEnum, get_recipe_nutrition_data
 from tests.mock_responses.mock_menu_data import mock_menu
 from galley.types import FilterInput, MenuFilterInput
 
@@ -510,10 +511,10 @@ class TestQueryWeekMenuData(TestCase):
                 },
                 'categoryValues': [
                     {
-                        'id': '1',
+                        'id': MenuCategoryValueEnum.PRODUCTION.value,
                         'name': 'production',
                         'category': {
-                            'id': '1',
+                            'id': MenuCategoryEnum.MENU_TYPE.value,
                             'name': 'menu type',
                             'itemType': 'menu'
                         }
