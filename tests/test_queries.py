@@ -1,12 +1,13 @@
-from unittest import mock, TestCase
+import logging
+from unittest import TestCase, mock
+
+from galley.queries import (Query, get_menu_query, get_raw_menu_data,
+                            get_raw_recipes_data, get_recipe_data,
+                            recipes_data_query)
 from sgqlc.operation import Operation
 
-from galley.queries import Query, get_raw_recipes_data, get_recipe_data, \
-    get_raw_menu_data, recipes_data_query
-from tests.mock_responses.mock_menu_data import mock_menu
 from tests.mock_responses import mock_recipes_data
-
-import logging
+from tests.mock_responses.mock_menu_data import mock_menu
 
 logger = logging.getLogger(__name__)
 
@@ -89,18 +90,29 @@ class TestQueryWeekMenuData(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
-            menus(where: {name: ["2021-10-04 1_2_3", "2021-10-04 4_5_6"]}) {
+            menus(where: {date: ["2021-10-04", "2021-10-07"]}) {
             id
             name
             date
             location {
             name
             }
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
             menuItems {
             recipeId
             categoryValues {
+            id
             name
             category {
+            id
             name
             itemType
             }
@@ -128,29 +140,38 @@ class TestQueryWeekMenuData(TestCase):
             }
         })
 
+    def test_week_menu_data_query(self):
+        query = get_menu_query(["2021-10-04", "2021-10-07"])
+        query_str = query.__to_graphql__(auto_select_depth=3)
+        self.assertEqual(query_str.replace(' ', ''),
+                         self.expected_query.replace(' ', ''))
+
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_successful(self, mock_retrieval_method):
         mock_retrieval_method.side_effect = [
-            self.response(mock_menu('21-11-14 123')),
-            self.response(mock_menu('21-11-21 123'), mock_menu('21-11-21 456'), mock_menu('21-11-28 123')),
-            self.response(mock_menu('21-11-28 456'), mock_menu('21-12-05 123')),
-            self.response(mock_menu('21-12-05 456')),
+            self.response(mock_menu('2021-11-14')),
+            self.response(mock_menu('2021-11-21'), mock_menu('2021-11-21'),
+                          mock_menu('2021-11-28')),
+            self.response(mock_menu('2021-11-28'), mock_menu('2021-12-05')),
+            self.response(mock_menu('2021-12-05')),
         ]
 
         # one valid menu name
-        result1 = get_raw_menu_data(['21-11-14 123'])
-        self.assertEqual(result1, [mock_menu('21-11-14 123')])
+        result1 = get_raw_menu_data(['2021-11-14'])
+        self.assertEqual(result1, [mock_menu('2021-11-14')])
 
         # multiple valid menu names
-        result2 = get_raw_menu_data(['21-11-21 123', '21-11-21 456', '21-11-28 123'])
-        self.assertEqual(result2, [mock_menu('21-11-21 123'), mock_menu('21-11-21 456'), mock_menu('21-11-28 123')])
+        result2 = get_raw_menu_data(['2021-11-21', '2021-11-21', '2021-11-28'])
+        self.assertEqual(result2, [mock_menu('2021-11-21'),
+                                   mock_menu('2021-11-21'),
+                                   mock_menu('2021-11-28')])
 
         # one valid menu name and one invalid menu name
-        result3 = get_raw_menu_data(['21-11-28 456', '21-12-05 123'])
-        self.assertEqual(result3, [mock_menu('21-11-28 456')])
+        result3 = get_raw_menu_data(['2021-11-28', '2021-12-05'])
+        self.assertEqual(result3, [mock_menu('2021-11-28')])
 
         # one invalid menu name
-        result4 = get_raw_menu_data(['21-12-05 456'])
+        result4 = get_raw_menu_data(['2021-12-05'])
         self.assertEqual(result4, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -162,14 +183,14 @@ class TestQueryWeekMenuData(TestCase):
                 }
             }
         }
-        result = get_raw_menu_data('YYYY-MM-DD 1_2_3')
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            get_raw_menu_data(['YYYY-MM-DD'])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_null(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
         result = get_raw_menu_data([])
-        self.assertEqual(result, None)
+        self.assertEqual(result, [])
 
 
 class TestRecipesDataQuery(TestCase):

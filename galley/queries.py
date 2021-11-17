@@ -77,10 +77,26 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_menu_data_for_dates(dates: List[str],
-                            location_name: Optional[str]="Vacaville",
-                            menu_type: Optional[str]="production"
-                            ) -> Optional[List[Dict]]:
+def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
+    query = Operation(Query)
+    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
+        'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
+    )
+    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
+                                            'recipe')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName',
+                                                   'recipeItems')
+    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
+                                                               'preparations')
+    query.viewer.menus.menuItems.recipe.recipeItems.preparations\
+                                                   .__fields__('name')
+    return query
+
+
+def get_raw_menu_data(dates: List[str],
+                      location_name: Optional[str]="Vacaville",
+                      menu_type: Optional[str]="production"
+                      ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
     if there is no menu data for the week, returns None.
@@ -91,27 +107,12 @@ def get_menu_data_for_dates(dates: List[str],
     :param menu_type: The type of menu to be fetched. ex. "production",
     "development"
     """
-    query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
-        'id', 'name', 'date', 'location', 'menuItems', 'categoryValues'
-    )
-    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
-                                            'recipe')
-    query.viewer.menus.menuItems.categoryValues.__fields__('category',
-                                                           'name')
-    query.viewer.menus.menuItems.categoryValues.category.__fields__('name')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName',
-                                                   'recipeItems')
-    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
-                                                               'preparations')
-    query.viewer.menus.menuItems.recipe.recipeItems.preparations\
-                                                   .__fields__('name')
-
+    query = get_menu_query(dates=dates)  # type: Operation
     validated_response_data = validate_response_data(
-                make_request_to_galley(
-                    op=query.__to_graphql__(auto_select_depth=3),
-                    variables={'date': dates}),
-                'menus')
+            make_request_to_galley(
+                op=query.__to_graphql__(auto_select_depth=3),
+                variables={'date': dates}),
+            'menus')
 
     response = []
     if validated_response_data:
@@ -125,9 +126,3 @@ def get_menu_data_for_dates(dates: List[str],
                     else:
                         continue
     return response
-
-
-def get_raw_menu_data(dates: List[str]) -> Optional[List[Dict]]:
-    query = get_menu_data_for_dates(dates=dates) # type: Operation
-    raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'date': dates})
-    return validate_response_data(raw_data, 'menus')

@@ -1,11 +1,20 @@
-def mock_menu(name):
+def mock_menu(date):
     return ({
-        'name': name,
+        'name': f"{date} 1_2_3",
         'id': 'MENU123ABC',
-        'date': 'YYYY-MM-DD',
+        'date': f"{date}",
         'location': {
             'name': 'Vacaville'
         },
+        'categoryValues': [{
+            'id': 'Y2F0ZWdvcnlWYWx1ZToxNTQ2NA==',
+            'name': 'production',
+            'category': {
+                'id': 'Y2F0ZWdvcnk6MjQ2NQ==',
+                'name': 'menu type',
+                'itemType': 'menu'
+            },
+        }],
         'menuItems': [
             {
                 'recipeId': 'RECIPE1ABC',
@@ -66,4 +75,4 @@ def mock_menu(name):
                 },
             }
         ]
-    }) if name.split()[0] != '21-12-05' else []
+    }) if date != '2021-12-05' else []
