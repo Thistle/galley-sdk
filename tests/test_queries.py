@@ -2,9 +2,9 @@ from unittest import mock, TestCase
 from sgqlc.operation import Operation
 
 from galley.queries import Query, get_raw_recipes_data, get_recipe_data, \
-    get_raw_menu_data, recipes_data_query, get_menu_data_for_dates, MenuCategoryEnum
+    get_raw_menu_data, recipes_data_query
 from tests.mock_responses.mock_menu_data import mock_menu
-from galley.types import MenuFilterInput
+from tests.mock_responses import mock_recipes_data
 
 import logging
 
@@ -127,11 +127,6 @@ class TestQueryWeekMenuData(TestCase):
                 }
             }
         })
-
-    def test_week_menu_data_query(self):
-        query = menu_data_query(["2021-10-04 1_2_3", "2021-10-04 4_5_6"])
-        query_str = query.__to_graphql__(auto_select_depth=3)
-        self.assertEqual(query_str.replace(' ', ''), self.expected_query.replace(' ', ''))
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_successful(self, mock_retrieval_method):
@@ -291,128 +286,6 @@ class TestRecipesDataQuery(TestCase):
         query_str = bytes(query).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
-    def test_week_menu_data_query(self):
-        query_operation = Operation(Query)
-        query_operation.viewer().menus(where=MenuFilterInput(date=["2021-10-04"])).__fields__(
-            'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
-        )
-        query_operation.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues', 'recipe')
-        query_operation.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
-        query_operation.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
-        query_operation.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('name')
-        query_str = query_operation.__to_graphql__(auto_select_depth=3)
-        self.assertEqual(query_str.replace(' ', ''), self.expected_query.replace(' ', ''))
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_menu_data_for_dates_successful(self, mock_retrieval_method):
-        def menus(date):
-            return ({
-                'name': f"{date} 1_2_3",
-                'id': 'MENU123ABC',
-                'date': f"{date}",
-                'location': {
-                    'name': 'Vacaville'
-                },
-                'categoryValues': [
-                    {
-                        'id': '1',
-                        'name': 'production',
-                        'category': {
-                            'id': MenuCategoryEnum.MENU_TYPE.value,
-                            'name': 'menu type',
-                            'itemType': 'menu'
-                        }
-                    },
-                ],
-                'menuItems': [
-                    {
-                        'recipeId': 'RECIPE1ABC',
-                        'categoryValues': [{
-                            'name': 'dv1',
-                            'category': {
-                                'itemType': 'menuItem',
-                                'name': 'menu item type'
-                            }
-                        }],
-                        'recipe': {
-                            'externalName': 'Test Recipe Name 1',
-                            'recipeItems': [{
-                                'preparations': [
-                                    {'name':  'standalone'}
-                                ],
-                                'subRecipeId': 'SUBRECIPEID456'
-                            }]
-                        },
-                    },
-                    {
-                        'recipeId': 'RECIPE2DEF',
-                        'categoryValues': [{
-                            'name': 'dv2',
-                            'category': {
-                                'itemType': 'menuItem',
-                                'name': 'menu item type'
-                            }
-                        }],
-                        'recipe': {
-                            'externalName': 'Test Recipe Name 2',
-                            'recipeItems': [{
-                                'preparations': [
-                                    {'name':  'standalone'}
-                                ],
-                                'subRecipeId': 'SUBRECIPEID789'
-                            }]
-                        },
-                    },
-                ]
-            }) if date != '2021-12-05' else []
-
-        def response(*menus):
-            return ({
-                'data': {
-                    'viewer': {
-                        'menus': [m for m in menus if m]
-                    }
-                }
-            })
-
-        mock_retrieval_method.side_effect = [
-            response(menus('2021-11-14')),
-            response(menus('2021-11-21'), menus('2021-11-21'),
-                     menus('2021-11-28')),
-            response(menus('2021-11-28'), menus('2021-12-05')),
-            response(menus('2021-12-05')),
-        ]
-
-        # one valid menu name
-        result1 = get_menu_data_for_dates(['2021-11-14'])
-        self.assertEqual(result1, [menus('2021-11-14')])
-
-        # multiple valid menu names
-        result2 = get_menu_data_for_dates(['2021-11-21', '2021-11-21',
-                                      '2021-11-28'])
-        self.assertEqual(result2, [menus('2021-11-21'), menus('2021-11-21'),
-                                   menus('2021-11-28')])
-
-        # one valid menu name and one invalid menu name
-        result3 = get_menu_data_for_dates(['2021-11-28', '2021-12-05'])
-        self.assertEqual(result3, [menus('2021-11-28')])
-
-        # one invalid menu name
-        result4 = get_menu_data_for_dates(['2021-12-05'])
-        self.assertEqual(result4, [])
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_menu_data_for_dates_validation_failure(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'test': 'test'
-                }
-            }
-        }
-
-        with self.assertRaises(ValueError):
-            get_menu_data_for_dates(['YYYY-MM-DD'])
 
 class TestQueryGetRawRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
