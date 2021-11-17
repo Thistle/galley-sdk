@@ -94,8 +94,8 @@ def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
 
 
 def get_raw_menu_data(dates: List[str],
-                      location_name: Optional[str]="Vacaville",
-                      menu_type: Optional[str]="production"
+                      location_name: str,
+                      menu_type: str
                       ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.

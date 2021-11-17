@@ -157,21 +157,23 @@ class TestQueryWeekMenuData(TestCase):
         ]
 
         # one valid menu name
-        result1 = get_raw_menu_data(['2021-11-14'])
+        result1 = get_raw_menu_data(['2021-11-14'], "Vacaville", "production")
         self.assertEqual(result1, [mock_menu('2021-11-14')])
 
         # multiple valid menu names
-        result2 = get_raw_menu_data(['2021-11-21', '2021-11-21', '2021-11-28'])
+        result2 = get_raw_menu_data(['2021-11-21', '2021-11-21', '2021-11-28'],
+                                    "Vacaville", "production")
         self.assertEqual(result2, [mock_menu('2021-11-21'),
                                    mock_menu('2021-11-21'),
                                    mock_menu('2021-11-28')])
 
         # one valid menu name and one invalid menu name
-        result3 = get_raw_menu_data(['2021-11-28', '2021-12-05'])
+        result3 = get_raw_menu_data(['2021-11-28', '2021-12-05'],
+                                    "Vacaville", "production")
         self.assertEqual(result3, [mock_menu('2021-11-28')])
 
         # one invalid menu name
-        result4 = get_raw_menu_data(['2021-12-05'])
+        result4 = get_raw_menu_data(['2021-12-05'], "Vacaville", "production")
         self.assertEqual(result4, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -184,12 +186,12 @@ class TestQueryWeekMenuData(TestCase):
             }
         }
         with self.assertRaises(ValueError):
-            get_raw_menu_data(['YYYY-MM-DD'])
+            get_raw_menu_data(['YYYY-MM-DD'], "Vacaville", "production")
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_null(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
-        result = get_raw_menu_data([])
+        result = get_raw_menu_data([], 'Vacaville', 'production')
         self.assertEqual(result, [])
     
     @mock.patch('galley.queries.make_request_to_galley')
@@ -198,13 +200,13 @@ class TestQueryWeekMenuData(TestCase):
             'data': {
                 'viewer': {
                     'menus': [
-                        mock_menu('2021-10-04', location_name='Vacaville'),
-                        mock_menu('2021-10-04', location_name='Long Beach'),
+                        mock_menu('2021-10-04', 'Vacaville'),
+                        mock_menu('2021-10-04', 'Long Beach'),
                     ]
                 }
             }
         }
-        result = get_raw_menu_data(['2021-10-04'], location_name='Vacaville')
+        result = get_raw_menu_data(['2021-10-04'], 'Vacaville', 'production')
         self.assertEqual(result, [mock_menu('2021-10-04',
                                             location_name='Vacaville')])
         self.assertEqual(len(result), 1)
@@ -221,7 +223,7 @@ class TestQueryWeekMenuData(TestCase):
                 }
             }
         }
-        result = get_raw_menu_data(['2021-10-04'], menu_type='production')
+        result = get_raw_menu_data(['2021-10-04'], 'Vacaville', 'production')
         self.assertEqual(len(result), 1)
         self.assertEqual(result,
                          [mock_menu('2021-10-04', menu_type='production')])

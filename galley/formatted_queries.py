@@ -86,8 +86,11 @@ def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
 
 
 @paginate_results()
-def get_formatted_menu_data(dates: List[str]) -> Optional[List[Dict]]:
-    menus = get_raw_menu_data(dates)
+def get_formatted_menu_data(dates: List[str],
+                            location_name: Optional[str]="Vacaville",
+                            menu_type: Optional[str]="production"
+                            ) -> Optional[List[Dict]]:
+    menus = get_raw_menu_data(dates, location_name, menu_type)
     formatted_menus = []
 
     if not menus:
