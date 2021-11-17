@@ -203,8 +203,10 @@ class TestRecipesDataQuery(TestCase):
             notes
             description
             categoryValues {
+            id
             name
             category {
+            id
             name
             itemType
             }

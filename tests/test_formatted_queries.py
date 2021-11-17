@@ -119,11 +119,11 @@ class TestGetFormattedMenuData(TestCase):
             }
         })
 
-    def formatted_menu(self, name):
+    def formatted_menu(self, date):
             return ({
-                'name': name,
+                'name': f"{date} 1_2_3",
                 'id': 'MENU123ABC',
-                'date': 'YYYY-MM-DD',
+                'date': f"{date}",
                 'location': 'Vacaville',
                 'menuItems': [{
                     'itemCode': 'dv1',
@@ -143,26 +143,30 @@ class TestGetFormattedMenuData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful(self, mock_retrieval_method):
         mock_retrieval_method.side_effect = [
-            self.response(mock_menu('21-11-14 123')),
-            self.response(mock_menu('21-11-21 123'), mock_menu('21-11-21 456'), mock_menu('21-11-28 123')),
-            self.response(mock_menu('21-11-28 456'), mock_menu('21-12-05 123')),
-            self.response(mock_menu('21-12-05 456')),
+            self.response(mock_menu('2021-11-14')),
+            self.response(mock_menu('2021-11-21'), mock_menu('2021-11-21'),
+                          mock_menu('2021-11-28')),
+            self.response(mock_menu('2021-11-28'), mock_menu('2021-12-05')),
+            self.response(mock_menu('2021-12-05')),
         ]
 
         # one valid menu name
-        result1 = get_formatted_menu_data(['21-11-14 123'])
-        self.assertEqual(result1, [self.formatted_menu('21-11-14 123')])
+        result1 = get_formatted_menu_data(['2021-11-14'])
+        self.assertEqual(result1, [self.formatted_menu('2021-11-14')])
 
         # multiple valid menu names
-        result2 = get_formatted_menu_data(['21-11-21 123', '21-11-21 456', '21-11-28 123'])
-        self.assertEqual(result2, [self.formatted_menu('21-11-21 123'), self.formatted_menu('21-11-21 456'), self.formatted_menu('21-11-28 123')])
+        result2 = get_formatted_menu_data(['2021-11-21', '2021-11-21',
+                                           '2021-11-28'])
+        self.assertEqual(result2, [self.formatted_menu('2021-11-21'),
+                                   self.formatted_menu('2021-11-21'),
+                                   self.formatted_menu('2021-11-28')])
 
         # one valid menu name and one invalid menu name
-        result3 = get_formatted_menu_data(['21-11-28 456', '21-12-05 123'])
-        self.assertEqual(result3, [self.formatted_menu('21-11-28 456')])
+        result3 = get_formatted_menu_data(['2021-11-28', '2021-12-05'])
+        self.assertEqual(result3, [self.formatted_menu('2021-11-28')])
 
         # one invalid menu name
-        result4 = get_formatted_menu_data(['21-12-05 456'])
+        result4 = get_formatted_menu_data(['2021-12-05'])
         self.assertEqual(result4, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
