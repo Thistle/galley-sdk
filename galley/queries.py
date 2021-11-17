@@ -19,12 +19,6 @@ class MenuCategoryEnum(Enum):
     """
     MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
 
-class MenuCategoryValueEnum(Enum):
-    """
-    Enum for category values, <category value name>: <category value id>
-    """
-    PRODUCTION = 'Y2F0ZWdvcnlWYWx1ZToxNTQ2NA=='
-
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args={'id': str})
@@ -83,10 +77,10 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return validate_response_data(raw_data, 'recipes')
 
 
-def get_week_menu_data(dates: List[str],
-                       location_name: Optional[str]="Vacaville",
-                       menu_type: Optional[str]="production"
-                       ) -> Optional[List[Dict]]:
+def get_menu_data_for_dates(dates: List[str],
+                            location_name: Optional[str]="Vacaville",
+                            menu_type: Optional[str]="production"
+                            ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
     if there is no menu data for the week, returns None.
@@ -126,15 +120,14 @@ def get_week_menu_data(dates: List[str],
                 categoryValues = menu['categoryValues']
                 for categoryValue in categoryValues:
                     if (categoryValue['category']['id'] == MenuCategoryEnum.
-                       MENU_TYPE.value and categoryValue['id'] ==
-                       MenuCategoryValueEnum.PRODUCTION.value):
+                       MENU_TYPE.value and categoryValue['name'] == menu_type):
                         response.append(menu)
                     else:
                         continue
     return response
 
 
-def get_raw_menu_data(names: List[str]) -> Optional[List[Dict]]:
-    query = get_menu_data_for_date(names=names) # type: Operation
-    raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'name': names})
+def get_raw_menu_data(dates: List[str]) -> Optional[List[Dict]]:
+    query = get_menu_data_for_dates(dates=dates) # type: Operation
+    raw_data = make_request_to_galley(op=query.__to_graphql__(auto_select_depth=3), variables={'date': dates})
     return validate_response_data(raw_data, 'menus')
