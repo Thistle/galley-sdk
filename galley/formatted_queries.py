@@ -1,6 +1,6 @@
 from typing import Dict, Optional, List
 
-from galley.queries import get_raw_recipes_data, get_raw_menu_data
+from galley.queries import MenuCategoryEnum, get_raw_recipes_data, get_raw_menu_data
 from galley.pagination import paginate_results
 
 FOOD_PACKAGING = 'food pkg'
@@ -85,9 +85,11 @@ def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return formatted_recipes
 
 
-@paginate_results()
-def get_formatted_menu_data(names: list) -> Optional[List[Dict]]:
-    menus = get_raw_menu_data(names)
+def get_formatted_menu_data(dates: List[str],
+                            location_name: str="Vacaville",
+                            menu_type: str="production"
+                            ) -> Optional[List[Dict]]:
+    menus = get_raw_menu_data(dates, location_name, menu_type)
     formatted_menus = []
 
     if not menus:
@@ -101,6 +103,12 @@ def get_formatted_menu_data(names: list) -> Optional[List[Dict]]:
             'location': menu['location'].get('name'),
             'menuItems': []
         }) # type: Dict
+
+        categoryValues = menu['categoryValues']
+        for categoryValue in categoryValues:
+            if (categoryValue['category']['id'] ==
+                    MenuCategoryEnum.MENU_TYPE.value):
+                formatted_menu['categoryMenuType'] = categoryValue['name']
 
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:

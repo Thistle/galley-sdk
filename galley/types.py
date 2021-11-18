@@ -11,11 +11,13 @@ class CategoryItemTypeEnum(Enum):
 
 
 class Category(Type):
+    id = Field(ID)
     name = str
     itemType = Field(CategoryItemTypeEnum)
 
 
 class CategoryValue(Type):
+    id = Field(ID)
     name = str
     category = Field(Category)
 
@@ -159,6 +161,7 @@ class Menu(Type):
     date = d.Date
     location = Field(Location)
     menuItems = Field(MenuItem)
+    categoryValues = Field(CategoryValue)
 
 
 class MenuPayload(Type):
@@ -182,3 +185,8 @@ class BulkMenusInput(Input):
 class FilterInput(Input):
     id = ID
     name = list_of(str)
+
+
+class MenuFilterInput(Input):
+    id = ID
+    date = list_of(d.Date)

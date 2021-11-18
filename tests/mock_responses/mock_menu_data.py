@@ -1,11 +1,23 @@
-def mock_menu(name):
+from galley.queries import MenuCategoryEnum
+
+
+def mock_menu(date, location_name="Vacaville", menu_type="production"):
     return ({
-        'name': name,
+        'name': f"{date} 1_2_3",
         'id': 'MENU123ABC',
-        'date': 'YYYY-MM-DD',
+        'date': f"{date}",
         'location': {
-            'name': 'Vacaville'
+            'name': location_name,
         },
+        'categoryValues': [{
+            'id': '1',
+            'name': menu_type,
+            'category': {
+                'id': MenuCategoryEnum.MENU_TYPE.value,
+                'name': 'menu type',
+                'itemType': 'menu'
+            },
+        }],
         'menuItems': [
             {
                 'recipeId': 'RECIPE1ABC',
@@ -66,4 +78,4 @@ def mock_menu(name):
                 },
             }
         ]
-    }) if name.split()[0] != '21-12-05' else []
+    }) if date != '2021-12-05' else []
