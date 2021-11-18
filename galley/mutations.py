@@ -47,11 +47,11 @@ def build_unit_input(item):
 def build_menu_item_inputs(items):
     menu_item_inputs = []
     for item in items:
-        unitInput = build_unit_input(item)
+        unit_input = build_unit_input(item)
         menuItemInput = MenuItemInput(
             id=item['id'],
             volume=item['volume'],
-            unit=unitInput
+            unit=unit_input
         )
         menu_item_inputs.append(menuItemInput)
     return menu_item_inputs
@@ -62,17 +62,17 @@ def build_menu_inputs(menus):
         if 'menu_id' not in menu.keys() or menu['menu_id'] is None:
             raise ValueError("menu_id is required for successful requests")
 
-        menuInput = MenuInput(id=menu['menu_id'])
-        menuInput.menuItems = build_menu_item_inputs(menu['menu_items'])
-        menu_inputs.append(menuInput)
+        menu_input = MenuInput(id=menu['menu_id'])
+        menu_input.menuItems = build_menu_item_inputs(menu['menu_items'])
+        menu_inputs.append(menu_input)
 
     return menu_inputs
 
 def build_upsert_mutation_query(args):
     mutation = Operation(Mutation)
-    bulkInput = BulkMenusInput()
-    bulkInput.menus = build_menu_inputs(args)
-    mutation.bulkUpsertMenus(input=bulkInput)
+    bulk_input = BulkMenusInput()
+    bulk_input.menus = build_menu_inputs(args)
+    mutation.bulkUpsertMenus(input=bulk_input)
     return mutation
 
 # args = [
