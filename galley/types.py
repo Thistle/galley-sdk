@@ -138,10 +138,19 @@ class Location(Type):
     name = str
 
 
+class Unit(Type):
+    name = str
+
+
+class UnitInput(Input):
+    name = str
+
+
 class MenuItem(Type):
     recipeId = str
     categoryValues = Field(CategoryValue)
     recipe = Field(Recipe)
+    unit = Field(Unit)
 
 
 class Menu(Type):
@@ -150,6 +159,24 @@ class Menu(Type):
     date = d.Date
     location = Field(Location)
     menuItems = Field(MenuItem)
+
+
+class MenuPayload(Type):
+    menus = Field(Menu)
+
+class MenuItemInput(Input):
+    id = str
+    recipeId = str
+    volume = float
+    unit = UnitInput
+
+class MenuInput(Input):
+    id = str
+    recipeId = str
+    menuItems = Field(list_of(MenuItemInput))
+
+class BulkMenusInput(Input):
+    menus = Field(list_of(MenuInput))
 
 
 class FilterInput(Input):
