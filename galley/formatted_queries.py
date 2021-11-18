@@ -90,12 +90,12 @@ class FormattedRecipe:
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
     ingredients: List[str] = []
 
-    for recipe_item in recipe_items:
-        ingredient = recipe_item.get('ingredient')
-        sub_recipe = recipe_item.get('subRecipe')
+    for recipeItem in recipe_items:
+        ingredient = recipeItem.get('ingredient')
+        sub_recipe = recipeItem.get('subRecipe')
         recipe_item = RecipeItem(
             ingredient=ingredient if ingredient else None,
-            preparations=recipe_item.get('preparations', [])
+            preparations=recipeItem.get('preparations', [])
         )
 
         # Top Level Ingredient
