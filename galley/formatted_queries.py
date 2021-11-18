@@ -85,7 +85,6 @@ def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return formatted_recipes
 
 
-@paginate_results()
 def get_formatted_menu_data(dates: List[str],
                             location_name: str="Vacaville",
                             menu_type: str="production"

@@ -167,10 +167,18 @@ class TestGetFormattedMenuData(TestCase):
 
         # one invalid menu name
         result4 = get_formatted_menu_data(['2021-12-05'])
-        self.assertEqual(result4, [])
+        self.assertEqual(result4, None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_null(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
         result = get_formatted_menu_data([])
-        self.assertEqual(result, [])
+        self.assertEqual(result, None)
+    
+    @mock.patch('galley.formatted_queries.get_raw_menu_data')
+    def test_get_formatted_menu_data_args_defaults(self, mock_grmd):
+        dates = ['2021-11-14', '2021-10-04']
+        get_formatted_menu_data(dates)
+        mock_grmd.assert_called_with(dates, 'Vacaville', 'production')
+        get_formatted_menu_data(dates, 'Montana', 'staging')
+        mock_grmd.assert_called_with(dates, 'Montana', 'staging')
