@@ -21,7 +21,7 @@ class MenuCategoryEnum(Enum):
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args=(ArgDict({'id': str})))
-    menus = Field(Menu, args=(ArgDict({'where': FilterInput})))
+    menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
 
 
 # This is graphql root for querying data according to sgqlc lib. So this class name has to be Query.
