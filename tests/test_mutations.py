@@ -203,9 +203,9 @@ class TestUpsertMenuData(TestCase):
         mutation_str = bytes(ret).decode('utf-8')
         self.assertEqual(mutation_str, expected_str)
 
-    def test_unit_name_can_be_set_to_custom_value(self):
+    def test_unit_name_protects_from_typos(self):
         expected_str = '''mutation {
-            bulkUpsertMenus(input: {menus: [{id: "bWVudTo5ODIzOTI=", menuItems: [{id: "bWVudUl0ZW06MzM4MTQyMjQ=", volume: 20.0, unit: {name: "per"}}]}]}) {
+            bulkUpsertMenus(input: {menus: [{id: "bWVudTo5ODIzOTI=", menuItems: [{id: "bWVudUl0ZW06MzM4MTQyMjQ=", volume: 20.0, unit: {name: "each"}}]}]}) {
             menus {
             id
             name
@@ -219,7 +219,7 @@ class TestUpsertMenuData(TestCase):
                 {
                     "id": "bWVudUl0ZW06MzM4MTQyMjQ=",
                     "volume": 20,
-                    "unit_name": "per"
+                    "unit_name": "echa"
                 }
             ]
         }]

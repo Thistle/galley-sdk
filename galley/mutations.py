@@ -35,9 +35,12 @@ def add_recipe_instruction(recipe_id, instruction, position=None):
     return validate_response_data(raw_data, 'createRecipeInstruction', 'recipeInstruction')
 
 # MENU MUTATIONS
-
+UNIT_NAME_WHITELIST = ['each']
 def build_unit_input(item):
-    if 'unit_name' in item.keys() and item['unit_name'] is not None:
+    if 'unit_name' in item.keys() and \
+        item['unit_name'] is not None and \
+        item['unit_name'] in UNIT_NAME_WHITELIST:
+
         name = item['unit_name']
     else:
         name = 'each'
