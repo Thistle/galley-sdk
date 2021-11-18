@@ -125,6 +125,7 @@ class TestGetFormattedMenuData(TestCase):
                 'id': 'MENU123ABC',
                 'date': f"{date}",
                 'location': 'Vacaville',
+                'categoryMenuType': 'production',
                 'menuItems': [{
                     'itemCode': 'dv1',
                     'recipeId': 'RECIPE1ABC',
