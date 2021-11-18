@@ -7,35 +7,110 @@ FOOD_PACKAGING = 'food pkg'
 STANDALONE = 'standalone'
 
 
+class RecipeItem:
+    def __init__(self, preparations: List[Dict[str, str]], ingredient=None, quantity_unit_values=None):
+        self.category_values = ingredient.get('categoryValues', []) if ingredient else []
+        self.preparations = preparations
+        self.quantity_unit_values = quantity_unit_values
+
+    def is_standalone(self):
+        return any(prep.get('name') == STANDALONE for prep in self.preparations)
+
+    def is_packaging(self):
+        return any(cat_val.get('name') == FOOD_PACKAGING for cat_val in self.category_values)
+
+    def mass(self):
+        if self.quantity_unit_values is None:
+            raise Exception('Cannot calculate mass without unit values')
+        return next(
+            (value.get('value') for value in self.quantity_unit_values
+             if value.get('unit', {'name': None}).get('name') == 'g'), 0
+        )
+
+
+class FormattedRecipe:
+    mealContainer = None
+    mealType = None
+    proteinType = None
+
+    def __init__(self, recipe_data):
+        self.galleyId = recipe_data.get('id')
+        self.externalName = recipe_data.get('externalName')
+        self.notes = recipe_data.get('notes')
+        self.description = recipe_data.get('description')
+        self.nutrition = recipe_data.get('reconciledNutritionals', {})
+
+        self.recipe_category_values = recipe_data.get('categoryValues', [])
+        for recipe_category_value in self.recipe_category_values:
+            category_name = recipe_category_value.get('category', {}).get('name')
+            category_value = recipe_category_value.get('name')
+            if category_name == 'protein type':
+                self.proteinType = category_value
+            elif category_name == 'meal type':
+                self.mealType = category_value
+            elif category_name == 'meal container':
+                self.mealContainer = category_value
+
+        self.recipe_items = recipe_data.get('recipeItems', [])
+        self.ingredients = ingredients_from_recipe_items(recipe_items=self.recipe_items)
+        self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
+
+    def total_weight(self):
+        total_weight = 0
+        for recipe_tree_component in self.recipe_tree_components:
+            recipeItem = recipe_tree_component.get('recipeItem', {})
+            ingredient = recipeItem.get('ingredient', {}) if recipeItem else None
+            if recipeItem:
+                recipe_item = RecipeItem(
+                    preparations=recipeItem.get('preparations', []),
+                    ingredient=ingredient if ingredient else None,
+                    quantity_unit_values=recipe_tree_component.get('quantityUnitValues', [])
+                )
+                if recipe_item.is_standalone() or recipe_item.is_packaging():
+                    continue
+                total_weight += recipe_item.mass() if recipe_item.mass() else 0
+
+        return total_weight
+
+    def to_dict(self):
+        return {
+            'id': self.galleyId,
+            'externalName': self.externalName,
+            'notes': self.notes,
+            'description': self.description,
+            'nutrition': self.nutrition,
+            'proteinType': self.proteinType,
+            'mealContainer': self.mealContainer,
+            'mealType': self.mealType,
+            'ingredients': self.ingredients,
+            'totalWeight': self.total_weight()
+        }
+
+
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
-    ingredients = []
+    ingredients: List[str] = []
 
     for recipe_item in recipe_items:
-        ingredient_object = recipe_item.get('ingredient')
+        ingredient = recipe_item.get('ingredient')
         sub_recipe = recipe_item.get('subRecipe')
-        preparations = recipe_item.get('preparations', [])
+        recipe_item = RecipeItem(
+            ingredient=ingredient if ingredient else None,
+            preparations=recipe_item.get('preparations', [])
+        )
 
         # Top Level Ingredient
-        if ingredient_object:
-            category_values = ingredient_object.get('categoryValues', [])
-            is_packaging = any(cat_val.get('name') == FOOD_PACKAGING for cat_val in category_values)
-
-            external_name = ingredient_object.get('externalName')
-            if not is_packaging and external_name not in ingredients:
+        if ingredient:
+            external_name = ingredient.get('externalName')
+            if not recipe_item.is_packaging() and external_name not in ingredients:
                 ingredients.append(external_name)
 
         # SubRecipe Ingredients
         elif sub_recipe:
-            is_standalone = False
-            item_ingredients = sub_recipe.get('allIngredients')
+            if not recipe_item.is_standalone():
+                for i in sub_recipe.get('allIngredients'):
+                    if i not in ingredients:
+                        ingredients.append(i)
 
-            if preparations:
-                is_standalone = any(prep.get('name') == STANDALONE for prep in preparations)
-
-            if not is_standalone:
-                for ingredient in item_ingredients:
-                    if ingredient not in ingredients:
-                        ingredients.append(ingredient)
     return ingredients
 
 
@@ -57,31 +132,9 @@ def get_standalone(recipe_items):
 def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids) or []
     formatted_recipes = []
-
-    for recipe in recipes_data:
-        formatted_recipe = {
-            'id': recipe.get('id'),
-            'externalName': recipe.get('externalName'),
-            'notes': recipe.get('notes'),
-            'description': recipe.get('description'),
-            'nutrition': recipe.get('reconciledNutritionals', {})
-        }
-
-        recipe_category_values = recipe.get('categoryValues', [])
-        for recipe_category_value in recipe_category_values:
-            category_name = recipe_category_value.get('category', {}).get('name')
-            category_value = recipe_category_value.get('name')
-            if category_name == 'protein type':
-                formatted_recipe['proteinType'] = category_value
-            elif category_name == 'meal type':
-                formatted_recipe['mealType'] = category_value
-            elif category_name == 'meal container':
-                formatted_recipe['mealContainer'] = category_value
-
-        recipe_items = recipe.get('recipeItems', [])
-        formatted_recipe['ingredients'] = ingredients_from_recipe_items(recipe_items=recipe_items)
-
-        formatted_recipes.append(formatted_recipe)
+    for recipe_data in recipes_data:
+        formatted_recipe = FormattedRecipe(recipe_data=recipe_data)
+        formatted_recipes.append(formatted_recipe.to_dict())
     return formatted_recipes
 
 

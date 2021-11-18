@@ -32,6 +32,7 @@ class TestIngredientsFromRecipeItems(TestCase):
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
+        self.maxDiff = None
         expected_result = [
             {
                 'id': '1',
@@ -50,6 +51,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
+                'totalWeight': 0
             },
             {
                 'id': '2',
@@ -68,6 +70,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
+                'totalWeight': 0
             }
         ]
 

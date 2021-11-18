@@ -322,6 +322,25 @@ class TestRecipesDataQuery(TestCase):
             name
             }
             }
+            recipeTreeComponents(levels: [1]) {
+            quantityUnitValues {
+            unit {
+            name
+            }
+            value
+            }
+            recipeItem {
+            preparations {
+            name
+            }
+            ingredient {
+            categoryValues {
+            name
+            }
+            externalName
+            }
+            }
+            }
             }
             }
             }'''.replace(' '*12, '')
