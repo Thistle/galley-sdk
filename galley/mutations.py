@@ -36,13 +36,18 @@ def add_recipe_instruction(recipe_id, instruction, position=None):
 
 # MENU MUTATIONS
 
-def build_unit_input():
-    return UnitInput(name='each')
+def build_unit_input(item):
+    if 'unit_name' in item.keys() and item['unit_name'] is not None:
+        name = item['unit_name']
+    else:
+        name = 'each'
+
+    return UnitInput(name=name)
 
 def build_menu_item_inputs(items):
     menu_item_inputs = []
     for item in items:
-        unitInput = build_unit_input()
+        unitInput = build_unit_input(item)
         menuItemInput = MenuItemInput(
             id=item['id'],
             volume=item['volume'],
@@ -77,6 +82,7 @@ def build_upsert_mutation_query(args):
 #           {
 #               id: '',
 #               volume: float,
+#               unit_name: ''
 #           },
 #           {id: '', ....}
 # ]

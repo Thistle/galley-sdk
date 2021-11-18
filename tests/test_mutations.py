@@ -203,6 +203,30 @@ class TestUpsertMenuData(TestCase):
         mutation_str = bytes(ret).decode('utf-8')
         self.assertEqual(mutation_str, expected_str)
 
+    def test_unit_name_can_be_set_to_custom_value(self):
+        expected_str = '''mutation {
+            bulkUpsertMenus(input: {menus: [{id: "bWVudTo5ODIzOTI=", menuItems: [{id: "bWVudUl0ZW06MzM4MTQyMjQ=", volume: 20.0, unit: {name: "per"}}]}]}) {
+            menus {
+            id
+            name
+            date
+            }
+            }
+            }'''.replace(' '*12, '')
+        payload = [{
+            "menu_id": "bWVudTo5ODIzOTI=",
+            "menu_items": [
+                {
+                    "id": "bWVudUl0ZW06MzM4MTQyMjQ=",
+                    "volume": 20,
+                    "unit_name": "per"
+                }
+            ]
+        }]
+        ret = build_upsert_mutation_query(payload)
+        mutation_str = bytes(ret).decode('utf-8')
+        self.assertEqual(mutation_str, expected_str)
+
     @mock.patch('galley.mutations.make_request_to_galley')
     def test_upsert_menu_data_returns_expected_response_data(self, mock_mr):
         mock_mr.return_value = self.response_data
@@ -217,7 +241,6 @@ class TestUpsertMenuData(TestCase):
             ]
         }]
         result = upsert_menu_data(payload)
-        # import pdb; pdb.set_trace()
         self.assertEqual(result, self.response_data['data'])
 
     @mock.patch('galley.mutations.make_request_to_galley')
