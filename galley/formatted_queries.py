@@ -52,25 +52,7 @@ class FormattedRecipe:
                 self.mealContainer = category_value
 
         self.recipe_items = recipe_data.get('recipeItems', [])
-        self.ingredients = ingredients_from_recipe_items(recipe_items=self.recipe_items)
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
-
-    def total_weight(self):
-        total_weight = 0
-        for recipe_tree_component in self.recipe_tree_components:
-            recipeItem = recipe_tree_component.get('recipeItem', {})
-            ingredient = recipeItem.get('ingredient', {}) if recipeItem else None
-            if recipeItem:
-                recipe_item = RecipeItem(
-                    preparations=recipeItem.get('preparations', []),
-                    ingredient=ingredient if ingredient else None,
-                    quantity_unit_values=recipe_tree_component.get('quantityUnitValues', [])
-                )
-                if recipe_item.is_standalone() or recipe_item.is_packaging():
-                    continue
-                total_weight += recipe_item.mass() if recipe_item.mass() else 0
-
-        return total_weight
 
     def to_dict(self):
         return {
@@ -82,9 +64,25 @@ class FormattedRecipe:
             'proteinType': self.proteinType,
             'mealContainer': self.mealContainer,
             'mealType': self.mealType,
-            'ingredients': self.ingredients,
-            'totalWeight': self.total_weight()
+            'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
+            'totalWeight': weight_from_recipe_tree_components(recipe_tree_components=self.recipe_tree_components)
         }
+
+
+def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> int:
+    total_weight = 0
+    for recipe_tree_component in recipe_tree_components:
+        recipe_item_dict = recipe_tree_component.get('recipeItem', {})
+        if recipe_item_dict:
+            recipe_item = RecipeItem(
+                preparations=recipe_item_dict.get('preparations', []),
+                ingredient=recipe_item_dict.get('ingredient', {}),
+                quantity_unit_values=recipe_tree_component.get('quantityUnitValues', [])
+            )
+            if recipe_item.is_standalone() or recipe_item.is_packaging():
+                continue
+            total_weight += recipe_item.mass() if recipe_item.mass() else 0
+    return total_weight
 
 
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
@@ -149,13 +147,13 @@ def get_formatted_menu_data(dates: List[str],
         return None
 
     for menu in menus:
-        formatted_menu = ({
+        formatted_menu = {
             'name': menu.get('name'),
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
             'menuItems': []
-        }) # type: Dict
+        } # type: Dict
 
         categoryValues = menu['categoryValues']
         for categoryValue in categoryValues:
