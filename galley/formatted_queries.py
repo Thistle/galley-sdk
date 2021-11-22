@@ -65,11 +65,11 @@ class FormattedRecipe:
             'mealContainer': self.mealContainer,
             'mealType': self.mealType,
             'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
-            'totalWeight': weight_from_recipe_tree_components(recipe_tree_components=self.recipe_tree_components)
+            'weight': weight_from_recipe_tree_components(recipe_tree_components=self.recipe_tree_components)
         }
 
 
-def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> int:
+def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> float:
     total_weight = 0
     for recipe_tree_component in recipe_tree_components:
         recipe_item_dict = recipe_tree_component.get('recipeItem', {})
@@ -79,10 +79,11 @@ def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> in
                 ingredient=recipe_item_dict.get('ingredient', {}),
                 quantity_unit_values=recipe_tree_component.get('quantityUnitValues', [])
             )
+
             if recipe_item.is_standalone() or recipe_item.is_packaging():
                 continue
             total_weight += recipe_item.mass() if recipe_item.mass() else 0
-    return total_weight
+    return round(total_weight, 2)
 
 
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
