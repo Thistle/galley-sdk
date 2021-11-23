@@ -10,8 +10,6 @@ from enum import Enum
 
 logger = logging.getLogger(__name__)
 
-FOOD_PACKAGING = 'food pkg'
-STANDALONE = 'standalone'
 
 class MenuCategoryEnum(Enum):
     """
@@ -19,9 +17,10 @@ class MenuCategoryEnum(Enum):
     """
     MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
 
+
 class Viewer(Type):
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
-    recipe = Field(Recipe, args={'id': str})
+    recipe = Field(Recipe, args=(ArgDict({'id': str})))
     menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
 
 
@@ -68,6 +67,13 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query.viewer.recipes.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipes.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
     query.viewer.recipes.recipeItems.ingredient.categoryValues.__fields__('name')
+    query.viewer.recipes.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
+    query.viewer.recipes.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
+    query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('name')
     return query
 
 

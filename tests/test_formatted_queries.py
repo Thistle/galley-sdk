@@ -1,9 +1,9 @@
 from unittest import mock, TestCase
 
 from galley.formatted_queries import get_formatted_recipes_data, ingredients_from_recipe_items, \
-    get_formatted_menu_data
+    get_formatted_menu_data, weight_from_recipe_tree_components
 
-from tests.mock_responses import mock_nutrition_data, mock_recipes_data, mock_recipe_items
+from tests.mock_responses import mock_nutrition_data, mock_recipes_data, mock_recipe_items, mock_recipe_tree_components
 from tests.mock_responses.mock_menu_data import mock_menu
 
 
@@ -28,6 +28,21 @@ class TestIngredientsFromRecipeItems(TestCase):
         result = ingredients_from_recipe_items([])
         self.assertEqual(result, [])
 
+class TestWeightFromRecipeTreeComponents(TestCase):
+    def test_weight_from_recipe_tree_components_with_pkg_and_standalone(self):
+        expected_result = 829.22
+        result = weight_from_recipe_tree_components(mock_recipe_tree_components.mock_data)
+        self.assertEqual(result, expected_result)
+
+    def test_weight_from_recipe_tree_components_successful_no_pkg_no_standalone(self):
+        expected_result = 1382.04
+        result = weight_from_recipe_tree_components(mock_recipe_tree_components.mock_data_no_pkg_no_standalone)
+        self.assertEqual(result, expected_result)
+
+    def test_weight_from_recipe_tree_components_empty(self):
+        result = weight_from_recipe_tree_components([])
+        self.assertEqual(result, 0)
+
 
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
@@ -50,6 +65,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
+                'weight': 829.22
             },
             {
                 'id': '2',
@@ -68,6 +84,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
+                'weight': 829.22
             }
         ]
 

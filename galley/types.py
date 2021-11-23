@@ -1,4 +1,4 @@
-from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID, list_of
+from sgqlc.types import Field, Type, Input, datetime as d, Enum, ID, list_of, Int, ArgDict
 
 
 class CategoryItemTypeEnum(Enum):
@@ -104,12 +104,27 @@ class RecipeItem(Type):
     preparations = Field(Preparation)
 
 
+class Unit(Type):
+    name = Field(str)
+
+
+class UnitValue(Type):
+    value = float
+    unit = Field(Unit)
+
+
+class RecipeTreeComponent(Type):
+    quantityUnitValues = Field(UnitValue)
+    recipeItem = Field(RecipeItem)
+
+
 class Recipe(Type):
     id = str
     externalName = str
     instructions = str
     notes = str
     description = str
+    recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     reconciledNutritionals = Field(Nutrition)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
@@ -137,10 +152,6 @@ class RecipeInstructionPayload(Type):
 
 
 class Location(Type):
-    name = str
-
-
-class Unit(Type):
     name = str
 
 

@@ -1,4 +1,4 @@
-from tests.mock_responses import mock_nutrition_data, mock_recipe_items
+from tests.mock_responses import mock_nutrition_data, mock_recipe_items, mock_recipe_tree_components
 
 def mock_recipe(id):
     return ({
@@ -37,5 +37,6 @@ def mock_recipe(id):
             }
         ],
         'recipeItems': mock_recipe_items.mock_data,        
-        'reconciledNutritionals': mock_nutrition_data.mock_data                
+        'reconciledNutritionals': mock_nutrition_data.mock_data,
+        'recipeTreeComponents': mock_recipe_tree_components.mock_data
     })
