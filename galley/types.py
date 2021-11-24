@@ -94,6 +94,7 @@ class SubRecipe(Type):
 
 
 class Preparation(Type):
+    id = Field(ID)
     name = str
 
 
