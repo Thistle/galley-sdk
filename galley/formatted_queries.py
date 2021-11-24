@@ -1,10 +1,8 @@
 from typing import Dict, Optional, List
 
-from galley.enums import MenuCategoryEnum, PreparationEnum
+from galley.enums import IngredientCategoryEnum, MenuCategoryEnum, PreparationEnum
 from galley.pagination import paginate_results
 from galley.queries import get_raw_recipes_data, get_raw_menu_data
-
-FOOD_PACKAGING = 'food pkg'
 
 
 class RecipeItem:
@@ -18,7 +16,7 @@ class RecipeItem:
 
     # TODO: on staging/prod I was unable to find a listed category of "food pkg" is this still relevant?
     def is_packaging(self):
-        return any(cat_val.get('name') == FOOD_PACKAGING for cat_val in self.category_values)
+        return any(cat_val.get('id') == IngredientCategoryEnum.FOOD_PACKAGE.value for cat_val in self.category_values)
 
     def mass(self):
         if self.quantity_unit_values is None:

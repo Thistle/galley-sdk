@@ -315,6 +315,11 @@ class TestRecipesDataQuery(TestCase):
             categoryValues {
             id
             name
+            category {
+            id
+            name
+            itemType
+            }
             }
             }
             subRecipe {
@@ -341,6 +346,11 @@ class TestRecipesDataQuery(TestCase):
             categoryValues {
             id
             name
+            category {
+            id
+            name
+            itemType
+            }
             }
             externalName
             }

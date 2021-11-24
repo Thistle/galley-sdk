@@ -199,6 +199,7 @@ mock_data = [
             'ingredient': {
                 'categoryValues': [
                     {
+                        'id': 'Y2F0ZWdvcnlWYWx1ZToxNDAxNQ==',
                         'name': 'food pkg'
                     }
                 ],

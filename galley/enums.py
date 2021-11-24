@@ -14,3 +14,10 @@ class PreparationEnum(Enum):
     STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
     TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
     THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
+
+
+class IngredientCategoryEnum(Enum):
+    """
+    Enum for Ingredient Categories. <category name>: <category id>
+    """
+    FOOD_PACKAGE = "Y2F0ZWdvcnlWYWx1ZToxNDAxNQ=="

@@ -74,10 +74,11 @@ mock_data = [
         'externalName': '32 oz Meal Boxes',
         'categoryValues': [
             {
-            'name': 'food pkg',
-            'category': {
-                'itemType': 'ingredient'
-            }
+                'id': 'Y2F0ZWdvcnlWYWx1ZToxNDAxNQ==',
+                'name': 'food pkg',
+                'category': {
+                    'itemType': 'ingredient'
+                }
             }
         ]
         },

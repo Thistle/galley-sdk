@@ -58,14 +58,13 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     )
     query.viewer.recipes.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipes.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
-    query.viewer.recipes.recipeItems.ingredient.categoryValues.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient')
     query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
-    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name', 'category')
     return query
 
 
@@ -86,7 +85,7 @@ def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
                                                    'recipeItems')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
                                                                'preparations')
-    query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id','name')
+    query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
 
