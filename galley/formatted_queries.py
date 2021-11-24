@@ -1,10 +1,10 @@
 from typing import Dict, Optional, List
 
-from galley.queries import MenuCategoryEnum, get_raw_recipes_data, get_raw_menu_data
+from galley.enums import MenuCategoryEnum, PreparationEnum
 from galley.pagination import paginate_results
+from galley.queries import get_raw_recipes_data, get_raw_menu_data
 
 FOOD_PACKAGING = 'food pkg'
-STANDALONE = 'standalone'
 
 
 class RecipeItem:
@@ -14,8 +14,9 @@ class RecipeItem:
         self.quantity_unit_values = quantity_unit_values
 
     def is_standalone(self):
-        return any(prep.get('name') == STANDALONE for prep in self.preparations)
+        return any(prep.get('id') == PreparationEnum.STANDALONE.value for prep in self.preparations)
 
+    # TODO: on staging/prod I was unable to find a listed category of "food pkg" is this still relevant?
     def is_packaging(self):
         return any(cat_val.get('name') == FOOD_PACKAGING for cat_val in self.category_values)
 
@@ -118,7 +119,7 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
 def get_standalone(recipe_items):
     for recipe_item in recipe_items:
         preparations = recipe_item.get('preparations', [])
-        is_standalone = any(prep['name'] == STANDALONE for prep in preparations)
+        is_standalone = any(prep['id'] == PreparationEnum.STANDALONE.value for prep in preparations)
 
         if is_standalone:
             return recipe_item.get('subRecipeId')

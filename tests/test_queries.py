@@ -122,6 +122,7 @@ class TestQueryWeekMenuData(TestCase):
             recipeItems {
             subRecipeId
             preparations {
+            id
             name
             }
             }
@@ -193,7 +194,7 @@ class TestQueryWeekMenuData(TestCase):
         mock_retrieval_method.return_value = None
         result = get_raw_menu_data([], 'Vacaville', 'production')
         self.assertEqual(result, [])
-    
+
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_filters_by_location(self, mock_retrieval_method):
         mock_retrieval_method.return_value = {
@@ -312,6 +313,7 @@ class TestRecipesDataQuery(TestCase):
             ingredient {
             externalName
             categoryValues {
+            id
             name
             }
             }
@@ -319,6 +321,7 @@ class TestRecipesDataQuery(TestCase):
             allIngredients
             }
             preparations {
+            id
             name
             }
             }
@@ -331,10 +334,12 @@ class TestRecipesDataQuery(TestCase):
             }
             recipeItem {
             preparations {
+            id
             name
             }
             ingredient {
             categoryValues {
+            id
             name
             }
             externalName

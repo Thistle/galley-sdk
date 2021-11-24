@@ -1,3 +1,6 @@
+from galley.enums import PreparationEnum
+
+
 mock_data = [
     {
         'ingredient': None,
@@ -36,6 +39,7 @@ mock_data = [
                 'name': '2 oz RAM'
             },
             {
+                'id': PreparationEnum.STANDALONE.value,
                 'name': 'standalone'
             }
         ]

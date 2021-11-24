@@ -3,19 +3,11 @@ from sgqlc.operation import Operation
 from sgqlc.types import Field, Type, ArgDict
 
 from galley.common import make_request_to_galley, validate_response_data
+from galley.enums import MenuCategoryEnum
 from galley.types import Recipe, Menu, FilterInput, MenuFilterInput
 import logging
 
-from enum import Enum
-
 logger = logging.getLogger(__name__)
-
-
-class MenuCategoryEnum(Enum):
-    """
-    Enum for categories, for item type menu <category name>: <category id>
-    """
-    MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
 
 
 class Viewer(Type):
@@ -66,14 +58,14 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     )
     query.viewer.recipes.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipes.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
-    query.viewer.recipes.recipeItems.ingredient.categoryValues.__fields__('name')
+    query.viewer.recipes.recipeItems.ingredient.categoryValues.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient')
-    query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
-    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name')
     return query
 
 
@@ -94,8 +86,7 @@ def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
                                                    'recipeItems')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
                                                                'preparations')
-    query.viewer.menus.menuItems.recipe.recipeItems.preparations\
-                                                   .__fields__('name')
+    query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id','name')
     return query
 
 
@@ -126,8 +117,8 @@ def get_raw_menu_data(dates: List[str],
             if menu['location']['name'] == location_name:
                 categoryValues = menu['categoryValues']
                 for categoryValue in categoryValues:
-                    if (categoryValue['category']['id'] == MenuCategoryEnum.
-                       MENU_TYPE.value and categoryValue['name'] == menu_type):
+                    if (categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value and \
+                        categoryValue['name'] == menu_type):
                         response.append(menu)
                     else:
                         continue
