@@ -192,7 +192,7 @@ class TestGetFormattedMenuData(TestCase):
         mock_retrieval_method.return_value = None
         result = get_formatted_menu_data([])
         self.assertEqual(result, None)
-    
+
     @mock.patch('galley.formatted_queries.get_raw_menu_data')
     def test_get_formatted_menu_data_args_defaults(self, mock_grmd):
         dates = ['2021-11-14', '2021-10-04']

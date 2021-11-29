@@ -21,3 +21,8 @@ class IngredientCategoryEnum(Enum):
     Enum for Ingredient Categories. <category name>: <category id>
     """
     FOOD_PACKAGE = "Y2F0ZWdvcnlWYWx1ZToxNDAxNQ=="
+
+class TagTypeEnum(Enum):
+    """
+    """
+    CATEGORY_TAG_TYPE = "Y2F0ZWdvcnk6MjQyMA=="
