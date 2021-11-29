@@ -10,6 +10,7 @@ def mock_recipe(id):
             {
                 'name': 'vegan',
                 'category': {
+                    'id': "Y2F0ZWdvcnk6MjUwOA==",
                     'itemType': 'recipe',
                     'name': 'protein type'
                 }
@@ -17,6 +18,7 @@ def mock_recipe(id):
             {
                 'name': 'ts48',
                 'category': {
+                    'id': "Y2F0ZWdvcnk6MjU2Nw==",
                     'itemType': 'recipe',
                     'name': 'meal container'
                 }
@@ -24,6 +26,7 @@ def mock_recipe(id):
             {
                 'name': 'dinner',
                 'category': {
+                    'id': "Y2F0ZWdvcnk6MjQyMg==",
                     'itemType': 'recipe',
                     'name': 'meal type'
                 }
@@ -31,12 +34,13 @@ def mock_recipe(id):
             {
                 'name': 'true',
                 'category': {
+                    'id': "",
                     'itemType': 'recipe',
                     'name': 'is perishable'
                 }
             }
         ],
-        'recipeItems': mock_recipe_items.mock_data,        
+        'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data,
         'recipeTreeComponents': mock_recipe_tree_components.mock_data
     })

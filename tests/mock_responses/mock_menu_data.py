@@ -1,4 +1,4 @@
-from galley.queries import MenuCategoryEnum
+from galley.enums import MenuCategoryEnum, PreparationEnum
 
 
 def mock_menu(date, location_name="Vacaville", menu_type="production"):
@@ -32,7 +32,10 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                     'externalName': 'Test Recipe Name 1',
                     'recipeItems': [{
                         'preparations': [
-                            {'name':  'standalone'}
+                            {
+                                'id': PreparationEnum.STANDALONE.value,
+                                'name':  'standalone'
+                            }
                         ],
                         'subRecipeId': 'SUBRECIPEID456'
                     }]
@@ -51,7 +54,10 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                     'externalName': 'Test Recipe Name 2',
                     'recipeItems': [{
                         'preparations': [
-                            {'name':  '2 oz RAM'}
+                            {
+                                'id': PreparationEnum.TWO_OUNCE_RAM.value,
+                                'name':  '2 oz RAM'
+                            }
                         ],
                         'subRecipeId': 'SUBRECIPEID789'
                     }]
@@ -70,8 +76,13 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                     'externalName': 'Test Recipe Name 3',
                     'recipeItems': [{
                         'preparations': [
-                            {'name':  '3 oz RAM'},
-                            {'name': 'standalone'}
+                            {
+                                'id': PreparationEnum.THREE_OUNCE_RAM.value,
+                                'name':  '3.25 oz RAM'},
+                            {
+                                'id': PreparationEnum.STANDALONE.value,
+                                'name': 'standalone'
+                            }
                         ],
                         'subRecipeId': 'SUBRECIPEID321'
                     }]

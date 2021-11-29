@@ -1,3 +1,6 @@
+from galley.enums import PreparationEnum
+
+
 mock_data = [
     {
         'ingredient': None,
@@ -36,27 +39,28 @@ mock_data = [
                 'name': '2 oz RAM'
             },
             {
+                'id': PreparationEnum.STANDALONE.value,
                 'name': 'standalone'
             }
         ]
     },
     {
         'ingredient': {
-        'externalName': 'Unique 4',
-        'categoryValues': [
-            {
-                'name': 'send to plate',
-                'category': {
-                    'itemType': 'ingredient'
+            'externalName': 'Unique 4',
+            'categoryValues': [
+                {
+                    'name': 'send to plate',
+                    'category': {
+                        'itemType': 'ingredient'
+                    }
+                },
+                {
+                    'name': None,           # Test empty categoryValue['name']
+                    'category': {
+                        'itemType': None    # Test empty category['itemType']
+                    }
                 }
-            },
-            {
-                'name': None,           # Test empty categoryValue['name']
-                'category': {
-                    'itemType': None    # Test empty category['itemType']
-                }
-            }
-        ]
+            ]
         },
         'subRecipe': None,
         'preparations': [
@@ -67,15 +71,18 @@ mock_data = [
     },
     {
         'ingredient': {
-        'externalName': '32 oz Meal Boxes',
-        'categoryValues': [
-            {
-            'name': 'food pkg',
-            'category': {
-                'itemType': 'ingredient'
-            }
-            }
-        ]
+            'externalName': '32 oz Meal Boxes',
+            'categoryValues': [
+                {
+                    'id': 'Y2F0ZWdvcnlWYWx1ZToxNDAxNQ==',
+                    'name': 'food pkg',
+                    'category': {
+                        'id': "Y2F0ZWdvcnk6MjQyMA==",
+                        'name': "category",
+                        'itemType': 'ingredient'
+                    }
+                }
+            ]
         },
         'subRecipe': None,
         'preparations': []

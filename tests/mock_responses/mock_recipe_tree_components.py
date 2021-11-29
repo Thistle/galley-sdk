@@ -1,3 +1,6 @@
+from galley.enums import PreparationEnum
+
+
 mock_data = [
     {
         'quantityUnitValues': [
@@ -114,7 +117,9 @@ mock_data = [
                 {
                     'name': '2 oz RAM'
                 },
-                {   'name': 'standalone'
+                {
+                    'id': PreparationEnum.STANDALONE.value,
+                    'name': 'standalone'
                 }
             ]
         }
@@ -194,22 +199,28 @@ mock_data = [
             'ingredient': {
                 'categoryValues': [
                     {
-                        'name': 'food pkg'
+                        'id': 'Y2F0ZWdvcnlWYWx1ZToxNDAxNQ==',
+                        'name': 'food pkg',
+                        'category': {
+                            'id': "Y2F0ZWdvcnk6MjQyMA==",
+                            'name': "category",
+                            'itemType': 'ingredient'
+                        }
                     }
                 ],
                 'externalName': '48 oz Meal Boxes'
-            },    
+            },
             'preparations': []
         }
     },
     {
         'quantityUnitValues': [],
         'recipeItem': {
-            'ingredient': None, 
+            'ingredient': None,
             'preparations': []
         }
     }
-]  
+]
 
 mock_data_no_pkg_no_standalone = [
     {
@@ -398,15 +409,15 @@ mock_data_no_pkg_no_standalone = [
             }
         ],
         'recipeItem': {
-            'ingredient': None,  
+            'ingredient': None,
             'preparations': []
         }
     },
     {
         'quantityUnitValues': [],
         'recipeItem': {
-            'ingredient': None, 
+            'ingredient': None,
             'preparations': []
         }
     }
-]              
+]
