@@ -107,6 +107,7 @@ class TestQueryWeekMenuData(TestCase):
             }
             }
             menuItems {
+            id
             recipeId
             categoryValues {
             id

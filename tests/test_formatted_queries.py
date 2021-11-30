@@ -144,14 +144,17 @@ class TestGetFormattedMenuData(TestCase):
                 'location': 'Vacaville',
                 'categoryMenuType': 'production',
                 'menuItems': [{
+                    'id': 'MENUITEM1ABC',
                     'itemCode': 'dv1',
                     'recipeId': 'RECIPE1ABC',
                     'standaloneRecipeId': 'SUBRECIPEID456'
                 }, {
+                    'id': 'MENUITEM2DEF',
                     'itemCode': 'dv2',
                     'recipeId': 'RECIPE2DEF',
                     'standaloneRecipeId': None
                 }, {
+                    'id': 'MENUITEM3GHI',
                     'itemCode': 'lm2',
                     'recipeId': 'RECIPE3GHI',
                     'standaloneRecipeId': 'SUBRECIPEID321'

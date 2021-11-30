@@ -168,6 +168,7 @@ def get_formatted_menu_data(dates: List[str],
             recipe_items = menu_item.get('recipe', {}).get('recipeItems', [])
 
             formatted_menu['menuItems'].append({
+                'id': menu_item.get('id'),
                 'itemCode': next((cv.get('name') for cv in menu_item['categoryValues']), None),
                 'recipeId': menu_item.get('recipeId'),
                 'standaloneRecipeId': get_standalone(recipe_items)
