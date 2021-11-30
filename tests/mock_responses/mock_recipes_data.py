@@ -1,4 +1,5 @@
 from tests.mock_responses import mock_nutrition_data, mock_recipe_items, mock_recipe_tree_components
+from galley.enums import RecipeCategoryTagTypeEnum
 
 def mock_recipe(id):
     return ({
@@ -10,7 +11,7 @@ def mock_recipe(id):
             {
                 'name': 'vegan',
                 'category': {
-                    'id': "Y2F0ZWdvcnk6MjUwOA==",
+                    'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
                     'itemType': 'recipe',
                     'name': 'protein type'
                 }
@@ -18,7 +19,7 @@ def mock_recipe(id):
             {
                 'name': 'ts48',
                 'category': {
-                    'id': "Y2F0ZWdvcnk6MjU2Nw==",
+                    'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
                     'itemType': 'recipe',
                     'name': 'meal container'
                 }
@@ -26,7 +27,7 @@ def mock_recipe(id):
             {
                 'name': 'dinner',
                 'category': {
-                    'id': "Y2F0ZWdvcnk6MjQyMg==",
+                    'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
                     'itemType': 'recipe',
                     'name': 'meal type'
                 }
@@ -42,7 +43,7 @@ def mock_recipe(id):
             {
                 'name': 'high-protein-legume',
                 'category': {
-                    'id': "Y2F0ZWdvcnk6MjU4MQ==",
+                    'id': RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value,
                     'itemType': 'recipe',
                     'name': 'protein addon'
                 }
@@ -50,7 +51,7 @@ def mock_recipe(id):
             {
                 'name': 'base-salad',
                 'category': {
-                    'id': "Y2F0ZWdvcnk6MjYyMA==",
+                    'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
                     'itemType': 'recipe',
                     'name': 'base meal slug'
                 }
