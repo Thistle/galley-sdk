@@ -57,17 +57,21 @@ class FormattedRecipe:
 
 def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
     recipe_tags: Dict = {}
-    recipe_tags_enum: Set = {tag.value for tag in RecipeCategoryTagTypeEnum}
+    recipe_tag_labels: Dict = {
+        RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value: 'proteinType',
+        RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value: 'mealType',
+        RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value: 'mealContainer',
+        RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value: 'proteinAddOn',
+        RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value: 'baseMealSlug',
+    }
 
     for recipe_category_value in recipe_category_values:
-        if recipe_category_value.get('category', {}).get('id') in recipe_tags_enum:
-            category_name = recipe_category_value.get('category', {}).get('name')
-            category_value = recipe_category_value.get('name')
+        tag_id = recipe_category_value.get('category', {}).get('id')
+        label = recipe_tag_labels.get(tag_id)
+        recipe_category_value_name = recipe_category_value.get('name')
 
-            if category_name and category_value:
-                _tag = category_name.lower().split()
-                tag = _tag[0] + ''.join(t.title() for t in _tag[1:])
-                recipe_tags.setdefault(tag, category_value)
+        if label and recipe_category_value_name:
+            recipe_tags.setdefault(label, recipe_category_value_name)
     return recipe_tags
 
 
