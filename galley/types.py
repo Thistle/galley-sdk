@@ -161,6 +161,7 @@ class UnitInput(Input):
 
 
 class MenuItem(Type):
+    id = str
     recipeId = str
     categoryValues = Field(CategoryValue)
     recipe = Field(Recipe)

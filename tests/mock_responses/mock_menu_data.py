@@ -20,6 +20,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
         }],
         'menuItems': [
             {
+                'id': 'MENUITEM1ABC',
                 'recipeId': 'RECIPE1ABC',
                 'categoryValues': [{
                     'name': 'dv1',
@@ -42,6 +43,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                 },
             },
             {
+                'id': 'MENUITEM2DEF',
                 'recipeId': 'RECIPE2DEF',
                 'categoryValues': [{
                     'name': 'dv2',
@@ -64,6 +66,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                 },
             },
             {
+                'id': 'MENUITEM3GHI',
                 'recipeId': 'RECIPE3GHI',
                 'categoryValues': [{
                     'name': 'lm2',

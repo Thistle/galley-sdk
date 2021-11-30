@@ -79,12 +79,9 @@ def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
     query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
         'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
     )
-    query.viewer.menus.menuItems.__fields__('recipeId', 'categoryValues',
-                                            'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName',
-                                                   'recipeItems')
-    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId',
-                                                               'preparations')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
+    query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
