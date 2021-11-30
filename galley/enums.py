@@ -6,6 +6,11 @@ class MenuCategoryEnum(Enum):
     """
     MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
 
+class MenuItemCategoryEnum(Enum):
+    """
+    Enum for categories, for item type menu item <category name>: <category id>
+    """
+    PRODUCT_CODE = 'Y2F0ZWdvcnk6MjQ2Nw=='
 
 class PreparationEnum(Enum):
     """
