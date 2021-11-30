@@ -38,6 +38,22 @@ def mock_recipe(id):
                     'itemType': 'recipe',
                     'name': 'is perishable'
                 }
+            },
+            {
+                'name': 'high-protein-legume',
+                'category': {
+                    'id': "Y2F0ZWdvcnk6MjU4MQ==",
+                    'itemType': 'recipe',
+                    'name': 'protein addon'
+                }
+            },
+            {
+                'name': 'base-salad',
+                'category': {
+                    'id': "Y2F0ZWdvcnk6MjYyMA==",
+                    'itemType': 'recipe',
+                    'name': 'base meal slug'
+                }
             }
         ],
         'recipeItems': mock_recipe_items.mock_data,
