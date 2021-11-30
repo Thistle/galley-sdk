@@ -1,6 +1,6 @@
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Set
 
-from galley.enums import IngredientCategoryEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, TagTypeEnum
+from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
 from galley.pagination import paginate_results
 from galley.queries import get_raw_recipes_data, get_raw_menu_data
 
@@ -16,8 +16,8 @@ class RecipeItem:
 
     def is_packaging(self):
         return any(
-            cat_val.get('id') == IngredientCategoryEnum.FOOD_PACKAGE.value and
-            cat_val.get('category', {}).get('id') == TagTypeEnum.CATEGORY_TAG_TYPE.value for cat_val in self.category_values
+            cat_val.get('id') == IngredientCategoryValueEnum.FOOD_PACKAGE.value and
+            cat_val.get('category', {}).get('id') == IngredientCategoryTagTypeEnum.ACCOUNTING_TAG.value for cat_val in self.category_values
         )
 
     def mass(self):
@@ -30,44 +30,49 @@ class RecipeItem:
 
 
 class FormattedRecipe:
-    mealContainer = None
-    mealType = None
-    proteinType = None
-
     def __init__(self, recipe_data):
         self.galleyId = recipe_data.get('id')
         self.externalName = recipe_data.get('externalName')
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
-
         self.recipe_category_values = recipe_data.get('categoryValues', [])
-        for recipe_category_value in self.recipe_category_values:
-            category_name = recipe_category_value.get('category', {}).get('name')
-            category_value = recipe_category_value.get('name')
-            if category_name == 'protein type':
-                self.proteinType = category_value
-            elif category_name == 'meal type':
-                self.mealType = category_value
-            elif category_name == 'meal container':
-                self.mealContainer = category_value
-
+        self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
         self.recipe_items = recipe_data.get('recipeItems', [])
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
 
+
     def to_dict(self):
-        return {
+        recipe_data = {
             'id': self.galleyId,
             'externalName': self.externalName,
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,
-            'proteinType': self.proteinType,
-            'mealContainer': self.mealContainer,
-            'mealType': self.mealType,
             'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
             'weight': weight_from_recipe_tree_components(recipe_tree_components=self.recipe_tree_components)
         }
+        return {**recipe_data, **self.recipe_tags}
+
+
+def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
+    recipe_tags: Dict = {}
+    recipe_tag_labels: Dict = {
+        RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value: 'proteinType',
+        RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value: 'mealType',
+        RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value: 'mealContainer',
+        RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value: 'proteinAddOn',
+        RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value: 'baseMealSlug',
+    }
+
+    for recipe_category_value in recipe_category_values:
+        tag_id = recipe_category_value.get('category', {}).get('id')
+        label = recipe_tag_labels.get(tag_id)
+        recipe_category_value_name = recipe_category_value.get('name')
+
+        if label and recipe_category_value_name:
+            recipe_tags.setdefault(label, recipe_category_value_name)
+    return recipe_tags
 
 
 def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> float:
@@ -110,13 +115,12 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
                 for i in sub_recipe.get('allIngredients'):
                     if i not in ingredients:
                         ingredients.append(i)
-
     return ingredients
 
 
 # Returns the subRecipeId if any 'standalone' item exists within recipeItems, else returns None
 # It is assumed that there is a max of ONE standalone item within the list of recipeItems, if any.
-def get_standalone(recipe_items):
+def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
     for recipe_item in recipe_items:
         preparations = recipe_item.get('preparations', [])
         is_standalone = any(prep['id'] == PreparationEnum.STANDALONE.value for prep in preparations)
