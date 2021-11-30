@@ -55,14 +55,14 @@ class FormattedRecipe:
         return {**recipe_data, **self.recipe_tags}
 
 
-def get_recipe_category_tags(category_values: List[Dict]) -> Optional[Dict]:
+def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
     recipe_tags: Dict = {}
     recipe_tags_enum: Set = {tag.value for tag in RecipeCategoryTagTypeEnum}
 
-    for category_value in category_values:
-        if category_value.get('category', {}).get('id') in recipe_tags_enum:
-            category_name = category_value.get('category', {}).get('name')
-            category_value = category_value.get('name')
+    for recipe_category_value in recipe_category_values:
+        if recipe_category_value.get('category', {}).get('id') in recipe_tags_enum:
+            category_name = recipe_category_value.get('category', {}).get('name')
+            category_value = recipe_category_value.get('name')
 
             if category_name and category_value:
                 _tag = category_name.lower().split()
