@@ -1,4 +1,4 @@
-from galley.enums import MenuCategoryEnum, PreparationEnum
+from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum
 
 
 def mock_menu(date, location_name="Vacaville", menu_type="production"):
@@ -20,10 +20,12 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
         }],
         'menuItems': [
             {
+                'id': 'MENUITEM1ABC',
                 'recipeId': 'RECIPE1ABC',
                 'categoryValues': [{
                     'name': 'dv1',
                     'category': {
+                        'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
                         'itemType': 'menuItem',
                         'name': 'product_code'
                     }
@@ -42,10 +44,12 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                 },
             },
             {
+                'id': 'MENUITEM2DEF',
                 'recipeId': 'RECIPE2DEF',
                 'categoryValues': [{
                     'name': 'dv2',
                     'category': {
+                        'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
                         'itemType': 'menuItem',
                         'name': 'product_code'
                     }
@@ -64,10 +68,12 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                 },
             },
             {
+                'id': 'MENUITEM3GHI',
                 'recipeId': 'RECIPE3GHI',
                 'categoryValues': [{
                     'name': 'lm2',
                     'category': {
+                        'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
                         'itemType': 'menuItem',
                         'name': 'product_code'
                     }

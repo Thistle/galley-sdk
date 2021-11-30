@@ -1,6 +1,6 @@
 from typing import Dict, Optional, List, Set
 
-from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
+from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
 from galley.pagination import paginate_results
 from galley.queries import get_raw_recipes_data, get_raw_menu_data
 
@@ -171,8 +171,15 @@ def get_formatted_menu_data(dates: List[str],
         for menu_item in menu_items:
             recipe_items = menu_item.get('recipe', {}).get('recipeItems', [])
 
+            categoryValues = menu_item['categoryValues']
+            for categoryValue in categoryValues:
+                if (categoryValue['category']['id'] ==
+                        MenuItemCategoryEnum.PRODUCT_CODE.value):
+                    itemCode = categoryValue['name']
+
             formatted_menu['menuItems'].append({
-                'itemCode': next((cv.get('name') for cv in menu_item['categoryValues']), None),
+                'id': menu_item.get('id'),
+                'itemCode': itemCode,
                 'recipeId': menu_item.get('recipeId'),
                 'standaloneRecipeId': get_standalone(recipe_items)
             })
