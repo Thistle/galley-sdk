@@ -57,7 +57,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinType': 'vegan',
                 'mealContainer': 'ts48',
                 'mealType': 'dinner',
-                'proteinAddon': 'high-protein-legume',
+                'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'ingredients': [
                     'Unique 1',
@@ -78,7 +78,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinType': 'vegan',
                 'mealContainer': 'ts48',
                 'mealType': 'dinner',
-                'proteinAddon': 'high-protein-legume',
+                'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'ingredients': [
                     'Unique 1',
