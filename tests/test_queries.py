@@ -425,7 +425,6 @@ class TestRecipesDataQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def test_recipes_data_query(self):
-        self.maxDiff = None
         query = recipes_data_query(["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
         query_str = bytes(query).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
