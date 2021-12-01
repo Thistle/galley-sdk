@@ -1,3 +1,4 @@
+from os import name
 from sgqlc.types import (
     ID,
     ArgDict,
@@ -33,6 +34,7 @@ class CategoryValue(Type):
 
 
 class Unit(Type):
+    id = Field(ID)
     name = Field(str)
 
 
@@ -106,6 +108,7 @@ class Ingredient(Type):
 class SubRecipe(Type):
     id = Field(ID)
     allIngredients = str
+    name = str
     externalName = str
     reconciledNutritionals = Field(Nutrition)
 
@@ -138,6 +141,7 @@ class RecipeTreeComponent(Type):
 
 class Recipe(Type):
     id = str
+    name = str
     externalName = str
     instructions = str
     notes = str

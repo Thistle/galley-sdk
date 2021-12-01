@@ -29,7 +29,8 @@ class TestQueryRecipes(TestCase):
 
     def test_recipe_query(self):
         query_operation = Operation(Query)
-        query_operation.viewer().recipes().__fields__('id', 'externalName', 'instructions', 'notes', 'description')
+        query_operation.viewer().recipes().__fields__(
+            'id', 'externalName', 'instructions', 'notes', 'description')
         query_str = bytes(query_operation).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
@@ -238,6 +239,7 @@ class TestRecipesDataQuery(TestCase):
             recipes(where: {id: ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="]}) {
             id
             externalName
+            name
             notes
             description
             categoryValues {
@@ -326,6 +328,7 @@ class TestRecipesDataQuery(TestCase):
             subRecipe {
             id
             allIngredients
+            name
             externalName
             reconciledNutritionals {
             addedSugarG
@@ -395,8 +398,10 @@ class TestRecipesDataQuery(TestCase):
             }
             }
             recipeTreeComponents(levels: [1]) {
+            id
             quantityUnitValues {
             unit {
+            id
             name
             }
             value
@@ -418,6 +423,79 @@ class TestRecipesDataQuery(TestCase):
             }
             externalName
             }
+            subRecipe {
+            id
+            allIngredients
+            externalName
+            reconciledNutritionals {
+            addedSugarG
+            calciumMg
+            calciumPercentRDI
+            caloriesKCal
+            carbsG
+            carbsPercentDRV
+            cholesterolMg
+            cholesterolPercentDRV
+            copperMg
+            copperPercentRDI
+            fiberG
+            fiberPercentDRV
+            folateMcg
+            folatePercentRDI
+            ironMg
+            ironPercentRDI
+            magnesiumMg
+            magnesiumPercentRDI
+            manganeseMg
+            manganesePercentRDI
+            niacinMg
+            niacinPercentRDI
+            pantothenicAcidMg
+            phosphorusMg
+            phosphorusPercentRDI
+            potassiumMg
+            potassiumPercentRDI
+            proteinG
+            proteinPercentRDI
+            riboflavinMg
+            riboflavinPercentRDI
+            saturatedFatG
+            seleniumMcg
+            seleniumPercentRDI
+            sodiumMg
+            sodiumPercentDRV
+            sugarG
+            sugarPercentDRV
+            thiaminMg
+            thiaminPercentRDI
+            totalFatG
+            totalFatPercentDRV
+            transFatG
+            vitaminAMcg
+            vitaminAPercentRDI
+            vitaminB12Mcg
+            vitaminB12PercentRDI
+            vitaminB6Mg
+            vitaminB6PercentRDI
+            vitaminCMg
+            vitaminCPercentRDI
+            vitaminDMcg
+            vitaminDPercentRDI
+            vitaminEMg
+            vitaminEPercentRDI
+            vitaminKMcg
+            vitaminKPercentRDI
+            zincMg
+            zincPercentRDI
+            }
+            name
+            }
+            subRecipeId
+            quantity
+            unit {
+            id
+            name
+            }
             }
             }
             }
@@ -425,7 +503,8 @@ class TestRecipesDataQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def test_recipes_data_query(self):
-        query = recipes_data_query(["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
+        query = recipes_data_query(
+            ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
         query_str = bytes(query).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
