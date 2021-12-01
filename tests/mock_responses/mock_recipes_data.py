@@ -1,7 +1,8 @@
 from tests.mock_responses import mock_nutrition_data, mock_recipe_items, mock_recipe_tree_components
 from galley.enums import RecipeCategoryTagTypeEnum
 
-def mock_recipe(id):
+
+def mock_recipe_base(id):
     return ({
         'id': id,
         'externalName': f'Test Recipe {id}',
@@ -58,6 +59,19 @@ def mock_recipe(id):
             }
         ],
         'recipeItems': mock_recipe_items.mock_data,
-        'reconciledNutritionals': mock_nutrition_data.mock_data,
+        'reconciledNutritionals': mock_nutrition_data.mock_data
+})
+
+
+def mock_recipe(id):
+    return ({
+        **mock_recipe_base(id),
         'recipeTreeComponents': mock_recipe_tree_components.mock_data
+    })
+
+
+def mock_recipe_with_standalone_recipe_item(id):
+    return ({
+        **mock_recipe_base(id),
+        'recipeTreeComponents': mock_recipe_tree_components.mock_data_standalone_recipe_item
     })

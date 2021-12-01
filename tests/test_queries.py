@@ -324,7 +324,70 @@ class TestRecipesDataQuery(TestCase):
             }
             }
             subRecipe {
+            id
             allIngredients
+            externalName
+            reconciledNutritionals {
+            addedSugarG
+            calciumMg
+            calciumPercentRDI
+            caloriesKCal
+            carbsG
+            carbsPercentDRV
+            cholesterolMg
+            cholesterolPercentDRV
+            copperMg
+            copperPercentRDI
+            fiberG
+            fiberPercentDRV
+            folateMcg
+            folatePercentRDI
+            ironMg
+            ironPercentRDI
+            magnesiumMg
+            magnesiumPercentRDI
+            manganeseMg
+            manganesePercentRDI
+            niacinMg
+            niacinPercentRDI
+            pantothenicAcidMg
+            phosphorusMg
+            phosphorusPercentRDI
+            potassiumMg
+            potassiumPercentRDI
+            proteinG
+            proteinPercentRDI
+            riboflavinMg
+            riboflavinPercentRDI
+            saturatedFatG
+            seleniumMcg
+            seleniumPercentRDI
+            sodiumMg
+            sodiumPercentDRV
+            sugarG
+            sugarPercentDRV
+            thiaminMg
+            thiaminPercentRDI
+            totalFatG
+            totalFatPercentDRV
+            transFatG
+            vitaminAMcg
+            vitaminAPercentRDI
+            vitaminB12Mcg
+            vitaminB12PercentRDI
+            vitaminB6Mg
+            vitaminB6PercentRDI
+            vitaminCMg
+            vitaminCPercentRDI
+            vitaminDMcg
+            vitaminDPercentRDI
+            vitaminEMg
+            vitaminEPercentRDI
+            vitaminKMcg
+            vitaminKPercentRDI
+            zincMg
+            zincPercentRDI
+            }
             }
             preparations {
             id
@@ -362,6 +425,7 @@ class TestRecipesDataQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def test_recipes_data_query(self):
+        self.maxDiff = None
         query = recipes_data_query(["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
         query_str = bytes(query).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)

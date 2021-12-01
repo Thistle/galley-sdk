@@ -7,6 +7,21 @@ from galley.queries import get_raw_recipes_data, get_raw_menu_data
 import logging
 logger = logging.getLogger(__name__)
 
+
+def get_external_name(data_dict):
+    """
+    Generic method to return external name for a recipe, menu etc.
+    If external name is not present or set to null, returns name.
+    """
+    if 'externalName' in data_dict and data_dict['externalName'] is not None:
+        return data_dict['externalName']
+    else:
+        if 'name' in data_dict:
+            return data_dict['name']
+    return None
+
+
+
 class RecipeItem:
     def __init__(self, preparations: List[Dict[str, str]], ingredient=None, quantity_unit_values=None):
         self.category_values = ingredient.get('categoryValues', []) if ingredient else []
@@ -34,7 +49,7 @@ class RecipeItem:
 class FormattedRecipe:
     def __init__(self, recipe_data):
         self.galleyId = recipe_data.get('id')
-        self.externalName = recipe_data.get('externalName')
+        self.externalName = get_external_name(recipe_data)
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
@@ -85,7 +100,7 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
     subrecipe details.
     """
     total_weight = 0
-    standalone_subrecipes = []
+    standalone_recipe_items = []
     for recipe_tree_component in recipe_tree_components:
         recipe_item_dict = recipe_tree_component.get('recipeItem', {})
         if recipe_item_dict:
@@ -99,27 +114,28 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
             if recipe_item.is_packaging():
                 continue
             elif recipe_item.is_standalone():
-                subrecipe_dict = recipe_item_dict.get('subRecipe', {})
-                standalone_subrecipes.append(subrecipe_dict)
+                if recipe_item_dict.get('subRecipe'):
+                    standalone_recipe_items.append(recipe_item_dict)
             else:
                 total_weight += recipe_item.mass() if recipe_item.mass() else 0
 
-    standalone_subrecipe = standalone_subrecipes[0] if\
-        standalone_subrecipes else {}
+    standalone_recipe_item = standalone_recipe_items[0] if\
+        standalone_recipe_items else {}
 
-    if len(standalone_subrecipes) > 1:
-        logger.warning("More than one standalone subrecipe found for recipe"
-                       f"tree component id {recipe_tree_component.get('id')}")
+    if len(standalone_recipe_items) > 1:
+        logger.error("More than one standalone recipe items found for recipe"
+                     f"tree component id {recipe_tree_component.get('id')}")
+
+    standalone_subrecipe = standalone_recipe_item.get('subRecipe', {})
 
     return {
         'weight': round(total_weight, 2),
         'standaloneRecipeId': standalone_subrecipe.get('id'),
-        'standaloneRecipeName': standalone_subrecipe.get('externalName'),
-        'standaloneNutrition': standalone_subrecipe.get(
-                                                    'reconciledNutritionals'),
+        'standaloneRecipeName': get_external_name(standalone_subrecipe),
+        'standaloneNutrition': standalone_subrecipe.get('reconciledNutritionals'),
         'standaloneIngredients': standalone_subrecipe.get('allIngredients'),
-        'standaloneWeight': standalone_subrecipe.get('weight'),
-        'standaloneWeightUnit': standalone_subrecipe.get('unit', {}).get('name')
+        'standaloneWeight': standalone_recipe_item.get('quantity'),
+        'standaloneWeightUnit': standalone_recipe_item.get('unit', {}).get('name')
     }
 
 
@@ -136,7 +152,7 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
 
         # Top Level Ingredient
         if ingredient:
-            external_name = ingredient.get('externalName')
+            external_name = get_external_name(ingredient)
             if not recipe_item.is_packaging() and external_name not in ingredients:
                 ingredients.append(external_name)
 
