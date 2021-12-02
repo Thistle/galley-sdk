@@ -67,16 +67,16 @@ class FormattedRecipe:
 
 
     def to_dict(self):
-        recipe_data = {
+        return {
             'id': self.galleyId,
             'externalName': self.externalName,
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,
             'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
-            **self.formatted_recipe_tree_components_data
+            **self.formatted_recipe_tree_components_data,
+            **self.recipe_tags
         }
-        return {**recipe_data, **self.recipe_tags}
 
 
 def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
