@@ -133,28 +133,29 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
         logger.error("More than one standalone recipe items found for recipe"
                      f"tree component id {recipe_tree_component.get('id')}")
 
-    standalone_subrecipe = None
-    if hasattr(standalone_recipe_item, 'subrecipe'):
+    standalone_data = {
+        'standaloneRecipeId': None,
+        'standaloneRecipeName': None,
+        'standaloneNutrition': None,
+        'standaloneIngredients': None,
+        'standaloneWeight': None
+    }
+
+    if standalone_recipe_item:
+        standalone_subrecipe = None
         standalone_subrecipe = standalone_recipe_item.subrecipe
 
-    standalone_nutrition = None
-    if hasattr(standalone_recipe_item, 'nutrition'):
-        standalone_nutrition = standalone_recipe_item.nutrition
-
-    standalone_recipe_item_weight = standalone_recipe_item.mass() \
-        if standalone_recipe_item else None
+        if standalone_subrecipe:
+            standalone_recipe_item_weight = standalone_recipe_item.mass()
+            standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
+            standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
+            standalone_data['standaloneNutrition'] = standalone_recipe_item.nutrition
+            standalone_data['standaloneIngredients'] = standalone_subrecipe.get('allIngredients')
+            standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight, 2) if standalone_recipe_item_weight else None
 
     return {
         'weight': round(total_weight, 2),
-        'standaloneRecipeId': (standalone_subrecipe.get('id')
-                               if standalone_subrecipe else None),
-        'standaloneRecipeName': (get_external_name(standalone_subrecipe)
-                                 if standalone_subrecipe else None),
-        'standaloneNutrition': standalone_nutrition,
-        'standaloneIngredients': (standalone_subrecipe.get('allIngredients')
-                                  if standalone_subrecipe else None),
-        'standaloneWeight': (round(standalone_recipe_item_weight, 2)
-                             if standalone_recipe_item_weight else None),
+        **standalone_data
     }
 
 
