@@ -142,9 +142,7 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
     }
 
     if standalone_recipe_item:
-        standalone_subrecipe = None
         standalone_subrecipe = standalone_recipe_item.subrecipe
-
         if standalone_subrecipe:
             standalone_recipe_item_weight = standalone_recipe_item.mass()
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
