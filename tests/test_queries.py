@@ -427,6 +427,14 @@ class TestRecipesDataQuery(TestCase):
             id
             allIngredients
             externalName
+            name
+            }
+            subRecipeId
+            quantity
+            unit {
+            id
+            name
+            }
             reconciledNutritionals {
             addedSugarG
             calciumMg
@@ -488,14 +496,6 @@ class TestRecipesDataQuery(TestCase):
             zincMg
             zincPercentRDI
             }
-            name
-            }
-            subRecipeId
-            quantity
-            unit {
-            id
-            name
-            }
             }
             }
             }
@@ -506,6 +506,7 @@ class TestRecipesDataQuery(TestCase):
         query = recipes_data_query(
             ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
         query_str = bytes(query).decode('utf-8')
+        print()
         self.assertEqual(query_str, self.expected_query)
 
 

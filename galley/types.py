@@ -113,7 +113,6 @@ class SubRecipe(Type):
     reconciledNutritionals = Field(Nutrition)
 
 
-
 class Preparation(Type):
     id = Field(ID)
     name = str
@@ -126,6 +125,7 @@ class RecipeItem(Type):
     preparations = Field(Preparation)
     quantity = float
     unit = Field(Unit)
+    reconciledNutritionals = Field(Nutrition)
 
 
 class UnitValue(Type):

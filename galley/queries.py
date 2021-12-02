@@ -62,11 +62,11 @@ def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient', 'subRecipe',
-                                                                    'subRecipeId', 'quantity', 'unit')
+                                                                    'subRecipeId', 'quantity', 'unit', 'reconciledNutritionals')
     query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name', 'category')
-    query.viewer.recipes.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'allIngredients', 'externalName','reconciledNutritionals', 'name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'allIngredients', 'externalName', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
     return query
 

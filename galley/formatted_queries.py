@@ -5,6 +5,8 @@ from galley.pagination import paginate_results
 from galley.queries import get_raw_recipes_data, get_raw_menu_data
 
 import logging
+
+from galley.types import Nutrition
 logger = logging.getLogger(__name__)
 
 
@@ -23,10 +25,13 @@ def get_external_name(data_dict):
 
 
 class RecipeItem:
-    def __init__(self, preparations: List[Dict[str, str]], ingredient=None, quantity_unit_values=None):
+    def __init__(self, preparations: List[Dict[str, str]], ingredient=None,
+                 quantity_unit_values=None, nutrition=None, subrecipe=None):
         self.category_values = ingredient.get('categoryValues', []) if ingredient else []
         self.preparations = preparations
         self.quantity_unit_values = quantity_unit_values
+        self.nutrition = nutrition
+        self.subrecipe = subrecipe
 
     def is_standalone(self):
         return any(prep.get('id') == PreparationEnum.STANDALONE.value for prep in self.preparations)
@@ -108,34 +113,48 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
                 preparations=recipe_item_dict.get('preparations', []),
                 ingredient=recipe_item_dict.get('ingredient', {}),
                 quantity_unit_values=recipe_tree_component.get(
-                    'quantityUnitValues', [])
+                    'quantityUnitValues', []),
+                nutrition=recipe_item_dict.get('reconciledNutritionals'),
+                subrecipe=recipe_item_dict.get('subRecipe')
             )
 
             if recipe_item.is_packaging():
                 continue
             elif recipe_item.is_standalone():
-                if recipe_item_dict.get('subRecipe'):
-                    standalone_recipe_items.append(recipe_item_dict)
+                if recipe_item.subrecipe:
+                    standalone_recipe_items.append(recipe_item)
             else:
                 total_weight += recipe_item.mass() if recipe_item.mass() else 0
 
     standalone_recipe_item = standalone_recipe_items[0] if\
-        standalone_recipe_items else {}
+        standalone_recipe_items else None
 
     if len(standalone_recipe_items) > 1:
         logger.error("More than one standalone recipe items found for recipe"
                      f"tree component id {recipe_tree_component.get('id')}")
 
-    standalone_subrecipe = standalone_recipe_item.get('subRecipe', {})
+    standalone_subrecipe = None
+    if hasattr(standalone_recipe_item, 'subrecipe'):
+        standalone_subrecipe = standalone_recipe_item.subrecipe
+
+    standalone_nutrition = None
+    if hasattr(standalone_recipe_item, 'nutrition'):
+        standalone_nutrition = standalone_recipe_item.nutrition
+
+    standalone_recipe_item_weight = standalone_recipe_item.mass() \
+        if standalone_recipe_item else None
 
     return {
         'weight': round(total_weight, 2),
-        'standaloneRecipeId': standalone_subrecipe.get('id'),
-        'standaloneRecipeName': get_external_name(standalone_subrecipe),
-        'standaloneNutrition': standalone_subrecipe.get('reconciledNutritionals'),
-        'standaloneIngredients': standalone_subrecipe.get('allIngredients'),
-        'standaloneWeight': standalone_recipe_item.get('quantity'),
-        'standaloneWeightUnit': standalone_recipe_item.get('unit', {}).get('name')
+        'standaloneRecipeId': (standalone_subrecipe.get('id')
+                               if standalone_subrecipe else None),
+        'standaloneRecipeName': (get_external_name(standalone_subrecipe)
+                                 if standalone_subrecipe else None),
+        'standaloneNutrition': standalone_nutrition,
+        'standaloneIngredients': (standalone_subrecipe.get('allIngredients')
+                                  if standalone_subrecipe else None),
+        'standaloneWeight': (round(standalone_recipe_item_weight, 2)
+                             if standalone_recipe_item_weight else None),
     }
 
 
