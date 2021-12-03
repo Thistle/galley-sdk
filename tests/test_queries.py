@@ -506,7 +506,6 @@ class TestRecipesDataQuery(TestCase):
         query = recipes_data_query(
             ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
         query_str = bytes(query).decode('utf-8')
-        print()
         self.assertEqual(query_str, self.expected_query)
 
 
