@@ -1,15 +1,37 @@
-from typing import Dict, Optional, List, Set
+from typing import Dict, Optional, List
 
 from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
 from galley.pagination import paginate_results
 from galley.queries import get_raw_recipes_data, get_raw_menu_data
 
+import logging
+
+from galley.types import Nutrition
+logger = logging.getLogger(__name__)
+
+
+def get_external_name(data_dict):
+    """
+    Generic method to return external name for a recipe, menu etc.
+    If external name is not present or set to null, returns name.
+    """
+    if 'externalName' in data_dict and data_dict['externalName'] is not None:
+        return data_dict['externalName']
+    else:
+        if 'name' in data_dict:
+            return data_dict['name']
+    return None
+
+
 
 class RecipeItem:
-    def __init__(self, preparations: List[Dict[str, str]], ingredient=None, quantity_unit_values=None):
+    def __init__(self, preparations: List[Dict[str, str]], ingredient=None,
+                 quantity_unit_values=None, nutrition=None, subrecipe=None):
         self.category_values = ingredient.get('categoryValues', []) if ingredient else []
         self.preparations = preparations
         self.quantity_unit_values = quantity_unit_values
+        self.nutrition = nutrition
+        self.subrecipe = subrecipe
 
     def is_standalone(self):
         return any(prep.get('id') == PreparationEnum.STANDALONE.value for prep in self.preparations)
@@ -32,7 +54,7 @@ class RecipeItem:
 class FormattedRecipe:
     def __init__(self, recipe_data):
         self.galleyId = recipe_data.get('id')
-        self.externalName = recipe_data.get('externalName')
+        self.externalName = get_external_name(recipe_data)
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
@@ -40,19 +62,21 @@ class FormattedRecipe:
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
         self.recipe_items = recipe_data.get('recipeItems', [])
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
+        self.formatted_recipe_tree_components_data = \
+            format_recipe_tree_components_data(self.recipe_tree_components)
 
 
     def to_dict(self):
-        recipe_data = {
+        return {
             'id': self.galleyId,
             'externalName': self.externalName,
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,
             'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
-            'weight': weight_from_recipe_tree_components(recipe_tree_components=self.recipe_tree_components)
+            **self.formatted_recipe_tree_components_data,
+            **self.recipe_tags
         }
-        return {**recipe_data, **self.recipe_tags}
 
 
 def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
@@ -75,21 +99,62 @@ def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dic
     return recipe_tags
 
 
-def weight_from_recipe_tree_components(recipe_tree_components: List[Dict]) -> float:
+def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Dict:
+    """
+    Returns a dictionary containing total weight of recipe and
+    subrecipe details.
+    """
     total_weight = 0
+    standalone_recipe_items = []
     for recipe_tree_component in recipe_tree_components:
         recipe_item_dict = recipe_tree_component.get('recipeItem', {})
         if recipe_item_dict:
             recipe_item = RecipeItem(
                 preparations=recipe_item_dict.get('preparations', []),
                 ingredient=recipe_item_dict.get('ingredient', {}),
-                quantity_unit_values=recipe_tree_component.get('quantityUnitValues', [])
+                quantity_unit_values=recipe_tree_component.get(
+                    'quantityUnitValues', []),
+                nutrition=recipe_item_dict.get('reconciledNutritionals'),
+                subrecipe=recipe_item_dict.get('subRecipe')
             )
 
-            if recipe_item.is_standalone() or recipe_item.is_packaging():
+            if recipe_item.is_packaging():
                 continue
-            total_weight += recipe_item.mass() if recipe_item.mass() else 0
-    return round(total_weight, 2)
+            elif recipe_item.is_standalone():
+                if recipe_item.subrecipe:
+                    standalone_recipe_items.append(recipe_item)
+            else:
+                total_weight += recipe_item.mass() if recipe_item.mass() else 0
+
+    standalone_recipe_item = standalone_recipe_items[0] if\
+        standalone_recipe_items else None
+
+    if len(standalone_recipe_items) > 1:
+        logger.error("More than one standalone recipe items found for recipe"
+                     f"tree component id {recipe_tree_component.get('id')}")
+
+    standalone_data = {
+        'standaloneRecipeId': None,
+        'standaloneRecipeName': None,
+        'standaloneNutrition': None,
+        'standaloneIngredients': None,
+        'standaloneWeight': None
+    }
+
+    if standalone_recipe_item:
+        standalone_subrecipe = standalone_recipe_item.subrecipe
+        if standalone_subrecipe:
+            standalone_recipe_item_weight = standalone_recipe_item.mass()
+            standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
+            standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
+            standalone_data['standaloneNutrition'] = standalone_recipe_item.nutrition
+            standalone_data['standaloneIngredients'] = standalone_subrecipe.get('allIngredients')
+            standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight, 2) if standalone_recipe_item_weight else None
+
+    return {
+        'weight': round(total_weight, 2),
+        **standalone_data
+    }
 
 
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
@@ -105,16 +170,17 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
 
         # Top Level Ingredient
         if ingredient:
-            external_name = ingredient.get('externalName')
+            external_name = get_external_name(ingredient)
             if not recipe_item.is_packaging() and external_name not in ingredients:
                 ingredients.append(external_name)
 
         # SubRecipe Ingredients
         elif sub_recipe:
             if not recipe_item.is_standalone():
-                for i in sub_recipe.get('allIngredients'):
-                    if i not in ingredients:
-                        ingredients.append(i)
+                for _ingredient in sub_recipe.get('allIngredients'):
+                    if _ingredient not in ingredients:
+                        ingredients.append(_ingredient)
+
     return ingredients
 
 

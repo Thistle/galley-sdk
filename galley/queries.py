@@ -54,17 +54,20 @@ def get_recipe_data() -> Optional[List[Dict]]:
 def recipes_data_query(recipe_ids: List[str]) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__(
-        'id', 'externalName', 'notes', 'description', 'categoryValues', 'reconciledNutritionals', 'recipeItems'
+        'id', 'externalName', 'name', 'notes', 'description', 'categoryValues', 'reconciledNutritionals', 'recipeItems'
     )
     query.viewer.recipes.recipeItems.__fields__('ingredient', 'subRecipe', 'preparations')
     query.viewer.recipes.recipeItems.ingredient.__fields__('externalName', 'categoryValues')
-    query.viewer.recipes.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
+    query.viewer.recipes.recipeTreeComponents(levels=[1]).__fields__('id', 'quantityUnitValues', 'recipeItem')
     query.viewer.recipes.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
-    query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('name')
-    query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient')
+    query.viewer.recipes.recipeTreeComponents.quantityUnitValues.unit.__fields__('id', 'name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient', 'subRecipe',
+                                                                    'subRecipeId', 'quantity', 'unit', 'reconciledNutritionals')
     query.viewer.recipes.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
     query.viewer.recipes.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name', 'category')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'allIngredients', 'externalName', 'name')
+    query.viewer.recipes.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
     return query
 
 
