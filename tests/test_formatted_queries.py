@@ -191,10 +191,7 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': [
-                        mock_recipes_data.mock_recipe('1'),
-                        mock_recipes_data.mock_recipe('2')
-                    ]
+                    'recipeConnection': mock_recipes_data.mock_recipe_connection(['1', '2'])                    
                 }
             }
         }
@@ -206,7 +203,7 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': []
+                    'recipeConnection': []
                 }
             }
         }
@@ -218,7 +215,7 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': None
+                    'recipeConnection': None
                 }
             }
         }
@@ -231,10 +228,8 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': [
-                        mock_recipes_data.mock_recipe_with_standalone_recipe_item(
-                            '1')
-                    ]
+                    'recipeConnection': 
+                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])                    
                 }
             }
         }

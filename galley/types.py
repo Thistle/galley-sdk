@@ -1,4 +1,5 @@
 from os import name
+from typing import Any, Dict
 from sgqlc.types import (
     ID,
     ArgDict,
@@ -9,6 +10,10 @@ from sgqlc.types import (
     Type,
     datetime as d,
     list_of
+)
+from sgqlc.types.relay import (
+    Connection,
+    Node
 )
 
 
@@ -152,6 +157,36 @@ class Recipe(Type):
     recipeItems = Field(RecipeItem)
 
 
+class RecipeNode(Node):
+    id = str
+    name = str
+    externalName = str
+    instructions = str
+    notes = str
+    description = str
+    recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
+    reconciledNutritionals = Field(Nutrition)
+    categoryValues = Field(CategoryValue)
+    recipeItems = Field(RecipeItem)
+
+
+class RecipeEdge(Type):
+    node = Field(RecipeNode)
+
+
+class PageInfoType(Type):
+    endIndex = int
+    hasNextPage = bool
+    hasPreviousPage = bool
+    startIndex = int
+
+
+class RecipeConnection(Connection):
+    edges = list_of(RecipeEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+    
+
 class RecipeInstruction(Type):
     id = str
     text = str
@@ -226,3 +261,12 @@ class FilterInput(Input):
 class MenuFilterInput(Input):
     id = ID
     date = list_of(d.Date)
+
+
+class RecipeConnectionFilter(Input):
+    id = list_of(str)
+
+
+class PaginationOptions(Input):
+    first = int
+    startIndex = int
