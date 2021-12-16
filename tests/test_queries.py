@@ -620,3 +620,4 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(['1', '2', '3'])
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
+        

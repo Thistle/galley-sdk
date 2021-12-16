@@ -78,12 +78,15 @@ def recipe_connection_query(recipe_ids: List[str], page_size: int = DEFAULT_PAGE
     query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).__fields__('id', 'quantityUnitValues', 'recipeItem')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.quantityUnitValues.__fields__('unit', 'value')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.quantityUnitValues.unit.__fields__('id', 'name')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.__fields__('preparations', 'ingredient', 'subRecipe',
-                                                                    'subRecipeId', 'quantity', 'unit', 'reconciledNutritionals')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.__fields__(
+        'preparations', 'ingredient', 'subRecipe', 'subRecipeId', 'quantity', 'unit', 'reconciledNutritionals'
+    )
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name', 'category')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'allIngredients', 'externalName', 'name')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.__fields__(
+        'id', 'allIngredients', 'externalName', 'name'
+    )
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
 
     return query
