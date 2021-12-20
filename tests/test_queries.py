@@ -3,7 +3,7 @@ from unittest import TestCase, mock
 
 from galley.queries import (Query, get_menu_query, get_raw_menu_data,
                             get_raw_recipes_data, get_recipe_data,
-                            recipes_data_query)
+                            recipe_connection_query)
 from sgqlc.operation import Operation
 
 from tests.mock_responses import mock_recipes_data
@@ -232,11 +232,13 @@ class TestQueryWeekMenuData(TestCase):
                          [mock_menu('2021-10-04', menu_type='production')])
 
 
-class TestRecipesDataQuery(TestCase):
+class TestRecipeConnectionQuery(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
-            recipes(where: {id: ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="]}) {
+            recipeConnection(filters: {id: ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="]}, paginationOptions: {first: 2, startIndex: 0}) {
+            edges {
+            node {
             id
             externalName
             name
@@ -500,36 +502,69 @@ class TestRecipesDataQuery(TestCase):
             }
             }
             }
+            pageInfo {
+            endIndex
+            hasNextPage
+            hasPreviousPage
+            startIndex
+            }
+            }
+            }
             }'''.replace(' '*12, '')
 
-    def test_recipes_data_query(self):
-        query = recipes_data_query(
-            ["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="])
+    def test_recipe_connection_query(self):
+        query = recipe_connection_query(
+            recipe_ids=["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="],
+            page_size=2,
+            start_index=0
+        )
         query_str = bytes(query).decode('utf-8')
+        
         self.assertEqual(query_str, self.expected_query)
 
 
 class TestQueryGetRawRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_recipes_data_successful(self, mock_retrieval_method):
-        recipe_data = mock_recipes_data.mock_recipe('1')
-
+        recipe_connection_data = mock_recipes_data.mock_recipe_connection(['1'])
+        expected_recipe_data = [mock_recipes_data.mock_recipe('1')]
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': recipe_data
+                    'recipeConnection': recipe_connection_data
                 }
             }
         }
         result = get_raw_recipes_data(['1'])
-        self.assertEqual(result, recipe_data)
+        self.assertEqual(result, expected_recipe_data)
+
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_raw_recipes_data_empty(self, mock_retrieval_method):
+    def test_get_raw_recipes_edges_empty(self, mock_retrieval_method):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': []
+                    'recipeConnection': {
+                        'edges': []
+                    },
+                    'pageInfo': mock_recipes_data.mock_page_info()
+                }
+            }
+        }
+        result = get_raw_recipes_data(['Fake'])
+        self.assertEqual(result, [])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_raw_recipes_node_empty(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': {}
+                        }]
+                    },
+                    'pageInfo': mock_recipes_data.mock_page_info()
                 }
             }
         }
@@ -541,9 +576,48 @@ class TestQueryGetRawRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipes': None
+                    'recipeConnection': None
                 }
             }
         }
         result = get_raw_recipes_data(['Fake'])
         self.assertEqual(result, None)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_raw_recipes_multiple_pages(self, mock_retrieval_method):
+        # Mocking 2 pages with with a 2 recipe limit
+        page_1 = mock_recipes_data.mock_recipe_connection(
+            ['1', '2'], 
+            has_previous_page=False,
+            has_next_page=True, 
+            start_index=0,
+            end_index=2
+        )
+        page_2 = mock_recipes_data.mock_recipe_connection(
+            ['3'], 
+            has_previous_page=True, 
+            has_next_page=False,
+            start_index=2, 
+            end_index=3
+        )
+        expected_recipe_data = list(map(mock_recipes_data.mock_recipe, ['1', '2', '3']))
+        mock_retrieval_method.side_effect = [
+            {
+                'data': {
+                    'viewer': {
+                        'recipeConnection': page_1
+                    }
+                }
+            },
+            {
+                'data': {
+                    'viewer': {
+                        'recipeConnection': page_2
+                    }
+                }
+            }
+        ]
+        result = get_raw_recipes_data(['1', '2', '3'])
+        self.assertEqual(mock_retrieval_method.call_count, 2)
+        self.assertEqual(result, expected_recipe_data)
+        
