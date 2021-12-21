@@ -147,7 +147,7 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
             standalone_recipe_item_weight = standalone_recipe_item.mass()
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
-            standalone_data['standaloneNutrition'] = standalone_recipe_item.nutrition
+            standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
             standalone_data['standaloneIngredients'] = standalone_subrecipe.get('allIngredients')
             standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight, 2) if standalone_recipe_item_weight else None
 
