@@ -1,12 +1,12 @@
-from typing import Dict, Optional, List
-
-from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, MenuItemCategoryEnum, \
-                         PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
-from galley.queries import get_raw_recipes_data, get_raw_menu_data
-
 import logging
+from typing import Dict, List, Optional
 
-from galley.types import Nutrition
+from galley.enums import (IngredientCategoryTagTypeEnum,
+                          IngredientCategoryValueEnum, MenuCategoryEnum,
+                          MenuItemCategoryEnum, PreparationEnum,
+                          RecipeCategoryTagTypeEnum)
+from galley.queries import get_raw_menu_data, get_raw_recipes_data
+
 logger = logging.getLogger(__name__)
 
 
