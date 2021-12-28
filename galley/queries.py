@@ -1,12 +1,14 @@
-from typing import Any, Dict, Optional, List
+import logging
+from typing import Any, Dict, List, Optional
+
 from sgqlc.operation import Operation
-from sgqlc.types import Field, Type, ArgDict
+from sgqlc.types import ArgDict, Field, Type
 
 from galley.common import make_request_to_galley, validate_response_data
 from galley.enums import MenuCategoryEnum
-from galley.types import Recipe, Menu, FilterInput, MenuFilterInput, RecipeConnection, \
-    RecipeConnectionFilter, PaginationOptions
-import logging
+from galley.types import (FilterInput, Menu, MenuFilterInput,
+                          PaginationOptions, Recipe, RecipeConnection,
+                          RecipeConnectionFilter)
 
 logger = logging.getLogger(__name__)
 
@@ -15,9 +17,9 @@ DEFAULT_PAGE_SIZE = 25
 
 class Viewer(Type):
     recipeConnection = Field(
-        RecipeConnection, 
+        RecipeConnection,
         args=(ArgDict({
-            'filters': RecipeConnectionFilter, 
+            'filters': RecipeConnectionFilter,
             'paginationOptions': PaginationOptions
         }))
     )
@@ -63,7 +65,7 @@ def get_recipe_data() -> Optional[List[Dict]]:
 def recipe_connection_query(recipe_ids: List[str], page_size: int = DEFAULT_PAGE_SIZE, start_index: int = 0) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.recipeConnection(
-        filters=RecipeConnectionFilter(id=recipe_ids), 
+        filters=RecipeConnectionFilter(id=recipe_ids),
         paginationOptions=PaginationOptions(first=page_size, startIndex=start_index)
     )
     query.viewer.recipeConnection.edges()
@@ -98,7 +100,7 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     start_index = 0
 
     raw_recipes_data = []
-    
+
     if recipe_ids is None:
         return []
 
@@ -111,18 +113,18 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
             return None
 
         edges = validated_data.get('edges', [])
-        
+
         for edge in edges:
             recipe = edge.get('node', {})
             if recipe:
                 raw_recipes_data.append(recipe)
-        
+
         page_info = validated_data.get('pageInfo', {})
         start_index = page_info.get('endIndex')
         has_next_page = page_info.get('hasNextPage', False)
-    
+
     return raw_recipes_data
-    
+
 
 def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
     query = Operation(Query)
@@ -130,7 +132,7 @@ def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
         'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
     )
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems', 'categoryValues')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
