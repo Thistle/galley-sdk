@@ -439,13 +439,6 @@ class TestRecipeConnectionQuery(TestCase):
             allIngredients
             externalName
             name
-            }
-            subRecipeId
-            quantity
-            unit {
-            id
-            name
-            }
             reconciledNutritionals {
             addedSugarG
             calciumMg
@@ -506,6 +499,13 @@ class TestRecipeConnectionQuery(TestCase):
             vitaminKPercentRDI
             zincMg
             zincPercentRDI
+            }
+            }
+            subRecipeId
+            quantity
+            unit {
+            id
+            name
             }
             }
             }
