@@ -128,6 +128,15 @@ class TestQueryWeekMenuData(TestCase):
             name
             }
             }
+            categoryValues{
+            id
+            name
+            category{
+            id
+            name
+            itemType
+            }
+            }
             }
             }
             }

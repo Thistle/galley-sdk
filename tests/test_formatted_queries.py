@@ -261,16 +261,19 @@ class TestGetFormattedMenuData(TestCase):
             'menuItems': [{
                 'id': 'MENUITEM1ABC',
                 'itemCode': 'dv1',
+                'mealSlug': None,
                 'recipeId': 'RECIPE1ABC',
                 'standaloneRecipeId': 'SUBRECIPEID456'
             }, {
                 'id': 'MENUITEM2DEF',
                 'itemCode': 'dv2',
+                'mealSlug': None,
                 'recipeId': 'RECIPE2DEF',
                 'standaloneRecipeId': None
             }, {
                 'id': 'MENUITEM3GHI',
                 'itemCode': 'lm2',
+                'mealSlug': 'test-recipe-name-3',
                 'recipeId': 'RECIPE3GHI',
                 'standaloneRecipeId': 'SUBRECIPEID321'
             }]
