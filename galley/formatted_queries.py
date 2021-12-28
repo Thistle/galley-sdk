@@ -200,6 +200,7 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
     for category in categories:
         if category.get('category', {}).get('id', '') == RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value:
             return category['name']
+    return None
 
 
 # DATA TRANSFORMATION FUNCTIONS
