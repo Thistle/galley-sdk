@@ -87,6 +87,7 @@ def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dic
         RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value: 'mealContainer',
         RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value: 'proteinAddOn',
         RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value: 'baseMealSlug',
+        RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
     }
 
     for recipe_category_value in recipe_category_values:
@@ -153,6 +154,7 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
 
     return {
         'weight': round(total_weight, 2),
+        'hasStandalone': True if standalone_recipe_item else False,
         **standalone_data
     }
 

@@ -57,6 +57,14 @@ def mock_recipe_base(id):
                     'itemType': 'recipe',
                     'name': 'base meal slug'
                 }
+            },
+            {
+                'name': 'Base Salad Name',
+                'category': {
+                    'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
+                    'itemType': 'recipe',
+                    'name': 'base meal'
+                }
             }
         ],
         'recipeItems': mock_recipe_items.mock_data,

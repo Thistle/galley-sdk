@@ -128,7 +128,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Garlic"
             ],
             'standaloneWeight': 70.87,
-            'weight': 156.49
+            'weight': 156.49,
+            'hasStandalone': True
         }
         self.assertEqual(result, expected)
 
@@ -150,6 +151,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'mealType': 'dinner',
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -159,6 +161,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 4'
                 ],
                 'weight': 829.22,
+                'hasStandalone': False,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
                 'standaloneRecipeId': None,
@@ -176,6 +179,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'mealType': 'dinner',
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -189,7 +193,8 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneRecipeId': None,
                 'standaloneRecipeName': None,
                 'standaloneWeight': None,
-                'weight': 829.22
+                'weight': 829.22,
+                'hasStandalone': False
             }
         ]
 
@@ -240,6 +245,7 @@ class TestGetFormattedRecipesData(TestCase):
         }
         result = get_formatted_recipes_data(['1'])
         formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['hasStandalone'], True)
         self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
         self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
         self.assertEqual(formatted_recipe['standaloneWeight'], 70.87)
