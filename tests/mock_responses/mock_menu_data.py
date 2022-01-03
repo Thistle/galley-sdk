@@ -1,4 +1,4 @@
-from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum
+from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum
 
 
 def mock_menu(date, location_name="Vacaville", menu_type="production"):
@@ -91,6 +91,15 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             }
                         ],
                         'subRecipeId': 'SUBRECIPEID321'
+                    }],
+                    'categoryValues': [{
+                        'id': 'uniqueCatvalueId',
+                        'name': 'test-recipe-name-3',
+                        'category': {
+                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
+                            'name': 'base meal slug',
+                            'itemType': 'recipe'
+                        }
                     }]
                 },
             }

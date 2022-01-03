@@ -1,9 +1,13 @@
-from unittest import mock, TestCase
+from unittest import TestCase, mock
 
-from galley.formatted_queries import get_formatted_recipes_data, ingredients_from_recipe_items, \
-    get_formatted_menu_data, format_recipe_tree_components_data
+from galley.formatted_queries import (format_recipe_tree_components_data,
+                                      get_formatted_menu_data,
+                                      get_formatted_recipes_data,
+                                      ingredients_from_recipe_items)
 
-from tests.mock_responses import mock_nutrition_data, mock_recipes_data, mock_recipe_items, mock_recipe_tree_components
+from tests.mock_responses import (mock_nutrition_data, mock_recipe_items,
+                                  mock_recipe_tree_components,
+                                  mock_recipes_data)
 from tests.mock_responses.mock_menu_data import mock_menu
 
 
@@ -124,7 +128,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Garlic"
             ],
             'standaloneWeight': 70.87,
-            'weight': 156.49
+            'weight': 156.49,
+            'hasStandalone': True
         }
         self.assertEqual(result, expected)
 
@@ -146,6 +151,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'mealType': 'dinner',
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -155,6 +161,7 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 4'
                 ],
                 'weight': 829.22,
+                'hasStandalone': False,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
                 'standaloneRecipeId': None,
@@ -172,6 +179,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'mealType': 'dinner',
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -185,14 +193,15 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneRecipeId': None,
                 'standaloneRecipeName': None,
                 'standaloneWeight': None,
-                'weight': 829.22
+                'weight': 829.22,
+                'hasStandalone': False
             }
         ]
 
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipeConnection': mock_recipes_data.mock_recipe_connection(['1', '2'])                    
+                    'recipeConnection': mock_recipes_data.mock_recipe_connection(['1', '2'])
                 }
             }
         }
@@ -229,13 +238,14 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipeConnection': 
-                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])                    
+                    'recipeConnection':
+                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])
                 }
             }
         }
         result = get_formatted_recipes_data(['1'])
         formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['hasStandalone'], True)
         self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
         self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
         self.assertEqual(formatted_recipe['standaloneWeight'], 70.87)
@@ -261,16 +271,19 @@ class TestGetFormattedMenuData(TestCase):
             'menuItems': [{
                 'id': 'MENUITEM1ABC',
                 'itemCode': 'dv1',
+                'mealSlug': None,
                 'recipeId': 'RECIPE1ABC',
                 'standaloneRecipeId': 'SUBRECIPEID456'
             }, {
                 'id': 'MENUITEM2DEF',
                 'itemCode': 'dv2',
+                'mealSlug': None,
                 'recipeId': 'RECIPE2DEF',
                 'standaloneRecipeId': None
             }, {
                 'id': 'MENUITEM3GHI',
                 'itemCode': 'lm2',
+                'mealSlug': 'test-recipe-name-3',
                 'recipeId': 'RECIPE3GHI',
                 'standaloneRecipeId': 'SUBRECIPEID321'
             }]

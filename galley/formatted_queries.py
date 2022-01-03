@@ -1,12 +1,12 @@
-from typing import Dict, Optional, List
-
-from galley.enums import IngredientCategoryValueEnum, MenuCategoryEnum, MenuItemCategoryEnum, \
-                         PreparationEnum, IngredientCategoryTagTypeEnum, RecipeCategoryTagTypeEnum
-from galley.queries import get_raw_recipes_data, get_raw_menu_data
-
 import logging
+from typing import Dict, List, Optional
 
-from galley.types import Nutrition
+from galley.enums import (IngredientCategoryTagTypeEnum,
+                          IngredientCategoryValueEnum, MenuCategoryEnum,
+                          MenuItemCategoryEnum, PreparationEnum,
+                          RecipeCategoryTagTypeEnum)
+from galley.queries import get_raw_menu_data, get_raw_recipes_data
+
 logger = logging.getLogger(__name__)
 
 
@@ -87,6 +87,7 @@ def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dic
         RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value: 'mealContainer',
         RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value: 'proteinAddOn',
         RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value: 'baseMealSlug',
+        RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
     }
 
     for recipe_category_value in recipe_category_values:
@@ -153,6 +154,7 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
 
     return {
         'weight': round(total_weight, 2),
+        'hasStandalone': True if standalone_recipe_item else False,
         **standalone_data
     }
 
@@ -193,6 +195,13 @@ def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
 
         if is_standalone:
             return recipe_item.get('subRecipeId')
+    return None
+
+def get_meal_slug(menu_item: Dict) -> Optional[str]:
+    categories = menu_item['recipe'].get('categoryValues', [])
+    for category in categories:
+        if category.get('category', {}).get('id', '') == RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value:
+            return category['name']
     return None
 
 
@@ -245,6 +254,7 @@ def get_formatted_menu_data(dates: List[str],
             formatted_menu['menuItems'].append({
                 'id': menu_item.get('id'),
                 'itemCode': itemCode,
+                'mealSlug': get_meal_slug(menu_item),
                 'recipeId': menu_item.get('recipeId'),
                 'standaloneRecipeId': get_standalone(recipe_items)
             })

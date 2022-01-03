@@ -128,6 +128,15 @@ class TestQueryWeekMenuData(TestCase):
             name
             }
             }
+            categoryValues{
+            id
+            name
+            category{
+            id
+            name
+            itemType
+            }
+            }
             }
             }
             }
@@ -430,13 +439,6 @@ class TestRecipeConnectionQuery(TestCase):
             allIngredients
             externalName
             name
-            }
-            subRecipeId
-            quantity
-            unit {
-            id
-            name
-            }
             reconciledNutritionals {
             addedSugarG
             calciumMg
@@ -499,6 +501,13 @@ class TestRecipeConnectionQuery(TestCase):
             zincPercentRDI
             }
             }
+            subRecipeId
+            quantity
+            unit {
+            id
+            name
+            }
+            }
             }
             }
             }
@@ -519,7 +528,7 @@ class TestRecipeConnectionQuery(TestCase):
             start_index=0
         )
         query_str = bytes(query).decode('utf-8')
-        
+
         self.assertEqual(query_str, self.expected_query)
 
 
@@ -587,17 +596,17 @@ class TestQueryGetRawRecipesData(TestCase):
     def test_get_raw_recipes_multiple_pages(self, mock_retrieval_method):
         # Mocking 2 pages with with a 2 recipe limit
         page_1 = mock_recipes_data.mock_recipe_connection(
-            ['1', '2'], 
+            ['1', '2'],
             has_previous_page=False,
-            has_next_page=True, 
+            has_next_page=True,
             start_index=0,
             end_index=2
         )
         page_2 = mock_recipes_data.mock_recipe_connection(
-            ['3'], 
-            has_previous_page=True, 
+            ['3'],
+            has_previous_page=True,
             has_next_page=False,
-            start_index=2, 
+            start_index=2,
             end_index=3
         )
         expected_recipe_data = list(map(mock_recipes_data.mock_recipe, ['1', '2', '3']))
@@ -620,4 +629,3 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(['1', '2', '3'])
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
-        

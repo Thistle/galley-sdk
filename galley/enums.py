@@ -45,4 +45,5 @@ class RecipeCategoryTagTypeEnum(Enum):
     MEAL_CONTAINER_TAG = 'Y2F0ZWdvcnk6MjU2Nw=='
     PROTEIN_ADDON_TAG = 'Y2F0ZWdvcnk6MjU4MQ=='
     BASE_MEAL_SLUG_TAG = 'Y2F0ZWdvcnk6MjYyMA=='
+    BASE_MEAL_TAG = 'Y2F0ZWdvcnk6MjU4OQ=='
 
