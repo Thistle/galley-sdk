@@ -244,7 +244,7 @@ def get_formatted_menu_data(dates: List[str],
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
             recipe_items = menu_item.get('recipe', {}).get('recipeItems', [])
-
+            itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
                 if (categoryValue['category']['id'] ==
