@@ -77,16 +77,19 @@ class RecipeItem:
              if value.get('unit', {'name': None}).get('name') == 'g'), 0
         )
 
+    def has_standalone_subrecipe(self):
+        return self.is_standalone and self.subrecipe is not None
+
     def standalone_nutritionals_unit(self):
         result = None
-        if self.is_standalone and self.subrecipe is not None:
+        if self.has_standalone_subrecipe:
             unit = self.subrecipe.get('nutritionalsUnit')
             if unit is not None:
                 result = unit.get('name')
         return result
 
     def standalone_nutritionals_quantity(self):
-        if self.is_standalone and self.subrecipe is not None:
+        if self.has_standalone_subrecipe:
             return self.subrecipe.get('nutritionalsQuantity')
         else:
             return None
@@ -95,7 +98,7 @@ class RecipeItem:
         """
         Returns the recipe item's usage quantity (how much of a given component is included in a recipe)
         based on the type of unit specified by the nutritonals_unit (i.e. "oz"). Returns None if there is
-        not a quantity availabe for the specified unit.
+        not a quantity available for the specified unit.
         """
         nutritionals_unit = self.standalone_nutritionals_unit()
         if nutritionals_unit is not None and self.quantity_unit_values is not None:

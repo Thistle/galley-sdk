@@ -50,7 +50,8 @@ class TestCalculateServings(TestCase):
         expected_result = None
         result = calculate_servings(2.5, None)
         self.assertEqual(result, expected_result)
-        
+
+
 class TestCalculateServingSizeWeight(TestCase):
     def test_calculate_serving_size_weight_sucessful_with_expected_data(self):
         expected_result = 50
