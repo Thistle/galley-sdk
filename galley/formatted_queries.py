@@ -22,7 +22,34 @@ def get_external_name(data_dict):
             return data_dict['name']
     return None
 
+def calculate_servings(usage_quantity: Optional[float], nutritionals_quantity: Optional[float]) -> Optional[float]:
+    """
+    Given a usage quantity (how much of a given component is included in a recipe)
+    and a nutritionals_quantity (the size of one serving of the component),
+    returns a number representing how many servings of the component
+    are included in the recipe.
+    """
+    if usage_quantity is not None and nutritionals_quantity is not None:
+        return usage_quantity/nutritionals_quantity
+    else:
+        return None
 
+def calculate_serving_size_weight(weight: Optional[float], number_of_servings: Optional[float]) -> Optional[float]:
+    """
+    Given a weight (representing the total weight of the component included in a recipe)
+    and a number of servings (how many servings of the component are included),
+    returns a number representing the weight of just one serving of the component.
+    """
+    if weight is not None and number_of_servings is not None:
+        return weight/number_of_servings
+    else:
+        return None
+
+def format_suggested_serving(quantity: Optional[float], unit: Optional[str]) -> Optional[str]:
+    if quantity is not None and unit is not None:
+        return "{} {}".format(quantity, unit)
+    else:
+        return None
 
 class RecipeItem:
     def __init__(self, preparations: List[Dict[str, str]], ingredient=None,
@@ -44,12 +71,40 @@ class RecipeItem:
 
     def mass(self):
         if self.quantity_unit_values is None:
-            raise Exception('Cannot calculate mass without unit values')
+            raise Exception('Cannot calculate mass without quantity unit values')
         return next(
             (value.get('value') for value in self.quantity_unit_values
              if value.get('unit', {'name': None}).get('name') == 'g'), 0
         )
 
+    def standalone_nutritionals_unit(self):
+        result = None
+        if self.is_standalone and self.subrecipe is not None:
+            unit = self.subrecipe.get('nutritionalsUnit')
+            if unit is not None:
+                result = unit.get('name')
+        return result
+
+    def standalone_nutritionals_quantity(self):
+        if self.is_standalone and self.subrecipe is not None:
+            return self.subrecipe.get('nutritionalsQuantity')
+        else:
+            return None
+
+    def standalone_usage_quantity(self):
+        """
+        Returns the recipe item's usage quantity (how much of a given component is included in a recipe)
+        based on the type of unit specified by the nutritonals_unit (i.e. "oz"). Returns None if there is
+        not a quantity availabe for the specified unit.
+        """
+        nutritionals_unit = self.standalone_nutritionals_unit()
+        if nutritionals_unit is not None and self.quantity_unit_values is not None:
+            return next(
+                (value.get('value') for value in self.quantity_unit_values
+                 if value.get('unit', {'name': None}).get('name') == nutritionals_unit), None
+            )
+        else:
+            return None
 
 class FormattedRecipe:
     def __init__(self, recipe_data):
@@ -134,29 +189,47 @@ def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Di
         logger.error("More than one standalone recipe items found for recipe"
                      f"tree component id {recipe_tree_component.get('id')}")
 
+    standalone_data = format_standalone_data(standalone_recipe_item)
+
+    return {
+        'weight': round(total_weight),
+        'hasStandalone': True if standalone_recipe_item else False,
+        **standalone_data
+    }
+
+
+def format_standalone_data(standalone_recipe_item):
     standalone_data = {
         'standaloneRecipeId': None,
         'standaloneRecipeName': None,
         'standaloneNutrition': None,
         'standaloneIngredients': None,
-        'standaloneWeight': None
+        'standaloneWeight': None,
+        'standaloneSuggestedServing': None,
+        'standaloneServingSizeWeight': None,
+        'standaloneServings': None
     }
 
     if standalone_recipe_item:
         standalone_subrecipe = standalone_recipe_item.subrecipe
         if standalone_subrecipe:
             standalone_recipe_item_weight = standalone_recipe_item.mass()
+            standalone_nutritionals_quantity = standalone_recipe_item.standalone_nutritionals_quantity()
+            standalone_nutritionals_unit = standalone_recipe_item.standalone_nutritionals_unit()
+            standalone_usage_quantity = standalone_recipe_item.standalone_usage_quantity()
+            standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
+            standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_weight, standalone_servings)
+
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
             standalone_data['standaloneIngredients'] = standalone_subrecipe.get('allIngredients')
-            standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight, 2) if standalone_recipe_item_weight else None
+            standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight) if standalone_recipe_item_weight else None
+            standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
+            standalone_data['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
+            standalone_data['standaloneServings'] = standalone_servings if standalone_servings else None
 
-    return {
-        'weight': round(total_weight, 2),
-        'hasStandalone': True if standalone_recipe_item else False,
-        **standalone_data
-    }
+    return standalone_data
 
 
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:

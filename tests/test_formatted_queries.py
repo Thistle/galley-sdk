@@ -3,7 +3,9 @@ from unittest import TestCase, mock
 from galley.formatted_queries import (format_recipe_tree_components_data,
                                       get_formatted_menu_data,
                                       get_formatted_recipes_data,
-                                      ingredients_from_recipe_items)
+                                      ingredients_from_recipe_items,
+                                      calculate_servings,
+                                      calculate_serving_size_weight)
 
 from tests.mock_responses import (mock_nutrition_data, mock_recipe_items,
                                   mock_recipe_tree_components,
@@ -33,27 +35,60 @@ class TestIngredientsFromRecipeItems(TestCase):
         self.assertEqual(result, [])
 
 
+class TestCalculateServings(TestCase):
+    def test_calculate_servings_sucessful_with_expected_data(self):
+        expected_result = 2.5
+        result = calculate_servings(2.5, 1.0)
+        self.assertEqual(result, expected_result)
+        
+    def test_calculate_servings_returns_None_if_usage_quantity_missing(self):
+        expected_result = None
+        result = calculate_servings(None, 1.0)
+        self.assertEqual(result, expected_result)
+        
+    def test_calculate_servings_returns_None_if_nutritionals_quantity_missing(self):
+        expected_result = None
+        result = calculate_servings(2.5, None)
+        self.assertEqual(result, expected_result)
+        
+class TestCalculateServingSizeWeight(TestCase):
+    def test_calculate_serving_size_weight_sucessful_with_expected_data(self):
+        expected_result = 50
+        result = calculate_serving_size_weight(100, 2.0)
+        self.assertEqual(result, expected_result)
+        
+    def test_calculate_serving_size_weight_returns_None_if_weight_missing(self):
+        expected_result = None
+        result = calculate_serving_size_weight(None, 2.0)
+        self.assertEqual(result, expected_result)
+        
+    def test_calculate_serving_size_weight_returns_None_if_number_of_servings_missing(self):
+        expected_result = None
+        result = calculate_serving_size_weight(100, None)
+        self.assertEqual(result, expected_result)
+
+
 class TestFormattedRecipeTreeComponents(TestCase):
     def test_weight_from_recipe_tree_components_with_pkg_and_standalone(self):
-        expected_result = 829.22
+        expected_result = 829
         result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_data)
+            mock_recipe_tree_components.mock_recipe_tree_components_data)
         self.assertEqual(result['weight'], expected_result)
 
     def test_weight_from_recipe_tree_components_successful_no_pkg_no_standalone(self):
-        expected_result = 1382.04
+        expected_result = 1382
         result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_data_no_pkg_no_standalone)
+            mock_recipe_tree_components.mock_recipe_tree_components_data_no_pkg_no_standalone)
         self.assertEqual(result['weight'], expected_result)
 
     def test_weight_from_recipe_tree_components_empty(self):
         result = format_recipe_tree_components_data([])
         self.assertEqual(result['weight'], 0)
 
-    def test_standalone_recipes_from_recipe_tree_components(self):
+    def test_format_recipe_tree_components_data_with_more_than_one_serving_of_standalone_component(self):
         self.maxDiff = None
         result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_data_standalone_recipe_item)
+            mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
@@ -127,12 +162,186 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Sambal (Red Chile Peppers, Vinegar, Salt)",
                 "Garlic"
             ],
-            'standaloneWeight': 70.87,
-            'weight': 156.49,
+            'standaloneWeight': 71,
+            'standaloneSuggestedServing': "1 oz",
+            'standaloneServingSizeWeight': 28,
+            'standaloneServings': 2.5,
+            'weight': 156,
+            'hasStandalone': True
+        }
+        self.assertEqual(result, expected)
+        
+    def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
+        self.maxDiff = None
+        result = format_recipe_tree_components_data(
+            mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
+        expected = {
+            'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
+            'standaloneRecipeName': 'Peanut Coconut Sauce',
+            'standaloneNutrition': {
+                "addedSugarG": 0,
+                "calciumMg": 3.1684181569284497,
+                "calciumPercentRDI": 0.002,
+                "caloriesKCal": 53.66203631343362,
+                "carbsG": 5.931480844736274,
+                "carbsPercentDRV": 0.022,
+                "cholesterolMg": 0,
+                "cholesterolPercentDRV": None,
+                "copperMg": 0.021694334590068795,
+                "copperPercentRDI": 0.024,
+                "fiberG": 0.25925700237554117,
+                "fiberPercentDRV": 0.009,
+                "folateMcg": 4.662944286512987,
+                "folatePercentRDI": 0.012,
+                "ironMg": 0.08727603182928573,
+                "ironPercentRDI": 0.005,
+                "magnesiumMg": 8.422029852813752,
+                "magnesiumPercentRDI": 0.02,
+                "manganeseMg": 0.07968240957035716,
+                "manganesePercentRDI": 0.035,
+                "niacinMg": 0.6287359687622166,
+                "niacinPercentRDI": 0.039,
+                "pantothenicAcidMg": 0.06062563923716235,
+                "phosphorusMg": 16.6108569332684,
+                "phosphorusPercentRDI": 0.013,
+                "potassiumMg": 35.3618045624374,
+                "potassiumPercentRDI": 0.008,
+                "proteinG": 1.190862966668126,
+                "proteinPercentRDI": 0.024,
+                "riboflavinMg": 0.009900242547519483,
+                "riboflavinPercentRDI": 0.008,
+                "saturatedFatG": 1.1966419313881989,
+                "seleniumMcg": 0.1983239364917749,
+                "seleniumPercentRDI": 0.004,
+                "sodiumMg": 80.1688699548479,
+                "sodiumPercentDRV": 0.035,
+                "sugarG": 4.635864789281829,
+                "sugarPercentDRV": None,
+                "thiaminMg": 0.008514061320616884,
+                "thiaminPercentRDI": 0.007,
+                "totalFatG": 3.2182500200225643,
+                "totalFatPercentDRV": 0.041,
+                "transFatG": 0.0035436903875000004,
+                "vitaminAMcg": 1.449295858309044,
+                "vitaminAPercentRDI": 0.002,
+                "vitaminB12Mcg": 0,
+                "vitaminB12PercentRDI": None,
+                "vitaminB6Mg": 0.022999931273467538,
+                "vitaminB6PercentRDI": 0.014,
+                "vitaminCMg": 1.7259736392050762,
+                "vitaminCPercentRDI": 0.019,
+                "vitaminDMcg": 0,
+                "vitaminDPercentRDI": None,
+                "vitaminEMg": 0.4437743529419914,
+                "vitaminEPercentRDI": 0.03,
+                "vitaminKMcg": 0.046390128709090914,
+                "vitaminKPercentRDI": 0,
+                "zincMg": 0.12343713881647085,
+                "zincPercentRDI": 0.011
+                },
+            'standaloneIngredients': [
+                "Coconut Aminos (Coconut Tree Sap, Sea Salt)",
+                "Lime Juice",
+                "Coconut Milk (Coconut, Water, Guar Gum)",
+                "Peanut Butter (Dry Roasted Peanuts)",
+                "Water",
+                "Sambal (Red Chile Peppers, Vinegar, Salt)",
+                "Garlic"
+            ],
+            'standaloneWeight': 43,
+            'standaloneSuggestedServing': "1.5 oz",
+            'standaloneServingSizeWeight': 43,
+            'standaloneServings': 1.0,
+            'weight': 156,
             'hasStandalone': True
         }
         self.assertEqual(result, expected)
 
+    def test_format_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data(self):
+        self.maxDiff = None
+        result = format_recipe_tree_components_data(
+            mock_recipe_tree_components.mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data)
+        expected = {
+            'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
+            'standaloneRecipeName': 'Peanut Coconut Sauce',
+            'standaloneNutrition': {
+                "addedSugarG": 0,
+                "calciumMg": 3.1684181569284497,
+                "calciumPercentRDI": 0.002,
+                "caloriesKCal": 53.66203631343362,
+                "carbsG": 5.931480844736274,
+                "carbsPercentDRV": 0.022,
+                "cholesterolMg": 0,
+                "cholesterolPercentDRV": None,
+                "copperMg": 0.021694334590068795,
+                "copperPercentRDI": 0.024,
+                "fiberG": 0.25925700237554117,
+                "fiberPercentDRV": 0.009,
+                "folateMcg": 4.662944286512987,
+                "folatePercentRDI": 0.012,
+                "ironMg": 0.08727603182928573,
+                "ironPercentRDI": 0.005,
+                "magnesiumMg": 8.422029852813752,
+                "magnesiumPercentRDI": 0.02,
+                "manganeseMg": 0.07968240957035716,
+                "manganesePercentRDI": 0.035,
+                "niacinMg": 0.6287359687622166,
+                "niacinPercentRDI": 0.039,
+                "pantothenicAcidMg": 0.06062563923716235,
+                "phosphorusMg": 16.6108569332684,
+                "phosphorusPercentRDI": 0.013,
+                "potassiumMg": 35.3618045624374,
+                "potassiumPercentRDI": 0.008,
+                "proteinG": 1.190862966668126,
+                "proteinPercentRDI": 0.024,
+                "riboflavinMg": 0.009900242547519483,
+                "riboflavinPercentRDI": 0.008,
+                "saturatedFatG": 1.1966419313881989,
+                "seleniumMcg": 0.1983239364917749,
+                "seleniumPercentRDI": 0.004,
+                "sodiumMg": 80.1688699548479,
+                "sodiumPercentDRV": 0.035,
+                "sugarG": 4.635864789281829,
+                "sugarPercentDRV": None,
+                "thiaminMg": 0.008514061320616884,
+                "thiaminPercentRDI": 0.007,
+                "totalFatG": 3.2182500200225643,
+                "totalFatPercentDRV": 0.041,
+                "transFatG": 0.0035436903875000004,
+                "vitaminAMcg": 1.449295858309044,
+                "vitaminAPercentRDI": 0.002,
+                "vitaminB12Mcg": 0,
+                "vitaminB12PercentRDI": None,
+                "vitaminB6Mg": 0.022999931273467538,
+                "vitaminB6PercentRDI": 0.014,
+                "vitaminCMg": 1.7259736392050762,
+                "vitaminCPercentRDI": 0.019,
+                "vitaminDMcg": 0,
+                "vitaminDPercentRDI": None,
+                "vitaminEMg": 0.4437743529419914,
+                "vitaminEPercentRDI": 0.03,
+                "vitaminKMcg": 0.046390128709090914,
+                "vitaminKPercentRDI": 0,
+                "zincMg": 0.12343713881647085,
+                "zincPercentRDI": 0.011
+                },
+            'standaloneIngredients': [
+                "Coconut Aminos (Coconut Tree Sap, Sea Salt)",
+                "Lime Juice",
+                "Coconut Milk (Coconut, Water, Guar Gum)",
+                "Peanut Butter (Dry Roasted Peanuts)",
+                "Water",
+                "Sambal (Red Chile Peppers, Vinegar, Salt)",
+                "Garlic"
+            ],
+            'standaloneWeight': 43,
+            'standaloneSuggestedServing': None,
+            'standaloneServingSizeWeight': None,
+            'standaloneServings': None,
+            'weight': 156,
+            'hasStandalone': True
+        }
+        self.assertEqual(result, expected)
 
 class TestGetFormattedRecipesData(TestCase):
 
@@ -160,13 +369,16 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'weight': 829.22,
+                'weight': 829,
                 'hasStandalone': False,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
                 'standaloneRecipeId': None,
                 'standaloneRecipeName': None,
                 'standaloneWeight': None,
+                'standaloneSuggestedServing': None,
+                'standaloneServingSizeWeight': None,
+                'standaloneServings': None
             },
             {
                 'id': '2',
@@ -193,7 +405,10 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneRecipeId': None,
                 'standaloneRecipeName': None,
                 'standaloneWeight': None,
-                'weight': 829.22,
+                'standaloneSuggestedServing': None,
+                'standaloneServingSizeWeight': None,
+                'standaloneServings': None,
+                'weight': 829,
                 'hasStandalone': False
             }
         ]
@@ -248,7 +463,10 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(formatted_recipe['hasStandalone'], True)
         self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
         self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
-        self.assertEqual(formatted_recipe['standaloneWeight'], 70.87)
+        self.assertEqual(formatted_recipe['standaloneWeight'], 71)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
+        self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
 
 
 class TestGetFormattedMenuData(TestCase):

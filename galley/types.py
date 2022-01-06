@@ -116,6 +116,8 @@ class SubRecipe(Type):
     name = str
     externalName = str
     reconciledNutritionals = Field(Nutrition)
+    nutritionalsQuantity = float
+    nutritionalsUnit = Field(Unit)
 
 
 class Preparation(Type):
