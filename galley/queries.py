@@ -87,7 +87,7 @@ def recipe_connection_query(recipe_ids: List[str], page_size: int = DEFAULT_PAGE
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.__fields__('categoryValues', 'externalName')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.categoryValues.__fields__('id', 'name', 'category')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.__fields__(
-        'id', 'allIngredients', 'externalName', 'name', 'reconciledNutritionals'
+        'id', 'allIngredients', 'externalName', 'name', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit'
     )
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
 

@@ -75,14 +75,14 @@ def mock_recipe_base(id):
 def mock_recipe(id):
     return ({
         **mock_recipe_base(id),
-        'recipeTreeComponents': mock_recipe_tree_components.mock_data
+        'recipeTreeComponents': mock_recipe_tree_components.mock_recipe_tree_components_data
     })
 
 
 def mock_recipe_with_standalone_recipe_item(id):
     return ({
         **mock_recipe_base(id),
-        'recipeTreeComponents': mock_recipe_tree_components.mock_data_standalone_recipe_item
+        'recipeTreeComponents': mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone
     })
 
 
