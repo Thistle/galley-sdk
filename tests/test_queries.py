@@ -253,6 +253,11 @@ class TestRecipeConnectionQuery(TestCase):
             name
             notes
             description
+            media {
+            altText
+            caption
+            sourceUrl
+            }
             categoryValues {
             id
             name

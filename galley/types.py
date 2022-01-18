@@ -159,6 +159,12 @@ class Recipe(Type):
     recipeItems = Field(RecipeItem)
 
 
+class RecipeMedia(Type):
+    altText = str
+    caption = str
+    sourceUrl = str
+
+
 class RecipeNode(Node):
     id = str
     name = str
@@ -170,6 +176,7 @@ class RecipeNode(Node):
     reconciledNutritionals = Field(Nutrition)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
+    media = Field(RecipeMedia)
 
 
 class RecipeEdge(Type):
@@ -187,7 +194,7 @@ class RecipeConnection(Connection):
     edges = list_of(RecipeEdge)
     pageInfo = Field(PageInfoType)
     totalCount = int
-    
+
 
 class RecipeInstruction(Type):
     id = str
@@ -250,6 +257,7 @@ class MenuInput(Input):
     id = str
     recipeId = str
     menuItems = Field(list_of(MenuItemInput))
+
 
 class BulkMenusInput(Input):
     menus = Field(list_of(MenuInput))

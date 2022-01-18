@@ -40,12 +40,12 @@ class TestCalculateServings(TestCase):
         expected_result = 2.5
         result = calculate_servings(2.5, 1.0)
         self.assertEqual(result, expected_result)
-        
+
     def test_calculate_servings_returns_None_if_usage_quantity_missing(self):
         expected_result = None
         result = calculate_servings(None, 1.0)
         self.assertEqual(result, expected_result)
-        
+
     def test_calculate_servings_returns_None_if_nutritionals_quantity_missing(self):
         expected_result = None
         result = calculate_servings(2.5, None)
@@ -57,12 +57,12 @@ class TestCalculateServingSizeWeight(TestCase):
         expected_result = 50
         result = calculate_serving_size_weight(100, 2.0)
         self.assertEqual(result, expected_result)
-        
+
     def test_calculate_serving_size_weight_returns_None_if_weight_missing(self):
         expected_result = None
         result = calculate_serving_size_weight(None, 2.0)
         self.assertEqual(result, expected_result)
-        
+
     def test_calculate_serving_size_weight_returns_None_if_number_of_servings_missing(self):
         expected_result = None
         result = calculate_serving_size_weight(100, None)
@@ -171,7 +171,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'hasStandalone': True
         }
         self.assertEqual(result, expected)
-        
+
     def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
         self.maxDiff = None
         result = format_recipe_tree_components_data(
@@ -355,6 +355,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'externalName': 'Test Recipe 1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
+                'lifestylePhotoUrl': 'https://cdn.filestackcontent.com/LIFESTYLE1',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
                 'mealContainer': 'ts48',
@@ -386,6 +387,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'externalName': 'Test Recipe 2',
                 'notes': 'Some notes about recipe 2',
                 'description': 'Details about recipe 2',
+                'lifestylePhotoUrl': 'https://cdn.filestackcontent.com/LIFESTYLE2',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
                 'mealContainer': 'ts48',

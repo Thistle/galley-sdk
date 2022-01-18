@@ -67,6 +67,29 @@ def mock_recipe_base(id):
                 }
             }
         ],
+        'media': [
+            {
+                'altText': 'None.jpg',
+                'caption': None,
+                'sourceUrl': 'https://cdn.filestackcontent.com/HaCZIYLBRfWmeMtErKSU',
+                'mediaId': 'bWVkaWE6OTEwNA==',
+                'storageKey': 'Thistle/Media/ujTTMJETR1eV9LJMJTJo_None.jpg'
+            },
+            {
+                'altText': 'Plating.jpg',
+                'caption': 'Plating Photo',
+                'sourceUrl': 'https://cdn.filestackcontent.com/rVVEymFAQv4m0LTYz3IV',
+                'mediaId': 'bWVkaWE6TEOwNQ==',
+                'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+            },
+            {
+                'altText': f'lifestyle{id}.jpg',
+                'caption': 'lifestyle',
+                'sourceUrl': f'https://cdn.filestackcontent.com/LIFESTYLE{id}',
+                'mediaId': 'bWVkaWE6OTEwNA==',
+                'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_lifestyle{id}.jpg'
+            },
+        ],
         'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data
 })
@@ -86,9 +109,9 @@ def mock_recipe_with_standalone_recipe_item(id):
     })
 
 
-def mock_page_info(end_index: int = 1, 
-                   has_next_page: bool = False, 
-                   has_previous_page: bool = False, 
+def mock_page_info(end_index: int = 1,
+                   has_next_page: bool = False,
+                   has_previous_page: bool = False,
                    start_index: int = 0):
     return ({
         'endIndex': end_index,
@@ -98,10 +121,10 @@ def mock_page_info(end_index: int = 1,
     })
 
 
-def mock_recipe_connection(ids, 
-                           end_index: int = 1, 
-                           has_next_page: bool = False, 
-                           has_previous_page: bool = False, 
+def mock_recipe_connection(ids,
+                           end_index: int = 1,
+                           has_next_page: bool = False,
+                           has_previous_page: bool = False,
                            start_index: int = 0):
     edges = []
     for id in ids:
@@ -111,7 +134,7 @@ def mock_recipe_connection(ids,
             }
         )
 
-    return ({        
+    return ({
         'edges': edges,
         'pageInfo': mock_page_info(
             end_index=end_index,
@@ -121,10 +144,10 @@ def mock_recipe_connection(ids,
     })
 
 
-def mock_recipe_connection_with_standalone(ids, 
-                           end_index: int = 1, 
-                           has_next_page: bool = False, 
-                           has_previous_page: bool = False, 
+def mock_recipe_connection_with_standalone(ids,
+                           end_index: int = 1,
+                           has_next_page: bool = False,
+                           has_previous_page: bool = False,
                            start_index: int = 0):
     edges = []
     for id in ids:
@@ -134,7 +157,7 @@ def mock_recipe_connection_with_standalone(ids,
             }
         )
 
-    return ({        
+    return ({
         'edges': edges,
         'pageInfo': mock_page_info(
             end_index=end_index,
