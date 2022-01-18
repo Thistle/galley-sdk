@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from galley.enums import (IngredientCategoryTagTypeEnum,
                           IngredientCategoryValueEnum, MenuCategoryEnum,
                           MenuItemCategoryEnum, PreparationEnum,
-                          RecipeCategoryTagTypeEnum)
+                          RecipeCategoryTagTypeEnum, RecipeMediaEnum)
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 
 logger = logging.getLogger(__name__)
@@ -115,7 +115,7 @@ class FormattedRecipe:
         self.externalName = get_external_name(recipe_data)
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
-        self.lifestylePhotoUrl = get_lifestyle_photo(recipe_data.get('media', []))
+        self.lifestylePhotoUrl = get_lifestyle_photo_url(recipe_data.get('media', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -283,9 +283,9 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
     return None
 
 
-def get_lifestyle_photo(media: List) -> Optional[str]:
+def get_lifestyle_photo_url(media: List) -> Optional[str]:
     for photo in media:
-        if photo.get('caption', '') == 'lifestyle' and photo.get('sourceUrl', None):
+        if photo.get('caption', '') == RecipeMediaEnum.LIFESTYLE_CAPTION.value and photo.get('sourceUrl', None):
             return photo.get('sourceUrl')
     return None
 
