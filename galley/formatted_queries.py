@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from galley.enums import (IngredientCategoryTagTypeEnum,
                           IngredientCategoryValueEnum, MenuCategoryEnum,
                           MenuItemCategoryEnum, PreparationEnum,
-                          RecipeCategoryTagTypeEnum)
+                          RecipeCategoryTagTypeEnum, RecipeMediaEnum)
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 
 logger = logging.getLogger(__name__)
@@ -115,6 +115,7 @@ class FormattedRecipe:
         self.externalName = get_external_name(recipe_data)
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
+        self.lifestylePhotoUrl = get_lifestyle_photo_url(recipe_data.get('media', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -132,6 +133,7 @@ class FormattedRecipe:
             'description': self.description,
             'nutrition': self.nutrition,
             'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
+            'lifestylePhotoUrl': self.lifestylePhotoUrl,
             **self.formatted_recipe_tree_components_data,
             **self.recipe_tags
         }
@@ -278,6 +280,13 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
     for category in categories:
         if category.get('category', {}).get('id', '') == RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value:
             return category['name']
+    return None
+
+
+def get_lifestyle_photo_url(media: List) -> Optional[str]:
+    for photo in media:
+        if photo.get('caption', '') == RecipeMediaEnum.LIFESTYLE_CAPTION.value and photo.get('sourceUrl', None):
+            return photo.get('sourceUrl')
     return None
 
 

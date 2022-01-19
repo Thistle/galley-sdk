@@ -47,3 +47,8 @@ class RecipeCategoryTagTypeEnum(Enum):
     BASE_MEAL_SLUG_TAG = 'Y2F0ZWdvcnk6MjYyMA=='
     BASE_MEAL_TAG = 'Y2F0ZWdvcnk6MjU4OQ=='
 
+class RecipeMediaEnum(Enum):
+    """
+    Enum for RecipeMedia. <field name>: <field value>
+    """
+    LIFESTYLE_CAPTION = 'lifestyle'
