@@ -51,17 +51,6 @@ class Query(Type):
 
 # RECIPE QUERIES
 
-def get_recipe_data() -> Optional[List[Dict]]:
-    # Initiate a query
-    query = Operation(Query)
-    # Call sub-type you need to build the query.
-    query.viewer.recipes.__fields__(
-        'id', 'externalName', 'instructions', 'notes', 'description'
-    )
-    # pass query as an argument to make_request_to_galley function.
-    raw_data = make_request_to_galley(op=query)
-    return validate_response_data(raw_data, 'recipes')
-
 def recipe_connection_query(recipe_ids: List[str], page_size: int = DEFAULT_PAGE_SIZE, start_index: int = 0) -> Optional[Operation]:
     query = Operation(Query)
     query.viewer.recipeConnection(
