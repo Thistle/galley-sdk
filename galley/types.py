@@ -196,27 +196,6 @@ class RecipeConnection(Connection):
     totalCount = int
 
 
-class RecipeInstruction(Type):
-    id = str
-    text = str
-    position = int
-    recipeId = str
-
-
-class InstructionInput(Input):
-    text = str
-    position = int
-
-
-class RecipeInstructionInput(Input):
-    recipeId = str
-    recipeInstruction = InstructionInput
-
-
-class RecipeInstructionPayload(Type):
-    recipeInstruction = Field(RecipeInstruction)
-
-
 class Location(Type):
     name = str
 

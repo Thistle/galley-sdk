@@ -2,8 +2,7 @@ import logging
 from unittest import TestCase, mock
 
 from galley.queries import (Query, get_menu_query, get_raw_menu_data,
-                            get_raw_recipes_data, get_recipe_data,
-                            recipe_connection_query)
+                            get_raw_recipes_data, recipe_connection_query)
 from sgqlc.operation import Operation
 
 from tests.mock_responses import mock_recipes_data
@@ -38,53 +37,6 @@ class TestQueryRecipes(TestCase):
         query_operation = Operation(Query)
         query_str = bytes(query_operation).decode('utf-8')
         self.assertNotEqual(query_str, self.expected_query)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_recipe_data_successful(self, mock_retrieval_method):
-        recipes = [
-            {
-                'id': '10000',
-                'externalName': 'test recipe 1',
-                'instructions': 'testing',
-                'notes': 'testing notes',
-                'description': 'test'
-            },
-            {
-                'id': '10000',
-                'externalName': 'test recipe 2',
-                'instructions': None,
-                'notes': None,
-                'description': None
-            }
-        ]
-
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipes': recipes
-                }
-            }
-        }
-        result = get_recipe_data()
-        self.assertEqual(result, recipes)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_recipe_data_validation_failure(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'test': 'test'
-                }
-            }
-        }
-        result = get_recipe_data()
-        self.assertEqual(result, None)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_recipe_data_null(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = None
-        result = get_recipe_data()
-        self.assertEqual(result, None)
 
 
 class TestQueryWeekMenuData(TestCase):
