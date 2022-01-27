@@ -131,7 +131,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['weight'], 0)
 
     def test_format_recipe_tree_components_data_with_more_than_one_serving_of_standalone_component(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
         expected = {
@@ -217,7 +216,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
         expected = {
@@ -303,7 +301,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data)
         expected = {
@@ -392,7 +389,6 @@ class TestGetFormattedRecipesData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
-        self.maxDiff = None
         expected_result = [
             {
                 'id': '1',
@@ -496,7 +492,6 @@ class TestGetFormattedRecipesData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_standalone(self, mock_retrieval_method):
-        self.maxDiff = None
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
@@ -528,7 +523,6 @@ class TestGetFormattedMenuData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful(self, mock_retrieval_method):
-        self.maxDiff = None
         mock_retrieval_method.side_effect = [
             self.response(mock_menu('2021-11-14')),
             self.response(mock_menu('2021-11-21'), mock_menu('2021-11-21'),

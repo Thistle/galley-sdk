@@ -494,7 +494,6 @@ class TestRecipeConnectionQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def test_recipe_connection_query(self):
-        self.maxDiff = None;
         query = recipe_connection_query(
             recipe_ids=["cmVjaXBlOjE2NzEwOQ==", "cmVjaXBlOjE2OTEyMg==", "cmVjaXBlOjE2NTY5MA=="],
             page_size=2,
