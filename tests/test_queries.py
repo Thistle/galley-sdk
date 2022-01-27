@@ -89,6 +89,11 @@ class TestQueryWeekMenuData(TestCase):
             itemType
             }
             }
+            media{
+            altText
+            caption
+            sourceUrl
+            }
             }
             }
             }

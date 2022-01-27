@@ -116,13 +116,14 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     return raw_recipes_data
 
 
-def get_menu_query(dates: List[str]) -> Optional[List[Dict]]:
+def get_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
         'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
     )
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems', 'categoryValues')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems', 'categoryValues', 'media')
+    query.viewer.menus.menuItems.recipe.media.__fields__('altText', 'caption', 'sourceUrl')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
@@ -142,7 +143,7 @@ def get_raw_menu_data(dates: List[str],
     :param menu_type: The type of menu to be fetched. ex. "production",
     "development"
     """
-    query = get_menu_query(dates=dates)  # type: Operation
+    query = get_menu_query(dates=dates)
     validated_response_data = validate_response_data(
             make_request_to_galley(
                 op=query.__to_graphql__(auto_select_depth=3),
@@ -155,8 +156,11 @@ def get_raw_menu_data(dates: List[str],
             if menu['location']['name'] == location_name:
                 categoryValues = menu['categoryValues']
                 for categoryValue in categoryValues:
-                    if (categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value and \
-                        categoryValue['name'] == menu_type):
+                    if (
+                        categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value
+                        and
+                        categoryValue['name'] == menu_type
+                    ):
                         response.append(menu)
                     else:
                         continue
