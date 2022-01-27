@@ -91,7 +91,8 @@ def mock_recipe_base(id):
             },
         ],
         'recipeItems': mock_recipe_items.mock_data,
-        'reconciledNutritionals': mock_nutrition_data.mock_data
+        'reconciledNutritionals': mock_nutrition_data.mock_data,
+        'dietaryFlagsWithUsages': []
 })
 
 

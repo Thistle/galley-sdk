@@ -476,6 +476,11 @@ class TestRecipeConnectionQuery(TestCase):
             }
             }
             }
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            name
+            }
+            }
             }
             }
             pageInfo {

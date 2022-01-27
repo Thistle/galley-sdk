@@ -189,7 +189,6 @@ def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
     }
 
 
-
 def get_recipe_category_tags(
     recipe_category_values: List[Dict]
 ) -> Optional[Dict]:

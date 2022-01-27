@@ -380,7 +380,9 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneWeight': None,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
-                'standaloneServings': None
+                'standaloneServings': None,
+                'hasAllergen': False,
+                'allergens': []
             },
             {
                 'id': '2',
@@ -412,7 +414,9 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,
                 'weight': 829,
-                'hasStandalone': False
+                'hasStandalone': False,
+                'hasAllergen': False,
+                'allergens': []
             }
         ]
 
