@@ -1,10 +1,15 @@
 import logging
 from typing import Dict, List, Optional
 
-from galley.enums import (IngredientCategoryTagTypeEnum,
-                          IngredientCategoryValueEnum, MenuCategoryEnum,
-                          MenuItemCategoryEnum, PreparationEnum,
-                          RecipeCategoryTagTypeEnum, RecipeMediaEnum)
+from galley.enums import (
+    IngredientCategoryTagTypeEnum,
+    IngredientCategoryValueEnum,
+    MenuCategoryEnum,
+    MenuItemCategoryEnum,
+    PreparationEnum,
+    RecipeCategoryTagTypeEnum,
+    RecipeMediaEnum
+)
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 
 logger = logging.getLogger(__name__)
@@ -22,10 +27,15 @@ def get_external_name(data_dict):
             return data_dict['name']
     return None
 
-def calculate_servings(usage_quantity: Optional[float], nutritionals_quantity: Optional[float]) -> Optional[float]:
+
+def calculate_servings(
+    usage_quantity: Optional[float],
+    nutritionals_quantity: Optional[float]
+) -> Optional[float]:
     """
-    Given a usage quantity (how much of a given component is included in a recipe)
-    and a nutritionals_quantity (the size of one serving of the component),
+    Given a usage quantity (how much of a given component 
+    is included in a recipe) and a nutritionals_quantity 
+    (the size of one serving of the component),
     returns a number representing how many servings of the component
     are included in the recipe.
     """
@@ -34,39 +44,56 @@ def calculate_servings(usage_quantity: Optional[float], nutritionals_quantity: O
     else:
         return None
 
-def calculate_serving_size_weight(weight: Optional[float], number_of_servings: Optional[float]) -> Optional[float]:
+
+def calculate_serving_size_weight(
+    weight: Optional[float], number_of_servings: Optional[float]
+) -> Optional[float]:
     """
-    Given a weight (representing the total weight of the component included in a recipe)
-    and a number of servings (how many servings of the component are included),
-    returns a number representing the weight of just one serving of the component.
+    Given a weight (representing the total weight of the 
+    component included in a recipe) and a number of servings 
+    (how many servings of the component are included),
+    returns a number representing the weight of 
+    just one serving of the component.
     """
     if weight is not None and number_of_servings is not None:
         return weight/number_of_servings
     else:
         return None
 
-def format_suggested_serving(quantity: Optional[float], unit: Optional[str]) -> Optional[str]:
+
+def format_suggested_serving(
+    quantity: Optional[float], unit: Optional[str]
+) -> Optional[str]:
     if quantity is not None and unit is not None:
         return "{} {}".format(quantity, unit)
     else:
         return None
 
+
 class RecipeItem:
-    def __init__(self, preparations: List[Dict[str, str]], ingredient=None,
-                 quantity_unit_values=None, nutrition=None, subrecipe=None):
-        self.category_values = ingredient.get('categoryValues', []) if ingredient else []
+    def __init__(
+        self, preparations: List[Dict[str, str]], ingredient=None,
+        quantity_unit_values=None, nutrition=None, subrecipe=None
+    ):
+        self.category_values = ingredient.get(
+            'categoryValues', []
+        ) if ingredient else []
         self.preparations = preparations
         self.quantity_unit_values = quantity_unit_values
         self.nutrition = nutrition
         self.subrecipe = subrecipe
 
     def is_standalone(self):
-        return any(prep.get('id') == PreparationEnum.STANDALONE.value for prep in self.preparations)
+        return any(prep.get('id') == \
+            PreparationEnum.STANDALONE.value for prep in self.preparations)
 
     def is_packaging(self):
         return any(
-            cat_val.get('id') == IngredientCategoryValueEnum.FOOD_PACKAGE.value and
-            cat_val.get('category', {}).get('id') == IngredientCategoryTagTypeEnum.ACCOUNTING_TAG.value for cat_val in self.category_values
+            cat_val.get('id') == \
+                IngredientCategoryValueEnum.FOOD_PACKAGE.value and
+            cat_val.get('category', {}).get('id') == \
+                IngredientCategoryTagTypeEnum.ACCOUNTING_TAG.value \
+                    for cat_val in self.category_values
         )
 
     def mass(self):
@@ -96,18 +123,22 @@ class RecipeItem:
 
     def standalone_usage_quantity(self):
         """
-        Returns the recipe item's usage quantity (how much of a given component is included in a recipe)
-        based on the type of unit specified by the nutritonals_unit (i.e. "oz"). Returns None if there is
+        Returns the recipe item's usage quantity 
+        (how much of a given component is included in a recipe)
+        based on the type of unit specified by the 
+        nutritonals_unit (i.e. "oz"). Returns None if there is
         not a quantity available for the specified unit.
         """
         nutritionals_unit = self.standalone_nutritionals_unit()
-        if nutritionals_unit is not None and self.quantity_unit_values is not None:
+        if nutritionals_unit is not None and \
+            self.quantity_unit_values is not None:
             return next(
                 (value.get('value') for value in self.quantity_unit_values
                  if value.get('unit', {'name': None}).get('name') == nutritionals_unit), None
             )
         else:
             return None
+
 
 class FormattedRecipe:
     def __init__(self, recipe_data):
@@ -123,7 +154,9 @@ class FormattedRecipe:
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
         self.formatted_recipe_tree_components_data = \
             format_recipe_tree_components_data(self.recipe_tree_components)
-
+        self.allergens = get_recipe_allergens(
+            recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', [])
+        )
 
     def to_dict(self):
         return {
@@ -132,14 +165,34 @@ class FormattedRecipe:
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,
-            'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
+            'ingredients': ingredients_from_recipe_items(
+                recipe_items=self.recipe_items
+            ),
             'lifestylePhotoUrl': self.lifestylePhotoUrl,
             **self.formatted_recipe_tree_components_data,
-            **self.recipe_tags
+            **self.recipe_tags,
+            **self.allergens
         }
 
 
-def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dict]:
+def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
+    has_allergen = True if len(recipe_dietry_flags) > 0 else False
+    allergens = []
+    for recipe_dietary_flag in recipe_dietry_flags:
+        dietary_flag = recipe_dietary_flag.get('dietaryFlag', None)
+        if dietary_flag and 'name' in dietary_flag:
+            allergens.append(dietary_flag['name'])
+    
+    return {
+        'allergens': allergens,
+        'hasAllergen': has_allergen
+    }
+
+
+
+def get_recipe_category_tags(
+    recipe_category_values: List[Dict]
+) -> Optional[Dict]:
     recipe_tags: Dict = {}
     recipe_tag_labels: Dict = {
         RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value: 'proteinType',
@@ -160,7 +213,9 @@ def get_recipe_category_tags(recipe_category_values: List[Dict]) -> Optional[Dic
     return recipe_tags
 
 
-def format_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> Dict:
+def format_recipe_tree_components_data(
+    recipe_tree_components: List[Dict]
+) -> Dict:
     """
     Returns a dictionary containing total weight of recipe and
     subrecipe details.
