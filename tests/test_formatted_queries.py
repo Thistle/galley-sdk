@@ -13,6 +13,50 @@ from tests.mock_responses import (mock_nutrition_data, mock_recipe_items,
 from tests.mock_responses.mock_menu_data import mock_menu
 
 
+def formatted_menu(date):
+    return ({
+        'name': f"{date} 1_2_3",
+        'id': 'MENU123ABC',
+        'date': f"{date}",
+        'location': 'Vacaville',
+        'categoryMenuType': 'production',
+        'menuItems': [{
+            'baseMeal': '',
+            'id': 'MENUITEM1ABC',
+            'itemCode': 'dv1',
+            'mealSlug': 'test-recipe-name-1',
+            'recipeId': 'RECIPE1ABC',
+            'recipeMealType': 'dinner',
+            'recipeMenuPhotoUrl': None,
+            'recipeName': 'Test Recipe Name 1',
+            'recipeProteinType': 'vegan',
+            'standaloneRecipeId': 'SUBRECIPEID456'
+        }, {
+            'baseMeal': '',
+            'id': 'MENUITEM2DEF',
+            'itemCode': 'dv2',
+            'mealSlug': 'test-recipe-name-2',
+            'recipeId': 'RECIPE2DEF',
+            'recipeMealType': 'dinner',
+            'recipeMenuPhotoUrl': None,
+            'recipeName': 'Test Recipe Name 2',
+            'recipeProteinType': 'vegan',
+            'standaloneRecipeId': None
+        }, {
+            'baseMeal': '',
+            'id': 'MENUITEM3GHI',
+            'itemCode': 'lm2',
+            'mealSlug': 'test-recipe-name-3',
+            'recipeId': 'RECIPE3GHI',
+            'recipeMealType': 'lunch',
+            'recipeMenuPhotoUrl': None,
+            'recipeName': 'Test Recipe Name 3',
+            'recipeProteinType': 'meat',
+            'standaloneRecipeId': 'SUBRECIPEID321'
+        }]
+    })
+
+
 class TestIngredientsFromRecipeItems(TestCase):
     def test_ingredients_from_recipes_successful(self):
         expected_result = [
@@ -87,7 +131,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['weight'], 0)
 
     def test_format_recipe_tree_components_data_with_more_than_one_serving_of_standalone_component(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
         expected = {
@@ -173,7 +216,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
         expected = {
@@ -259,7 +301,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data(self):
-        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data)
         expected = {
@@ -348,7 +389,6 @@ class TestGetFormattedRecipesData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
-        self.maxDiff = None
         expected_result = [
             {
                 'id': '1',
@@ -456,7 +496,6 @@ class TestGetFormattedRecipesData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_standalone(self, mock_retrieval_method):
-        self.maxDiff = None
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
@@ -606,34 +645,6 @@ class TestGetFormattedMenuData(TestCase):
             }
         })
 
-    def formatted_menu(self, date):
-        return ({
-            'name': f"{date} 1_2_3",
-            'id': 'MENU123ABC',
-            'date': f"{date}",
-            'location': 'Vacaville',
-            'categoryMenuType': 'production',
-            'menuItems': [{
-                'id': 'MENUITEM1ABC',
-                'itemCode': 'dv1',
-                'mealSlug': None,
-                'recipeId': 'RECIPE1ABC',
-                'standaloneRecipeId': 'SUBRECIPEID456'
-            }, {
-                'id': 'MENUITEM2DEF',
-                'itemCode': 'dv2',
-                'mealSlug': None,
-                'recipeId': 'RECIPE2DEF',
-                'standaloneRecipeId': None
-            }, {
-                'id': 'MENUITEM3GHI',
-                'itemCode': 'lm2',
-                'mealSlug': 'test-recipe-name-3',
-                'recipeId': 'RECIPE3GHI',
-                'standaloneRecipeId': 'SUBRECIPEID321'
-            }]
-        })
-
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful(self, mock_retrieval_method):
         mock_retrieval_method.side_effect = [
@@ -646,18 +657,18 @@ class TestGetFormattedMenuData(TestCase):
 
         # one valid menu name
         result1 = get_formatted_menu_data(['2021-11-14'])
-        self.assertEqual(result1, [self.formatted_menu('2021-11-14')])
+        self.assertEqual(result1, [formatted_menu('2021-11-14')])
 
         # multiple valid menu names
         result2 = get_formatted_menu_data(['2021-11-21', '2021-11-21',
                                            '2021-11-28'])
-        self.assertEqual(result2, [self.formatted_menu('2021-11-21'),
-                                   self.formatted_menu('2021-11-21'),
-                                   self.formatted_menu('2021-11-28')])
+        self.assertEqual(result2, [formatted_menu('2021-11-21'),
+                                   formatted_menu('2021-11-21'),
+                                   formatted_menu('2021-11-28')])
 
         # one valid menu name and one invalid menu name
         result3 = get_formatted_menu_data(['2021-11-28', '2021-12-05'])
-        self.assertEqual(result3, [self.formatted_menu('2021-11-28')])
+        self.assertEqual(result3, [formatted_menu('2021-11-28')])
 
         # one invalid menu name
         result4 = get_formatted_menu_data(['2021-12-05'])
