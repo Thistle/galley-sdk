@@ -108,7 +108,7 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
         recipeItem.unit.__fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.\
-        dietaryFlag.__fields__('name')
+        dietaryFlag.__fields__('id')
 
     return query
 

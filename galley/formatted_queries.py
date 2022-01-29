@@ -1,14 +1,16 @@
 import logging
+from re import M
 from typing import Dict, List, Optional
 
 from galley.enums import (
+    DietaryFlagEnum,
     IngredientCategoryTagTypeEnum,
     IngredientCategoryValueEnum,
     MenuCategoryEnum,
     MenuItemCategoryEnum,
     PreparationEnum,
     RecipeCategoryTagTypeEnum,
-    RecipeMediaEnum
+    RecipeMediaEnum,
 )
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 
@@ -176,16 +178,30 @@ class FormattedRecipe:
 
 
 def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
-    has_allergen = True if len(recipe_dietry_flags) > 0 else False
+    dietary_flags_mapping = {
+        DietaryFlagEnum.TREE_NUTS.value: 'tree nuts',
+        DietaryFlagEnum.SOY_BEANS.value: 'soy',
+        DietaryFlagEnum.SHELLFISH.value: 'shellfish',
+        DietaryFlagEnum.PORK.value: 'pork',
+        DietaryFlagEnum.FISH.value: 'fish',
+        DietaryFlagEnum.COCONUT.value: 'coconut',
+        DietaryFlagEnum.PEANUTS.value: 'peanuts',
+        DietaryFlagEnum.LAMB.value: 'lamb',
+        DietaryFlagEnum.SMOKED_MEATS.value: 'smoked meats',
+        DietaryFlagEnum.BEEF.value: 'beef'
+    }
     allergens = []
     for recipe_dietary_flag in recipe_dietry_flags:
         dietary_flag = recipe_dietary_flag.get('dietaryFlag', None)
-        if dietary_flag and 'name' in dietary_flag:
-            allergens.append(dietary_flag['name'])
+        if dietary_flag and 'id' in dietary_flag:
+            flag_id = dietary_flag.get('id')
+            dietary_flag_name = dietary_flags_mapping.get(flag_id, None)
+            if dietary_flag_name:
+                allergens.append(dietary_flag_name)
     
     return {
         'allergens': allergens,
-        'hasAllergen': has_allergen
+        'hasAllergen': True if len(allergens) > 0 else False
     }
 
 

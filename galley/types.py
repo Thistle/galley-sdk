@@ -167,6 +167,7 @@ class RecipeMedia(Type):
 
 class DietaryFlag(Type):
     name = str
+    id = str
 
 
 class DietaryFlagsWithUsages(Type):

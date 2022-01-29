@@ -478,7 +478,7 @@ class TestRecipeConnectionQuery(TestCase):
             }
             dietaryFlagsWithUsages {
             dietaryFlag {
-            name
+            id
             }
             }
             }
