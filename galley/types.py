@@ -146,6 +146,12 @@ class RecipeTreeComponent(Type):
     recipeItem = Field(RecipeItem)
 
 
+class RecipeMedia(Type):
+    altText = str
+    caption = str
+    sourceUrl = str
+
+
 class Recipe(Type):
     id = str
     name = str
@@ -157,12 +163,7 @@ class Recipe(Type):
     reconciledNutritionals = Field(Nutrition)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
-
-
-class RecipeMedia(Type):
-    altText = str
-    caption = str
-    sourceUrl = str
+    media = Field(RecipeMedia)
 
 
 class DietaryFlag(Type):
