@@ -420,7 +420,9 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneWeight': None,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
-                'standaloneServings': None
+                'standaloneServings': None,
+                'hasAllergen': False,
+                'allergens': []
             },
             {
                 'id': '2',
@@ -452,7 +454,9 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,
                 'weight': 829,
-                'hasStandalone': False
+                'hasStandalone': False,
+                'hasAllergen': False,
+                'allergens': []
             }
         ]
 
@@ -509,6 +513,126 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
         self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
         self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
+    
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_with_allergen_successful(
+        self, mock_retrieval_method
+    ):
+        self.maxDiff = None
+        expected_result = [
+            {
+                'id': '1',
+                'externalName': 'Test Recipe 1',
+                'notes': 'Some notes about recipe 1',
+                'description': 'Details about recipe 1',
+                'lifestylePhotoUrl': 'https://cdn.filestackcontent.com/LIFESTYLE1',
+                'nutrition': mock_nutrition_data.mock_data,
+                'proteinType': 'vegan',
+                'mealContainer': 'ts48',
+                'mealType': 'dinner',
+                'proteinAddOn': 'high-protein-legume',
+                'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
+                'ingredients': [
+                    'Unique 1',
+                    'Duplicate 1',
+                    'Duplicate 2',
+                    'Duplicate 3',
+                    'Unique 2',
+                    'Unique 4'
+                ],
+                'weight': 829,
+                'hasStandalone': False,
+                'standaloneIngredients': None,
+                'standaloneNutrition': None,
+                'standaloneRecipeId': None,
+                'standaloneRecipeName': None,
+                'standaloneWeight': None,
+                'standaloneSuggestedServing': None,
+                'standaloneServingSizeWeight': None,
+                'standaloneServings': None,
+                'hasAllergen': True,
+                'allergens': ['soy']
+            }
+        ]
+
+        mock_recipe_data = mock_recipes_data.mock_recipe_connection(['1'])
+        mock_recipe_data['edges'][0]['node']['dietaryFlagsWithUsages'] = [{
+            'dietaryFlag': {
+                'id': 'ZGlldGFyeUZsYWc6Ng==',
+                'name': 'soy beans'
+            }
+        }]
+
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': mock_recipe_data
+                }
+            }
+        }
+        result = get_formatted_recipes_data(['1'])
+        self.assertEqual(result, expected_result)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_with_non_supported_allergen_successful(
+        self, mock_retrieval_method
+    ):
+        self.maxDiff = None
+        expected_result = [
+            {
+                'id': '1',
+                'externalName': 'Test Recipe 1',
+                'notes': 'Some notes about recipe 1',
+                'description': 'Details about recipe 1',
+                'lifestylePhotoUrl': 'https://cdn.filestackcontent.com/LIFESTYLE1',
+                'nutrition': mock_nutrition_data.mock_data,
+                'proteinType': 'vegan',
+                'mealContainer': 'ts48',
+                'mealType': 'dinner',
+                'proteinAddOn': 'high-protein-legume',
+                'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
+                'ingredients': [
+                    'Unique 1',
+                    'Duplicate 1',
+                    'Duplicate 2',
+                    'Duplicate 3',
+                    'Unique 2',
+                    'Unique 4'
+                ],
+                'weight': 829,
+                'hasStandalone': False,
+                'standaloneIngredients': None,
+                'standaloneNutrition': None,
+                'standaloneRecipeId': None,
+                'standaloneRecipeName': None,
+                'standaloneWeight': None,
+                'standaloneSuggestedServing': None,
+                'standaloneServingSizeWeight': None,
+                'standaloneServings': None,
+                'hasAllergen': False,
+                'allergens': []
+            }
+        ]
+
+        mock_recipe_data = mock_recipes_data.mock_recipe_connection(['1'])
+        mock_recipe_data['edges'][0]['node']['dietaryFlagsWithUsages'] = [{
+            'dietaryFlag': {
+                'id': 'ZGlldGFyeUZsYWc6MTc=',
+                'name': 'sulphites'
+            }
+        }]
+
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': mock_recipe_data
+                }
+            }
+        }
+        result = get_formatted_recipes_data(['1'])
+        self.assertEqual(result, expected_result)
 
 
 class TestGetFormattedMenuData(TestCase):

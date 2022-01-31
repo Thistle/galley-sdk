@@ -7,11 +7,13 @@ class MenuCategoryEnum(Enum):
     """
     MENU_TYPE = 'Y2F0ZWdvcnk6MjQ2NQ=='
 
+
 class MenuItemCategoryEnum(Enum):
     """
     Enum for categories, for item type menu item <category name>: <category id>
     """
     PRODUCT_CODE = 'Y2F0ZWdvcnk6MjQ2Nw=='
+
 
 class PreparationEnum(Enum):
     """
@@ -52,3 +54,29 @@ class RecipeMediaEnum(Enum):
     Enum for RecipeMedia. <field name>: <field value>
     """
     LIFESTYLE_CAPTION = 'lifestyle'
+
+
+class DietaryFlagEnum(Enum):
+    # Enum for Dietary Flags
+    BEEF = 'ZGlldGFyeUZsYWc6MTM3'
+    CELERY = 'ZGlldGFyeUZsYWc6MTA='
+    COCONUT = 'ZGlldGFyeUZsYWc6OTc='
+    CRUSTANCEANS = 'ZGlldGFyeUZsYWc6MTQ='
+    EGGS = 'ZGlldGFyeUZsYWc6Mw=='
+    FISH = 'ZGlldGFyeUZsYWc6Nw=='
+    GLUTEN = 'ZGlldGFyeUZsYWc6MTE='
+    LAMB = 'ZGlldGFyeUZsYWc6MTM1'
+    LUPIN = 'ZGlldGFyeUZsYWc6MTI='
+    MILK = 'ZGlldGFyeUZsYWc6MQ=='
+    MOLLUSCS = 'ZGlldGFyeUZsYWc6MTM='
+    MUSTARD = 'ZGlldGFyeUZsYWc6MTU='
+    NON_VEGAN = 'ZGlldGFyeUZsYWc6OTk='
+    PEANUTS = 'ZGlldGFyeUZsYWc6NA=='
+    PORK = 'ZGlldGFyeUZsYWc6OTg='
+    SEASME_SEEDS = 'ZGlldGFyeUZsYWc6MTY='
+    SHELLFISH = 'ZGlldGFyeUZsYWc6OA=='
+    SMOKED_MEATS = 'ZGlldGFyeUZsYWc6MTM2'
+    SOY_BEANS = 'ZGlldGFyeUZsYWc6Ng=='
+    SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
+    TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
+    WHEAT = 'ZGlldGFyeUZsYWc6Mg=='

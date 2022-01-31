@@ -166,6 +166,15 @@ class Recipe(Type):
     media = Field(RecipeMedia)
 
 
+class DietaryFlag(Type):
+    name = str
+    id = str
+
+
+class DietaryFlagsWithUsages(Type):
+    dietaryFlag = Field(DietaryFlag)
+
+
 class RecipeNode(Node):
     id = str
     name = str
@@ -178,6 +187,7 @@ class RecipeNode(Node):
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
+    dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
 
 
 class RecipeEdge(Type):
