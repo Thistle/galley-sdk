@@ -151,7 +151,7 @@ def get_menu_query(dates: List[str]) -> Operation:
         'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
     )
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'recipeItems', 'categoryValues', 'media')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'media')
     query.viewer.menus.menuItems.recipe.media.__fields__('altText', 'caption', 'sourceUrl')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')

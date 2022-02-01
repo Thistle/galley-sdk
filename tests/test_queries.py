@@ -73,6 +73,7 @@ class TestQueryWeekMenuData(TestCase):
             }
             recipe {
             externalName
+            name
             recipeItems {
             subRecipeId
             preparations {
