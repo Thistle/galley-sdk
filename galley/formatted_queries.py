@@ -148,6 +148,7 @@ class FormattedRecipe:
         self.externalName = get_external_name(recipe_data)
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
+        self.isSellable = recipe_data.get('isDish')
         self.lifestylePhotoUrl = get_lifestyle_photo_url(recipe_data.get('media', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
@@ -373,7 +374,8 @@ def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
 
 def get_formatted_menu_data(dates: List[str],
                             location_name: str="Vacaville",
-                            menu_type: str="production"
+                            menu_type: str="production",
+                            onlySellableMenuItems: bool=False
                             ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type)
     formatted_menus = []
@@ -405,6 +407,9 @@ def get_formatted_menu_data(dates: List[str],
                 if (categoryValue['category']['id'] ==
                         MenuItemCategoryEnum.PRODUCT_CODE.value):
                     itemCode = categoryValue['name']
+
+            if onlySellableMenuItems and not formatted_recipe.isSellable:
+                continue
 
             formatted_menu['menuItems'].append({
                 'id': menu_item.get('id'),

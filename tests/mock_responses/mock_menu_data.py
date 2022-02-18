@@ -77,6 +77,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                          'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
                          'name': 'vegan'}
                     ],
+                    'isDish': True,
                     'recipeItems': [{
                         'preparations': [
                             {
@@ -148,6 +149,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
                             'name': 'vegan'}
                     ],
+                    'isDish': True,
                     'recipeItems': [{
                         'preparations': [
                             {
@@ -217,6 +219,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
                             'name': 'meat'}
                     ],
+                    'isDish': True,
                     'recipeItems': [{
                         'preparations': [
                             {
@@ -228,6 +231,27 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             }
                         ],
                         'subRecipeId': 'SUBRECIPEID321'
+                    }],
+                },
+            },
+            {
+                'id': 'MENUITEM4JKL',
+                'recipeId': 'RECIPE4JKL',
+                'categoryValues': [{
+                    'name': 'non-sellable soup',
+                    'category': {
+                        'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
+                        'itemType': 'menuItem',
+                        'name': 'product_code'
+                    }
+                }],
+                'recipe': {
+                    'externalName': 'Test Recipe Name 4',
+                    'categoryValues': [],
+                    'isDish': False,
+                    'recipeItems': [{
+                        'preparations': [],
+                        'subRecipeId': None
                     }],
                 },
             }

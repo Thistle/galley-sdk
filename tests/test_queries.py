@@ -95,6 +95,7 @@ class TestQueryWeekMenuData(TestCase):
             caption
             sourceUrl
             }
+            isDish
             }
             }
             }

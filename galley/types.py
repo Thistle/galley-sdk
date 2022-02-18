@@ -164,6 +164,7 @@ class Recipe(Type):
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
+    isDish = bool
 
 
 class DietaryFlag(Type):
