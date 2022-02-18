@@ -401,7 +401,6 @@ def get_formatted_menu_data(dates: List[str],
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
             formatted_recipe = FormattedRecipe(recipe_data=menu_item.get('recipe', {}))
-            skip_non_sellable = onlySellableMenuItems and not formatted_recipe.isSellable
             itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
@@ -409,19 +408,21 @@ def get_formatted_menu_data(dates: List[str],
                         MenuItemCategoryEnum.PRODUCT_CODE.value):
                     itemCode = categoryValue['name']
 
-            if not skip_non_sellable:
-                formatted_menu['menuItems'].append({
-                    'id': menu_item.get('id'),
-                    'itemCode': itemCode,
-                    'mealSlug': get_meal_slug(menu_item),
-                    'recipeId': menu_item.get('recipeId'),
-                    'recipeName': formatted_recipe.externalName,
-                    'recipeMenuPhotoUrl': formatted_recipe.lifestylePhotoUrl,
-                    'recipeMealType': formatted_recipe.recipe_tags.get('mealType', ''),
-                    'recipeProteinType': formatted_recipe.recipe_tags.get('proteinType', ''),
-                    'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
-                    'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
-                })
+            if onlySellableMenuItems and not formatted_recipe.isSellable:
+                continue
+
+            formatted_menu['menuItems'].append({
+                'id': menu_item.get('id'),
+                'itemCode': itemCode,
+                'mealSlug': get_meal_slug(menu_item),
+                'recipeId': menu_item.get('recipeId'),
+                'recipeName': formatted_recipe.externalName,
+                'recipeMenuPhotoUrl': formatted_recipe.lifestylePhotoUrl,
+                'recipeMealType': formatted_recipe.recipe_tags.get('mealType', ''),
+                'recipeProteinType': formatted_recipe.recipe_tags.get('proteinType', ''),
+                'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
+                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
+            })
 
         formatted_menus.append(formatted_menu)
     return formatted_menus
