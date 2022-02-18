@@ -90,6 +90,7 @@ def mock_recipe_base(id):
                 'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_lifestyle{id}.jpg'
             },
         ],
+        'isDish': True,
         'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data,
         'dietaryFlagsWithUsages': []
