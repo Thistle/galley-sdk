@@ -121,7 +121,11 @@ mock_recipe_tree_components_data = [
                     'id': PreparationEnum.STANDALONE.value,
                     'name': 'standalone'
                 }
-            ]
+            ],
+            'subRecipe': {
+                'id': 'standalone1',
+                'name': 'Standalone 1'
+            }
         }
     },
     {
@@ -1426,7 +1430,7 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                 "name": "each"
             }
         }
-    }    
+    }
 ]
 
 mock_recipe_tree_components_data_with_one_serving_of_standalone = [

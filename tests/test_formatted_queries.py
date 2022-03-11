@@ -131,22 +131,27 @@ class TestCalculateServingSizeWeight(TestCase):
 
 class TestFormattedRecipeTreeComponents(TestCase):
     def test_weight_from_recipe_tree_components_with_pkg_and_standalone(self):
-        expected_result = 829
+        expected_net_weight = 829
+        expected_gross_weight = 1382
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data)
-        self.assertEqual(result['weight'], expected_result)
+        self.assertEqual(result['netWeight'], expected_net_weight)
+        self.assertEqual(result['grossWeight'], expected_gross_weight)
 
     def test_weight_from_recipe_tree_components_successful_no_pkg_no_standalone(self):
         expected_result = 1382
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_no_pkg_no_standalone)
-        self.assertEqual(result['weight'], expected_result)
+        self.assertEqual(result['netWeight'], expected_result)
+        self.assertEqual(result['grossWeight'], expected_result)
 
     def test_weight_from_recipe_tree_components_empty(self):
         result = format_recipe_tree_components_data([])
-        self.assertEqual(result['weight'], 0)
+        self.assertEqual(result['netWeight'], 0)
+        self.assertEqual(result['grossWeight'], 0)
 
     def test_format_recipe_tree_components_data_with_more_than_one_serving_of_standalone_component(self):
+        self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
         expected = {
@@ -222,11 +227,12 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Sambal (Red Chile Peppers, Vinegar, Salt)",
                 "Garlic"
             ],
-            'standaloneWeight': 71,
+            'standaloneNetWeight': 71,
             'standaloneSuggestedServing': "1 oz",
             'standaloneServingSizeWeight': 28,
             'standaloneServings': 2.5,
-            'weight': 156,
+            'netWeight': 156,
+            'grossWeight': 227,
             'hasStandalone': True
         }
         self.assertEqual(result, expected)
@@ -307,11 +313,12 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Sambal (Red Chile Peppers, Vinegar, Salt)",
                 "Garlic"
             ],
-            'standaloneWeight': 43,
+            'standaloneNetWeight': 43,
             'standaloneSuggestedServing': "1.5 oz",
             'standaloneServingSizeWeight': 43,
             'standaloneServings': 1.0,
-            'weight': 156,
+            'netWeight': 156,
+            'grossWeight': 199,
             'hasStandalone': True
         }
         self.assertEqual(result, expected)
@@ -392,11 +399,12 @@ class TestFormattedRecipeTreeComponents(TestCase):
                 "Sambal (Red Chile Peppers, Vinegar, Salt)",
                 "Garlic"
             ],
-            'standaloneWeight': 43,
+            'standaloneNetWeight': 43,
             'standaloneSuggestedServing': None,
             'standaloneServingSizeWeight': None,
             'standaloneServings': None,
-            'weight': 156,
+            'netWeight': 156,
+            'grossWeight': 199,
             'hasStandalone': True
         }
         self.assertEqual(result, expected)
@@ -405,6 +413,7 @@ class TestGetFormattedRecipesData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
+        self.maxDiff = None
         expected_result = [
             {
                 'id': '1',
@@ -427,13 +436,14 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'weight': 829,
-                'hasStandalone': False,
+                'netWeight': 829,
+                'grossWeight': 1382,
+                'hasStandalone': True,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneWeight': None,
+                'standaloneRecipeId': 'standalone1',
+                'standaloneRecipeName': 'Standalone 1',
+                'standaloneNetWeight': 276,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,
@@ -463,14 +473,15 @@ class TestGetFormattedRecipesData(TestCase):
                 ],
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneWeight': None,
+                'standaloneRecipeId': 'standalone1',
+                'standaloneRecipeName': 'Standalone 1',
+                'standaloneNetWeight': 276,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,
-                'weight': 829,
-                'hasStandalone': False,
+                'netWeight': 829,
+                'grossWeight': 1382,
+                'hasStandalone': True,
                 'hasAllergen': False,
                 'allergens': []
             }
@@ -525,11 +536,11 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(formatted_recipe['hasStandalone'], True)
         self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
         self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
-        self.assertEqual(formatted_recipe['standaloneWeight'], 71)
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], 71)
         self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
         self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
         self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
-    
+
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_allergen_successful(
         self, mock_retrieval_method
@@ -557,13 +568,14 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'weight': 829,
-                'hasStandalone': False,
+                'netWeight': 829,
+                'grossWeight': 1382,
+                'hasStandalone': True,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneWeight': None,
+                'standaloneRecipeId': 'standalone1',
+                'standaloneRecipeName': 'Standalone 1',
+                'standaloneNetWeight': 276,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,
@@ -617,13 +629,14 @@ class TestGetFormattedRecipesData(TestCase):
                     'Unique 2',
                     'Unique 4'
                 ],
-                'weight': 829,
-                'hasStandalone': False,
+                'netWeight': 829,
+                'grossWeight': 1382,
+                'hasStandalone': True,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneWeight': None,
+                'standaloneRecipeId': 'standalone1',
+                'standaloneRecipeName': 'Standalone 1',
+                'standaloneNetWeight': 276,
                 'standaloneSuggestedServing': None,
                 'standaloneServingSizeWeight': None,
                 'standaloneServings': None,

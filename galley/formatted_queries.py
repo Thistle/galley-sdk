@@ -35,8 +35,8 @@ def calculate_servings(
     nutritionals_quantity: Optional[float]
 ) -> Optional[float]:
     """
-    Given a usage quantity (how much of a given component 
-    is included in a recipe) and a nutritionals_quantity 
+    Given a usage quantity (how much of a given component
+    is included in a recipe) and a nutritionals_quantity
     (the size of one serving of the component),
     returns a number representing how many servings of the component
     are included in the recipe.
@@ -51,10 +51,10 @@ def calculate_serving_size_weight(
     weight: Optional[float], number_of_servings: Optional[float]
 ) -> Optional[float]:
     """
-    Given a weight (representing the total weight of the 
-    component included in a recipe) and a number of servings 
+    Given a weight (representing the total weight of the
+    component included in a recipe) and a number of servings
     (how many servings of the component are included),
-    returns a number representing the weight of 
+    returns a number representing the weight of
     just one serving of the component.
     """
     if weight is not None and number_of_servings is not None:
@@ -125,9 +125,9 @@ class RecipeItem:
 
     def standalone_usage_quantity(self):
         """
-        Returns the recipe item's usage quantity 
+        Returns the recipe item's usage quantity
         (how much of a given component is included in a recipe)
-        based on the type of unit specified by the 
+        based on the type of unit specified by the
         nutritonals_unit (i.e. "oz"). Returns None if there is
         not a quantity available for the specified unit.
         """
@@ -199,7 +199,7 @@ def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
             dietary_flag_name = dietary_flags_mapping.get(flag_id, None)
             if dietary_flag_name:
                 allergens.append(dietary_flag_name)
-    
+
     return {
         'allergens': allergens,
         'hasAllergen': True if len(allergens) > 0 else False
@@ -236,7 +236,8 @@ def format_recipe_tree_components_data(
     Returns a dictionary containing total weight of recipe and
     subrecipe details.
     """
-    total_weight = 0
+    net_weight = 0
+    gross_weight = 0
     standalone_recipe_items = []
     for recipe_tree_component in recipe_tree_components:
         recipe_item_dict = recipe_tree_component.get('recipeItem', {})
@@ -250,13 +251,17 @@ def format_recipe_tree_components_data(
                 subrecipe=recipe_item_dict.get('subRecipe')
             )
 
+            item_weight = recipe_item.mass() if recipe_item.mass() else 0
+
             if recipe_item.is_packaging():
-                continue
+                gross_weight += item_weight
             elif recipe_item.is_standalone():
                 if recipe_item.subrecipe:
                     standalone_recipe_items.append(recipe_item)
+                    gross_weight += item_weight
             else:
-                total_weight += recipe_item.mass() if recipe_item.mass() else 0
+                net_weight += item_weight
+                gross_weight += item_weight
 
     standalone_recipe_item = standalone_recipe_items[0] if\
         standalone_recipe_items else None
@@ -268,7 +273,8 @@ def format_recipe_tree_components_data(
     standalone_data = format_standalone_data(standalone_recipe_item)
 
     return {
-        'weight': round(total_weight),
+        'netWeight': round(net_weight),
+        'grossWeight': round(gross_weight),
         'hasStandalone': True if standalone_recipe_item else False,
         **standalone_data
     }
@@ -280,7 +286,7 @@ def format_standalone_data(standalone_recipe_item):
         'standaloneRecipeName': None,
         'standaloneNutrition': None,
         'standaloneIngredients': None,
-        'standaloneWeight': None,
+        'standaloneNetWeight': None,
         'standaloneSuggestedServing': None,
         'standaloneServingSizeWeight': None,
         'standaloneServings': None
@@ -289,18 +295,18 @@ def format_standalone_data(standalone_recipe_item):
     if standalone_recipe_item:
         standalone_subrecipe = standalone_recipe_item.subrecipe
         if standalone_subrecipe:
-            standalone_recipe_item_weight = standalone_recipe_item.mass()
+            standalone_recipe_item_net_weight = standalone_recipe_item.mass()
             standalone_nutritionals_quantity = standalone_recipe_item.standalone_nutritionals_quantity()
             standalone_nutritionals_unit = standalone_recipe_item.standalone_nutritionals_unit()
             standalone_usage_quantity = standalone_recipe_item.standalone_usage_quantity()
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
-            standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_weight, standalone_servings)
+            standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
 
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
             standalone_data['standaloneIngredients'] = standalone_subrecipe.get('allIngredients')
-            standalone_data['standaloneWeight'] = round(standalone_recipe_item_weight) if standalone_recipe_item_weight else None
+            standalone_data['standaloneNetWeight'] = round(standalone_recipe_item_net_weight) if standalone_recipe_item_net_weight else None
             standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
             standalone_data['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
             standalone_data['standaloneServings'] = standalone_servings if standalone_servings else None
