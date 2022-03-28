@@ -83,11 +83,11 @@ def mock_recipe_base(id):
                 'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
             },
             {
-                'altText': f'lifestyle{id}.jpg',
-                'caption': 'lifestyle',
-                'sourceUrl': f'https://cdn.filestackcontent.com/LIFESTYLE{id}',
+                'altText': f'menu{id}.jpg',
+                'caption': 'menu',
+                'sourceUrl': f'https://cdn.filestackcontent.com/MENU{id}',
                 'mediaId': 'bWVkaWE6OTEwNA==',
-                'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_lifestyle{id}.jpg'
+                'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
             },
         ],
         'isDish': True,
