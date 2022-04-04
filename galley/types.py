@@ -1,29 +1,12 @@
 from os import name
 from typing import Any, Dict
-from sgqlc.types import (
-    ID,
-    ArgDict,
-    Enum,
-    Field,
-    Input,
-    Int,
-    Type,
-    datetime as d,
-    list_of
-)
-from sgqlc.types.relay import (
-    Connection,
-    Node
-)
+from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
+                         as d, list_of)
+from sgqlc.types.relay import (Connection, Node)
 
 
 class CategoryItemTypeEnum(Enum):
-    __choices__ = ('menuItem',
-                   'ingredient',
-                   'recipe',
-                   'menu',
-                   'vendorItem',
-                   'purchaseOrder')
+    __choices__ = ('menuItem', 'ingredient', 'recipe', 'menu', 'vendorItem', 'purchaseOrder')
 
 
 class Category(Type):
@@ -152,6 +135,15 @@ class RecipeMedia(Type):
     sourceUrl = str
 
 
+class EntityMedia(Type):
+    caption = str
+    sourceUrl = str
+
+
+class Files(Type):
+    photos = Field(EntityMedia)
+
+
 class Recipe(Type):
     id = str
     name = str
@@ -164,7 +156,9 @@ class Recipe(Type):
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
+    file = Field(Files)
     isDish = bool
+    totalYield = float
 
 
 class DietaryFlag(Type):
@@ -222,6 +216,7 @@ class MenuItem(Type):
     categoryValues = Field(CategoryValue)
     recipe = Field(Recipe)
     unit = Field(Unit)
+    volume = float
 
 
 class Menu(Type):

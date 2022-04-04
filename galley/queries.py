@@ -28,7 +28,7 @@ class Viewer(Type):
     menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
 
 
-# This is graphql root for querying data according to sgqlc lib. 
+# This is graphql root for querying data according to sgqlc lib.
 # So this class name has to be Query.
 class Query(Type):
     viewer = Field(Viewer)
@@ -60,55 +60,40 @@ def recipe_connection_query(
     query = Operation(Query)
     query.viewer.recipeConnection(
         filters=RecipeConnectionFilter(id=recipe_ids),
-        paginationOptions=PaginationOptions(
-            first=page_size, startIndex=start_index
-        )
+        paginationOptions=PaginationOptions(first=page_size, startIndex=start_index)
     )
     query.viewer.recipeConnection.edges()
     query.viewer.recipeConnection.pageInfo()
     query.viewer.recipeConnection.totalCount
 
-    query.viewer.recipeConnection.edges.node.__fields__(
-        'id', 'externalName', 'name', 'notes', 'description',
-        'media', 'categoryValues', 'reconciledNutritionals', 'recipeItems',
-    )
-    query.viewer.recipeConnection.edges.node.media.__fields__(
-        'altText', 'caption', 'sourceUrl'
-    )
-    query.viewer.recipeConnection.edges.node.recipeItems.__fields__(
-        'ingredient', 'subRecipe', 'preparations'
-    )
-    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.__fields__(
-        'externalName', 'categoryValues'
-    )
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents(
-        levels=[1]).__fields__('id', 'quantityUnitValues', 'recipeItem'
-    )
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
-        quantityUnitValues.__fields__('unit', 'value')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
-        quantityUnitValues.unit.__fields__('id', 'name')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
-        recipeItem.__fields__(
-            'preparations', 'ingredient', 'subRecipe',
-            'subRecipeId', 'quantity', 'unit'
-        )
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
-        recipeItem.preparations.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.\
+        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'reconciledNutritionals', 'recipeItems')
+    query.viewer.recipeConnection.edges.node.media.\
+        __fields__('altText', 'caption', 'sourceUrl')
+    query.viewer.recipeConnection.edges.node.recipeItems.\
+        __fields__('ingredient', 'subRecipe', 'preparations')
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
+        __fields__('externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
+        __fields__('id', 'quantityUnitValues', 'recipeItem')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.quantityUnitValues.\
+        __fields__('unit', 'value')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.quantityUnitValues.unit.\
+        __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
-        ingredient.__fields__('categoryValues', 'externalName')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
-        ingredient.categoryValues.__fields__('id', 'name', 'category')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
-        subRecipe.__fields__(
-            'id', 'allIngredients', 'externalName', 'name',
-            'reconciledNutritionals', 'nutritionalsQuantity',
-            'nutritionalsUnit'
-        )
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.\
-        recipeItem.unit.__fields__('id', 'name')
-    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.\
-        dietaryFlag.__fields__('id')
+        __fields__('preparations', 'ingredient', 'subRecipe', 'subRecipeId', 'quantity', 'unit')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.preparations.\
+        __fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
+        __fields__('categoryValues', 'externalName')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.categoryValues.\
+        __fields__('id', 'name', 'category')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
+        __fields__('id', 'allIngredients', 'externalName', 'name', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.unit.\
+        __fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.dietaryFlag.\
+        __fields__('id')
 
     return query
 
@@ -147,10 +132,8 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
 
 def get_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__(
-        'id', 'name', 'date', 'location', 'categoryValues', 'menuItems'
-    )
-    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
+    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
     query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'media', 'isDish')
     query.viewer.menus.menuItems.recipe.media.__fields__('altText', 'caption', 'sourceUrl')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')

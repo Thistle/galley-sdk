@@ -1,7 +1,6 @@
 import logging
 from re import M
 from typing import Dict, List, Optional
-
 from galley.enums import (
     DietaryFlagEnum,
     IngredientCategoryTagTypeEnum,
@@ -13,6 +12,7 @@ from galley.enums import (
     RecipeMediaEnum,
 )
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -77,9 +77,7 @@ class RecipeItem:
         self, preparations: List[Dict[str, str]], ingredient=None,
         quantity_unit_values=None, nutrition=None, subrecipe=None
     ):
-        self.category_values = ingredient.get(
-            'categoryValues', []
-        ) if ingredient else []
+        self.category_values = ingredient.get('categoryValues', []) if ingredient else []
         self.preparations = preparations
         self.quantity_unit_values = quantity_unit_values
         self.nutrition = nutrition
@@ -155,11 +153,8 @@ class FormattedRecipe:
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
         self.recipe_items = recipe_data.get('recipeItems', [])
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
-        self.formatted_recipe_tree_components_data = \
-            format_recipe_tree_components_data(self.recipe_tree_components)
-        self.allergens = get_recipe_allergens(
-            recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', [])
-        )
+        self.formatted_recipe_tree_components_data = format_recipe_tree_components_data(self.recipe_tree_components)
+        self.allergens = get_recipe_allergens(recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', []))
 
     def to_dict(self):
         return {
@@ -168,9 +163,7 @@ class FormattedRecipe:
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,
-            'ingredients': ingredients_from_recipe_items(
-                recipe_items=self.recipe_items
-            ),
+            'ingredients': ingredients_from_recipe_items(recipe_items=self.recipe_items),
             'menuPhotoUrl': self.menuPhotoUrl,
             **self.formatted_recipe_tree_components_data,
             **self.recipe_tags,
@@ -245,8 +238,7 @@ def format_recipe_tree_components_data(
             recipe_item = RecipeItem(
                 preparations=recipe_item_dict.get('preparations', []),
                 ingredient=recipe_item_dict.get('ingredient', {}),
-                quantity_unit_values=recipe_tree_component.get(
-                    'quantityUnitValues', []),
+                quantity_unit_values=recipe_tree_component.get('quantityUnitValues', []),
                 nutrition=recipe_item_dict.get('reconciledNutritionals'),
                 subrecipe=recipe_item_dict.get('subRecipe')
             )
@@ -310,7 +302,6 @@ def format_standalone_data(standalone_recipe_item):
             standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
             standalone_data['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
             standalone_data['standaloneServings'] = standalone_servings if standalone_servings else None
-
     return standalone_data
 
 
@@ -337,7 +328,6 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
                 for _ingredient in sub_recipe.get('allIngredients'):
                     if _ingredient not in ingredients:
                         ingredients.append(_ingredient)
-
     return ingredients
 
 
@@ -400,8 +390,7 @@ def get_formatted_menu_data(dates: List[str],
 
         categoryValues = menu['categoryValues']
         for categoryValue in categoryValues:
-            if (categoryValue['category']['id'] ==
-                    MenuCategoryEnum.MENU_TYPE.value):
+            if (categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
                 formatted_menu['categoryMenuType'] = categoryValue['name']
 
         menu_items = menu.get('menuItems', [])
@@ -410,8 +399,7 @@ def get_formatted_menu_data(dates: List[str],
             itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
-                if (categoryValue['category']['id'] ==
-                        MenuItemCategoryEnum.PRODUCT_CODE.value):
+                if (categoryValue['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
                     itemCode = categoryValue['name']
 
             if onlySellableMenuItems and not formatted_recipe.isSellable:
@@ -429,6 +417,56 @@ def get_formatted_menu_data(dates: List[str],
                 'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
                 'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
             })
+        formatted_menus.append(formatted_menu)
+    return formatted_menus
 
+
+def get_formatted_menu_plating_data(dates: List[str],
+                                    location_name: str="Vacaville",
+                                    menu_type: str="production",
+                                    onlySellableMenuItems: bool=False
+                                    ) -> Optional[List[Dict]]:
+    menus = get_raw_menu_data(dates, location_name, menu_type)
+    formatted_menus = []
+
+    if not menus:
+        return None
+
+    for menu in menus:
+        formatted_menu = {
+            'name': menu.get('name'),
+            'id': menu.get('id'),
+            'date': menu.get('date'),
+            'location': menu['location'].get('name'),
+            'menuItems': []
+        } # type: Dict
+
+        categoryValues = menu['categoryValues']
+        for categoryValue in categoryValues:
+            if (categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
+                formatted_menu['categoryMenuType'] = categoryValue['name']
+
+        menu_items = menu.get('menuItems', [])
+        for menu_item in menu_items:
+            formatted_recipe = FormattedRecipe(recipe_data=menu_item.get('recipe', {}))
+            itemCode = ''
+            categoryValues = menu_item['categoryValues']
+            for categoryValue in categoryValues:
+                if (categoryValue['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
+                    itemCode = categoryValue['name']
+
+            if onlySellableMenuItems and not formatted_recipe.isSellable:
+                continue
+
+            formatted_menu['menuItems'].append({
+                'id': menu_item.get('id'),
+                'recipeId': menu_item.get('recipeId'),
+                'recipeName': formatted_recipe.externalName,
+                'recipeMenuPhotoUrl': formatted_recipe.menuPhotoUrl,
+                'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
+                'mealCode': itemCode,
+                # 'netWeight': 'total weight per single meal',
+                'totalCount': menu_item.get('volume')
+            })
         formatted_menus.append(formatted_menu)
     return formatted_menus
