@@ -424,9 +424,11 @@ def get_formatted_menu_data(dates: List[str],
 def get_formatted_menu_plating_data(dates: List[str],
                                     location_name: str="Vacaville",
                                     menu_type: str="production",
-                                    onlySellableMenuItems: bool=False
                                     ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type)
+    recipe_ids = [mi['recipeId'] for menu in menus for mi in menu.get('menuItems', []) if 'recipeId' in mi]
+    formatted_recipes = get_formatted_recipes_data(recipe_ids)
+    recipes_data = {r['id']: r for r in formatted_recipes} if formatted_recipes else {}
     formatted_menus = []
 
     if not menus:
@@ -448,15 +450,13 @@ def get_formatted_menu_plating_data(dates: List[str],
 
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
-            formatted_recipe = FormattedRecipe(recipe_data=menu_item.get('recipe', {}))
+            formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
+            recipe_data = recipes_data.get(menu_item.get('recipeId'), {})
             itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
                 if (categoryValue['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
                     itemCode = categoryValue['name']
-
-            if onlySellableMenuItems and not formatted_recipe.isSellable:
-                continue
 
             formatted_menu['menuItems'].append({
                 'id': menu_item.get('id'),
@@ -465,7 +465,7 @@ def get_formatted_menu_plating_data(dates: List[str],
                 'recipeMenuPhotoUrl': formatted_recipe.menuPhotoUrl,
                 'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'mealCode': itemCode,
-                # 'netWeight': 'total weight per single meal',
+                'netWeight': (recipe_data['netWeight'] or 0) + (recipe_data['standaloneNetWeight'] or 0),
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
