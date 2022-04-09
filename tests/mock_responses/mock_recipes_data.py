@@ -65,7 +65,23 @@ def mock_recipe_base(id):
                     'itemType': 'recipe',
                     'name': 'base meal'
                 }
-            }
+            },
+            {
+                'name': 'new',
+                'category': {
+                    'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value,
+                    'itemType': 'recipe',
+                    'name': 'highlight_1'
+                }
+            },
+            {
+                'name': 'spicy',
+                'category': {
+                    'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value,
+                    'itemType': 'recipe',
+                    'name': 'highlight_2'
+                }
+            },
         ],
         'media': [
             {

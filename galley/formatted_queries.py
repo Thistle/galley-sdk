@@ -217,6 +217,8 @@ def get_recipe_category_tags(
         RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value: 'proteinAddOn',
         RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value: 'baseMealSlug',
         RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
+        RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value: 'highlightOne',
+        RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value: 'highlightTwo',
     }
 
     for recipe_category_value in recipe_category_values:
@@ -226,7 +228,23 @@ def get_recipe_category_tags(
 
         if label and recipe_category_value_name:
             recipe_tags.setdefault(label, recipe_category_value_name)
-    return recipe_tags
+
+    return format_highlight_tags(recipe_tags)
+
+def format_highlight_tags(
+    recipe_tags: Dict
+) -> Optional[Dict]:
+    highlight_tag_values = []
+    new_recipe_tags = dict(recipe_tags)
+
+    for key, value in new_recipe_tags.items():
+        if key in ('highlightOne', 'highlightTwo'):
+            highlight_tag_values.append(value)
+
+    new_recipe_tags.pop('highlightOne', None)
+    new_recipe_tags.pop('highlightTwo', None)
+    new_recipe_tags.setdefault('highlightTags', highlight_tag_values)
+    return new_recipe_tags
 
 
 def format_recipe_tree_components_data(

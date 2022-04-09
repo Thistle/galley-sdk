@@ -428,6 +428,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -463,6 +464,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -560,6 +562,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -621,6 +624,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
