@@ -48,6 +48,8 @@ class RecipeCategoryTagTypeEnum(Enum):
     PROTEIN_ADDON_TAG = 'Y2F0ZWdvcnk6MjU4MQ=='
     BASE_MEAL_SLUG_TAG = 'Y2F0ZWdvcnk6MjYyMA=='
     BASE_MEAL_TAG = 'Y2F0ZWdvcnk6MjU4OQ=='
+    HIGHLIGHT_ONE_TAG = 'Y2F0ZWdvcnk6MjU3OA=='
+    HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
 
 class RecipeMediaEnum(Enum):
     """
