@@ -208,7 +208,7 @@ def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
 
 def get_recipe_category_tags(
     recipe_category_values: List[Dict]
-) -> Optional[Dict]:
+) -> Dict:
     recipe_tags: Dict = {}
     recipe_tag_labels: Dict = {
         RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value: 'proteinType',
@@ -229,22 +229,23 @@ def get_recipe_category_tags(
         if label and recipe_category_value_name:
             recipe_tags.setdefault(label, recipe_category_value_name)
 
-    return format_highlight_tags(recipe_tags)
+    recipe_tags = format_highlight_tags(recipe_tags)
+    return recipe_tags
+
 
 def format_highlight_tags(
     recipe_tags: Dict
-) -> Optional[Dict]:
+) -> Dict:
     highlight_tag_values = []
-    new_recipe_tags = dict(recipe_tags)
 
-    for key, value in new_recipe_tags.items():
+    for key, value in recipe_tags.items():
         if key in ('highlightOne', 'highlightTwo'):
             highlight_tag_values.append(value)
 
-    new_recipe_tags.pop('highlightOne', None)
-    new_recipe_tags.pop('highlightTwo', None)
-    new_recipe_tags.setdefault('highlightTags', highlight_tag_values)
-    return new_recipe_tags
+    recipe_tags.pop('highlightOne', None)
+    recipe_tags.pop('highlightTwo', None)
+    recipe_tags.setdefault('highlightTags', highlight_tag_values)
+    return recipe_tags
 
 
 def format_recipe_tree_components_data(
