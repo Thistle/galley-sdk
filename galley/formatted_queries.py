@@ -421,11 +421,11 @@ def get_formatted_menu_data(dates: List[str],
     return formatted_menus
 
 
-def get_formatted_menu_plating_data(dates: List[str],
+def get_formatted_menu_ops_data(dates: List[str],
                                     location_name: str="Vacaville",
                                     menu_type: str="production",
                                     ) -> Optional[List[Dict]]:
-    menus = get_raw_menu_data(dates, location_name, menu_type)
+    menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
     recipe_ids = [mi['recipeId'] for menu in menus for mi in menu.get('menuItems', []) if 'recipeId' in mi]
     formatted_recipes = get_formatted_recipes_data(recipe_ids)
     recipes_data = {r['id']: r for r in formatted_recipes} if formatted_recipes else {}
@@ -465,7 +465,8 @@ def get_formatted_menu_plating_data(dates: List[str],
                 'recipeMenuPhotoUrl': formatted_recipe.menuPhotoUrl,
                 'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'mealCode': itemCode,
-                'netWeight': (recipe_data['netWeight'] or 0) + (recipe_data['standaloneNetWeight'] or 0),
+                'recipeComponents': formatted_recipe.recipe_tree_components,
+                # 'netWeight': (recipe_data['netWeight'] or 0) + (recipe_data['standaloneNetWeight'] or 0),
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)

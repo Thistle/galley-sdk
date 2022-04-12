@@ -126,7 +126,6 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
         page_info = validated_data.get('pageInfo', {})
         start_index = page_info.get('endIndex')
         has_next_page = page_info.get('hasNextPage', False)
-
     return raw_recipes_data
 
 
@@ -141,9 +140,30 @@ def get_menu_query(dates: List[str]) -> Operation:
     return query
 
 
+def get_ops_menu_query(dates: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
+    query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'description', 'media', 'totalYield', 'recipeInstructions', 'recipeTreeComponents')
+    query.viewer.menus.menuItems.recipe.recipeInstructions.__fields__('text', 'position')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.__fields__('ingredient', 'recipeItem', 'quantityUnitValues')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations', 'subRecipe')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'recipeInstructions')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.__fields__('ingredient', 'recipeItem', 'quantityUnitValues')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.__fields__('preparations', 'subRecipe')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'recipeInstructions')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
+    return query
+
+
 def get_raw_menu_data(dates: List[str],
                       location_name: str,
-                      menu_type: str
+                      menu_type: str,
+                      is_ops: bool=False,
                       ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.
@@ -156,6 +176,10 @@ def get_raw_menu_data(dates: List[str],
     "development"
     """
     query = get_menu_query(dates=dates)
+
+    if is_ops:
+        query = get_ops_menu_query(dates=dates)
+
     validated_response_data = validate_response_data(
             make_request_to_galley(
                 op=query.__to_graphql__(auto_select_depth=3),

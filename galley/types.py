@@ -89,33 +89,20 @@ class Nutrition(Type):
 
 
 class Ingredient(Type):
+    id = Field(ID)
+    name = str
     externalName = str
     categoryValues = Field(CategoryValue)
 
 
-class SubRecipe(Type):
-    id = Field(ID)
-    allIngredients = str
-    name = str
-    externalName = str
-    reconciledNutritionals = Field(Nutrition)
-    nutritionalsQuantity = float
-    nutritionalsUnit = Field(Unit)
+class RecipeInstruction(Type):
+    text = str
+    position = int
 
 
 class Preparation(Type):
     id = Field(ID)
     name = str
-
-
-class RecipeItem(Type):
-    ingredient = Field(Ingredient)
-    subRecipe = Field(SubRecipe)
-    subRecipeId = str
-    preparations = Field(Preparation)
-    quantity = float
-    unit = Field(Unit)
-    reconciledNutritionals = Field(Nutrition)
 
 
 class UnitValue(Type):
@@ -127,6 +114,29 @@ class RecipeTreeComponent(Type):
     id = Field(ID)
     quantityUnitValues = Field(UnitValue)
     recipeItem = Field(RecipeItem)
+    ingredient = Field(Ingredient)
+
+
+class SubRecipe(Type):
+    id = Field(ID)
+    allIngredients = str
+    name = str
+    externalName = str
+    reconciledNutritionals = Field(Nutrition)
+    nutritionalsQuantity = float
+    nutritionalsUnit = Field(Unit)
+    recipeInstructions = Field(RecipeInstruction)
+    recipeTreeComponents = Field(RecipeTreeComponent)
+
+
+class RecipeItem(Type):
+    ingredient = Field(Ingredient)
+    subRecipe = Field(SubRecipe)
+    subRecipeId = str
+    preparations = Field(Preparation)
+    quantity = float
+    unit = Field(Unit)
+    reconciledNutritionals = Field(Nutrition)
 
 
 class RecipeMedia(Type):
@@ -149,6 +159,7 @@ class Recipe(Type):
     name = str
     externalName = str
     instructions = str
+    recipeInstructions = Field(RecipeInstruction)
     notes = str
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
