@@ -113,8 +113,9 @@ class UnitValue(Type):
 class RecipeTreeComponent(Type):
     id = Field(ID)
     quantityUnitValues = Field(UnitValue)
-    recipeItem = Field(RecipeItem)
     ingredient = Field(Ingredient)
+    # Define following fields after recipeItem class is defined
+    recipeItem = int
 
 
 class SubRecipe(Type):
@@ -137,6 +138,10 @@ class RecipeItem(Type):
     quantity = float
     unit = Field(Unit)
     reconciledNutritionals = Field(Nutrition)
+
+
+RecipeTreeComponent.recipeItem = Field(RecipeItem)
+print(RecipeTreeComponent.__dict__)
 
 
 class RecipeMedia(Type):
