@@ -140,10 +140,6 @@ class RecipeItem(Type):
     reconciledNutritionals = Field(Nutrition)
 
 
-# RecipeTreeComponent.recipeItem = Field(RecipeItem)
-print(RecipeTreeComponent.__dict__)
-
-
 class RecipeMedia(Type):
     altText = str
     caption = str
