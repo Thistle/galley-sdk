@@ -22,6 +22,7 @@ class PreparationEnum(Enum):
     STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
     TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
     THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
+    BASE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
 
 
 class IngredientCategoryValueEnum(Enum):
@@ -80,3 +81,10 @@ class DietaryFlagEnum(Enum):
     SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
     TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
     WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
+
+
+class Unit(Enum):
+    """
+    Enum for unit of measurement names <unit name>: <unit name id>
+    """
+    OUNCE = 'dW5pdDoz'

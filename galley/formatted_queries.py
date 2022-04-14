@@ -148,6 +148,7 @@ class FormattedRecipe:
         self.description = recipe_data.get('description')
         self.isSellable = recipe_data.get('isDish')
         self.menuPhotoUrl = get_menu_photo_url(recipe_data.get('media', []))
+        self.files = recipe_data.get('files', {})
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -270,6 +271,13 @@ def format_recipe_tree_components_data(
         'hasStandalone': True if standalone_recipe_item else False,
         **standalone_data
     }
+
+
+def format_ops_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> List[Dict]:
+    formatted_recipe_tree_components = []
+    # for recipe_tree_component in recipe_tree_components:
+
+    return formatted_recipe_tree_components
 
 
 def format_standalone_data(standalone_recipe_item):
@@ -426,9 +434,6 @@ def get_formatted_menu_ops_data(dates: List[str],
                                     menu_type: str="production",
                                     ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
-    recipe_ids = [mi['recipeId'] for menu in menus for mi in menu.get('menuItems', []) if 'recipeId' in mi]
-    formatted_recipes = get_formatted_recipes_data(recipe_ids)
-    recipes_data = {r['id']: r for r in formatted_recipes} if formatted_recipes else {}
     formatted_menus = []
 
     if not menus:
@@ -451,7 +456,6 @@ def get_formatted_menu_ops_data(dates: List[str],
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
             formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
-            recipe_data = recipes_data.get(menu_item.get('recipeId'), {})
             itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
@@ -462,12 +466,12 @@ def get_formatted_menu_ops_data(dates: List[str],
                 'id': menu_item.get('id'),
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
-                'recipeMenuPhotoUrl': formatted_recipe.menuPhotoUrl,
+                'recipePhotos': formatted_recipe.files.get('photos', []),
                 'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'mealCode': itemCode,
                 'recipeComponents': formatted_recipe.recipe_tree_components,
-                # 'netWeight': (recipe_data['netWeight'] or 0) + (recipe_data['standaloneNetWeight'] or 0),
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
+

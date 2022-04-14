@@ -168,7 +168,7 @@ class Recipe(Type):
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
-    file = Field(Files)
+    files = Field(Files)
     isDish = bool
     totalYield = float
 
