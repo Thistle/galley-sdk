@@ -469,7 +469,7 @@ def get_formatted_menu_ops_data(dates: List[str],
                 'recipePhotos': formatted_recipe.files.get('photos', []),
                 'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'mealCode': itemCode,
-                'recipeComponents': formatted_recipe.recipe_tree_components,
+                'recipeTreeComponents': formatted_recipe.recipe_tree_components,
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
