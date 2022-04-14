@@ -147,16 +147,16 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'description', 'media', 'totalYield', 'recipeInstructions', 'recipeTreeComponents')
     query.viewer.menus.menuItems.recipe.recipeInstructions.__fields__('text', 'position')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1], __alias__='recipe_tree_components').__fields__('ingredient', 'recipeItem', 'quantityUnitValues')
-    query.viewer.menus.menuItems.recipe.recipe_tree_components.recipeItem.__fields__('preparations', 'subRecipe')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations', 'subRecipe')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'recipeInstructions')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1], __alias__='sub_recipe_components').__fields__('ingredient', 'recipeItem', 'quantityUnitValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.sub_recipe_components.ingredient.__fields__('id', 'name', 'externalName')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.sub_recipe_components.recipeItem(__alias__='sub_recipe_item').__fields__('preparations', 'subRecipe')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.sub_recipe_components.sub_recipe_item.preparations.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.sub_recipe_components.sub_recipe_item.subRecipe.__fields__('id', 'name', 'externalName', 'recipeInstructions')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.sub_recipe_components.sub_recipe_item.subRecipe.recipeInstructions.__fields__('text', 'position')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem(__alias__='sub_recipe_item').__fields__('preparations', 'subRecipe')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'recipeInstructions')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
     return query
 
 
