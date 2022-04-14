@@ -273,13 +273,6 @@ def format_recipe_tree_components_data(
     }
 
 
-def format_ops_recipe_tree_components_data(recipe_tree_components: List[Dict]) -> List[Dict]:
-    formatted_recipe_tree_components = []
-    # for recipe_tree_component in recipe_tree_components:
-
-    return formatted_recipe_tree_components
-
-
 def format_standalone_data(standalone_recipe_item):
     standalone_data = {
         'standaloneRecipeId': None,
