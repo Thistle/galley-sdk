@@ -358,6 +358,20 @@ def get_menu_photo_url(media: List) -> Optional[str]:
     return None
 
 
+def get_meal_code(menu_item_category_values) -> str:
+    for category_value in menu_item_category_values:
+        if (category_value['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
+            return category_value['name']
+    return ''
+
+
+def get_category_menu_type(menu_category_values) -> str:
+    for category_value in menu_category_values:
+        if (category_value['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
+            return category_value['name']
+    return ''
+
+
 # DATA TRANSFORMATION FUNCTIONS
 
 def get_formatted_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
@@ -423,9 +437,9 @@ def get_formatted_menu_data(dates: List[str],
 
 
 def get_formatted_ops_menu_data(dates: List[str],
-                                    location_name: str="Vacaville",
-                                    menu_type: str="production",
-                                    ) -> Optional[List[Dict]]:
+                                location_name: str="Vacaville",
+                                menu_type: str="production",
+                                ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
     formatted_menus = []
 
@@ -438,30 +452,20 @@ def get_formatted_ops_menu_data(dates: List[str],
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
+            'categoryMenuType': get_category_menu_type(menu['categoryValues']),
             'menuItems': []
         } # type: Dict
-
-        categoryValues = menu['categoryValues']
-        for categoryValue in categoryValues:
-            if (categoryValue['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
-                formatted_menu['categoryMenuType'] = categoryValue['name']
 
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
             formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
-            itemCode = ''
-            categoryValues = menu_item['categoryValues']
-            for categoryValue in categoryValues:
-                if (categoryValue['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
-                    itemCode = categoryValue['name']
-
             formatted_menu['menuItems'].append({
                 'id': menu_item.get('id'),
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
                 'recipePhotos': formatted_recipe.files.get('photos', []),
                 'containerType': formatted_recipe.recipe_tags.get('mealContainer', ''),
-                'mealCode': itemCode,
+                'mealCode': get_meal_code(menu_item['categoryValues']),
                 'recipeTreeComponents': formatted_recipe.recipe_tree_components,
                 'totalCount': menu_item.get('volume')
             })
