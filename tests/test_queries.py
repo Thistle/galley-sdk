@@ -608,3 +608,141 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(['1', '2', '3'])
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
+
+
+class TestOpsMenuDataQuery(TestCase):
+    def setUp(self) -> None:
+        self.expected_query = """query {
+            viewer {
+            menus(where: {date: ["2022-03-28"]}) {
+            id
+            name
+            date
+            location {
+            name
+            }
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            menuItems {
+            id
+            recipeId
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            recipe {
+            id
+            name
+            description
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            totalYield
+            recipeInstructions {
+            text
+            position
+            }
+            recipeTreeComponents {
+            recipeItem {
+            preparations {
+            id
+            name
+            }
+            subRecipe {
+            id
+            name
+            externalName
+            recipeInstructions {
+            text
+            position
+            }
+            sub_recipe_tree_components: recipeTreeComponents(levels: [1]) {
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            }
+            recipeTreeComponents {
+            ingredient {
+            id
+            name
+            externalName
+            }
+            sub_recipe_item: recipeItem {
+            preparations {
+            id
+            name
+            }
+            }
+            recipeItem {
+            preparations {
+            id
+            name
+            }
+            subRecipe {
+            id
+            name
+            externalName
+            recipeInstructions {
+            text
+            position
+            }
+            }
+            }
+            }
+            }
+            }
+            }
+            files {
+            photos {
+            sourceUrl
+            caption
+            }
+            }
+            recipe_tree_components: recipeTreeComponents(levels: [1]) {
+            ingredient {
+            id
+            name
+            externalName
+            categoryValues {
+            id
+            name
+            }
+            }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            }
+            }
+            volume
+            }
+            }
+            }
+            }
+        """
+        
