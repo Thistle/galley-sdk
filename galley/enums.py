@@ -81,10 +81,3 @@ class DietaryFlagEnum(Enum):
     SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
     TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
     WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
-
-
-class Unit(Enum):
-    """
-    Enum for unit of measurement names <unit name>: <unit name id>
-    """
-    OUNCE = 'dW5pdDoz'
