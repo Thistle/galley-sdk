@@ -420,7 +420,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
 class TestGetRecipeCategoryTags(TestCase):
 
     def test_get_recipe_category_tags_with_all_tags_populated(self):
-        recipe_category_values = mock_recipe_category_values.mock_data_all_categories
+        recipe_category_values = mock_recipe_category_values.mock_data
         expected_result = {
             'proteinType': 'vegan',
             'mealContainer': 'ts48',
@@ -429,6 +429,7 @@ class TestGetRecipeCategoryTags(TestCase):
             'baseMealSlug': 'base-salad',
             'baseMeal': 'Base Salad Name',
             'highlightTags': ['new', 'spicy'],
+            'displayNutritionOnWebsite': True
         }
 
         result = get_recipe_category_tags(recipe_category_values)
@@ -437,14 +438,15 @@ class TestGetRecipeCategoryTags(TestCase):
     def test_get_recipe_category_tags_with_no_tags_populated(self):
         recipe_category_values = []
         expected_result = {
-            'highlightTags': []
+            'highlightTags': [],
+            'displayNutritionOnWebsite': True
         }
 
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
     def test_get_recipe_category_tags_with_just_one_highlight_tag(self):
-        recipe_category_values = mock_recipe_category_values.mock_data_all_categories
+        recipe_category_values = mock_recipe_category_values.mock_data
         # mock data contains two highlight tags- remove one of them
         recipe_category_values.pop(recipe_category_values.index({
             'name': 'spicy',
@@ -462,11 +464,30 @@ class TestGetRecipeCategoryTags(TestCase):
             'baseMealSlug': 'base-salad',
             'baseMeal': 'Base Salad Name',
             'highlightTags': ['new'],
+            'displayNutritionOnWebsite': True
         }
 
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
+    def test_get_recipe_category_tags_when_display_nutrition_on_website_is_false(self):
+        recipe_category_values = [
+            {
+                'name': 'true',
+                'category': {
+                    'id': RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value,
+                    'itemType': 'recipe',
+                    'name': 'no nutrition on website'
+                }
+            },
+        ]
+        expected_result = {
+            'highlightTags': [],
+            'displayNutritionOnWebsite': False
+        }
+
+        result = get_recipe_category_tags(recipe_category_values)
+        self.assertEqual(result, expected_result)
 
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
@@ -487,6 +508,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -523,6 +545,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -621,6 +644,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -683,6 +707,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',

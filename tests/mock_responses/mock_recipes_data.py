@@ -12,7 +12,7 @@ def mock_recipe_base(id):
         'externalName': f'Test Recipe {id}',
         'notes': f'Some notes about recipe {id}',
         'description': f'Details about recipe {id}',
-        'categoryValues': mock_recipe_category_values.mock_data_all_categories,
+        'categoryValues': mock_recipe_category_values.mock_data,
         'media': [
             {
                 'altText': 'None.jpg',
