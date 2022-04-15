@@ -2,6 +2,7 @@ from unittest import TestCase, mock
 
 from galley.formatted_queries import (format_recipe_tree_components_data,
                                       get_formatted_menu_data,
+                                      get_formatted_ops_menu_data,
                                       get_formatted_recipes_data,
                                       ingredients_from_recipe_items,
                                       calculate_servings,
@@ -11,6 +12,7 @@ from tests.mock_responses import (mock_nutrition_data, mock_recipe_items,
                                   mock_recipe_tree_components,
                                   mock_recipes_data)
 from tests.mock_responses.mock_menu_data import mock_menu
+from tests.mock_responses.mock_ops_menu_data import mock_ops_menu, mock_recipeTreeComponents
 
 
 def formatted_menu(date, onlySellableMenuItems=False):
@@ -55,23 +57,21 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'standaloneRecipeId': 'SUBRECIPEID321'
         }]
     }
-
     if not onlySellableMenuItems:
-        formatted_menu['menuItems'].append(
-            {
-                'id': 'MENUITEM4JKL',
-                'itemCode': 'non-sellable soup',
-                'mealSlug': None,
-                'recipeId': 'RECIPE4JKL',
-                'recipeName': 'Test Recipe Name 4',
-                'recipeMenuPhotoUrl': None,
-                'recipeMealType': '',
-                'recipeProteinType': '',
-                'standaloneRecipeId': None,
-                'baseMeal': ''
-            })
-
+        formatted_menu['menuItems'].append({
+            'id': 'MENUITEM4JKL',
+            'itemCode': 'non-sellable soup',
+            'mealSlug': None,
+            'recipeId': 'RECIPE4JKL',
+            'recipeName': 'Test Recipe Name 4',
+            'recipeMenuPhotoUrl': None,
+            'recipeMealType': '',
+            'recipeProteinType': '',
+            'standaloneRecipeId': None,
+            'baseMeal': ''
+        })
     return formatted_menu
+
 
 class TestIngredientsFromRecipeItems(TestCase):
     def test_ingredients_from_recipes_successful(self):
@@ -410,7 +410,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
 class TestGetFormattedRecipesData(TestCase):
-
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
         self.maxDiff = None
@@ -677,38 +676,30 @@ class TestGetFormattedMenuData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_menu('2021-11-14'))
-
         result = get_formatted_menu_data(['2021-11-14'])
         self.assertEqual(result, [formatted_menu('2021-11-14')])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_menu('2021-11-21'), mock_menu('2021-11-21'), mock_menu('2021-11-28'))
-
-        result = get_formatted_menu_data(['2021-11-21', '2021-11-21',
-                                           '2021-11-28'])
-        self.assertEqual(result, [formatted_menu('2021-11-21'),
-                                   formatted_menu('2021-11-21'),
-                                   formatted_menu('2021-11-28')])
+        result = get_formatted_menu_data(['2021-11-21', '2021-11-21', '2021-11-28'])
+        self.assertEqual(result, [formatted_menu('2021-11-21'), formatted_menu('2021-11-21'), formatted_menu('2021-11-28')])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful_for_one_valid_and_one_invalid_menu(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_menu('2021-11-28'), mock_menu('2021-12-05'))
-
         result = get_formatted_menu_data(['2021-11-28', '2021-12-05'])
         self.assertEqual(result, [formatted_menu('2021-11-28')])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_successful_for_one_invalid_menu(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_menu('2021-12-05'))
-
         result = get_formatted_menu_data(['2021-12-05'])
         self.assertEqual(result, None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_menu_data_excludes_nonsellable_menu_items(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_menu('2021-11-14'))
-
         result = get_formatted_menu_data(['2021-11-14'], onlySellableMenuItems=True)
         self.assertEqual(result, [formatted_menu('2021-11-14', onlySellableMenuItems=True)])
 
@@ -725,3 +716,80 @@ class TestGetFormattedMenuData(TestCase):
         mock_grmd.assert_called_with(dates, 'Vacaville', 'production')
         get_formatted_menu_data(dates, 'Montana', 'staging')
         mock_grmd.assert_called_with(dates, 'Montana', 'staging')
+
+
+def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
+    formatted_ops_menu = {
+        'name': f"{date} 1_2_3",
+        'id': 'MENU123ABC-OPS',
+        'date': f"{date}",
+        'location': location_name,
+        'categoryMenuType': menu_type,
+        'menuItems': [{
+            'id': 'MENUITEM1ABC-OPS',
+            'recipeId': 'RECIPE1ABC-OPS',
+            'recipeName': 'Test Recipe Name 1',
+            'recipePhotos': [{
+                'caption': 'plating',
+                'sourceUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot'
+            }],
+            'mealContainer': 'ts48',
+            'mealCode': 'lm1',
+            'recipeTreeComponents': mock_recipeTreeComponents,
+            'totalCount': 923
+        }, {
+            'id': 'MENUITEM2DEF-OPS',
+            'recipeId': 'RECIPE2DEF-OPS',
+            'recipeName': 'Test Recipe Name 2',
+            'recipePhotos': [{
+                'caption': 'plating',
+                'sourceUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4'
+            }, {
+                'caption': 'menu',
+                'sourceUrl': 'https://cdn.filestackcontent.com/4q9frUq1TBWnFaWfET5X'
+            }],
+            'mealContainer': 'ts32',
+            'mealCode': 'lv2',
+            'recipeTreeComponents': mock_recipeTreeComponents,
+            'totalCount': 1228
+        }, {
+            'id': 'MENUITEM3GHI-OPS',
+            'recipeId': 'RECIPE3GHI-OPS',
+            'recipeName': 'Test Recipe Name 3',
+            'recipePhotos': [],
+            'mealContainer': 'ts32',
+            'mealCode': 'dv3',
+            'recipeTreeComponents': mock_recipeTreeComponents,
+            'totalCount': 549
+        }]
+    }
+    return formatted_ops_menu
+
+
+class TestGetFormattedOpsMenuData(TestCase):
+    def response(self, *menus):
+        return ({
+            'data': {
+                'viewer': {
+                    'menus': [m for m in menus if m]
+                }
+            }
+        })
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
+        result = get_formatted_ops_menu_data(['2022-03-28'])
+        self.assertEqual(result, [formatted_ops_menu('2022-03-28')])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'), mock_ops_menu('2022-04-04'), mock_ops_menu('2022-04-18'))
+        result = get_formatted_ops_menu_data(['2022-03-28', '2022-04-04', '2022-04-18'])
+        self.assertEqual(result, [formatted_ops_menu('2022-03-28'), formatted_ops_menu('2022-04-04'), formatted_ops_menu('2022-04-18')])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_null(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = None
+        result = get_formatted_ops_menu_data([])
+        self.assertEqual(result, None)
