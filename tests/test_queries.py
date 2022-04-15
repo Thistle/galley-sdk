@@ -7,6 +7,7 @@ from sgqlc.operation import Operation
 
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -371,6 +372,13 @@ class TestRecipeConnectionQuery(TestCase):
             id
             name
             }
+            recipeInstructions {
+            text
+            position
+            }
+            recipeTreeComponents {
+            id
+            }
             }
             preparations {
             id
@@ -507,7 +515,9 @@ class TestRecipeConnectionQuery(TestCase):
             start_index=0
         )
         query_str = bytes(query).decode('utf-8')
-
+        print('query_str!')
+        print(query_str)
+        self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
 
 

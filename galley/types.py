@@ -114,7 +114,6 @@ class RecipeTreeComponent(Type):
     id = Field(ID)
     quantityUnitValues = Field(UnitValue)
     ingredient = Field(Ingredient)
-    # Define following fields after recipeItem class is defined
     recipeItem = Field('RecipeItem')
 
 
