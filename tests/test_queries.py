@@ -1,8 +1,11 @@
 import logging
 from unittest import TestCase, mock
 
-from galley.queries import (Query, get_menu_query, get_raw_menu_data,
-                            get_raw_recipes_data, recipe_connection_query)
+from galley.queries import (
+    Query, get_menu_query, get_raw_menu_data,
+    get_raw_recipes_data, recipe_connection_query,
+    get_ops_menu_query
+)
 from sgqlc.operation import Operation
 
 from tests.mock_responses import mock_recipes_data
@@ -515,8 +518,6 @@ class TestRecipeConnectionQuery(TestCase):
             start_index=0
         )
         query_str = bytes(query).decode('utf-8')
-        print('query_str!')
-        print(query_str)
         self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
 
@@ -623,136 +624,114 @@ class TestQueryGetRawRecipesData(TestCase):
 class TestOpsMenuDataQuery(TestCase):
     def setUp(self) -> None:
         self.expected_query = """query {
-            viewer {
-            menus(where: {date: ["2022-03-28"]}) {
-            id
-            name
-            date
-            location {
-            name
-            }
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            menuItems {
-            id
-            recipeId
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            recipe {
-            id
-            name
-            description
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            totalYield
-            recipeInstructions {
-            text
-            position
-            }
-            recipeTreeComponents {
-            recipeItem {
-            preparations {
-            id
-            name
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            recipeInstructions {
-            text
-            position
-            }
-            sub_recipe_tree_components: recipeTreeComponents(levels: [1]) {
-            quantityUnitValues {
-            value
-            unit {
-            id
-            name
-            }
-            }
-            }
-            recipeTreeComponents {
-            ingredient {
-            id
-            name
-            externalName
-            }
-            sub_recipe_item: recipeItem {
-            preparations {
-            id
-            name
-            }
-            }
-            recipeItem {
-            preparations {
-            id
-            name
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            recipeInstructions {
-            text
-            position
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            files {
-            photos {
-            sourceUrl
-            caption
-            }
-            }
-            recipe_tree_components: recipeTreeComponents(levels: [1]) {
-            ingredient {
-            id
-            name
-            externalName
-            categoryValues {
-            id
-            name
-            }
-            }
-            quantityUnitValues {
-            value
-            unit {
-            id
-            name
-            }
-            }
-            }
-            }
-            volume
-            }
-            }
-            }
-            }
-        """
-        
+viewer {
+menus(where: {date: ["2022-03-28"]}) {
+id
+name
+date
+location {
+name
+}
+categoryValues {
+id
+name
+category {
+id
+name
+itemType
+}
+}
+menuItems {
+id
+recipeId
+categoryValues {
+id
+name
+category {
+id
+name
+itemType
+}
+}
+recipe {
+files {
+photos {
+sourceUrl
+caption
+}
+}
+id
+name
+categoryValues {
+id
+name
+category {
+id
+name
+itemType
+}
+}
+recipeInstructions {
+text
+position
+}
+recipeTreeComponents(levels: [1]) {
+quantityUnitValues {
+value
+unit {
+id
+name
+}
+}
+recipeItem {
+preparations {
+id
+name
+}
+subRecipe {
+id
+name
+externalName
+recipeTreeComponents(levels: [1]) {
+quantityUnitValues {
+value
+unit {
+id
+name
+}
+}
+ingredient {
+id
+name
+externalName
+}
+recipeItem {
+preparations {
+id
+name
+}
+subRecipe {
+id
+name
+externalName
+recipeInstructions {
+text
+position
+}
+}
+}
+}
+}
+}
+}
+}
+volume
+}
+}
+}
+}"""
+    def test_get_ops_menu_query(self):
+        query = get_ops_menu_query(dates=["2022-03-28"])
+        query_str = bytes(query).decode('utf-8')
+        self.maxDiff = None
+        self.assertEqual(query_str, self.expected_query)
