@@ -422,7 +422,7 @@ def get_formatted_menu_data(dates: List[str],
     return formatted_menus
 
 
-def get_formatted_menu_ops_data(dates: List[str],
+def get_formatted_ops_menu_data(dates: List[str],
                                     location_name: str="Vacaville",
                                     menu_type: str="production",
                                     ) -> Optional[List[Dict]]:
