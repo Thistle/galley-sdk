@@ -753,12 +753,12 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                 'id': 'RECIPE1ABC-OPS',
                 'name': 'Test Recipe Name 1',
                 'categoryValues': [{
-                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTAzMg==",
-                    "name": "ts48",
-                    "category": {
-                        "id": RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
-                        "name": "meal container",
-                        "itemType": "recipe"
+                    'id': 'Y2F0ZWdvcnlWYWx1ZToxNTAzMg==',
+                    'name': 'ts48',
+                    'category': {
+                        'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
+                        'name': 'meal container',
+                        'itemType': 'recipe'
                     }
                 }],
                 'files': {

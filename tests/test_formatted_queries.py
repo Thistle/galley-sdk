@@ -720,9 +720,9 @@ class TestGetFormattedMenuData(TestCase):
 
 def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
     formatted_ops_menu = {
-        'name': f"{date} 1_2_3",
+        'name': f'{date} 1_2_3',
         'id': 'MENU123ABC-OPS',
-        'date': f"{date}",
+        'date': f'{date}',
         'location': location_name,
         'categoryMenuType': menu_type,
         'menuItems': [{
@@ -793,3 +793,11 @@ class TestGetFormattedOpsMenuData(TestCase):
         mock_retrieval_method.return_value = None
         result = get_formatted_ops_menu_data([])
         self.assertEqual(result, None)
+
+    @mock.patch('galley.formatted_queries.get_raw_menu_data')
+    def test_get_formatted_ops_menu_data_args_defaults(self, mock_gromd):
+        dates = ['2022-03-28', '2022-04-04']
+        get_formatted_ops_menu_data(dates)
+        mock_gromd.assert_called_with(dates, 'Vacaville', 'production', is_ops=True)
+        get_formatted_ops_menu_data(dates, 'Montana', 'staging')
+        mock_gromd.assert_called_with(dates, 'Montana', 'staging', is_ops=True)
