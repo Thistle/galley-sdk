@@ -12,7 +12,7 @@ from galley.enums import (
     RecipeMediaEnum,
 )
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
-from pprint import pprint
+
 
 logger = logging.getLogger(__name__)
 
