@@ -472,4 +472,3 @@ def get_formatted_ops_menu_data(dates: List[str],
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
-

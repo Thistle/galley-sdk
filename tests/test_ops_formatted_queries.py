@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
 
-from galley.formatted_queries import get_formatted_ops_menu_data
+from galley.formatted_queries import get_formatted_ops_menu_data, get_category_menu_type, get_meal_code
 
 from tests.mock_responses.mock_ops_menu_data import mock_ops_menu, mock_recipeTreeComponents
 
@@ -53,6 +53,28 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
     return formatted_ops_menu
 
 
+class TestMealCodeFromMenuItemCategoryValues(TestCase):
+    def test_get_meal_code_successful(self):
+        expected_result = 'lv2'
+        result = get_meal_code(mock_ops_menu('2022-03-28')['menuItems'][1]['categoryValues'])
+        self.assertEqual(result, expected_result)
+
+    def test_get_meal_code_empty(self):
+        result = get_meal_code([])
+        self.assertEqual(result, '')
+
+
+class TestGetMenuTypeFromMenuCategoryValues(TestCase):
+    def test_get_category_menu_type_successful(self):
+        expected_result = 'production'
+        result = get_category_menu_type(mock_ops_menu('2022-03-28')['categoryValues'])
+        self.assertEqual(result, expected_result)
+
+    def test_get_category_menu_type_empty(self):
+        result = get_category_menu_type([])
+        self.assertEqual(result, '')
+
+
 class TestGetFormattedOpsMenuData(TestCase):
     def response(self, *menus):
         return ({
@@ -88,3 +110,5 @@ class TestGetFormattedOpsMenuData(TestCase):
         mock_gromd.assert_called_with(dates, 'Vacaville', 'production', is_ops=True)
         get_formatted_ops_menu_data(dates, 'Montana', 'staging')
         mock_gromd.assert_called_with(dates, 'Montana', 'staging', is_ops=True)
+
+
