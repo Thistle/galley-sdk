@@ -22,6 +22,7 @@ class PreparationEnum(Enum):
     STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
     TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
     THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
+    BASE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
 
 
 class IngredientCategoryValueEnum(Enum):

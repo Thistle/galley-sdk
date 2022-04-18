@@ -1,12 +1,18 @@
 import logging
 from unittest import TestCase, mock
-
-from galley.queries import (Query, get_menu_query, get_raw_menu_data,
-                            get_raw_recipes_data, recipe_connection_query)
 from sgqlc.operation import Operation
+
+from galley.queries import (
+    Query,
+    get_menu_query,
+    get_raw_menu_data,
+    get_raw_recipes_data,
+    recipe_connection_query,
+)
 
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu
+
 
 logger = logging.getLogger(__name__)
 
@@ -371,6 +377,13 @@ class TestRecipeConnectionQuery(TestCase):
             id
             name
             }
+            recipeInstructions {
+            text
+            position
+            }
+            recipeTreeComponents {
+            id
+            }
             }
             preparations {
             id
@@ -507,7 +520,7 @@ class TestRecipeConnectionQuery(TestCase):
             start_index=0
         )
         query_str = bytes(query).decode('utf-8')
-
+        self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
 
 

@@ -1,29 +1,12 @@
 from os import name
 from typing import Any, Dict
-from sgqlc.types import (
-    ID,
-    ArgDict,
-    Enum,
-    Field,
-    Input,
-    Int,
-    Type,
-    datetime as d,
-    list_of
-)
-from sgqlc.types.relay import (
-    Connection,
-    Node
-)
+from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
+                         as d, list_of)
+from sgqlc.types.relay import (Connection, Node)
 
 
 class CategoryItemTypeEnum(Enum):
-    __choices__ = ('menuItem',
-                   'ingredient',
-                   'recipe',
-                   'menu',
-                   'vendorItem',
-                   'purchaseOrder')
+    __choices__ = ('menuItem', 'ingredient', 'recipe', 'menu', 'vendorItem', 'purchaseOrder')
 
 
 class Category(Type):
@@ -106,8 +89,32 @@ class Nutrition(Type):
 
 
 class Ingredient(Type):
+    id = Field(ID)
+    name = str
     externalName = str
     categoryValues = Field(CategoryValue)
+
+
+class RecipeInstruction(Type):
+    text = str
+    position = int
+
+
+class Preparation(Type):
+    id = Field(ID)
+    name = str
+
+
+class UnitValue(Type):
+    value = float
+    unit = Field(Unit)
+
+
+class RecipeTreeComponent(Type):
+    id = Field(ID)
+    quantityUnitValues = Field(UnitValue)
+    ingredient = Field(Ingredient)
+    recipeItem = Field('RecipeItem')
 
 
 class SubRecipe(Type):
@@ -118,11 +125,8 @@ class SubRecipe(Type):
     reconciledNutritionals = Field(Nutrition)
     nutritionalsQuantity = float
     nutritionalsUnit = Field(Unit)
-
-
-class Preparation(Type):
-    id = Field(ID)
-    name = str
+    recipeInstructions = Field(RecipeInstruction)
+    recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
 
 
 class RecipeItem(Type):
@@ -135,21 +139,19 @@ class RecipeItem(Type):
     reconciledNutritionals = Field(Nutrition)
 
 
-class UnitValue(Type):
-    value = float
-    unit = Field(Unit)
-
-
-class RecipeTreeComponent(Type):
-    id = Field(ID)
-    quantityUnitValues = Field(UnitValue)
-    recipeItem = Field(RecipeItem)
-
-
 class RecipeMedia(Type):
     altText = str
     caption = str
     sourceUrl = str
+
+
+class EntityMedia(Type):
+    caption = str
+    sourceUrl = str
+
+
+class Files(Type):
+    photos = Field(EntityMedia)
 
 
 class Recipe(Type):
@@ -157,6 +159,7 @@ class Recipe(Type):
     name = str
     externalName = str
     instructions = str
+    recipeInstructions = Field(RecipeInstruction)
     notes = str
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
@@ -164,7 +167,9 @@ class Recipe(Type):
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
+    files = Field(Files)
     isDish = bool
+    totalYield = float
 
 
 class DietaryFlag(Type):
@@ -222,6 +227,7 @@ class MenuItem(Type):
     categoryValues = Field(CategoryValue)
     recipe = Field(Recipe)
     unit = Field(Unit)
+    volume = float
 
 
 class Menu(Type):
