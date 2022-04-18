@@ -7,7 +7,8 @@ from galley.formatted_queries import (
     get_formatted_recipes_data,
     ingredients_from_recipe_items,
     calculate_servings,
-    calculate_serving_size_weight
+    calculate_serving_size_weight,
+    get_recipe_category_tags,
 )
 
 from tests.mock_responses import (
@@ -15,6 +16,7 @@ from tests.mock_responses import (
     mock_recipe_items,
     mock_recipe_tree_components,
     mock_recipe_tree_components,
+    mock_recipe_category_values,
     mock_recipes_data
 )
 from tests.mock_responses.mock_menu_data import mock_menu
