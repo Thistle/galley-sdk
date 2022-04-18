@@ -1,5 +1,6 @@
 from unittest import TestCase, mock
 
+from galley.enums import RecipeCategoryTagTypeEnum
 from galley.formatted_queries import (
     format_recipe_tree_components_data,
     get_formatted_menu_data,
@@ -413,6 +414,58 @@ class TestFormattedRecipeTreeComponents(TestCase):
         }
         self.assertEqual(result, expected)
 
+
+class TestGetRecipeCategoryTags(TestCase):
+
+    def test_get_recipe_category_tags_with_all_tags_populated(self):
+        recipe_category_values = mock_recipe_category_values.mock_data_all_categories
+        expected_result = {
+            'proteinType': 'vegan',
+            'mealContainer': 'ts48',
+            'mealType': 'dinner',
+            'proteinAddOn': 'high-protein-legume',
+            'baseMealSlug': 'base-salad',
+            'baseMeal': 'Base Salad Name',
+            'highlightTags': ['new', 'spicy'],
+        }
+
+        result = get_recipe_category_tags(recipe_category_values)
+        self.assertEqual(result, expected_result)
+
+    def test_get_recipe_category_tags_with_no_tags_populated(self):
+        recipe_category_values = []
+        expected_result = {
+            'highlightTags': []
+        }
+
+        result = get_recipe_category_tags(recipe_category_values)
+        self.assertEqual(result, expected_result)
+
+    def test_get_recipe_category_tags_with_just_one_highlight_tag(self):
+        recipe_category_values = mock_recipe_category_values.mock_data_all_categories
+        # mock data contains two highlight tags- remove one of them
+        recipe_category_values.pop(recipe_category_values.index({
+            'name': 'spicy',
+            'category': {
+                'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value,
+                'itemType': 'recipe',
+                'name': 'highlight_2'
+            }
+        }))
+        expected_result = {
+            'proteinType': 'vegan',
+            'mealContainer': 'ts48',
+            'mealType': 'dinner',
+            'proteinAddOn': 'high-protein-legume',
+            'baseMealSlug': 'base-salad',
+            'baseMeal': 'Base Salad Name',
+            'highlightTags': ['new'],
+        }
+
+        result = get_recipe_category_tags(recipe_category_values)
+        self.assertEqual(result, expected_result)
+
+
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
@@ -431,6 +484,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -466,6 +520,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -563,6 +618,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
@@ -624,6 +680,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
                 'ingredients': [
                     'Unique 1',
                     'Duplicate 1',
