@@ -1,12 +1,11 @@
-from unittest import mock, TestCase
-from sgqlc.operation import Operation
-
-from galley.mutations import Mutation, upsert_menu_data, build_upsert_mutation_query
-from galley.types import (
-    MenuInput,
-    Menu
-)
 import logging
+from unittest import mock, TestCase
+
+from galley.mutations import (
+    upsert_menu_data,
+    build_upsert_mutation_query
+)
+
 
 logger = logging.getLogger(__name__)
 

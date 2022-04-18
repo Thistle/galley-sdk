@@ -1,11 +1,14 @@
 import logging
 from unittest import TestCase, mock
+from sgqlc.operation import Operation
 
 from galley.queries import (
-    Query, get_menu_query, get_raw_menu_data,
-    get_raw_recipes_data, recipe_connection_query,
+    Query,
+    get_menu_query,
+    get_raw_menu_data,
+    get_raw_recipes_data,
+    recipe_connection_query,
 )
-from sgqlc.operation import Operation
 
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu

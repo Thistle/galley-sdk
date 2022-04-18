@@ -1,8 +1,15 @@
 from unittest import TestCase, mock
 
-from galley.formatted_queries import get_formatted_ops_menu_data, get_category_menu_type, get_meal_code
+from galley.formatted_queries import (
+    get_formatted_ops_menu_data,
+    get_category_menu_type,
+    get_meal_code
+)
 
-from tests.mock_responses.mock_ops_menu_data import mock_ops_menu, mock_recipeTreeComponents
+from tests.mock_responses.mock_ops_menu_data import (
+    mock_ops_menu,
+    mock_recipeTreeComponents
+)
 
 
 def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):

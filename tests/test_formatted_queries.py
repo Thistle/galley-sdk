@@ -1,15 +1,21 @@
 from unittest import TestCase, mock
 
-from galley.formatted_queries import (format_recipe_tree_components_data,
-                                      get_formatted_menu_data,
-                                      get_formatted_recipes_data,
-                                      ingredients_from_recipe_items,
-                                      calculate_servings,
-                                      calculate_serving_size_weight)
+from galley.formatted_queries import (
+    format_recipe_tree_components_data,
+    get_formatted_menu_data,
+    get_formatted_recipes_data,
+    ingredients_from_recipe_items,
+    calculate_servings,
+    calculate_serving_size_weight
+)
 
-from tests.mock_responses import (mock_nutrition_data, mock_recipe_items,
-                                  mock_recipe_tree_components,
-                                  mock_recipes_data)
+from tests.mock_responses import (
+    mock_nutrition_data,
+    mock_recipe_items,
+    mock_recipe_tree_components,
+    mock_recipe_tree_components,
+    mock_recipes_data
+)
 from tests.mock_responses.mock_menu_data import mock_menu
 
 
