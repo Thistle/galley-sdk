@@ -1,7 +1,7 @@
 from galley.enums import RecipeCategoryTagTypeEnum
 
 
-mock_data_all_categories = [
+mock_data = [
     {
         'name': 'vegan',
         'category': {

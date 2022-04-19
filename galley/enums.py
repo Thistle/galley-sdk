@@ -51,6 +51,7 @@ class RecipeCategoryTagTypeEnum(Enum):
     BASE_MEAL_TAG = 'Y2F0ZWdvcnk6MjU4OQ=='
     HIGHLIGHT_ONE_TAG = 'Y2F0ZWdvcnk6MjU3OA=='
     HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
+    NO_NUTRITION_ON_WEBSITE_TAG = 'Y2F0ZWdvcnk6MzA2Ng=='
 
 class RecipeMediaEnum(Enum):
     """
