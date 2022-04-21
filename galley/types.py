@@ -181,7 +181,6 @@ class Recipe(Type):
     files = Field(Files)
     isDish = bool
     totalYield = float
-    # dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
 
 
 class RecipeNode(Node):
