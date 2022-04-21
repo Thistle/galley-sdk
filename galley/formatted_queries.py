@@ -214,6 +214,7 @@ def get_recipe_category_tags(
         RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value: 'highlightOne',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value: 'highlightTwo',
+        RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value: 'noNutritionOnWebsite',
     }
 
     for recipe_category_value in recipe_category_values:
@@ -224,13 +225,36 @@ def get_recipe_category_tags(
         if label and recipe_category_value_name:
             recipe_tags.setdefault(label, recipe_category_value_name)
 
+    recipe_tags = handle_website_nutrition_tag(recipe_tags)
     recipe_tags = format_highlight_tags(recipe_tags)
+    return recipe_tags
+
+
+def handle_website_nutrition_tag(
+    recipe_tags: Dict
+) -> Dict:
+    """
+    Sets a default value of True for the displayNutritionOnWebsite attribute
+    unless the noNutritionOnWebsite tag has been applied to the recipe
+    """
+    display_nutrition_on_website = True
+    no_nutrition_on_website = recipe_tags.get('noNutritionOnWebsite', None)
+
+    if no_nutrition_on_website:
+        display_nutrition_on_website = False
+
+    recipe_tags.pop('noNutritionOnWebsite', None)
+    recipe_tags.setdefault('displayNutritionOnWebsite', display_nutrition_on_website)
     return recipe_tags
 
 
 def format_highlight_tags(
     recipe_tags: Dict
 ) -> Dict:
+    """
+    Transforms two separate highlight tag values into an array
+    returned via the highlightTags attribute
+    """
     highlight_tag_values = []
 
     for key, value in recipe_tags.items():
