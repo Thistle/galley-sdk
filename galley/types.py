@@ -93,6 +93,7 @@ class Ingredient(Type):
     name = str
     externalName = str
     categoryValues = Field(CategoryValue)
+    dietaryFlags = Field('DietaryFlag')
 
 
 class RecipeInstruction(Type):
@@ -127,6 +128,7 @@ class SubRecipe(Type):
     nutritionalsUnit = Field(Unit)
     recipeInstructions = Field(RecipeInstruction)
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
+    dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
 
 
 class RecipeItem(Type):
@@ -154,6 +156,15 @@ class Files(Type):
     photos = Field(EntityMedia)
 
 
+class DietaryFlag(Type):
+    name = str
+    id = str
+
+
+class DietaryFlagsWithUsages(Type):
+    dietaryFlag = Field(DietaryFlag)
+
+
 class Recipe(Type):
     id = str
     name = str
@@ -170,15 +181,7 @@ class Recipe(Type):
     files = Field(Files)
     isDish = bool
     totalYield = float
-
-
-class DietaryFlag(Type):
-    name = str
-    id = str
-
-
-class DietaryFlagsWithUsages(Type):
-    dietaryFlag = Field(DietaryFlag)
+    # dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
 
 
 class RecipeNode(Node):
