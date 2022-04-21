@@ -186,9 +186,7 @@ def get_recipe_allergens(recipe_dietry_flags: List[Dict]) -> Dict:
         DietaryFlagEnum.SMOKED_MEATS.value: 'smoked meats',
         DietaryFlagEnum.BEEF.value: 'beef'
     }
-
     allergens = []
-
     for recipe_dietary_flag in recipe_dietry_flags:
         dietary_flag = recipe_dietary_flag.get('dietaryFlag', None)
         if dietary_flag and 'id' in dietary_flag:
