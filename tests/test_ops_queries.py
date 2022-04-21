@@ -77,6 +77,12 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             externalName
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            id
+            name
+            }
+            }
             recipeTreeComponents(levels: [1]) {
             quantityUnitValues {
             value
