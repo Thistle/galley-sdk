@@ -505,11 +505,11 @@ def get_formatted_ops_menu_data(dates: List[str],
             formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
             formatted_menu['menuItems'].append({
                 'id': menu_item.get('id'),
+                'mealCode': get_meal_code(menu_item['categoryValues']),
+                'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
                 'recipePhotos': formatted_recipe.files.get('photos', []),
-                'mealCode': get_meal_code(menu_item['categoryValues']),
-                'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'recipeTreeComponents': formatted_recipe.recipe_tree_components,
                 'totalCount': menu_item.get('volume')
             })

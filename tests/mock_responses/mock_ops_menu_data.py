@@ -35,6 +35,14 @@ mock_recipeTreeComponents = [
                 'externalName': None,
                 'id': 'cmVjaXBlOjE5MjY1NA==',
                 'name': 'Greek Salad with Crispy Chickpeas BASE',
+                'dietaryFlagsWithUsages': [
+                    {
+                        'dietaryFlag': {
+                            'id': 'ZGlldGFyeUZsYWc6Ng==',
+                            'name': 'soy beans'
+                        }
+                    }
+                ],
                 'recipeTreeComponents': [
                     {
                         'ingredient': None,
@@ -74,6 +82,7 @@ mock_recipeTreeComponents = [
                                 'externalName': None,
                                 'id':'cmVjaXBlOjE4OTcwNA==',
                                 'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
+                                'dietaryFlagsWithUsages': [],
                                 'recipeInstructions': [
                                     {
                                         'position': 0,
@@ -117,6 +126,14 @@ mock_recipeTreeComponents = [
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NjQ3Mw==',
                                 'name': 'Tofu Feta',
+                                'dietaryFlagsWithUsages': [
+                                    {
+                                        'dietaryFlag': {
+                                            'id': 'ZGlldGFyeUZsYWc6Ng==',
+                                            'name': 'soy beans'
+                                        }
+                                    }
+                                ],
                                 'recipeInstructions': [
                                     {
                                         'position': 0,
@@ -142,7 +159,8 @@ mock_recipeTreeComponents = [
                         'ingredient': {
                             'externalName': 'Spring Mix Lettuce*',
                             'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-                            'name': 'lettuce, spring mix, SEND TO PLATE'
+                            'name': 'lettuce, spring mix, SEND TO PLATE',
+                            'dietaryFlags': []
                         },
                         'quantityUnitValues': [
                             {
@@ -211,7 +229,8 @@ mock_recipeTreeComponents = [
                         'ingredient': {
                             'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
                             'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-                            'name': 'crispy roasted chickpeas, 0.85 oz bag'
+                            'name': 'crispy roasted chickpeas, 0.85 oz bag',
+                            'dietaryFlags': []
                         },
                         'quantityUnitValues': [
                             {
@@ -277,12 +296,14 @@ mock_recipeTreeComponents = [
                 'externalName': None,
                 'id': 'cmVjaXBlOjE3MDU4NA==',
                 'name': 'Smashed Chickpea Salad - COOKED GARBANZOS',
+                'dietaryFlagsWithUsages': [],
                 'recipeTreeComponents': [
                     {
                         'ingredient': {
                             'externalName': 'Sumac',
                             'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
-                            'name': 'spice sumac'
+                            'name': 'spice sumac',
+                            'dietaryFlags': []
                         },
                         'quantityUnitValues': [
                             {
@@ -311,7 +332,8 @@ mock_recipeTreeComponents = [
                         'ingredient': {
                             'externalName': 'Black Pepper',
                             'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
-                            'name': 'spice, black pepper, ground'
+                            'name': 'spice, black pepper, ground',
+                            'dietaryFlags': []
                         },
                         'quantityUnitValues': [
                             {
@@ -406,6 +428,7 @@ mock_recipeTreeComponents = [
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NjQ4MA==',
                                 'name': 'Cooked Garbanzo Beans',
+                                'dietaryFlagsWithUsages': [],
                                 'recipeInstructions': [
                                     {
                                         'position': 0,
@@ -431,7 +454,8 @@ mock_recipeTreeComponents = [
                         'ingredient': {
                             'externalName': 'Extra Virgin Olive Oil',
                             'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
-                            'name': 'oil, olive'
+                            'name': 'oil, olive',
+                            'dietaryFlags': [],
                         },
                         'quantityUnitValues': [
                             {
@@ -496,7 +520,8 @@ mock_recipeTreeComponents = [
                         'ingredient': {
                             'externalName': 'Lemon Juice',
                             'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
-                            'name': 'juice, lemon'
+                            'name': 'juice, lemon',
+                            'dietaryFlags': []
                         },
                         'quantityUnitValues': [
                             {
@@ -655,6 +680,7 @@ mock_recipeTreeComponents = [
                 'externalName': 'Red Wine Vinaigrette',
                 'id': 'cmVjaXBlOjIyMzU3MQ==',
                 'name': 'Red Wine Vinaigrette 2oz',
+                'dietaryFlagsWithUsages': [],
                 'recipeTreeComponents': [
                     {
                         'ingredient': None,
@@ -694,6 +720,7 @@ mock_recipeTreeComponents = [
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NDI4OA==',
                                 'name': 'Red Wine Vinaigrette BASE',
+                                'dietaryFlagsWithUsages': [],
                                 'recipeInstructions': [
                                     {
                                         'position': 0,

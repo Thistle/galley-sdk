@@ -77,6 +77,12 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             externalName
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            id
+            name
+            }
+            }
             recipeTreeComponents(levels: [1]) {
             quantityUnitValues {
             value
@@ -89,6 +95,10 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             externalName
+            dietaryFlags {
+            id
+            name
+            }
             }
             recipeItem {
             preparations {
@@ -99,6 +109,12 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             externalName
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            id
+            name
+            }
+            }
             recipeInstructions {
             text
             position
