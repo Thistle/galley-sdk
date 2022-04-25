@@ -510,8 +510,12 @@ def get_formatted_ops_menu_data(dates: List[str],
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
                 'recipePhotos': formatted_recipe.files.get('photos', []),
-                'recipeTreeComponents': formatted_recipe.recipe_tree_components,
+                'recipeComponents': formatted_recipe.recipe_tree_components,
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
+
+
+def format_ops_menu_recipe_tree_components_data(recipe_tree_components):
+    pass
