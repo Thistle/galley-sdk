@@ -58,6 +58,7 @@ class RecipeMediaEnum(Enum):
     Enum for RecipeMedia. <field name>: <field value>
     """
     MENU_CAPTION = 'menu'
+    PLATE_CAPTION = 'plating'
 
 
 class DietaryFlagEnum(Enum):

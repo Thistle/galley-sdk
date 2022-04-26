@@ -149,7 +149,7 @@ class FormattedRecipe:
         self.description = recipe_data.get('description')
         self.isSellable = recipe_data.get('isDish')
         self.menuPhotoUrl = get_menu_photo_url(recipe_data.get('media', []))
-        self.files = recipe_data.get('files', {})
+        self.platePhotoUrl = get_plate_photo_url(recipe_data.get('files', {}).get('photos', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -387,6 +387,7 @@ def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
             return recipe_item.get('subRecipeId')
     return None
 
+
 def get_meal_slug(menu_item: Dict) -> Optional[str]:
     categories = menu_item['recipe'].get('categoryValues', [])
     for category in categories:
@@ -398,6 +399,13 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
 def get_menu_photo_url(media: List) -> Optional[str]:
     for photo in media:
         if photo.get('caption', '') == RecipeMediaEnum.MENU_CAPTION.value and photo.get('sourceUrl', None):
+            return photo.get('sourceUrl')
+    return None
+
+
+def get_plate_photo_url(photos: List) -> Optional[str]:
+    for photo in photos:
+        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
             return photo.get('sourceUrl')
     return None
 
@@ -507,15 +515,11 @@ def get_formatted_ops_menu_data(dates: List[str],
                 'id': menu_item.get('id'),
                 'mealCode': get_meal_code(menu_item['categoryValues']),
                 'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
+                'platePhotoUrl': formatted_recipe.platePhotoUrl,
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
-                'recipePhotos': formatted_recipe.files.get('photos', []),
                 'recipeComponents': formatted_recipe.recipe_tree_components,
                 'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
-
-
-def format_ops_menu_recipe_tree_components_data(recipe_tree_components):
-    pass
