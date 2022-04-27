@@ -9,6 +9,7 @@ from galley.enums import MenuCategoryEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter)
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +95,6 @@ def recipe_connection_query(
         __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.dietaryFlag.\
         __fields__('id')
-
     return query
 
 
@@ -147,12 +147,13 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues', 'recipeInstructions')
     query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
-    query.viewer.menus.menuItems.recipe.recipeInstructions.__fields__('text', 'position')
+    # top level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    # query second level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.dietaryFlags.__fields__('id', 'name')
@@ -160,6 +161,13 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
+    # query third level recipeTreeComponents
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.dietaryFlags.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeInstructions.__fields__('text', 'position')
     return query
 
 

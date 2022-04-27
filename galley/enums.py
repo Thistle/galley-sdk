@@ -85,3 +85,8 @@ class DietaryFlagEnum(Enum):
     SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
     TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
     WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
+
+
+class QuantityUnitEnum(Enum):
+    OZ = 'dW5pdDoz'
+    LB = 'dW5pdDo0'

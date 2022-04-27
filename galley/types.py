@@ -181,7 +181,7 @@ class Recipe(Type):
     files = Field(Files)
     isDish = bool
     totalYield = float
-
+    
 
 class RecipeNode(Node):
     id = str
