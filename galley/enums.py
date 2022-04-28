@@ -78,7 +78,7 @@ class DietaryFlagEnum(Enum):
     NON_VEGAN = 'ZGlldGFyeUZsYWc6OTk='
     PEANUTS = 'ZGlldGFyeUZsYWc6NA=='
     PORK = 'ZGlldGFyeUZsYWc6OTg='
-    SEASME_SEEDS = 'ZGlldGFyeUZsYWc6MTY='
+    SESAME_SEEDS = 'ZGlldGFyeUZsYWc6MTY='
     SHELLFISH = 'ZGlldGFyeUZsYWc6OA=='
     SMOKED_MEATS = 'ZGlldGFyeUZsYWc6MTM2'
     SOY_BEANS = 'ZGlldGFyeUZsYWc6Ng=='

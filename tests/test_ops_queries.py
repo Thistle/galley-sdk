@@ -119,6 +119,41 @@ class TestOpsMenuDataQuery(TestCase):
             text
             position
             }
+            recipeTreeComponents(levels: [1]) {
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            ingredient {
+            id
+            name
+            externalName
+            dietaryFlags {
+            id
+            name
+            }
+            }
+            recipeItem {
+            subRecipe {
+            id
+            name
+            externalName
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            id
+            name
+            }
+            }
+            recipeInstructions {
+            text
+            position
+            }
+            }
+            }
+            }
             }
             }
             }

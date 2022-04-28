@@ -9,9 +9,10 @@ from galley.enums import MenuCategoryEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter)
-from pprint import pprint
+
 
 logger = logging.getLogger(__name__)
+
 
 DEFAULT_PAGE_SIZE = 25
 
@@ -147,7 +148,7 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues', 'recipeInstructions')
     query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
-    # top level recipeTreeComponents
+    # query top level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')

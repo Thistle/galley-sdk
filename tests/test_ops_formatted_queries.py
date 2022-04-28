@@ -1,10 +1,10 @@
 from unittest import TestCase, mock
 
 from galley.formatted_queries import (
-    get_formatted_ops_menu_data,
     get_category_menu_type,
     get_meal_code
 )
+from galley.formatted_ops_queries import get_formatted_ops_menu_data
 
 from tests.mock_responses.mock_ops_menu_data import (
     mock_ops_menu,
@@ -20,40 +20,30 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
         'location': location_name,
         'categoryMenuType': menu_type,
         'menuItems': [{
-            'id': 'MENUITEM1ABC-OPS',
+            'mealCode': 'lm1',
             'recipeId': 'RECIPE1ABC-OPS',
             'recipeName': 'Test Recipe Name 1',
-            'recipePhotos': [{
-                'caption': 'plating',
-                'sourceUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot'
-            }],
             'mealContainer': 'ts48',
-            'mealCode': 'lm1',
-            'recipeTreeComponents': mock_recipeTreeComponents,
-            'totalCount': 923
+            'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
+            'totalCount': 923,
+            'recipeComponents': mock_recipeTreeComponents,
+
         }, {
-            'id': 'MENUITEM2DEF-OPS',
+            'mealCode': 'lv2',
             'recipeId': 'RECIPE2DEF-OPS',
             'recipeName': 'Test Recipe Name 2',
-            'recipePhotos': [{
-                'caption': 'plating',
-                'sourceUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4'
-            }, {
-                'caption': 'menu',
-                'sourceUrl': 'https://cdn.filestackcontent.com/4q9frUq1TBWnFaWfET5X'
-            }],
             'mealContainer': 'ts32',
-            'mealCode': 'lv2',
-            'recipeTreeComponents': mock_recipeTreeComponents,
-            'totalCount': 1228
+            'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
+            'totalCount': 1228,
+            'recipeComponents': mock_recipeTreeComponents,
+
         }, {
-            'id': 'MENUITEM3GHI-OPS',
+            'mealCode': 'dv3',
             'recipeId': 'RECIPE3GHI-OPS',
             'recipeName': 'Test Recipe Name 3',
-            'recipePhotos': [],
             'mealContainer': 'ts32',
-            'mealCode': 'dv3',
-            'recipeTreeComponents': mock_recipeTreeComponents,
+            'platePhotoUrl': '',
+            'recipeComponents': mock_recipeTreeComponents,
             'totalCount': 549
         }]
     }
