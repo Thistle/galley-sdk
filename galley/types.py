@@ -129,6 +129,7 @@ class SubRecipe(Type):
     recipeInstructions = Field(RecipeInstruction)
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
+    totalYieldUnitValues = Field(UnitValue)
 
 
 class RecipeItem(Type):
@@ -181,7 +182,7 @@ class Recipe(Type):
     files = Field(Files)
     isDish = bool
     totalYield = float
-    
+
 
 class RecipeNode(Node):
     id = str
