@@ -24,10 +24,9 @@ class FormattedPrimaryRecipeComponent:
             return {
                 'id': self.recipe_item.get('subRecipe', {}).get('id'),
                 'name': get_external_name(self.recipe_item.get('subRecipe', {})),
-                'isBase': self.is_base_recipe,
                 'allergens': format_allergens(self.allergens),
                 'quantity': format_quantity_values(self.quantity_values),
-                'batchYield': format_quantity_values(self.subrecipe.get('batchYield', [])),
+                'binWeight': { 'value': 60, 'unit': 'lb' }, # TODO: will dynamically pull from Galley once "Bin Weight" category value tags are implmemented
                 'recipeComponents': self.format_recipe_components(self.subrecipe.get('recipeTreeComponents', [])),
             }
         else:
@@ -153,7 +152,7 @@ def get_formatted_ops_menu_data(
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
                 'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
-                'platePhotoUrl': formatted_recipe.platePhotoUrl,
+                'platePhotoUrl': formatted_recipe.plate_photo_url,
                 'totalCount': menu_item.get('volume'),
                 'primaryRecipeComponents': format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
             })

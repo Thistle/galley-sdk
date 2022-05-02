@@ -53,6 +53,7 @@ class RecipeCategoryTagTypeEnum(Enum):
     HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
     NO_NUTRITION_ON_WEBSITE_TAG = 'Y2F0ZWdvcnk6MzA2Ng=='
 
+
 class RecipeMediaEnum(Enum):
     """
     Enum for RecipeMedia. <field name>: <field value>

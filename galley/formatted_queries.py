@@ -149,7 +149,7 @@ class FormattedRecipe:
         self.description = recipe_data.get('description')
         self.isSellable = recipe_data.get('isDish')
         self.menuPhotoUrl = get_menu_photo_url(recipe_data.get('media', []))
-        self.platePhotoUrl = get_plate_photo_url(recipe_data.get('files', {}).get('photos', []))
+        self.plate_photo_url = get_plate_photo_url(recipe_data.get('files', {}).get('photos', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -338,7 +338,6 @@ def format_standalone_data(standalone_recipe_item):
             standalone_usage_quantity = standalone_recipe_item.standalone_usage_quantity()
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
             standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
-
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
