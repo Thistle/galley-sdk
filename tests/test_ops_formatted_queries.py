@@ -8,7 +8,8 @@ from galley.formatted_ops_queries import get_formatted_ops_menu_data
 
 from tests.mock_responses.mock_ops_menu_data import (
     mock_ops_menu,
-    mock_recipeTreeComponents
+    mock_recipeTreeComponents,
+    mock_formatted_primaryRecipeComponents,
 )
 
 
@@ -26,7 +27,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'mealContainer': 'ts48',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
             'totalCount': 923,
-            'recipeComponents': mock_recipeTreeComponents,
+            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
             'mealCode': 'lv2',
@@ -35,16 +36,17 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'mealContainer': 'ts32',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
             'totalCount': 1228,
-            'recipeComponents': mock_recipeTreeComponents,
+            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
             'mealCode': 'dv3',
             'recipeId': 'RECIPE3GHI-OPS',
             'recipeName': 'Test Recipe Name 3',
             'mealContainer': 'ts32',
-            'platePhotoUrl': '',
-            'recipeComponents': mock_recipeTreeComponents,
-            'totalCount': 549
+            'platePhotoUrl': None,
+            'totalCount': 549,
+            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
+
         }]
     }
     return formatted_ops_menu
@@ -90,6 +92,7 @@ class TestGetFormattedOpsMenuData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
+        self.maxDiff = None
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'), mock_ops_menu('2022-04-04'), mock_ops_menu('2022-04-18'))
         result = get_formatted_ops_menu_data(['2022-03-28', '2022-04-04', '2022-04-18'])
         self.assertEqual(result, [formatted_ops_menu('2022-03-28'), formatted_ops_menu('2022-04-04'), formatted_ops_menu('2022-04-18')])
@@ -100,7 +103,7 @@ class TestGetFormattedOpsMenuData(TestCase):
         result = get_formatted_ops_menu_data([])
         self.assertEqual(result, None)
 
-    @mock.patch('galley.formatted_queries.get_raw_menu_data')
+    @mock.patch('galley.formatted_ops_queries.get_raw_menu_data')
     def test_get_formatted_ops_menu_data_args_defaults(self, mock_gromd):
         dates = ['2022-03-28', '2022-04-04']
         get_formatted_ops_menu_data(dates)

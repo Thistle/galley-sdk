@@ -71,6 +71,11 @@ class TestOpsMenuDataQuery(TestCase):
             categoryValues {
             id
             name
+            category {
+            id
+            name
+            itemType
+            }
             }
             dietaryFlags {
             id
@@ -86,6 +91,65 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            recipeInstructions {
+            text
+            position
+            }
+            dietaryFlagsWithUsages {
+            dietaryFlag {
+            id
+            name
+            }
+            }
+            recipeTreeComponents(levels: [1]) {
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            ingredient {
+            id
+            name
+            externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            dietaryFlags {
+            id
+            name
+            }
+            }
+            recipeItem {
+            subRecipe {
+            id
+            name
+            externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
             recipeInstructions {
             text
             position
@@ -114,42 +178,6 @@ class TestOpsMenuDataQuery(TestCase):
             }
             }
             recipeItem {
-            preparations {
-            id
-            name
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            recipeInstructions {
-            text
-            position
-            }
-            dietaryFlagsWithUsages {
-            dietaryFlag {
-            id
-            name
-            }
-            }
-            recipeTreeComponents(levels: [1]) {
-            quantityUnitValues {
-            value
-            unit {
-            id
-            name
-            }
-            }
-            ingredient {
-            id
-            name
-            externalName
-            dietaryFlags {
-            id
-            name
-            }
-            }
-            recipeItem {
             subRecipe {
             id
             name
@@ -159,10 +187,6 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             }
-            }
-            recipeInstructions {
-            text
-            position
             }
             }
             }
