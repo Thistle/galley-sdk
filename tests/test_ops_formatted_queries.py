@@ -4,7 +4,8 @@ from galley.formatted_queries import (
     get_category_menu_type,
     get_meal_code
 )
-from galley.formatted_ops_queries import get_formatted_ops_menu_data
+from galley.formatted_ops_queries import get_formatted_ops_menu_data, format_recipe_instructions, format_allergens
+from galley.enums import DietaryFlagEnum
 
 from tests.mock_responses.mock_ops_menu_data import (
     mock_ops_menu,
@@ -74,6 +75,61 @@ class TestGetMenuTypeFromMenuCategoryValues(TestCase):
         self.assertEqual(result, '')
 
 
+class TestFormattedRecipeInstructions(TestCase):
+    def test_format_recipe_instructions_successful(self):
+        response = [{"text": "Please keep in mind the tamper seal from bottled containers can fall into the recipe you are making. Be sure to discard any tamper seals immediately after breaking the seal.",
+                     "position": 0},
+                    {"text": "In the blixer combine all of the ingredients and blend on intervals of 30 seconds until the texture is smooth and creamy.",
+                     "position": 1},
+                    {"text": "Pour into lexans.",
+                     "position": 2}]
+        expected = [{"id": 1,
+                     "text": "Please keep in mind the tamper seal from bottled containers can fall into the recipe you are making. Be sure to discard any tamper seals immediately after breaking the seal."},
+                    {"id": 2,
+                     "text": "In the blixer combine all of the ingredients and blend on intervals of 30 seconds until the texture is smooth and creamy."},
+                    {"id": 3,
+                     "text": "Pour into lexans."}]
+        result = format_recipe_instructions(response)
+        self.assertEqual(result, expected)
+
+    def test_format_recipe_instructions_empty(self):
+        result = format_recipe_instructions([])
+        self.assertEqual(result, [])
+
+    def test_format_recipe_instructions_None(self):
+        result = format_recipe_instructions(None)
+        self.assertEqual(result, [])
+
+
+class TestFormattedAllergenData(TestCase):
+    def test_format_recipe_allergen_data_successful(self):
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
+        mock_data['dietaryFlagsWithUsage'] = [{'dietaryFlag': {'id': DietaryFlagEnum.PEANUTS.value,
+                                                               'name': 'peanuts'}},
+                                              {'dietaryFlag': {'id': DietaryFlagEnum.SOY_BEANS.value,
+                                                               'name': 'soy beans'}}]
+        expected = ['peanuts', 'soy']
+        result = format_allergens(mock_data['dietaryFlagsWithUsage'])
+        self.assertEqual(result, expected)
+
+    def test_format_recipe_allergen_data_empty(self):
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
+        mock_data['dietaryFlagsWithUsage'] = []
+        result = format_allergens(mock_data['dietaryFlagsWithUsage'])
+        self.assertEqual(result, [])
+
+    def test_format_ingredient_allergen_data_successful(self):
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
+        expected = ['sesame_seeds', 'tree_nuts']
+        result = format_allergens(mock_data, is_recipe=False)
+        self.assertEqual(result, expected)
+
+    def test_format_ingredient_allergen_data_empty(self):
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][2]['ingredient']['dietaryFlags']
+        result = format_allergens(mock_data, is_recipe=False)
+        self.assertEqual(result, [])
+
+
 class TestGetFormattedOpsMenuData(TestCase):
     def response(self, *menus):
         return ({
@@ -110,5 +166,3 @@ class TestGetFormattedOpsMenuData(TestCase):
         mock_gromd.assert_called_with(dates, 'Vacaville', 'production', is_ops=True)
         get_formatted_ops_menu_data(dates, 'Montana', 'staging')
         mock_gromd.assert_called_with(dates, 'Montana', 'staging', is_ops=True)
-
-

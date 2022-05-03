@@ -24,10 +24,10 @@ class FormattedRecipeComponent:
                 'type': self.type,
                 'id': self.subrecipe.get('id'),
                 'name': get_external_name(self.subrecipe),
-                'allergens': format_allergens(self.subrecipe.get('dietaryFlagsWithUsages')),
+                'allergens': format_allergens(self.subrecipe.get('dietaryFlagsWithUsages', [])),
                 'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.subrecipe.get('categoryValues')),
-                'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions')),
+                'binWeight': format_bin_weight(self.subrecipe.get('categoryValues', [])),
+                'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions', [])),
                 'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.recipe_tree_components]
             }
         else:
@@ -35,9 +35,9 @@ class FormattedRecipeComponent:
                 'type': self.type,
                 'id': self.ingredient.get('id'),
                 'name': self.ingredient.get('name'),
-                'allergens': format_allergens(self.ingredient.get('dietaryFlags'), is_recipe=False),
+                'allergens': format_allergens(self.ingredient.get('dietaryFlags', []), is_recipe=False),
                 'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.ingredient.get('categoryValues')),
+                'binWeight': format_bin_weight(self.ingredient.get('categoryValues', [])),
             }
 
     def to_subcomponent_dict(self):
@@ -60,10 +60,10 @@ class FormattedRecipeComponent:
 
 
 def format_recipe_instructions(instructions: List) -> Optional[List[Dict]]:
-    return [{'id': instruction['position'] + 1, 'text': instruction['text']} for instruction in instructions]
+    return [{'id': i['position'] + 1, 'text': i['text']} for i in instructions] if instructions else []
 
 
-def format_allergens(dietary_flags, is_recipe=True) -> Optional[List[str]]:
+def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
     df_mapping = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
         DietaryFlagEnum.SOY_BEANS.value: "soy",
@@ -117,7 +117,7 @@ def is_packaging(category_values: List) -> bool:
 
 
 def is_ingredient(rtc: Dict) -> bool:
-    return not is_packaging(rtc.get('ingredient').get('categoryValues')) if rtc.get('ingredient') else True
+    return not is_packaging(rtc.get('ingredient', {}).get('categoryValues')) if rtc.get('ingredient') else True
 
 
 def format_ops_menu_rtc_data(rtc: List) -> List:

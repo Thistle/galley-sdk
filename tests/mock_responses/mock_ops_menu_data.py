@@ -1,4 +1,4 @@
-from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum
+from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum
 
 mock_recipeTreeComponents = [
     {
@@ -434,7 +434,16 @@ mock_recipeTreeComponents = [
                             'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
                             'name': 'crispy roasted chickpeas, 0.85 oz bag',
                             'categoryValues': [],
-                            'dietaryFlags': []
+                            'dietaryFlags': [
+                                {
+                                    'id': DietaryFlagEnum.SESAME_SEEDS.value,
+                                    'name': 'sesame seeds'
+                                },
+                                {
+                                    'id': DietaryFlagEnum.TREE_NUTS.value,
+                                    'name': 'tree nuts'
+                                }
+                            ]
                         },
                         'quantityUnitValues': [
                             {
@@ -1210,7 +1219,7 @@ mock_formatted_primaryRecipeComponents = [
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
         'name': 'crispy roasted chickpeas, 0.85 oz bag',
-        'allergens': [],
+        'allergens': ['sesame_seeds', 'tree_nuts'],
         'quantity': [
             {
                 'value': 0.85,
