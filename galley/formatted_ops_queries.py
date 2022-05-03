@@ -26,7 +26,7 @@ class FormattedRecipeComponent:
                 'name': get_external_name(self.subrecipe),
                 'allergens': format_allergens(self.subrecipe.get('dietaryFlagsWithUsages')),
                 'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.subrecipe.get('categoryValues')), # TODO: will dynamically pull from Galley when "Bin Weight" recipe tags are implmemented
+                'binWeight': format_bin_weight(self.subrecipe.get('categoryValues')),
                 'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions')),
                 'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.recipe_tree_components]
             }
@@ -37,7 +37,7 @@ class FormattedRecipeComponent:
                 'name': self.ingredient.get('name'),
                 'allergens': format_allergens(self.ingredient.get('dietaryFlags'), is_recipe=False),
                 'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.ingredient.get('categoryValues')), # TODO: will dynamically pull from Galley when "Bin Weight" ingredient tags are implmemented
+                'binWeight': format_bin_weight(self.ingredient.get('categoryValues')),
             }
 
     def to_subcomponent_dict(self):
@@ -123,7 +123,7 @@ def is_ingredient(rtc: Dict) -> bool:
 def format_ops_menu_rtc_data(rtc: List) -> List:
     components = []
     for rc in rtc:
-        if not is_ingredient(rc):
+        if rc.get('ingredient') and not is_ingredient(rc):
             continue
         if rc.get('recipeItem', {}).get('subRecipe') and is_core_recipe(rc):
             components.extend(filter_core_recipe_components(rc))
