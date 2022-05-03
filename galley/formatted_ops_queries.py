@@ -60,7 +60,7 @@ class FormattedRecipeComponent:
             }
 
 
-def format_recipe_instructions(instructions: List) -> Optional[Dict]:
+def format_recipe_instructions(instructions: List) -> Optional[List[Dict]]:
     return [{instruction['position'] + 1: instruction['text']} for instruction in instructions]
 
 
