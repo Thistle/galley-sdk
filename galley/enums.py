@@ -22,7 +22,7 @@ class PreparationEnum(Enum):
     STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
     TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
     THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
-    BASE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
+    CORE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
 
 
 class IngredientCategoryValueEnum(Enum):
@@ -37,6 +37,7 @@ class IngredientCategoryTagTypeEnum(Enum):
     Enum for category tag types at ingredient (itemType) level. <category name>: <category id>
     """
     ACCOUNTING_TAG = 'Y2F0ZWdvcnk6MjQyMA=='
+    BIN_WEIGHT = 'Y2F0ZWdvcnk6MzExOA=='
 
 
 class RecipeCategoryTagTypeEnum(Enum):
@@ -52,6 +53,7 @@ class RecipeCategoryTagTypeEnum(Enum):
     HIGHLIGHT_ONE_TAG = 'Y2F0ZWdvcnk6MjU3OA=='
     HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
     NO_NUTRITION_ON_WEBSITE_TAG = 'Y2F0ZWdvcnk6MzA2Ng=='
+    BIN_WEIGHT = 'Y2F0ZWdvcnk6MzExOQ=='
 
 
 class RecipeMediaEnum(Enum):
