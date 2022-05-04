@@ -1198,7 +1198,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-        'name': 'lettuce, spring mix, SEND TO PLATE',
+        'name': 'Spring Mix Lettuce*',
         'allergens': [],
         'quantity': [
             {
@@ -1218,7 +1218,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-        'name': 'crispy roasted chickpeas, 0.85 oz bag',
+        'name': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
         'allergens': ['sesame_seeds', 'tree_nuts'],
         'quantity': [
             {

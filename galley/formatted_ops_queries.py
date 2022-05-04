@@ -13,50 +13,45 @@ class FormattedRecipeComponent:
     def __init__(self, rtc):
         self.recipe_item = rtc.get('recipeItem') or {}
         self.subrecipe = self.recipe_item.get('subRecipe') or {}
-        self.recipe_tree_components = self.subrecipe.get('recipeTreeComponents') or []
+        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
         self.ingredient = rtc.get('ingredient') or {}
-        self.type = 'ingredient' if self.ingredient else 'recipe'
         self.quantity_values = rtc.get('quantityUnitValues') or []
 
+        self.type = 'recipe' if self.subrecipe else 'ingredient'
+        self.data = self.subrecipe if self.type == 'recipe' else self.ingredient
+        self.df = 'dietaryFlagsWithUsages' if self.type == 'recipe' else 'dietaryFlags'
+
     def to_primary_component_dict(self):
+        pcd = {
+            'type': self.type,
+            'id': self.data.get('id'),
+            'name': get_external_name(self.data),
+            'allergens': format_allergens(self.data.get(self.df), is_recipe=(self.type == 'recipe')),
+            'quantity': format_quantity_values(self.quantity_values),
+            'binWeight': format_bin_weight(self.data.get('categoryValues', [])),
+        }
         if self.type == 'recipe':
             return {
-                'type': self.type,
-                'id': self.subrecipe.get('id'),
-                'name': get_external_name(self.subrecipe),
-                'allergens': format_allergens(self.subrecipe.get('dietaryFlagsWithUsages', [])),
-                'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.subrecipe.get('categoryValues', [])),
+                **pcd,
                 'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions', [])),
-                'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.recipe_tree_components]
+                'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.rtc]
             }
-        else:
-            return {
-                'type': self.type,
-                'id': self.ingredient.get('id'),
-                'name': self.ingredient.get('name'),
-                'allergens': format_allergens(self.ingredient.get('dietaryFlags', []), is_recipe=False),
-                'quantity': format_quantity_values(self.quantity_values),
-                'binWeight': format_bin_weight(self.ingredient.get('categoryValues', [])),
-            }
+        return pcd
 
     def to_subcomponent_dict(self):
-        if self.type == 'recipe':
-            return {
-                'type': self.type,
-                'id': self.subrecipe.get('id'),
-                'name': get_external_name(self.subrecipe),
-                'allergens': format_allergens(self.subrecipe.get('dietaryFlagsWithUsages')),
-                'quantity': format_quantity_values(self.quantity_values),
-            }
-        else:
-            return {
-                'type': self.type,
-                'id': self.ingredient.get('id'),
-                'name': self.ingredient.get('name'),
-                'allergens': format_allergens(self.ingredient.get('dietaryFlags'), is_recipe=False),
-                'quantity': format_quantity_values(self.quantity_values),
-            }
+        return {
+            'type': self.type,
+            'id': self.data.get('id'),
+            'name': format_name(self.data, is_recipe=(self.type == 'recipe')),
+            'allergens': format_allergens(self.data.get(self.df), is_recipe=(self.type == 'recipe')),
+            'quantity': format_quantity_values(self.quantity_values)
+        }
+
+
+def format_name(data, is_recipe=True) -> Optional[str]:
+    if data.get('externalName') and is_recipe:
+        return data['externalName']
+    return data.get('name') or None
 
 
 def format_recipe_instructions(instructions: List) -> Optional[List[Dict]]:

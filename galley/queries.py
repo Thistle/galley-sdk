@@ -156,23 +156,17 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
     # query top level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.ingredient.dietaryFlags.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
     # query second level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.dietaryFlags.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
     # query third level recipeTreeComponents
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.dietaryFlags.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'dietaryFlags')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'dietaryFlagsWithUsages')
     return query
 
 

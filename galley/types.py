@@ -158,8 +158,8 @@ class Files(Type):
 
 
 class DietaryFlag(Type):
-    name = str
     id = str
+    name = str
 
 
 class DietaryFlagsWithUsages(Type):
