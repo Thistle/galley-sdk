@@ -73,10 +73,11 @@ def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]
         DietaryFlagEnum.SESAME_SEEDS.value: "sesame_seeds",
     }
     allergens = []
-    for dietary_flag in dietary_flags:
-        allergen = dietary_flag.get('dietaryFlag', {}).get('id') if is_recipe else dietary_flag.get('id')
-        if allergen and allergen in df_mapping:
-            allergens.append(df_mapping[allergen])
+    if dietary_flags:
+        for dietary_flag in dietary_flags:
+            allergen = dietary_flag.get('dietaryFlag', {}).get('id') if is_recipe else dietary_flag.get('id')
+            if allergen and allergen in df_mapping:
+                allergens.append(df_mapping[allergen])
     return allergens
 
 

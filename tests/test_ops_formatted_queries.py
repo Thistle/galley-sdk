@@ -112,21 +112,23 @@ class TestFormattedAllergenData(TestCase):
         result = format_allergens(mock_data['dietaryFlagsWithUsage'])
         self.assertEqual(result, expected)
 
-    def test_format_recipe_allergen_data_empty(self):
-        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
-        mock_data['dietaryFlagsWithUsage'] = []
-        result = format_allergens(mock_data['dietaryFlagsWithUsage'])
-        self.assertEqual(result, [])
-
     def test_format_ingredient_allergen_data_successful(self):
         mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
         expected = ['sesame_seeds', 'tree_nuts']
         result = format_allergens(mock_data, is_recipe=False)
         self.assertEqual(result, expected)
 
-    def test_format_ingredient_allergen_data_empty(self):
-        result = format_allergens([], is_recipe=False)
-        self.assertEqual(result, [])
+    def test_format_allergen_data_empty(self):
+        result1 = format_allergens([])
+        result2 = format_allergens([], is_recipe=False)
+        self.assertEqual(result1, [])
+        self.assertEqual(result2, [])
+
+    def test_format_allergen_data_None(self):
+        result1 = format_allergens(None)
+        result2 = format_allergens(None, is_recipe=False)
+        self.assertEqual(result1, [])
+        self.assertEqual(result2, [])
 
 
 class TestGetFormattedBinWeightData(TestCase):
