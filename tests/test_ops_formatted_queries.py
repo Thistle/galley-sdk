@@ -4,7 +4,7 @@ from galley.formatted_queries import (
     get_category_menu_type,
     get_meal_code
 )
-from galley.formatted_ops_queries import get_formatted_ops_menu_data, format_recipe_instructions, format_allergens
+from galley.formatted_ops_queries import get_formatted_ops_menu_data, format_recipe_instructions, format_allergens, format_bin_weight
 from galley.enums import DietaryFlagEnum
 
 from tests.mock_responses.mock_ops_menu_data import (
@@ -125,9 +125,27 @@ class TestFormattedAllergenData(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_ingredient_allergen_data_empty(self):
-        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][2]['ingredient']['dietaryFlags']
-        result = format_allergens(mock_data, is_recipe=False)
+        result = format_allergens([], is_recipe=False)
         self.assertEqual(result, [])
+
+
+class TestGetFormattedBinWeightData(TestCase):
+    def test_get_formatted_dynamic_bin_weight_data_successful(self):
+        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][0]['recipeItem']['subRecipe']['categoryValues']
+        expected = { 'value': 50, 'unit': 'lb' }
+        result = format_bin_weight(mock_response)
+        self.assertEqual(result, expected)
+
+    def test_get_formatted_bin_weight_data_empty(self):
+        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][1]['recipeItem']['subRecipe']['categoryValues']
+        expected_default = { 'value': 60, 'unit': 'lb' }
+        result = format_bin_weight(mock_response)
+        self.assertEqual(result, expected_default)
+
+    def test_get_formatted_bin_weight_data_None(self):
+        expected_default = { 'value': 60, 'unit': 'lb' }
+        result = format_bin_weight(None)
+        self.assertEqual(result, expected_default)
 
 
 class TestGetFormattedOpsMenuData(TestCase):

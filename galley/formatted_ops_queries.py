@@ -83,9 +83,10 @@ def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]
 def format_bin_weight(category_values: List) -> Dict:
     weight = { 'value': 60, 'unit': 'lb' }
     tags = set([RecipeCategoryTagTypeEnum.BIN_WEIGHT.value, IngredientCategoryTagTypeEnum.BIN_WEIGHT.value])
-    for cv in category_values:
-        if cv.get('category', {}).get('id') in tags:
-            weight['value'] = float(cv['name'])
+    if category_values:
+        for cv in category_values:
+            if cv.get('category', {}).get('id') in tags:
+                weight['value'] = float(cv['name'])
     return weight
 
 
