@@ -86,7 +86,17 @@ mock_recipeTreeComponents = [
                                 'id':'cmVjaXBlOjE4OTcwNA==',
                                 'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
                                 'dietaryFlagsWithUsages': [],
-                                'categoryValues': [],
+                                "categoryValues": [
+                                    {
+                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NA==",
+                                        "name": "50",
+                                        "category": {
+                                            "id": "Y2F0ZWdvcnk6MzExOQ==",
+                                            "name": "bin weight",
+                                            "itemType": "recipe"
+                                        }
+                                    }
+                                ],
                                 'recipeInstructions': [
                                     {
                                         'position': 0,
@@ -362,7 +372,17 @@ mock_recipeTreeComponents = [
                             'externalName': 'Spring Mix Lettuce*',
                             'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
                             'name': 'lettuce, spring mix, SEND TO PLATE',
-                            'categoryValues': [],
+                            'categoryValues': [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Mw==",
+                                    "name": "30",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MzExOA==",
+                                        "name": "bin weight",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ],
                             'dietaryFlags': []
                         },
                         'quantityUnitValues': [
@@ -433,7 +453,17 @@ mock_recipeTreeComponents = [
                             'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
                             'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
                             'name': 'crispy roasted chickpeas, 0.85 oz bag',
-                            'categoryValues': [],
+                            'categoryValues': [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NQ==",
+                                    "name": "40",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MzExOA==",
+                                        "name": "bin weight",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ],
                             'dietaryFlags': [
                                 {
                                     'id': DietaryFlagEnum.SESAME_SEEDS.value,
@@ -540,7 +570,17 @@ mock_recipeTreeComponents = [
                         'text': 'Clean the entire machine after each project, take the bowl and attachments back to the dishpit.'
                     }
                 ],
-                'categoryValues': [],
+                'categoryValues': [
+                    {
+                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Ng==",
+                        "name": "60",
+                        "category": {
+                            "id": "Y2F0ZWdvcnk6MzExOQ==",
+                            "name": "bin weight",
+                            "itemType": "recipe"
+                        }
+                    }
+                ],
                 'dietaryFlagsWithUsages': [],
                 'recipeTreeComponents': [
                     {
@@ -1079,7 +1119,7 @@ mock_formatted_primaryRecipeComponents = [
             }
         ],
         'binWeight': {
-            'value': 60,
+            'value': 50,
             'unit': 'lb'
         },
         'instructions':  [
@@ -1211,7 +1251,7 @@ mock_formatted_primaryRecipeComponents = [
             }
         ],
         'binWeight': {
-            'value': 60,
+            'value': 30,
             'unit': 'lb'
         },
     },
@@ -1231,7 +1271,7 @@ mock_formatted_primaryRecipeComponents = [
             }
         ],
         'binWeight': {
-            'value': 60,
+            'value': 40,
             'unit': 'lb'
         },
     },

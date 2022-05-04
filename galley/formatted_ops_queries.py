@@ -28,12 +28,12 @@ class FormattedRecipeComponent:
             'name': get_external_name(self.data),
             'allergens': format_allergens(self.data.get(self.df), is_recipe=(self.type == 'recipe')),
             'quantity': format_quantity_values(self.quantity_values),
-            'binWeight': format_bin_weight(self.data.get('categoryValues', [])),
+            'binWeight': format_bin_weight(self.data.get('categoryValues')),
         }
         if self.type == 'recipe':
             return {
                 **pcd,
-                'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions', [])),
+                'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions')),
                 'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.rtc]
             }
         return pcd
