@@ -69,11 +69,17 @@ def recipe_connection_query(
     query.viewer.recipeConnection.totalCount
 
     query.viewer.recipeConnection.edges.node.\
-        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'reconciledNutritionals', 'recipeItems')
+        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'reconciledNutritionals')
     query.viewer.recipeConnection.edges.node.media.\
         __fields__('altText', 'caption', 'sourceUrl')
     query.viewer.recipeConnection.edges.node.recipeItems.\
-        __fields__('ingredient', 'subRecipe', 'preparations')
+        __fields__('ingredient')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
+        __fields__('id', 'allIngredients', 'name', 'externalName', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.recipeTreeComponents.\
+        __fields__('id')
+    query.viewer.recipeConnection.edges.node.recipeItems.preparations.\
+        __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
         __fields__('externalName', 'categoryValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
