@@ -1,12 +1,29 @@
 import logging
 from re import M
 from typing import Dict, List, Optional
-from galley.formatted_queries import FormattedRecipe, get_category_menu_type, get_meal_code, get_external_name
-from galley.enums import QuantityUnitEnum, PreparationEnum, DietaryFlagEnum, IngredientCategoryTagTypeEnum, IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
+
 from galley.queries import get_raw_menu_data
+from galley.formatted_queries import (
+    FormattedRecipe,
+    get_category_menu_type,
+    get_meal_code,
+    get_external_name
+)
+from galley.enums import (
+    QuantityUnitEnum,
+    PreparationEnum,
+    DietaryFlagEnum,
+    IngredientCategoryTagTypeEnum as IngredientCTagEnum,
+    IngredientCategoryValueEnum as IngredientCValEnum,
+    RecipeCategoryTagTypeEnum as RecipeCTagEnum,
+)
 
 
 logger = logging.getLogger(__name__)
+
+
+DEFAULT_BIN_WEIGHT_VALUE = 60
+DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
 
 class FormattedRecipeComponent:
@@ -48,18 +65,18 @@ class FormattedRecipeComponent:
         }
 
 
-def format_name(data, is_recipe=True) -> Optional[str]:
+def format_name(data: Dict, is_recipe=True) -> Optional[str]:
     if data.get('externalName') and is_recipe:
         return data['externalName']
     return data.get('name') or None
 
 
 def format_recipe_instructions(instructions: List) -> Optional[List[Dict]]:
-    return [{'id': i['position'] + 1, 'text': i['text']} for i in instructions] if instructions else []
+    return [{'id': 1 + i['position'], 'text': i['text']} for i in instructions] if instructions else []
 
 
-def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
-    df_mapping = {
+def format_allergens(dfs: List, is_recipe=True) -> Optional[List[str]]:
+    dfs_mapping = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
         DietaryFlagEnum.SOY_BEANS.value: "soy",
         DietaryFlagEnum.SHELLFISH.value: "shellfish",
@@ -73,57 +90,61 @@ def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]
         DietaryFlagEnum.SESAME_SEEDS.value: "sesame_seeds",
     }
     allergens = []
-    if dietary_flags:
-        for dietary_flag in dietary_flags:
-            allergen = dietary_flag.get('dietaryFlag', {}).get('id') if is_recipe else dietary_flag.get('id')
-            if allergen and allergen in df_mapping:
-                allergens.append(df_mapping[allergen])
+    if dfs:
+        for df in dfs:
+            allergen = df.get('dietaryFlag', {}).get('id') if is_recipe else df.get('id')
+            if allergen and allergen in dfs_mapping:
+                allergens.append(dfs_mapping[allergen])
     return allergens
 
 
-def format_bin_weight(category_values: List) -> Dict:
-    weight = { 'value': 60, 'unit': 'lb' }
-    tags = set([RecipeCategoryTagTypeEnum.BIN_WEIGHT.value, IngredientCategoryTagTypeEnum.BIN_WEIGHT.value])
-    if category_values:
-        for cv in category_values:
+def format_bin_weight(cvs: List) -> Dict:
+    tags = set([RecipeCTagEnum.BIN_WEIGHT_TAG.value, IngredientCTagEnum.BIN_WEIGHT_TAG.value])
+    weight = {
+        'value': DEFAULT_BIN_WEIGHT_VALUE,
+        'unit': DEFAULT_BIN_WEIGHT_UNIT
+    }
+    if cvs:
+        for cv in cvs:
             if cv.get('category', {}).get('id') in tags:
-                weight['value'] = float(cv['name'])
+                value = float(cv['name'])
+                return weight|{'value': value}
     return weight
 
 
-def format_quantity_values(quantity_values: List) -> Optional[List[Dict]]:
-    quantities = []
+def format_quantity_values(qvs: List) -> Optional[List[Dict]]:
     units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
-    for quantity in quantity_values:
-        if quantity.get('unit', {}).get('id') in units:
-            quantities.append({'value': quantity['value'], 'unit': quantity['unit']['name']})
+    quantities = []
+    for qv in qvs:
+        if qv.get('unit', {}).get('id') in units:
+            quantities.append({
+                'value': qv['value'],
+                'unit': qv['unit']['name']
+            })
     return quantities
 
 
-def is_core_recipe(rtc: Dict) -> bool:
-    preparations = rtc.get('recipeItem', {}).get('preparations', [])
+def is_core_recipe(component: Dict) -> bool:
+    preparations = component.get('recipeItem', {}).get('preparations') or []
     return any(prep.get('id') == PreparationEnum.CORE_RECIPE.value for prep in preparations)
 
 
-def filter_core_recipe_components(rtc: Dict) -> List:
-    return rtc.get('recipeItem', {}).get('subRecipe', {}).get('recipeTreeComponents') or []
+def is_packaging(component: Dict) -> bool:
+    cvs = component.get('ingredient', {}).get('categoryValues') or []
+    return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
 
 
-def is_packaging(category_values: List) -> bool:
-    return any(cv.get('id') == IngredientCategoryValueEnum.FOOD_PACKAGE.value for cv in category_values)
-
-
-def is_ingredient(rtc: Dict) -> bool:
-    return not is_packaging(rtc.get('ingredient', {}).get('categoryValues')) if rtc.get('ingredient') else True
-
-
-def format_ops_menu_rtc_data(rtc: List) -> List:
+def format_ops_menu_rtc_data(rtc: List) -> Optional[List[Dict]]:
     components = []
     for rc in rtc:
-        if rc.get('ingredient') and not is_ingredient(rc):
+        ingredient = rc.get('ingredient') or {}
+        subrecipe = rc.get('recipeItem', {}).get('subRecipe') or {}
+
+        if ingredient and is_packaging(rc):
             continue
-        if rc.get('recipeItem', {}).get('subRecipe') and is_core_recipe(rc):
-            components.extend(filter_core_recipe_components(rc))
+
+        if subrecipe and is_core_recipe(rc):
+            components.extend(subrecipe.get('recipeTreeComponents') or [])
         else:
             components.append(rc)
     return [FormattedRecipeComponent(c).to_primary_component_dict() for c in components]
@@ -135,11 +156,11 @@ def get_formatted_ops_menu_data(
     menu_type: str="production",
 ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
-    formatted_menus = []
 
     if not menus:
         return None
 
+    formatted_menus = []
     for menu in menus:
         formatted_menu = {
             'name': menu.get('name'),
