@@ -108,7 +108,7 @@ def format_bin_weight(cvs: List) -> Dict:
         for cv in cvs:
             if cv.get('category', {}).get('id') in tags:
                 value = float(cv['name'])
-                return weight|{'value': value}
+                return weight | {'value': value} # type: ignore
     return weight
 
 
@@ -134,8 +134,8 @@ def is_packaging(component: Dict) -> bool:
     return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
 
 
-def format_ops_menu_rtc_data(rtc: List) -> Optional[List[Dict]]:
-    components = []
+def format_ops_menu_rtc_data(rtc: List) -> List[Optional[Dict]]:
+    components: List = []
     for rc in rtc:
         ingredient = rc.get('ingredient') or {}
         subrecipe = rc.get('recipeItem', {}).get('subRecipe') or {}
@@ -162,14 +162,14 @@ def get_formatted_ops_menu_data(
 
     formatted_menus = []
     for menu in menus:
-        formatted_menu = {
+        formatted_menu: Dict = {
             'name': menu.get('name'),
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
             'categoryMenuType': get_category_menu_type(menu['categoryValues']),
             'menuItems': []
-        } # type: Dict
+        }
 
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
