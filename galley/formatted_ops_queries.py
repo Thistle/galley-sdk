@@ -28,11 +28,10 @@ DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
 class FormattedRecipeComponent:
     def __init__(self, rtc):
-        self.recipe_item = rtc.get('recipeItem') or {}
-        self.subrecipe = self.recipe_item.get('subRecipe') or {}
-        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
-        self.ingredient = rtc.get('ingredient') or {}
         self.quantity_values = rtc.get('quantityUnitValues') or []
+        self.ingredient = rtc.get('ingredient') or {}
+        self.subrecipe = rtc.get('recipeItem').get('subRecipe') or {}
+        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
 
         if self.ingredient:
             self.type = 'ingredient'
@@ -64,7 +63,7 @@ class FormattedRecipeComponent:
         return {
             'type': self.type,
             'id': self.data.get('id'),
-            'name': format_name(self.data, is_recipe=(self.type == 'recipe')),
+            'name': format_name(self.data, is_recipe=(self.type=='recipe')),
             'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
             'quantity': format_quantity_values(self.quantity_values)
         }
@@ -90,7 +89,10 @@ def format_recipe_instructions(instructions: List) -> List[Optional[Dict[str, Un
     Example: [in] [{'text': 'instruction text', 'position': 0}, ...]
              [out] [{'id': 1, 'text': 'instruction text'}, ...]
     """
-    return [{'id': 1 + i['position'], 'text': i['text']} for i in instructions] if instructions else []
+    return [
+        {'id': 1 + i['position'], 'text': i['text']}
+        for i in instructions
+    ] if instructions else []
 
 
 def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
@@ -148,7 +150,11 @@ def format_quantity_values(quantity_values: List) -> Optional[List[Dict]]:
     ounces (oz) and pounds (lb).
     """
     units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
-    return [{'value': qv['value'], 'unit': qv['unit']['name']} for qv in quantity_values if qv.get('unit', {}).get('id') in units]
+    return [
+        {'value': qv['value'], 'unit': qv['unit']['name']}
+        for qv in quantity_values
+        if qv.get('unit', {}).get('id') in units
+    ]
 
 
 def is_core_recipe(component: Dict) -> bool:
