@@ -34,16 +34,21 @@ class FormattedRecipeComponent:
         self.ingredient = rtc.get('ingredient') or {}
         self.quantity_values = rtc.get('quantityUnitValues') or []
 
-        self.type = 'recipe' if self.subrecipe else 'ingredient'
-        self.data = self.subrecipe if self.type == 'recipe' else self.ingredient
-        self.df = 'dietaryFlagsWithUsages' if self.type == 'recipe' else 'dietaryFlags'
+        if self.ingredient:
+            self.type = 'ingredient'
+            self.data = self.ingredient
+            self.dietary_flags = self.data.get('dietaryFlags')
+        else:
+            self.type = 'recipe'
+            self.data = self.subrecipe
+            self.dietary_flags = self.data.get('dietaryFlagsWithUsages')
 
     def to_primary_component_dict(self):
         pcd = {
             'type': self.type,
             'id': self.data.get('id'),
             'name': get_external_name(self.data),
-            'allergens': format_allergens(self.data.get(self.df), is_recipe=(self.type == 'recipe')),
+            'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
             'quantity': format_quantity_values(self.quantity_values),
             'binWeight': format_bin_weight(self.data.get('categoryValues')),
         }
@@ -60,7 +65,7 @@ class FormattedRecipeComponent:
             'type': self.type,
             'id': self.data.get('id'),
             'name': format_name(self.data, is_recipe=(self.type == 'recipe')),
-            'allergens': format_allergens(self.data.get(self.df), is_recipe=(self.type == 'recipe')),
+            'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
             'quantity': format_quantity_values(self.quantity_values)
         }
 
@@ -76,7 +81,7 @@ def format_name(data: Dict, is_recipe=True) -> Optional[str]:
     return data.get('name') or None
 
 
-def format_recipe_instructions(instructions: List) -> Optional[List[Dict[str, Union[int, str]]]]:
+def format_recipe_instructions(instructions: List) -> List[Optional[Dict[str, Union[int, str]]]]:
     """
     Takes in a list of instructions and returns a formatted dict list
     of instruction text and its ordinal position at 1-based index.
@@ -88,14 +93,14 @@ def format_recipe_instructions(instructions: List) -> Optional[List[Dict[str, Un
     return [{'id': 1 + i['position'], 'text': i['text']} for i in instructions] if instructions else []
 
 
-def format_allergens(dfs: List, is_recipe=True) -> Optional[List[str]]:
+def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
     """
     Takes in a list of dietary flags (dfs) and returns a list of flagged
     allergens. Defaults to parse 'dietaryFlagsWithUsages' for a recipe,
     and parses 'dietaryFlags' for an ingredient when is_recipe=False.
     If dfs is an empty list or None, or no allergens exist, returns [].
     """
-    dfs_mapping = {
+    df_mapping = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
         DietaryFlagEnum.SOY_BEANS.value: "soy",
         DietaryFlagEnum.SHELLFISH.value: "shellfish",
@@ -109,15 +114,15 @@ def format_allergens(dfs: List, is_recipe=True) -> Optional[List[str]]:
         DietaryFlagEnum.SESAME_SEEDS.value: "sesame_seeds",
     }
     allergens = []
-    if dfs:
-        for df in dfs:
+    if dietary_flags:
+        for df in dietary_flags:
             allergen = df.get('dietaryFlag', {}).get('id') if is_recipe else df.get('id')
-            if allergen and allergen in dfs_mapping:
-                allergens.append(dfs_mapping[allergen])
+            if allergen and allergen in df_mapping:
+                allergens.append(df_mapping[allergen])
     return allergens
 
 
-def format_bin_weight(cvs: List) -> Dict:
+def format_bin_weight(category_values: List) -> Dict:
     """
     Takes in a list of recipe or ingredient category values and returns a
     dict containing either a bin weight value (in lb) pulled from Galley,
@@ -129,28 +134,21 @@ def format_bin_weight(cvs: List) -> Dict:
         'value': DEFAULT_BIN_WEIGHT_VALUE,
         'unit': DEFAULT_BIN_WEIGHT_UNIT
     }
-    if cvs:
-        for cv in cvs:
+    if category_values:
+        for cv in category_values:
             if cv.get('category', {}).get('id') in tags:
                 value = float(cv['name'])
                 return weight | {'value': value} # type: ignore
     return weight
 
 
-def format_quantity_values(qvs: List) -> Optional[List[Dict]]:
+def format_quantity_values(quantity_values: List) -> Optional[List[Dict]]:
     """
     Filters a list of quantity values to return only unit values in
     ounces (oz) and pounds (lb).
     """
     units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
-    quantities = []
-    for qv in qvs:
-        if qv.get('unit', {}).get('id') in units:
-            quantities.append({
-                'value': qv['value'],
-                'unit': qv['unit']['name']
-            })
-    return quantities
+    return [{'value': qv['value'], 'unit': qv['unit']['name']} for qv in quantity_values if qv.get('unit', {}).get('id') in units]
 
 
 def is_core_recipe(component: Dict) -> bool:
@@ -171,19 +169,19 @@ def is_packaging(component: Dict) -> bool:
     return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
 
 
-def format_ops_menu_rtc_data(rtc: List) -> List[Optional[Dict]]:
+def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
     components: List = []
-    for rc in rtc:
-        ingredient = rc.get('ingredient') or {}
-        subrecipe = rc.get('recipeItem', {}).get('subRecipe') or {}
+    for rtc in recipe_tree_components:
+        ingredient = rtc.get('ingredient') or {}
+        subrecipe = rtc.get('recipeItem', {}).get('subRecipe') or {}
 
-        if ingredient and is_packaging(rc):
+        if ingredient and is_packaging(rtc):
             continue
 
-        if subrecipe and is_core_recipe(rc):
+        if subrecipe and is_core_recipe(rtc):
             components.extend(subrecipe.get('recipeTreeComponents') or [])
         else:
-            components.append(rc)
+            components.append(rtc)
     return [FormattedRecipeComponent(c).to_primary_component_dict() for c in components]
 
 

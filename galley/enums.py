@@ -37,7 +37,8 @@ class IngredientCategoryTagTypeEnum(Enum):
     Enum for category tag types at ingredient (itemType) level. <category name>: <category id>
     """
     ACCOUNTING_TAG = 'Y2F0ZWdvcnk6MjQyMA=='
-    BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOA==' # For ingredient use only; refer to RecipeCategoryTagTypeEnum.BIN_WEIGHT_TAG for recipes
+    # ingredient only tag, separate value used for recipe bin weight
+    BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOA=='
 
 
 class RecipeCategoryTagTypeEnum(Enum):
@@ -53,7 +54,8 @@ class RecipeCategoryTagTypeEnum(Enum):
     HIGHLIGHT_ONE_TAG = 'Y2F0ZWdvcnk6MjU3OA=='
     HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
     NO_NUTRITION_ON_WEBSITE_TAG = 'Y2F0ZWdvcnk6MzA2Ng=='
-    BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOQ==' # For recipe use only; refer to IngredientCategoryTagTypeEnum.BIN_WEIGHT_TAG for ingredients
+    # recipe only tag, separate value used for ingredient bin weight
+    BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOQ=='
 
 
 class RecipeMediaEnum(Enum):
