@@ -375,9 +375,12 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
     return ingredients
 
 
-# Returns the subRecipeId if any 'standalone' item exists within recipeItems, else returns None
-# It is assumed that there is a max of ONE standalone item within the list of recipeItems, if any.
 def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
+    """
+    Returns the subRecipeId if any standalone item exists within recipe
+    items, else returns None. It is assumed that there is a max of ONE
+    standalone item within the list of recipeItems, if any.
+    """
     for recipe_item in recipe_items:
         preparations = recipe_item.get('preparations', [])
         is_standalone = any(prep['id'] == PreparationEnum.STANDALONE.value for prep in preparations)
@@ -410,16 +413,18 @@ def get_plate_photo_url(photos: List) -> Optional[str]:
 
 
 def get_meal_code(menu_item_category_values) -> str:
-    for category_value in menu_item_category_values:
-        if (category_value['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
-            return category_value['name']
+    if menu_item_category_values:
+        for category_value in menu_item_category_values:
+            if (category_value['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
+                return category_value['name']
     return ''
 
 
 def get_category_menu_type(menu_category_values) -> str:
-    for category_value in menu_category_values:
-        if (category_value['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
-            return category_value['name']
+    if menu_category_values:
+        for category_value in menu_category_values:
+            if (category_value['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
+                return category_value['name']
     return ''
 
 
@@ -446,13 +451,13 @@ def get_formatted_menu_data(dates: List[str],
         return None
 
     for menu in menus:
-        formatted_menu = {
+        formatted_menu: Dict = {
             'name': menu.get('name'),
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
             'menuItems': []
-        } # type: Dict
+        }
 
         categoryValues = menu['categoryValues']
         for categoryValue in categoryValues:

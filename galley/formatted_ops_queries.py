@@ -1,6 +1,6 @@
 import logging
 from re import M
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from galley.queries import get_raw_menu_data
 from galley.formatted_queries import (
@@ -66,16 +66,35 @@ class FormattedRecipeComponent:
 
 
 def format_name(data: Dict, is_recipe=True) -> Optional[str]:
+    """
+    Returns recipe 'externalName' if it exists, otherwise returns 'name'.
+    Default returns 'name' for non-recipe (ingredient) types if 'name'
+    exists. If 'name' doesn't exist, returns None.
+    """
     if data.get('externalName') and is_recipe:
         return data['externalName']
     return data.get('name') or None
 
 
-def format_recipe_instructions(instructions: List) -> Optional[List[Dict]]:
+def format_recipe_instructions(instructions: List) -> Optional[List[Dict[str, Union[int, str]]]]:
+    """
+    Takes in a list of instructions and returns a formatted dict list
+    of instruction text and its ordinal position at 1-based index.
+    If empty list or None passed in, returns [].
+
+    Example: [in] [{'text': 'instruction text', 'position': 0}, ...]
+             [out] [{'id': 1, 'text': 'instruction text'}, ...]
+    """
     return [{'id': 1 + i['position'], 'text': i['text']} for i in instructions] if instructions else []
 
 
 def format_allergens(dfs: List, is_recipe=True) -> Optional[List[str]]:
+    """
+    Takes in a list of dietary flags (dfs) and returns a list of flagged
+    allergens. Defaults to parse 'dietaryFlagsWithUsages' for a recipe,
+    and parses 'dietaryFlags' for an ingredient when is_recipe=False.
+    If dfs is an empty list or None, or no allergens exist, returns [].
+    """
     dfs_mapping = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
         DietaryFlagEnum.SOY_BEANS.value: "soy",
@@ -99,6 +118,12 @@ def format_allergens(dfs: List, is_recipe=True) -> Optional[List[str]]:
 
 
 def format_bin_weight(cvs: List) -> Dict:
+    """
+    Takes in a list of recipe or ingredient category values and returns a
+    dict containing either a bin weight value (in lb) pulled from Galley,
+    or DEFAULT_BIN_WEIGHT_VALUE if none exists. Bin weight unit always
+    returns 'lb'.
+    """
     tags = set([RecipeCTagEnum.BIN_WEIGHT_TAG.value, IngredientCTagEnum.BIN_WEIGHT_TAG.value])
     weight = {
         'value': DEFAULT_BIN_WEIGHT_VALUE,
@@ -113,6 +138,10 @@ def format_bin_weight(cvs: List) -> Dict:
 
 
 def format_quantity_values(qvs: List) -> Optional[List[Dict]]:
+    """
+    Filters a list of quantity values to return only unit values in
+    ounces (oz) and pounds (lb).
+    """
     units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
     quantities = []
     for qv in qvs:
@@ -125,11 +154,19 @@ def format_quantity_values(qvs: List) -> Optional[List[Dict]]:
 
 
 def is_core_recipe(component: Dict) -> bool:
+    """
+    Returns True if a recipe component contains a "Core Recipe"
+    preparation.
+    """
     preparations = component.get('recipeItem', {}).get('preparations') or []
     return any(prep.get('id') == PreparationEnum.CORE_RECIPE.value for prep in preparations)
 
 
 def is_packaging(component: Dict) -> bool:
+    """
+    Checks and returns True if an ingredient-typed component is a food
+    package item.
+    """
     cvs = component.get('ingredient', {}).get('categoryValues') or []
     return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
 
@@ -167,15 +204,15 @@ def get_formatted_ops_menu_data(
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
-            'categoryMenuType': get_category_menu_type(menu['categoryValues']),
+            'categoryMenuType': get_category_menu_type(menu.get('categoryValues')),
             'menuItems': []
         }
 
-        menu_items = menu.get('menuItems', [])
+        menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
-            formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
+            formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
             formatted_menu['menuItems'].append({
-                'mealCode': get_meal_code(menu_item['categoryValues']),
+                'mealCode': get_meal_code(menu_item.get('categoryValues')),
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,
                 'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
