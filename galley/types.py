@@ -129,6 +129,7 @@ class SubRecipe(Type):
     recipeInstructions = Field(RecipeInstruction)
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
+    categoryValues = Field(CategoryValue)
 
 
 class RecipeItem(Type):
@@ -157,8 +158,8 @@ class Files(Type):
 
 
 class DietaryFlag(Type):
-    name = str
     id = str
+    name = str
 
 
 class DietaryFlagsWithUsages(Type):

@@ -149,7 +149,7 @@ class FormattedRecipe:
         self.description = recipe_data.get('description')
         self.isSellable = recipe_data.get('isDish')
         self.menuPhotoUrl = get_menu_photo_url(recipe_data.get('media', []))
-        self.files = recipe_data.get('files', {})
+        self.plate_photo_url = get_plate_photo_url(recipe_data.get('files', {}).get('photos', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.recipe_category_values = recipe_data.get('categoryValues', [])
         self.recipe_tags = get_recipe_category_tags(self.recipe_category_values)
@@ -338,7 +338,6 @@ def format_standalone_data(standalone_recipe_item):
             standalone_usage_quantity = standalone_recipe_item.standalone_usage_quantity()
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
             standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
-
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
@@ -376,9 +375,12 @@ def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
     return ingredients
 
 
-# Returns the subRecipeId if any 'standalone' item exists within recipeItems, else returns None
-# It is assumed that there is a max of ONE standalone item within the list of recipeItems, if any.
 def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
+    """
+    Returns the subRecipeId if any standalone item exists within recipe
+    items, else returns None. It is assumed that there is a max of ONE
+    standalone item within the list of recipeItems, if any.
+    """
     for recipe_item in recipe_items:
         preparations = recipe_item.get('preparations', [])
         is_standalone = any(prep['id'] == PreparationEnum.STANDALONE.value for prep in preparations)
@@ -386,6 +388,7 @@ def get_standalone(recipe_items: List[Dict]) -> Optional[str]:
         if is_standalone:
             return recipe_item.get('subRecipeId')
     return None
+
 
 def get_meal_slug(menu_item: Dict) -> Optional[str]:
     categories = menu_item['recipe'].get('categoryValues', [])
@@ -402,17 +405,26 @@ def get_menu_photo_url(media: List) -> Optional[str]:
     return None
 
 
+def get_plate_photo_url(photos: List) -> Optional[str]:
+    for photo in photos:
+        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
+            return photo.get('sourceUrl')
+    return None
+
+
 def get_meal_code(menu_item_category_values) -> str:
-    for category_value in menu_item_category_values:
-        if (category_value['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
-            return category_value['name']
+    if menu_item_category_values:
+        for category_value in menu_item_category_values:
+            if (category_value['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value):
+                return category_value['name']
     return ''
 
 
 def get_category_menu_type(menu_category_values) -> str:
-    for category_value in menu_category_values:
-        if (category_value['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
-            return category_value['name']
+    if menu_category_values:
+        for category_value in menu_category_values:
+            if (category_value['category']['id'] == MenuCategoryEnum.MENU_TYPE.value):
+                return category_value['name']
     return ''
 
 
@@ -439,13 +451,13 @@ def get_formatted_menu_data(dates: List[str],
         return None
 
     for menu in menus:
-        formatted_menu = {
+        formatted_menu: Dict = {
             'name': menu.get('name'),
             'id': menu.get('id'),
             'date': menu.get('date'),
             'location': menu['location'].get('name'),
             'menuItems': []
-        } # type: Dict
+        }
 
         categoryValues = menu['categoryValues']
         for categoryValue in categoryValues:
@@ -475,43 +487,6 @@ def get_formatted_menu_data(dates: List[str],
                 'recipeProteinType': formatted_recipe.recipe_tags.get('proteinType', ''),
                 'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
                 'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
-            })
-        formatted_menus.append(formatted_menu)
-    return formatted_menus
-
-
-def get_formatted_ops_menu_data(dates: List[str],
-                                location_name: str="Vacaville",
-                                menu_type: str="production",
-                                ) -> Optional[List[Dict]]:
-    menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
-    formatted_menus = []
-
-    if not menus:
-        return None
-
-    for menu in menus:
-        formatted_menu = {
-            'name': menu.get('name'),
-            'id': menu.get('id'),
-            'date': menu.get('date'),
-            'location': menu['location'].get('name'),
-            'categoryMenuType': get_category_menu_type(menu['categoryValues']),
-            'menuItems': []
-        } # type: Dict
-
-        menu_items = menu.get('menuItems', [])
-        for menu_item in menu_items:
-            formatted_recipe = FormattedRecipe(menu_item.get('recipe', {}))
-            formatted_menu['menuItems'].append({
-                'id': menu_item.get('id'),
-                'mealCode': get_meal_code(menu_item['categoryValues']),
-                'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
-                'recipeId': menu_item.get('recipeId'),
-                'recipeName': formatted_recipe.externalName,
-                'recipePhotos': formatted_recipe.files.get('photos', []),
-                'recipeTreeComponents': formatted_recipe.recipe_tree_components,
-                'totalCount': menu_item.get('volume')
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
