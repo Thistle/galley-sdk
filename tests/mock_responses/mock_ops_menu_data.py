@@ -1507,7 +1507,11 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                         },
                         'recipeTreeComponents': mock_recipeTreeComponents
                     },
-                    'volume': 923
+                    'volume': 923,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
                 },
                 {
                     'id': 'MENUITEM2DEF-OPS',
@@ -1550,7 +1554,11 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                         },
                         'recipeTreeComponents': mock_recipeTreeComponents
                     },
-                    'volume': 1228
+                    'volume': 1228,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
                 },
                 {
                     'id': 'MENUITEM3GHI-OPS',
@@ -1582,7 +1590,11 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                         'files': {},
                         'recipeTreeComponents': mock_recipeTreeComponents
                     },
-                    'volume': 549
+                    'volume': 549,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
                 }
             ]
         }

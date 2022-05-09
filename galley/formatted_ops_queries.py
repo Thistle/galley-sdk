@@ -1,5 +1,4 @@
 import logging
-from re import M
 from typing import Dict, List, Optional, Union
 
 from galley.queries import get_raw_menu_data
@@ -223,6 +222,7 @@ def get_formatted_ops_menu_data(
                 'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
                 'platePhotoUrl': formatted_recipe.plate_photo_url,
                 'totalCount': menu_item.get('volume'),
+                'totalCountUnit': menu_item.get('unit', {}).get('name'),
                 'primaryRecipeComponents': format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
             })
         formatted_menus.append(formatted_menu)

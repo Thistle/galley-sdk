@@ -2,7 +2,6 @@ import logging
 from unittest import TestCase
 from galley.queries import get_ops_menu_query
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -199,6 +198,10 @@ class TestOpsMenuDataQuery(TestCase):
             }
             }
             volume
+            unit {
+            id
+            name
+            }
             }
             }
             }

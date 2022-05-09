@@ -29,6 +29,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'mealContainer': 'ts48',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
             'totalCount': 923,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
@@ -39,6 +40,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'mealContainer': 'ts32',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
             'totalCount': 1228,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
@@ -49,6 +51,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'mealContainer': 'ts32',
             'platePhotoUrl': None,
             'totalCount': 549,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }]

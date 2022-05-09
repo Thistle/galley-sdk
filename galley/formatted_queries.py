@@ -1,5 +1,4 @@
 import logging
-from re import M
 from typing import Dict, List, Optional
 
 from galley.enums import (

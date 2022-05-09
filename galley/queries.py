@@ -150,7 +150,7 @@ def get_menu_query(dates: List[str]) -> Operation:
 def get_ops_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
-    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume', 'unit')
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues')
     query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
