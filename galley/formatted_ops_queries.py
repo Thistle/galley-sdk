@@ -216,6 +216,7 @@ def get_formatted_ops_menu_data(
         for menu_item in menu_items:
             formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
             formatted_menu['menuItems'].append({
+                'menuItemId': menu_item.get('id'),
                 'mealCode': get_meal_code(menu_item.get('categoryValues')),
                 'recipeId': menu_item.get('recipeId'),
                 'recipeName': formatted_recipe.externalName,

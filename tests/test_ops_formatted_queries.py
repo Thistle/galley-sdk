@@ -22,6 +22,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
         'location': location_name,
         'categoryMenuType': menu_type,
         'menuItems': [{
+            'menuItemId': 'MENUITEM1ABC-OPS',
             'mealCode': 'lm1',
             'recipeId': 'RECIPE1ABC-OPS',
             'recipeName': 'Test Recipe Name 1',
@@ -31,6 +32,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
+            'menuItemId': 'MENUITEM2DEF-OPS',
             'mealCode': 'lv2',
             'recipeId': 'RECIPE2DEF-OPS',
             'recipeName': 'Test Recipe Name 2',
@@ -40,6 +42,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
+            'menuItemId': 'MENUITEM3GHI-OPS',
             'mealCode': 'dv3',
             'recipeId': 'RECIPE3GHI-OPS',
             'recipeName': 'Test Recipe Name 3',
