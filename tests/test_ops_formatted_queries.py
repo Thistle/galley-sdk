@@ -22,30 +22,36 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
         'location': location_name,
         'categoryMenuType': menu_type,
         'menuItems': [{
+            'menuItemId': 'MENUITEM1ABC-OPS',
             'mealCode': 'lm1',
             'recipeId': 'RECIPE1ABC-OPS',
             'recipeName': 'Test Recipe Name 1',
             'mealContainer': 'ts48',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
             'totalCount': 923,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
+            'menuItemId': 'MENUITEM2DEF-OPS',
             'mealCode': 'lv2',
             'recipeId': 'RECIPE2DEF-OPS',
             'recipeName': 'Test Recipe Name 2',
             'mealContainer': 'ts32',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
             'totalCount': 1228,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }, {
+            'menuItemId': 'MENUITEM3GHI-OPS',
             'mealCode': 'dv3',
             'recipeId': 'RECIPE3GHI-OPS',
             'recipeName': 'Test Recipe Name 3',
             'mealContainer': 'ts32',
             'platePhotoUrl': None,
             'totalCount': 549,
+            'totalCountUnit': 'each',
             'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
 
         }]
