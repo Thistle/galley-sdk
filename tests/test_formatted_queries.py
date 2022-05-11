@@ -36,10 +36,12 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'mealSlug': 'test-recipe-name-1',
             'recipeId': 'RECIPE1ABC',
             'recipeMealType': 'dinner',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
             'recipeName': 'Test Recipe Name 1',
             'recipeProteinType': 'vegan',
-            'standaloneRecipeId': 'SUBRECIPEID456'
+            'highlightTags': [],
+            'allergens': [],
+            'hasAllergen': False,
         }, {
             'baseMeal': '',
             'id': 'MENUITEM2DEF',
@@ -47,10 +49,12 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'mealSlug': 'test-recipe-name-2',
             'recipeId': 'RECIPE2DEF',
             'recipeMealType': 'dinner',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
             'recipeName': 'Test Recipe Name 2',
             'recipeProteinType': 'vegan',
-            'standaloneRecipeId': None
+            'highlightTags': ['new', 'spicy'],
+            'allergens': ['coconut', 'soy'],
+            'hasAllergen': True,
         }, {
             'baseMeal': '',
             'id': 'MENUITEM3GHI',
@@ -58,10 +62,12 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'mealSlug': 'test-recipe-name-3',
             'recipeId': 'RECIPE3GHI',
             'recipeMealType': 'lunch',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
             'recipeName': 'Test Recipe Name 3',
             'recipeProteinType': 'meat',
-            'standaloneRecipeId': 'SUBRECIPEID321'
+            'highlightTags': ['new'],
+            'allergens': ['soy'],
+            'hasAllergen': True,
         }]
     }
     if not onlySellableMenuItems:
@@ -74,8 +80,10 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMenuPhotoUrl': None,
             'recipeMealType': '',
             'recipeProteinType': '',
-            'standaloneRecipeId': None,
-            'baseMeal': ''
+            'baseMeal': '',
+            'highlightTags': [],
+            'allergens': [],
+            'hasAllergen': False,
         })
     return formatted_menu
 

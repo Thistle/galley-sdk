@@ -78,6 +78,23 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                          'name': 'vegan'}
                     ],
                     'isDish': True,
+                    'media': [
+                        {
+                            'altText': 'Recipe_1_Plating.jpg',
+                            'caption': 'plating',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Plating',
+                            'mediaId': 'bWVkaWE6TEOwNQ==',
+                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                        },
+                        {
+                            'altText': 'Recipe_1_Menu.jpg',
+                            'caption': 'menu',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
+                            'mediaId': 'bWVkaWE6OTEwNA==',
+                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                        },
+                    ],
+                    'dietaryFlagsWithUsages': [],
                     'recipeItems': [{
                         'preparations': [
                             {
@@ -147,9 +164,55 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             'name': 'protein type'
                         },
                             'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
-                            'name': 'vegan'}
+                            'name': 'vegan'},
+                        {
+                            'name': 'new',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value,
+                                'itemType': 'recipe',
+                                'name': 'highlight_1'
+                            }
+                        },
+                        {
+                            'name': 'spicy',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value,
+                                'itemType': 'recipe',
+                                'name': 'highlight_2'
+                            }
+                        },
                     ],
                     'isDish': True,
+                    'media': [
+                        {
+                            'altText': 'Recipe_2_Plating.jpg',
+                            'caption': 'plating',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Plating',
+                            'mediaId': 'bWVkaWE6TEOwNQ==',
+                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                        },
+                        {
+                            'altText': 'Recipe_2_Menu.jpg',
+                            'caption': 'menu',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
+                            'mediaId': 'bWVkaWE6OTEwNA==',
+                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                        },
+                    ],
+                    'dietaryFlagsWithUsages': [
+                        {
+                            'dietaryFlag': {
+                                'id': 'ZGlldGFyeUZsYWc6OTc=',
+                                'name': 'coconut'
+                            }
+                        },
+                        {
+                            'dietaryFlag': {
+                                'id': 'ZGlldGFyeUZsYWc6Ng==',
+                                'name': 'soy beans'
+                            }
+                        }
+                    ],
                     'recipeItems': [{
                         'preparations': [
                             {
@@ -217,9 +280,41 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                             'name': 'protein type'
                         },
                             'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
-                            'name': 'meat'}
+                            'name': 'meat'},
+                        {
+                            'name': 'new',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value,
+                                'itemType': 'recipe',
+                                'name': 'highlight_1'
+                            }
+                        },
                     ],
                     'isDish': True,
+                    'media': [
+                        {
+                            'altText': 'Recipe_3_Plating.jpg',
+                            'caption': 'plating',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Plating',
+                            'mediaId': 'bWVkaWE6TEOwNQ==',
+                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                        },
+                        {
+                            'altText': 'Recipe_3_Menu.jpg',
+                            'caption': 'menu',
+                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
+                            'mediaId': 'bWVkaWE6OTEwNA==',
+                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                        },
+                    ],
+                    'dietaryFlagsWithUsages': [
+                        {
+                            'dietaryFlag': {
+                                'id': 'ZGlldGFyeUZsYWc6Ng==',
+                                'name': 'soy beans'
+                            }
+                        }
+                    ],
                     'recipeItems': [{
                         'preparations': [
                             {
