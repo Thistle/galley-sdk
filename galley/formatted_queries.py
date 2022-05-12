@@ -466,6 +466,7 @@ def get_formatted_menu_data(dates: List[str],
         menu_items = menu.get('menuItems', [])
         for menu_item in menu_items:
             formatted_recipe = FormattedRecipe(recipe_data=menu_item.get('recipe', {}))
+            formatted_recipe_dict = formatted_recipe.to_dict()
             itemCode = ''
             categoryValues = menu_item['categoryValues']
             for categoryValue in categoryValues:
@@ -480,12 +481,14 @@ def get_formatted_menu_data(dates: List[str],
                 'itemCode': itemCode,
                 'mealSlug': get_meal_slug(menu_item),
                 'recipeId': menu_item.get('recipeId'),
-                'recipeName': formatted_recipe.externalName,
-                'recipeMenuPhotoUrl': formatted_recipe.menuPhotoUrl,
-                'recipeMealType': formatted_recipe.recipe_tags.get('mealType', ''),
-                'recipeProteinType': formatted_recipe.recipe_tags.get('proteinType', ''),
-                'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
-                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
+                'recipeName': formatted_recipe_dict.get('externalName', ''),
+                'recipeMenuPhotoUrl': formatted_recipe_dict.get('menuPhotoUrl', ''),
+                'recipeMealType': formatted_recipe_dict.get('mealType', ''),
+                'recipeProteinType': formatted_recipe_dict.get('proteinType', ''),
+                'baseMeal': formatted_recipe_dict.get('baseMeal', ''),
+                'highlightTags': formatted_recipe_dict.get('highlightTags', []),
+                'allergens': formatted_recipe_dict.get('allergens', []),
+                'hasAllergen': formatted_recipe_dict.get('hasAllergen', False),
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus

@@ -102,6 +102,12 @@ class TestQueryWeekMenuData(TestCase):
             sourceUrl
             }
             isDish
+            dietaryFlagsWithUsages{
+            dietaryFlag{
+            id
+            name
+            }
+            }
             }
             }
             }
