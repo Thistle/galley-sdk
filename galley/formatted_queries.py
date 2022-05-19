@@ -476,6 +476,8 @@ def get_formatted_menu_data(dates: List[str],
                 continue
 
             formatted_menu['menuItems'].append({
+                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', '').title(),
+                'deliveryDate': menu.get('date'),
                 'id': menu_item.get('id'),
                 'itemCode': itemCode,
                 'mealSlug': get_meal_slug(menu_item),
@@ -485,7 +487,6 @@ def get_formatted_menu_data(dates: List[str],
                 'recipeMealType': formatted_recipe.recipe_tags.get('mealType', ''),
                 'recipeProteinType': formatted_recipe.recipe_tags.get('proteinType', ''),
                 'standaloneRecipeId': get_standalone(formatted_recipe.recipe_items),
-                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', ''),
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus

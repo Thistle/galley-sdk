@@ -31,6 +31,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
         'categoryMenuType': 'production',
         'menuItems': [{
             'baseMeal': '',
+            'deliveryDate': f"{date}",
             'id': 'MENUITEM1ABC',
             'itemCode': 'dv1',
             'mealSlug': 'test-recipe-name-1',
@@ -42,6 +43,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'standaloneRecipeId': 'SUBRECIPEID456'
         }, {
             'baseMeal': '',
+            'deliveryDate': f"{date}",
             'id': 'MENUITEM2DEF',
             'itemCode': 'dv2',
             'mealSlug': 'test-recipe-name-2',
@@ -53,6 +55,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'standaloneRecipeId': None
         }, {
             'baseMeal': '',
+            'deliveryDate': f"{date}",
             'id': 'MENUITEM3GHI',
             'itemCode': 'lm2',
             'mealSlug': 'test-recipe-name-3',
@@ -66,6 +69,8 @@ def formatted_menu(date, onlySellableMenuItems=False):
     }
     if not onlySellableMenuItems:
         formatted_menu['menuItems'].append({
+            'baseMeal': '',
+            'deliveryDate': f"{date}",
             'id': 'MENUITEM4JKL',
             'itemCode': 'non-sellable soup',
             'mealSlug': None,
@@ -75,7 +80,6 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMealType': '',
             'recipeProteinType': '',
             'standaloneRecipeId': None,
-            'baseMeal': ''
         })
     return formatted_menu
 
