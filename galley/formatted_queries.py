@@ -477,18 +477,19 @@ def get_formatted_menu_data(dates: List[str],
                 continue
 
             formatted_menu['menuItems'].append({
+                'allergens': formatted_recipe_dict.get('allergens', []),
+                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', '').title(),
+                'deliveryDate': menu.get('date'),
+                'hasAllergen': formatted_recipe_dict.get('hasAllergen', False),
+                'highlightTags': formatted_recipe_dict.get('highlightTags', []),
                 'id': menu_item.get('id'),
                 'itemCode': itemCode,
                 'mealSlug': get_meal_slug(menu_item),
                 'recipeId': menu_item.get('recipeId'),
-                'recipeName': formatted_recipe_dict.get('externalName', ''),
-                'recipeMenuPhotoUrl': formatted_recipe_dict.get('menuPhotoUrl', ''),
                 'recipeMealType': formatted_recipe_dict.get('mealType', ''),
+                'recipeMenuPhotoUrl': formatted_recipe_dict.get('menuPhotoUrl', ''),
+                'recipeName': formatted_recipe_dict.get('externalName', ''),
                 'recipeProteinType': formatted_recipe_dict.get('proteinType', ''),
-                'baseMeal': formatted_recipe_dict.get('baseMeal', ''),
-                'highlightTags': formatted_recipe_dict.get('highlightTags', []),
-                'allergens': formatted_recipe_dict.get('allergens', []),
-                'hasAllergen': formatted_recipe_dict.get('hasAllergen', False),
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
