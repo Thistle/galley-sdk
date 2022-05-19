@@ -30,56 +30,64 @@ def formatted_menu(date, onlySellableMenuItems=False):
         'location': 'Vacaville',
         'categoryMenuType': 'production',
         'menuItems': [{
+            'allergens': [],
             'baseMeal': '',
             'deliveryDate': f"{date}",
+            'hasAllergen': False,
+            'highlightTags': [],
             'id': 'MENUITEM1ABC',
             'itemCode': 'dv1',
             'mealSlug': 'test-recipe-name-1',
             'recipeId': 'RECIPE1ABC',
             'recipeMealType': 'dinner',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
             'recipeName': 'Test Recipe Name 1',
             'recipeProteinType': 'vegan',
-            'standaloneRecipeId': 'SUBRECIPEID456'
         }, {
+            'allergens': ['coconut', 'soy'],
             'baseMeal': '',
             'deliveryDate': f"{date}",
+            'hasAllergen': True,
+            'highlightTags': ['new', 'spicy'],
             'id': 'MENUITEM2DEF',
             'itemCode': 'dv2',
             'mealSlug': 'test-recipe-name-2',
             'recipeId': 'RECIPE2DEF',
             'recipeMealType': 'dinner',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
             'recipeName': 'Test Recipe Name 2',
             'recipeProteinType': 'vegan',
-            'standaloneRecipeId': None
         }, {
+            'allergens': ['soy'],
             'baseMeal': '',
             'deliveryDate': f"{date}",
+            'hasAllergen': True,
+            'highlightTags': ['new'],
             'id': 'MENUITEM3GHI',
             'itemCode': 'lm2',
             'mealSlug': 'test-recipe-name-3',
             'recipeId': 'RECIPE3GHI',
             'recipeMealType': 'lunch',
-            'recipeMenuPhotoUrl': None,
+            'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
             'recipeName': 'Test Recipe Name 3',
             'recipeProteinType': 'meat',
-            'standaloneRecipeId': 'SUBRECIPEID321'
         }]
     }
     if not onlySellableMenuItems:
         formatted_menu['menuItems'].append({
+            'allergens': [],
             'baseMeal': '',
             'deliveryDate': f"{date}",
+            'hasAllergen': False,
+            'highlightTags': [],
             'id': 'MENUITEM4JKL',
             'itemCode': 'non-sellable soup',
             'mealSlug': None,
             'recipeId': 'RECIPE4JKL',
-            'recipeName': 'Test Recipe Name 4',
-            'recipeMenuPhotoUrl': None,
             'recipeMealType': '',
+            'recipeMenuPhotoUrl': None,
+            'recipeName': 'Test Recipe Name 4',
             'recipeProteinType': '',
-            'standaloneRecipeId': None,
         })
     return formatted_menu
 

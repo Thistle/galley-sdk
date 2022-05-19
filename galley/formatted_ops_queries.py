@@ -131,16 +131,18 @@ def format_bin_weight(category_values: List) -> Dict:
     returns 'lb'.
     """
     tags = set([RecipeCTagEnum.BIN_WEIGHT_TAG.value, IngredientCTagEnum.BIN_WEIGHT_TAG.value])
-    weight = {
-        'value': DEFAULT_BIN_WEIGHT_VALUE,
-        'unit': DEFAULT_BIN_WEIGHT_UNIT
-    }
+    value = DEFAULT_BIN_WEIGHT_VALUE
+
     if category_values:
         for cv in category_values:
             if cv.get('category', {}).get('id') in tags:
-                value = float(cv['name'])
-                return weight | {'value': value} # type: ignore
-    return weight
+                value = cv['name']
+                break
+
+    return {
+        'value': float(value),
+        'unit': DEFAULT_BIN_WEIGHT_UNIT
+    }
 
 
 def format_quantity_values(quantity_values: List) -> Optional[List[Dict]]:
