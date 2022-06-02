@@ -4,7 +4,11 @@ This is a Python SDK for interacting with the graphql API published by Galley (r
 
 
 ## Installation
-To set up your environment and install the required dependencies for local development, you will need both Python and a virtual environment tool like [virtualenv](https://virtualenv.pypa.io/en/latest/#) or [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) installed. These instructions assume you are using virtualenv:
+To set up your environment and install the required dependencies for local development, you will need both Python and a virtual environment tool like [virtualenv](https://virtualenv.pypa.io/en/latest/#) or [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) installed.
+
+> :warning: Python version >3.8 is currently unsupported. You will have to downgrade Python (not recommended) or use pyenv-virtualenv to use galley-sdk.
+
+### virtualenv steps
 ```
 $ git clone git@github.com:Thistle/galley-sdk.git
 $ cd galley-sdk
@@ -12,6 +16,25 @@ $ virtualenv venv
 $ . venv/bin/activate
 $ pip install -r requirements.txt
 ```
+
+### pyenv-virtualenv steps
+You can install pyenv and pyenv-virtualenv with [brew](https://brew.sh/):
+```
+brew install pyenv pyenv-virtualenv
+```
+To use galley-sdk in pyenv-virtualenv:
+```
+$ git clone git@github.com:Thistle/galley-sdk.git
+$ cd galley-sdk
+$ pyenv install 3.8.13
+$ pyenv virtualenv 3.8.13 py38
+$ pyenv activate py38
+$ pip install -r requirements.txt
+```
+
+> Note: When using galley-sdk in the future, make sure you run `pyenv activate py38` beforehand to be in the correct virtual envrionment.
+
+### Using galley-sdk in your application:
 
 To use galley-sdk within your application, you can install from this repository using [pip's version control system support](https://pip.pypa.io/en/stable/topics/vcs-support/#vcs-support) to specify a git ref such as a branch name, commit hash, or tag name. This example assumes you are using Git:
 
