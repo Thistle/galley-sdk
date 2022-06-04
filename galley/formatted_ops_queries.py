@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import Dict, List, Optional, Union
 
 from galley.queries import get_raw_menu_data
@@ -21,13 +22,10 @@ from galley.enums import (
 logger = logging.getLogger(__name__)
 
 
-MEAL_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
-
-BASE_MEALS = {f'{mc}%d' % (n+1) for mc in MEAL_CODES for n in range(6)}
+BASE_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
+BASE_MEALS = {f'{b}{n+1}' for b in BASE_CODES for n in range(6)}
 JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
 SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
-ALLERGEN_MEALS = {f'{mc}%s' % 'a' for mc in BASE_MEALS}
-
 MEAL_CODE_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
 DEFAULT_BIN_WEIGHT_VALUE = 60
