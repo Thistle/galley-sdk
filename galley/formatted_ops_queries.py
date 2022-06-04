@@ -1,5 +1,4 @@
 import logging
-import re
 from typing import Dict, List, Optional, Union
 
 from galley.queries import get_raw_menu_data
