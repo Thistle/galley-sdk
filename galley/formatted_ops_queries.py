@@ -14,12 +14,18 @@ from galley.enums import (
     DietaryFlagEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
-    RecipeCategoryTagTypeEnum as RecipeCTagEnum,
+    RecipeCategoryTagTypeEnum as RecipeCTagEnum
 )
 
 
 logger = logging.getLogger(__name__)
 
+
+BASE_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
+BASE_MEALS = {f'{b}{n+1}' for b in BASE_CODES for n in range(6)}
+JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
+SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
+MEAL_CODE_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
 DEFAULT_BIN_WEIGHT_VALUE = 60
 DEFAULT_BIN_WEIGHT_UNIT = 'lb'
@@ -215,17 +221,19 @@ def get_formatted_ops_menu_data(
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
-            formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
-            formatted_menu['menuItems'].append({
-                'menuItemId': menu_item.get('id'),
-                'mealCode': get_meal_code(menu_item.get('categoryValues')),
-                'recipeId': menu_item.get('recipeId'),
-                'recipeName': formatted_recipe.externalName,
-                'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
-                'platePhotoUrl': formatted_recipe.plate_photo_url,
-                'totalCount': menu_item.get('volume'),
-                'totalCountUnit': menu_item.get('unit', {}).get('name'),
-                'primaryRecipeComponents': format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
-            })
+            meal_code = get_meal_code(menu_item.get('categoryValues'))
+            if meal_code.lower() in MEAL_CODE_WHITELIST:
+                formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
+                formatted_menu['menuItems'].append({
+                    'menuItemId': menu_item.get('id'),
+                    'mealCode': meal_code,
+                    'recipeId': menu_item.get('recipeId'),
+                    'recipeName': formatted_recipe.externalName,
+                    'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
+                    'platePhotoUrl': formatted_recipe.plate_photo_url,
+                    'totalCount': menu_item.get('volume'),
+                    'totalCountUnit': menu_item.get('unit', {}).get('name'),
+                    'primaryRecipeComponents': format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
+                })
         formatted_menus.append(formatted_menu)
     return formatted_menus

@@ -1,16 +1,20 @@
 from unittest import TestCase, mock
 
+from galley.enums import DietaryFlagEnum as DF
 from galley.formatted_queries import (
     get_category_menu_type,
     get_meal_code
 )
-from galley.formatted_ops_queries import get_formatted_ops_menu_data, format_recipe_instructions, format_allergens, format_bin_weight
-from galley.enums import DietaryFlagEnum
-
+from galley.formatted_ops_queries import (
+    get_formatted_ops_menu_data,
+    format_recipe_instructions,
+    format_allergens,
+    format_bin_weight
+)
 from tests.mock_responses.mock_ops_menu_data import (
     mock_ops_menu,
     mock_recipeTreeComponents,
-    mock_formatted_primaryRecipeComponents,
+    mock_formatted_primaryRecipeComponents as mock_primaryComponents,
 )
 
 
@@ -30,7 +34,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
             'totalCount': 923,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
+            'primaryRecipeComponents': mock_primaryComponents,
 
         }, {
             'menuItemId': 'MENUITEM2DEF-OPS',
@@ -41,7 +45,7 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
             'totalCount': 1228,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
+            'primaryRecipeComponents': mock_primaryComponents,
 
         }, {
             'menuItemId': 'MENUITEM3GHI-OPS',
@@ -52,8 +56,28 @@ def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
             'platePhotoUrl': None,
             'totalCount': 549,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': mock_formatted_primaryRecipeComponents,
+            'primaryRecipeComponents': mock_primaryComponents,
 
+        }, {
+            'menuItemId': 'MENUITEM4JKL-OPS',
+            'mealCode': 'ssa',
+            'recipeId': 'RECIPE4JKL-OPS',
+            'recipeName': 'Jar Salad 1',
+            'mealContainer': 'ts32',
+            'platePhotoUrl': None,
+            'totalCount': 123,
+            'totalCountUnit': 'each',
+            'primaryRecipeComponents': mock_primaryComponents,
+        }, {
+            'menuItemId': 'MENUITEM5MNO-OPS',
+            'mealCode': 'sch',
+            'recipeId': 'RECIPE5MNO-OPS',
+            'recipeName': 'Side Soup 4',
+            'mealContainer': 'ts32',
+            'platePhotoUrl': None,
+            'totalCount': 321,
+            'totalCountUnit': 'each',
+            'primaryRecipeComponents': mock_primaryComponents,
         }]
     }
     return formatted_ops_menu
@@ -110,16 +134,17 @@ class TestFormattedRecipeInstructions(TestCase):
 class TestFormattedAllergenData(TestCase):
     def test_format_recipe_allergen_data_successful(self):
         mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
-        mock_data['dietaryFlagsWithUsage'] = [{'dietaryFlag': {'id': DietaryFlagEnum.PEANUTS.value,
+        mock_data['dietaryFlagsWithUsage'] = [{'dietaryFlag': {'id': DF.PEANUTS.value,
                                                                'name': 'peanuts'}},
-                                              {'dietaryFlag': {'id': DietaryFlagEnum.SOY_BEANS.value,
+                                              {'dietaryFlag': {'id': DF.SOY_BEANS.value,
                                                                'name': 'soy beans'}}]
         expected = ['peanuts', 'soy']
         result = format_allergens(mock_data['dietaryFlagsWithUsage'])
         self.assertEqual(result, expected)
 
     def test_format_ingredient_allergen_data_successful(self):
-        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe'] \
+            ['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
         expected = ['sesame_seeds', 'tree_nuts']
         result = format_allergens(mock_data, is_recipe=False)
         self.assertEqual(result, expected)
@@ -139,13 +164,15 @@ class TestFormattedAllergenData(TestCase):
 
 class TestGetFormattedBinWeightData(TestCase):
     def test_get_formatted_dynamic_bin_weight_data_successful(self):
-        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][0]['recipeItem']['subRecipe']['categoryValues']
+        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe'] \
+            ['recipeTreeComponents'][0]['recipeItem']['subRecipe']['categoryValues']
         expected = { 'value': 50, 'unit': 'lb' }
         result = format_bin_weight(mock_response)
         self.assertEqual(result, expected)
 
     def test_get_formatted_bin_weight_data_empty(self):
-        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']['recipeTreeComponents'][1]['recipeItem']['subRecipe']['categoryValues']
+        mock_response = mock_recipeTreeComponents[0]['recipeItem']['subRecipe'] \
+            ['recipeTreeComponents'][1]['recipeItem']['subRecipe']['categoryValues']
         expected_default = { 'value': 60, 'unit': 'lb' }
         result = format_bin_weight(mock_response)
         self.assertEqual(result, expected_default)
@@ -167,6 +194,14 @@ class TestGetFormattedOpsMenuData(TestCase):
         })
 
     @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_returns_whitelisted_meal_codes(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
+        result = get_formatted_ops_menu_data(['2022-03-28'])
+        meal_codes = {mi['mealCode'] for mi in result[0]['menuItems']}
+        self.assertTrue('av' not in meal_codes and 'hla' not in meal_codes)
+        self.assertEqual({'lm1', 'lv2', 'dv3', 'ssa', 'sch'}, meal_codes)
+
+    @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
         result = get_formatted_ops_menu_data(['2022-03-28'])
@@ -175,9 +210,13 @@ class TestGetFormattedOpsMenuData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
         self.maxDiff = None
-        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'), mock_ops_menu('2022-04-04'), mock_ops_menu('2022-04-18'))
+        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'),
+                                                           mock_ops_menu('2022-04-04'),
+                                                           mock_ops_menu('2022-04-18'))
         result = get_formatted_ops_menu_data(['2022-03-28', '2022-04-04', '2022-04-18'])
-        self.assertEqual(result, [formatted_ops_menu('2022-03-28'), formatted_ops_menu('2022-04-04'), formatted_ops_menu('2022-04-18')])
+        self.assertEqual(result, [formatted_ops_menu('2022-03-28'),
+                                  formatted_ops_menu('2022-04-04'),
+                                  formatted_ops_menu('2022-04-18')])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_null(self, mock_retrieval_method):

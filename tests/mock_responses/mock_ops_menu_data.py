@@ -1595,6 +1595,140 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                         'name': 'each',
                         'id': 'unitIdEach123'
                     }
+                },
+                {
+                    'id': 'MENUITEM4JKL-OPS',
+                    'recipeId': 'RECIPE4JKL-OPS',
+                    'categoryValues': [
+                        {
+                            'name': 'ssa',
+                            'category': {
+                                'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
+                                'itemType': 'menuItem',
+                                'name': 'product_code'
+                            }
+                        }
+                    ],
+                    'recipe': {
+                        'id': 'RECIPE4JKL-OPS',
+                        'name': 'Jar Salad 1',
+                        'categoryValues': [
+                            {
+                                'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
+                                'name': 'ts32',
+                                'category': {
+                                    'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
+                                    'name': 'meal container',
+                                    'itemType': 'recipe'
+                                },
+                            }
+                        ],
+                        'files': {},
+                        'recipeTreeComponents': mock_recipeTreeComponents
+                    },
+                    'volume': 123,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
+                },
+                {
+                    'id': 'MENUITEM5MNO-OPS',
+                    'recipeId': 'RECIPE5MNO-OPS',
+                    'categoryValues': [
+                        {
+                            'name': 'sch',
+                            'category': {
+                                'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
+                                'itemType': 'menuItem',
+                                'name': 'product_code'
+                            }
+                        }
+                    ],
+                    'recipe': {
+                        'id': 'RECIPE5MNO-OPS',
+                        'name': 'Side Soup 4',
+                        'categoryValues': [
+                            {
+                                'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
+                                'name': 'ts32',
+                                'category': {
+                                    'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
+                                    'name': 'meal container',
+                                    'itemType': 'recipe'
+                                },
+                            }
+                        ],
+                        'files': {},
+                        'recipeTreeComponents': mock_recipeTreeComponents
+                    },
+                    'volume': 321,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
+                },
+                {
+                    'id': 'MENUITEM6PQR-OPS',
+                    'recipeId': 'RECIPE6PQR-OPS',
+                    'categoryValues': [
+                        {
+                            'name': 'av',
+                            'category': {
+                                'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
+                                'itemType': 'menuItem',
+                                'name': 'product_code'
+                            }
+                        }
+                    ],
+                    'recipe': {
+                        'id': 'RECIPE6PQR-OPS',
+                        'name': 'Baby Avocado',
+                        'categoryValues': [
+                            {
+                                'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
+                                'name': 'ts32',
+                                'category': {
+                                    'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
+                                    'name': 'meal container',
+                                    'itemType': 'recipe'
+                                },
+                            }
+                        ],
+                        'files': {},
+                        'recipeTreeComponents': mock_recipeTreeComponents
+                    },
+                    'volume': 456,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
+                },
+                {
+                    'id': 'MENUITEM7STU-OPS',
+                    'recipeId': 'RECIPE7STU-OPS',
+                    'categoryValues': [
+                        {
+                            'name': 'hla',
+                            'category': {
+                                'id': MenuItemCategoryEnum.PRODUCT_CODE.value,
+                                'itemType': 'menuItem',
+                                'name': 'product_code'
+                            }
+                        }
+                    ],
+                    'recipe': {
+                        'id': 'RECIPE7STU-OPS',
+                        'name': 'Juice',
+                        'categoryValues': [],
+                        'files': {},
+                        'recipeTreeComponents': mock_recipeTreeComponents
+                    },
+                    'volume': 199,
+                    'unit': {
+                        'name': 'each',
+                        'id': 'unitIdEach123'
+                    }
                 }
             ]
         }
