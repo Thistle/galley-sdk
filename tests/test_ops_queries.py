@@ -1,6 +1,6 @@
 import logging
 from unittest import TestCase
-from galley.queries import get_ops_menu_query
+from galley.queries import get_ops_menu_query, get_ops_recipe_items_query
 
 logger = logging.getLogger(__name__)
 
@@ -209,6 +209,37 @@ class TestOpsMenuDataQuery(TestCase):
 
     def test_get_ops_menu_query(self):
         query = get_ops_menu_query(dates=["2022-03-28"])
+        query_str = bytes(query).decode('utf-8')
+        self.maxDiff = None
+        self.assertEqual(query_str, self.expected_query)
+
+
+class TestOpsRecipeDataQuery(TestCase):
+    def setUp(self) -> None:
+        self.expected_query = '''query {
+            viewer {
+            recipes(where: {id: ["cmVjaXBlOjIwMjI5NA=="]}) {
+            id
+            parentRecipeItems {
+            recipe {
+            recipeItems {
+            id
+            subRecipe {
+            id
+            }
+            preparations {
+            id
+            name
+            }
+            }
+            }
+            }
+            }
+            }
+            }'''.replace(' '*12, '')
+
+    def test_get_ops_recipe_items_query(self):
+        query = get_ops_recipe_items_query(recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
         query_str = bytes(query).decode('utf-8')
         self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
