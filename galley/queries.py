@@ -5,11 +5,10 @@ from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
 from galley.common import make_request_to_galley, validate_response_data
-from galley.enums import MenuCategoryEnum
+from galley.enums import MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter)
-
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +44,8 @@ class Query(Type):
                         'externalName': str,
                         'instructions': Any,
                         'notes': Any,
-                        'description': Any
+                        'description': Any,
+                        'parentRecipeItems': Any,
                     }]
                 }
             }
@@ -212,3 +212,53 @@ def get_raw_menu_data(dates: List[str],
                     else:
                         continue
     return response
+
+
+def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__('id', 'parentRecipeItems')
+    query.viewer.recipes.parentRecipeItems.__fields__('recipe')
+    query.viewer.recipes.parentRecipeItems.recipe.__fields__('recipeItems')
+    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.__fields__('id', 'subRecipe', 'preparations')
+    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.subRecipe.__fields__('id')
+    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
+    return query
+
+
+def get_raw_recipe_items_data(recipe_ids: List) -> Optional[List[Dict]]:
+    """
+    Returns a list of dictionaries containing the recipe items data for the
+    recipe ids. If there is no recipe items data for the recipe ids, returns None.
+
+    :param recipe_ids: The recipe ids for which the recipe items data is to be
+    fetched.
+    """
+    query = get_ops_recipe_items_query(recipe_ids=recipe_ids)
+
+    validated_response_data = validate_response_data(
+            make_request_to_galley(
+                op=query.__to_graphql__(auto_select_depth=3),
+                variables={'id': recipe_ids}),
+            'recipes')
+    return validated_response_data
+
+
+def get_recipe_item_ids(ids: List[str]) -> List[str]:
+    recipe_item_ids = []
+    throw_error = True
+    if ids is not None and len(ids) > 0:
+        ids = [id for id in ids if type(id).__name__ == "str"]
+        throw_error = len(ids) <= 0
+        if throw_error is False:
+            recipes = sorted(get_raw_recipe_items_data(ids), key=lambda r: r['id'])
+            for id, recipe in zip(sorted(ids), recipes):
+                for parent in recipe['parentRecipeItems']:
+                    for recipe_item in parent['recipe']['recipeItems']:
+                        if recipe_item['subRecipe']:
+                            if recipe_item['subRecipe']['id'] == id \
+                                and PreparationEnum.CORE_RECIPE.value \
+                                    not in {prep.get('id') for prep in recipe_item['preparations']}:
+                                recipe_item_ids.append(recipe_item['id'])
+    if throw_error:
+        raise ValueError("no valid recipe ids provided, all ids must in of string")
+    return recipe_item_ids

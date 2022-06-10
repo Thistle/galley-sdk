@@ -1,5 +1,3 @@
-from os import name
-from typing import Any, Dict
 from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
                          as d, list_of)
 from sgqlc.types.relay import (Connection, Node)
@@ -133,6 +131,8 @@ class SubRecipe(Type):
 
 
 class RecipeItem(Type):
+    id = ID
+    recipe = Field("Recipe")
     ingredient = Field(Ingredient)
     subRecipe = Field(SubRecipe)
     subRecipeId = str
@@ -183,6 +183,7 @@ class Recipe(Type):
     isDish = bool
     totalYield = float
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    parentRecipeItems = Field(list_of(RecipeItem))
 
 
 class RecipeNode(Node):
@@ -265,7 +266,7 @@ class BulkMenusInput(Input):
 
 
 class FilterInput(Input):
-    id = ID
+    id = list_of(ID)
     name = list_of(str)
 
 
@@ -281,3 +282,16 @@ class RecipeConnectionFilter(Input):
 class PaginationOptions(Input):
     first = int
     startIndex = int
+
+
+class RecipeItemInput(Input):
+    preparationIds = Field(list_of(str))
+
+
+class BulkUpdateRecipeItemsInput(Input):
+    ids = Field(list_of(ID))
+    attrs = Field(RecipeItemInput)
+
+
+class BulkUpdateRecipeItemsPayload(Type):
+    recipeItems = Field(list_of(RecipeItem))
