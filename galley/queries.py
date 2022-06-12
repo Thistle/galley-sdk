@@ -243,7 +243,7 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     return validated_response_data
 
 
-def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, Any] = None) -> List[str]:
+def get_recipe_item_ids(ids, filter_by = None):
     recipe_item_ids = []
     throw_error = True
     if ids is not None and len(ids) > 0:
@@ -269,7 +269,7 @@ def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, Any] = None) -> Lis
 #     needle: any    --> needle neing searched
 #     isFalse: bool --> Optional for negation
 # }]
-def apply_filters(obj: List[Dict], filter_by: List[Dict[str, Any]] = None) -> bool:
+def apply_filters(obj, filter_by = None) -> bool:
     filters = True
     if filter_by:
         for filter_parameter in filter_by:
