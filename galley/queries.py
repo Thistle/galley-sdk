@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
@@ -225,7 +225,7 @@ def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
     return query
 
 
-def get_raw_recipe_items_data(recipe_ids: List) -> Optional[List[Dict]]:
+def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     """
     Returns a list of dictionaries containing the recipe items data for the
     recipe ids. If there is no recipe items data for the recipe ids, returns None.
@@ -243,23 +243,23 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Optional[List[Dict]]:
     return validated_response_data
 
 
-def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, str] = None) -> List[str]:
+def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, Any] = None) -> List[str]:
     recipe_item_ids = []
     throw_error = True
     if ids is not None and len(ids) > 0:
         ids = [id for id in ids if type(id).__name__ == "str"]
         throw_error = len(ids) <= 0
         if throw_error is False:
-            recipes = sorted(get_raw_recipe_items_data(ids), key=lambda r: r['id'])
-            for id, recipe in zip(sorted(ids), recipes):
-                for parent in recipe['parentRecipeItems']:
-                    for recipe_item in parent['recipe']['recipeItems']:
-                        if recipe_item['subRecipe']:
-                            if recipe_item['subRecipe']['id'] == id \
-                                and apply_filters(recipe_item['preparations'], filter_by):
-                                # and PreparationEnum.CORE_RECIPE.value \
-                                    # not in {prep.get('id') for prep in recipe_item['preparations']}:
-                                recipe_item_ids.append(recipe_item['id'])
+            recipes = get_raw_recipe_items_data(ids)
+            if recipes:
+                recipes = sorted(recipes, key=lambda r: r['id'])
+                for id, recipe in zip(sorted(ids), recipes):
+                    for parent in recipe['parentRecipeItems']:
+                        for recipe_item in parent['recipe']['recipeItems']:
+                            if recipe_item['subRecipe']:
+                                if recipe_item['subRecipe']['id'] == id \
+                                    and apply_filters(recipe_item['preparations'], filter_by):
+                                    recipe_item_ids.append(recipe_item['id'])
     if throw_error:
         raise ValueError("no valid recipe ids provided, all ids must in of string")
     return recipe_item_ids
@@ -269,7 +269,7 @@ def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, str] = None) -> Lis
 #     needle: any    --> needle neing searched
 #     isFalse: bool --> Optional for negation
 # }]
-def apply_filters(obj: List[any], filter_by: List[Dict[str, any]] = None) -> bool:
+def apply_filters(obj: List[Dict], filter_by: List[Dict[str, Any]] = None) -> bool:
     filters = True
     if filter_by:
         for filter_parameter in filter_by:
