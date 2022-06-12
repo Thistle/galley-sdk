@@ -243,7 +243,7 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Optional[List[Dict]]:
     return validated_response_data
 
 
-def get_recipe_item_ids(ids: List[str]) -> List[str]:
+def get_recipe_item_ids(ids: List[str], filter_by: Dict[str, str] = None) -> List[str]:
     recipe_item_ids = []
     throw_error = True
     if ids is not None and len(ids) > 0:
@@ -256,9 +256,30 @@ def get_recipe_item_ids(ids: List[str]) -> List[str]:
                     for recipe_item in parent['recipe']['recipeItems']:
                         if recipe_item['subRecipe']:
                             if recipe_item['subRecipe']['id'] == id \
-                                and PreparationEnum.CORE_RECIPE.value \
-                                    not in {prep.get('id') for prep in recipe_item['preparations']}:
+                                and apply_filters(recipe_item['preparations'], filter_by):
+                                # and PreparationEnum.CORE_RECIPE.value \
+                                    # not in {prep.get('id') for prep in recipe_item['preparations']}:
                                 recipe_item_ids.append(recipe_item['id'])
     if throw_error:
         raise ValueError("no valid recipe ids provided, all ids must in of string")
     return recipe_item_ids
+
+# filter_by = [{
+#     haystack_key: any      --> haystack element collected into a csv
+#     needle: any    --> needle neing searched
+#     isFalse: bool --> Optional for negation
+# }]
+def apply_filters(obj: List[any], filter_by: List[Dict[str, any]] = None) -> bool:
+    filters = True
+    if filter_by:
+        for filter_parameter in filter_by:
+            if "field" in filter_parameter.values() \
+                and "value" in filter_parameter.values():
+                haystack = {item.get(filter_parameter.get('haystack_key')) for item in obj}
+                filters = filters \
+                    and (
+                        filter_parameter.get('needle') in haystack
+                        or filter_parameter.get('isFalse') is True \
+                            and filter_parameter.get('needle') not in haystack
+                    )
+    return filters
