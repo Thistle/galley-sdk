@@ -4,8 +4,9 @@ from typing import Any, Dict, Iterable, List, Optional
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import make_request_to_galley, validate_response_data
-from galley.enums import MenuCategoryEnum, PreparationEnum
+from galley.common import (make_request_to_galley, validate_response_data,
+                          apply_filters)
+from galley.enums import MenuCategoryEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter)
@@ -264,22 +265,3 @@ def get_recipe_item_ids(ids, filter_by = None):
         raise ValueError("no valid recipe ids provided, all ids must in of string")
     return recipe_item_ids
 
-# filter_by = [{
-#     haystack_key: any      --> haystack element collected into a csv
-#     needle: any    --> needle neing searched
-#     isFalse: bool --> Optional for negation
-# }]
-def apply_filters(obj, filter_by = None) -> bool:
-    filters = True
-    if filter_by:
-        for filter_parameter in filter_by:
-            if "field" in filter_parameter.values() \
-                and "value" in filter_parameter.values():
-                haystack = {item.get(filter_parameter.get('haystack_key')) for item in obj}
-                filters = filters \
-                    and (
-                        filter_parameter.get('needle') in haystack
-                        or filter_parameter.get('isFalse') is True \
-                            and filter_parameter.get('needle') not in haystack
-                    )
-    return filters

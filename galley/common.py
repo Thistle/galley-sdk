@@ -102,3 +102,29 @@ def validate_response_data_structure(forecasted_data_struct: Any, response_data:
         return True
     else:
         return False
+
+
+# filter_by = [{
+#     haystack_key: any      --> haystack element collected into a csv
+#     needle: any    --> needle neing searched
+#     isFalse: bool --> Optional for negation
+# }]
+def apply_filters(obj, filter_by = None) -> bool:
+    filters = True
+    if filter_by:
+        for filter_parameter in filter_by:
+            # ensure that the needle and haystack keys are set
+            if "haystack_key" in filter_parameter.keys() \
+                and "needle" in filter_parameter.keys():
+                # combine all haystack values into a csv
+                haystack = {item.get(filter_parameter.get("haystack_key")) \
+                            for item in obj}
+                # apply the filter, can needle value be (or not be) found
+                # in the haystack list
+                filters = filters \
+                    and (
+                        filter_parameter.get("needle") in haystack
+                        or filter_parameter.get("isFalse") is True \
+                            and filter_parameter.get("needle") not in haystack
+                    )
+    return filters

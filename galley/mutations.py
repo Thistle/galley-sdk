@@ -13,6 +13,7 @@ from galley.types import (
     BulkUpdateRecipeItemsInput,
     RecipeItemInput
 )
+from galley.enums import PreparationEnum
 
 
 # This is graphql root for mutating data according to sgqlc lib. So this class name has to be Mutation.
@@ -107,7 +108,12 @@ def update_recipe_item_data(args):
     if "ids" not in args.keys() or args["ids"] is None or len(args["ids"]) <= 0:
         raise ValueError("recipe item id list not provided")
 
-    recipe_item_ids = get_recipe_item_ids(args["ids"])
+    filters = [{
+        "haystack_key": "id",
+        "needle": PreparationEnum.CORE_RECIPE.value,
+        "isFalse": True
+    }]
+    recipe_item_ids = get_recipe_item_ids(args["ids"], filters)
     payload = {
         "ids": recipe_item_ids,
         "attrs": args["attrs"],
