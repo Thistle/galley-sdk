@@ -2,7 +2,7 @@ from sgqlc.operation import Operation
 from sgqlc.types import Field, Type
 from typing import Dict, List, Optional, Union, Any
 from galley.common import make_request_to_galley, validate_response_data
-from galley.queries import get_recipe_item_ids
+from galley.queries import get_untagged_core_recipe_item_ids
 from galley.types import (
     BulkMenusInput,
     MenuInput,
@@ -108,12 +108,8 @@ def update_recipe_item_data(args):
     if "ids" not in args.keys() or args["ids"] is None or len(args["ids"]) <= 0:
         raise ValueError("recipe item id list not provided")
 
-    filters = [{
-        "haystack_key": "id",
-        "needle": PreparationEnum.CORE_RECIPE.value,
-        "isFalse": True
-    }]
-    recipe_item_ids = get_recipe_item_ids(args["ids"], filters)
+    # apply filter to ensure that only untagged recipe items are selected for tagging
+    recipe_item_ids = get_untagged_core_recipe_item_ids(args["ids"])
     payload = {
         "ids": recipe_item_ids,
         "attrs": args["attrs"],

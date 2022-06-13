@@ -4,9 +4,8 @@ from typing import Any, Dict, Iterable, List, Optional
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import (make_request_to_galley, validate_response_data,
-                          apply_filters)
-from galley.enums import MenuCategoryEnum
+from galley.common import make_request_to_galley, validate_response_data
+from galley.enums import MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter)
@@ -244,7 +243,7 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     return validated_response_data
 
 
-def get_recipe_item_ids(ids, filter_by = None):
+def get_untagged_core_recipe_item_ids(ids):
     recipe_item_ids = []
     throw_error = True
     if ids is not None and len(ids) > 0:
@@ -259,9 +258,9 @@ def get_recipe_item_ids(ids, filter_by = None):
                         for recipe_item in parent['recipe']['recipeItems']:
                             if recipe_item['subRecipe']:
                                 if recipe_item['subRecipe']['id'] == id \
-                                    and apply_filters(recipe_item['preparations'], filter_by):
+                                    and PreparationEnum.CORE_RECIPE.value \
+                                        not in {prep.get('id') for prep in recipe_item['preparations']}:
                                     recipe_item_ids.append(recipe_item['id'])
     if throw_error:
         raise ValueError("no valid recipe ids provided, all ids must in of string")
     return recipe_item_ids
-

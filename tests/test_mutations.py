@@ -339,6 +339,26 @@ class TestUpdateRecipeItemData(TestCase):
         with self.assertRaises(ValueError):
             update_recipe_item_data(payload)
 
+    def test_no_mutations_done_if_already_tagged_recipe_item_id_is_provided(self):
+        expected_str = '''mutation {
+            bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
+            recipeItems {
+            id
+            subRecipeId
+            quantity
+            }
+            }
+            }'''.replace(' '*12, '')
+        payload = {
+            "ids": ["cmVjaXBlOjIwMjI5NA=="],
+            "attrs": {
+                "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
+            }
+        }
+        ret = build_update_mutation_query(payload)
+        mutation_str = bytes(ret).decode("utf-8")
+        self.assertEqual(mutation_str, expected_str)
+
     @mock.patch('galley.mutations.make_request_to_galley')
     def test_update_recipe_item_data_raises_exception_if_thrown_from_request(self, mock_mr):
         mock_mr.return_value = {
@@ -356,73 +376,14 @@ class TestUpdateRecipeItemData(TestCase):
         result = update_recipe_item_data(payload)
         self.assertIsNone(result)
 
-    def definite():
-        if False:
-            pass
-            def test_multi_recipe_item_mutation_in_same_menu(self):
-                expected_str = '''mutation {
-                    bulkUpsertMenus(input: {menus: [{id: "bWVudTo5ODIzOTI=", menuItems: [{id: "bWVudUl0ZW06MzM4MTQyMjQ=", volume: 20.0, unit: {name: "each"}}, {id: "hashievalues", volume: 2527.0, unit: {name: "each"}}]}]}) {
-                    menus {
-                    id
-                    name
-                    date
-                    }
-                    }
-                    }'''.replace(' '*12, '')
-                payload = [{
-                    "menu_id": "bWVudTo5ODIzOTI=",
-                    "menu_items": [
-                        {
-                            "id": "bWVudUl0ZW06MzM4MTQyMjQ=",
-                            "volume": 20,
-                            "unit_name": "each"
-                        },
-                        {
-                            "id": "hashievalues",
-                            "volume": 2527,
-                            "unit_name": "each"
-                        }
-                    ]
-                }]
-                ret = build_upsert_mutation_query(payload)
-                mutation_str = bytes(ret).decode('utf-8')
-                self.assertEqual(mutation_str, expected_str)
-
-            def test_unit_name_defaults_to_each_if_not_given(self):
-                expected_str = '''mutation {
-                    bulkUpsertMenus(input: {menus: [{id: "bWVudTo5ODIzOTI=", menuItems: [{id: "bWVudUl0ZW06MzM4MTQyMjQ=", volume: 20.0, unit: {name: "each"}}]}]}) {
-                    menus {
-                    id
-                    name
-                    date
-                    }
-                    }
-                    }'''.replace(' '*12, '')
-                payload = [{
-                    "menu_id": "bWVudTo5ODIzOTI=",
-                    "menu_items": [
-                        {
-                            "id": "bWVudUl0ZW06MzM4MTQyMjQ=",
-                            "volume": 20
-                        }
-                    ]
-                }]
-                ret = build_upsert_mutation_query(payload)
-                mutation_str = bytes(ret).decode('utf-8')
-                self.assertEqual(mutation_str, expected_str)
-
-            @mock.patch('galley.mutations.make_request_to_galley')
-            def test_update_recipe_item_data_returns_expected_response_data(self, mock_mr):
-                mock_mr.return_value = self.response_data
-                payload = [{
-                    "menu_id": "bWVudTo5ODIzOTI=",
-                    "menu_items": [
-                        {
-                            "id": "bWVudUl0ZW06MzM4MTQyMjQ=",
-                            "volume": 20,
-                            "unit_name": "each"
-                        }
-                    ]
-                }]
-                result = upsert_menu_data(payload)
-                self.assertEqual(result, self.response_data['data'])
+    @mock.patch('galley.mutations.make_request_to_galley')
+    def test_update_recipe_item_data_returns_expected_response_data(self, mock_mr):
+        mock_mr.return_value = self.response_data
+        payload = {
+            "ids": ["cmVjaXBlOjIwMjI5NA=="],
+            "attrs": {
+                "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
+            }
+        }
+        result = update_recipe_item_data(payload)
+        self.assertEqual(result, self.response_data['data'])
