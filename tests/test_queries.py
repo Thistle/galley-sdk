@@ -7,8 +7,7 @@ from galley.queries import (
     get_menu_query,
     get_raw_menu_data,
     get_raw_recipes_data,
-    recipe_connection_query,
-    get_ops_recipe_items_query
+    recipe_connection_query
 )
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu
@@ -627,31 +626,3 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(['1', '2', '3'])
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
-
-
-class TestQueryGetOpsRecipeItems(TestCase):
-    def test_get_ops_recipe_items_query(self):
-        expected_query = '''query {
-            viewer {
-            recipes(where: {id: ["cmVjaXBlOjIwMjI5NA==", "cmVjaXBlOjE3NjQxNA=="]}) {
-            id
-            parentRecipeItems {
-            recipe {
-            recipeItems {
-            id
-            subRecipe {
-            id
-            }
-            preparations {
-            id
-            name
-            }
-            }
-            }
-            }
-            }
-            }
-            }'''.replace(' '*12, '')
-        result = get_ops_recipe_items_query(["cmVjaXBlOjIwMjI5NA==", "cmVjaXBlOjE3NjQxNA=="])
-        viewer_str = bytes(result).decode('utf-8')
-        self.assertEqual(viewer_str, expected_query)
