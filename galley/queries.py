@@ -245,11 +245,11 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
 
 def get_untagged_core_recipe_item_ids(ids):
     recipe_item_ids = []
-    throw_error = True
-    if ids is not None and len(ids) > 0:
-        ids = [id for id in ids if type(id).__name__ == "str"]
-        throw_error = len(ids) <= 0
-        if throw_error is False:
+    error = True
+    if ids:
+        ids = [id for id in ids if type(id) == str]
+        error = len(ids) <= 0
+        if not error:
             recipes = get_raw_recipe_items_data(ids)
             if recipes:
                 recipes = sorted(recipes, key=lambda r: r['id'])
@@ -261,6 +261,6 @@ def get_untagged_core_recipe_item_ids(ids):
                                     and PreparationEnum.CORE_RECIPE.value \
                                         not in {prep.get('id') for prep in recipe_item['preparations']}:
                                     recipe_item_ids.append(recipe_item['id'])
-    if throw_error:
-        raise ValueError("no valid recipe ids provided, all ids must in of string")
+    if error:
+        raise ValueError("No valid recipe ids provided. All ids must be a string.")
     return recipe_item_ids

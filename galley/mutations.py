@@ -87,8 +87,8 @@ def upsert_menu_data(args):
 
 def build_update_mutation_query(args):
     ids = []
-    if args["ids"] is not None and len(args["ids"]) > 0:
-        ids = {idx for idx in args["ids"] if type(idx).__name__ == "str"}
+    if args.get("ids"):
+        ids = {id for id in args["ids"] if type(id) == str}
         if len(ids) <= 0:
             raise ValueError("non valid ID provided, all IDs must be strings")
 
@@ -102,10 +102,10 @@ def build_update_mutation_query(args):
 
 
 def update_recipe_item_data(args):
-    if "attrs" not in args.keys() or args["attrs"] is None:
+    if not args.get("attrs"):
         raise ValueError("attrs property not provided")
 
-    if "ids" not in args.keys() or args["ids"] is None or len(args["ids"]) <= 0:
+    if not args.get("ids"):
         raise ValueError("recipe item id list not provided")
 
     # apply filter to ensure that only untagged recipe items are selected for tagging
