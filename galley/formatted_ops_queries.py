@@ -33,7 +33,8 @@ DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
 class FormattedRecipeComponent:
     def __init__(self, rtc):
-        self.quantity_values = rtc.get('quantityUnitValues') or []
+        self.quantity = rtc.get('quantity') or 0.0
+        self.unit = rtc.get('unit') or {}
         self.ingredient = rtc.get('ingredient') or {}
         self.subrecipe = rtc.get('recipeItem').get('subRecipe') or {}
         self.rtc = self.subrecipe.get('recipeTreeComponents') or []
@@ -53,7 +54,7 @@ class FormattedRecipeComponent:
             'id': self.data.get('id'),
             'name': get_external_name(self.data),
             'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': format_quantity_values(self.quantity_values),
+            'quantity': format_quantity(self.quantity, self.unit),
             'binWeight': format_bin_weight(self.data.get('categoryValues')),
         }
         if self.type == 'recipe':
@@ -70,7 +71,7 @@ class FormattedRecipeComponent:
             'id': self.data.get('id'),
             'name': format_name(self.data, is_recipe=(self.type=='recipe')),
             'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': format_quantity_values(self.quantity_values)
+            'quantity': format_quantity(self.quantity, self.unit)
         }
 
 
@@ -151,17 +152,11 @@ def format_bin_weight(category_values: List) -> Dict:
     }
 
 
-def format_quantity_values(quantity_values: List) -> Optional[List[Dict]]:
-    """
-    Filters a list of quantity values to return only unit values in
-    ounces (oz) and pounds (lb).
-    """
-    units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
-    return [
-        {'value': qv['value'], 'unit': qv['unit']['name']}
-        for qv in quantity_values
-        if qv.get('unit', {}).get('id') in units
-    ]
+def format_quantity(quantity: float, unit: Dict) -> Optional[List[Dict]]:
+    return {
+        'value': quantity,
+        'unit': unit['name']
+    }
 
 
 def is_core_recipe(component: Dict) -> bool:
