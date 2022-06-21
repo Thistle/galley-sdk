@@ -9,7 +9,6 @@ from galley.formatted_queries import (
     get_external_name
 )
 from galley.enums import (
-    QuantityUnitEnum,
     PreparationEnum,
     DietaryFlagEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
@@ -34,7 +33,7 @@ DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 class FormattedRecipeComponent:
     def __init__(self, rtc):
         self.quantity = rtc.get('quantity') or 0.0
-        self.unit = rtc.get('unit') or {}
+        self.unit = rtc.get('unit', {}).get('name') or ''
         self.ingredient = rtc.get('ingredient') or {}
         self.subrecipe = rtc.get('recipeItem').get('subRecipe') or {}
         self.rtc = self.subrecipe.get('recipeTreeComponents') or []
@@ -54,7 +53,7 @@ class FormattedRecipeComponent:
             'id': self.data.get('id'),
             'name': get_external_name(self.data),
             'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': format_quantity(self.quantity, self.unit),
+            'quantity': dict(value=self.quantity, unit=self.unit),
             'binWeight': format_bin_weight(self.data.get('categoryValues')),
         }
         if self.type == 'recipe':
@@ -71,7 +70,7 @@ class FormattedRecipeComponent:
             'id': self.data.get('id'),
             'name': format_name(self.data, is_recipe=(self.type=='recipe')),
             'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': format_quantity(self.quantity, self.unit)
+            'quantity': dict(value=self.quantity, unit=self.unit)
         }
 
 
@@ -110,16 +109,16 @@ def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]
     """
     df_mapping = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
-        DietaryFlagEnum.SOY_BEANS.value: "soy",
-        DietaryFlagEnum.SHELLFISH.value: "shellfish",
-        DietaryFlagEnum.PORK.value: "pork",
-        DietaryFlagEnum.FISH.value: "fish",
-        DietaryFlagEnum.COCONUT.value: "coconut",
-        DietaryFlagEnum.PEANUTS.value: "peanuts",
-        DietaryFlagEnum.LAMB.value: "lamb",
-        DietaryFlagEnum.SMOKED_MEATS.value: "smoked_meats",
-        DietaryFlagEnum.BEEF.value: "beef",
-        DietaryFlagEnum.SESAME_SEEDS.value: "sesame_seeds",
+        DietaryFlagEnum.SOY_BEANS.value: 'soy',
+        DietaryFlagEnum.SHELLFISH.value: 'shellfish',
+        DietaryFlagEnum.PORK.value: 'pork',
+        DietaryFlagEnum.FISH.value: 'fish',
+        DietaryFlagEnum.COCONUT.value: 'coconut',
+        DietaryFlagEnum.PEANUTS.value: 'peanuts',
+        DietaryFlagEnum.LAMB.value: 'lamb',
+        DietaryFlagEnum.SMOKED_MEATS.value: 'smoked_meats',
+        DietaryFlagEnum.BEEF.value: 'beef',
+        DietaryFlagEnum.SESAME_SEEDS.value: 'sesame_seeds',
     }
     allergens = []
     if dietary_flags:
@@ -149,13 +148,6 @@ def format_bin_weight(category_values: List) -> Dict:
     return {
         'value': float(value),
         'unit': DEFAULT_BIN_WEIGHT_UNIT
-    }
-
-
-def format_quantity(quantity: float, unit: Dict) -> Optional[List[Dict]]:
-    return {
-        'value': quantity,
-        'unit': unit['name']
     }
 
 
@@ -195,8 +187,8 @@ def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict
 
 def get_formatted_ops_menu_data(
     dates: List[str],
-    location_name: str="Vacaville",
-    menu_type: str="production",
+    location_name: str='Vacaville',
+    menu_type: str='production',
 ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
 
