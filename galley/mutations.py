@@ -34,7 +34,6 @@ def build_unit_input(item):
         name = 'each'
     return UnitInput(name=name)
 
-
 def build_menu_item_inputs(items):
     menu_item_inputs = []
     for item in items:
@@ -47,7 +46,6 @@ def build_menu_item_inputs(items):
         menu_item_inputs.append(menuItemInput)
     return menu_item_inputs
 
-
 def build_menu_inputs(menus):
     menu_inputs = []
     for menu in menus:
@@ -59,14 +57,12 @@ def build_menu_inputs(menus):
         menu_inputs.append(menu_input)
     return menu_inputs
 
-
 def build_upsert_mutation_query(args):
     mutation = Operation(Mutation)
     bulk_input = BulkMenusInput()
     bulk_input.menus = build_menu_inputs(args)
     mutation.bulkUpsertMenus(input=bulk_input)
     return mutation
-
 
 # args = [
 # {
@@ -84,13 +80,12 @@ def upsert_menu_data(args):
     response = make_request_to_galley(op=mutation)
     return validate_response_data(response)
 
-
-def build_update_mutation_query(args):
+def build_bulk_update_recipe_item_query(args):
     ids = []
     if args.get("ids"):
         ids = {id for id in args["ids"] if type(id) == str}
         if len(ids) <= 0:
-            raise ValueError("non valid ID provided, all IDs must be strings")
+            raise ValueError("No valid IDs provided. All IDs must be strings.")
 
     mutation = Operation(Mutation)
     bulk_input = BulkUpdateRecipeItemsInput(
@@ -99,7 +94,6 @@ def build_update_mutation_query(args):
     )
     mutation.bulkUpdateRecipeItems(input=bulk_input)
     return mutation
-
 
 def update_recipe_item_data(args):
     if not args.get("attrs"):
@@ -114,6 +108,6 @@ def update_recipe_item_data(args):
         "ids": recipe_item_ids,
         "attrs": args["attrs"],
     }
-    mutation = build_update_mutation_query(payload)
+    mutation = build_bulk_update_recipe_item_query(payload)
     response = make_request_to_galley(op=mutation)
     return validate_response_data(response)

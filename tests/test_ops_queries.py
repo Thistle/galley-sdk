@@ -247,7 +247,6 @@ class TestOpsRecipeDataQuery(TestCase):
             }
             }'''.replace(' '*12, '')
 
-
     def response(self, *data):
         return ({
             'data': {
@@ -257,13 +256,11 @@ class TestOpsRecipeDataQuery(TestCase):
             }
         })
 
-
     def test_get_ops_recipe_items_query(self):
         query = get_ops_recipe_items_query(recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
         query_str = bytes(query).decode('utf-8')
         self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
-
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_recipe_items_data_successful(self, mock_retrieval_method):
@@ -292,85 +289,3 @@ class TestOpsRecipeDataQuery(TestCase):
         # one invalid menu name
         result4 = get_raw_recipe_items_data(['WRONGID=='])
         self.assertEqual(result4, [])
-
-
-
-
-'''
-[
-    {
-        'id': 'cmVjaXBlOjE3NjQxNA==',
-        'parentRecipeItems': [
-            {
-                'recipe': {
-                    'recipeItems': [
-                        {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDE3',
-                            'subRecipe': {
-                                'id': 'cmVjaXBlOjE3NjQxNA=='
-                            },
-                            'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDIx',
-                            'subRecipe': {
-                                'id': 'cmVjaXBlOjE3NjQxNQ=='
-                            },
-                            'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMzkzNjU5',
-                            'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='},
-                            'preparations': [
-                                {'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDIw', 'subRecipe': None, 'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMjQ5MTk5', 'subRecipe': None, 'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxNDQ1ODI3',
-                            'subRecipe': None,
-                            'preparations': []
-                        }
-                    ]
-                }
-            },
-            {
-                'recipe': {
-                    'recipeItems': [
-                        {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDcw', 'subRecipe': {'id': 'cmVjaXBlOjE3NDgyMA=='}, 'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMzkzNjU3',
-                            'subRecipe': {
-                                'id': 'cmVjaXBlOjIyMjEyMA=='
-                            },
-                            'preparations': [
-                                {
-                                    'id': 'cHJlcGFyYXRpb246MjgzMzQ=',
-                                    'name': 'standalone'
-                                }, {
-                                    'id': 'cHJlcGFyYXRpb246MzEwMjI=',
-                                    'name': '2 oz WINPAK'
-                                }
-                            ]
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMTUwNDY3',
-                            'subRecipe': None,
-                            'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxMjUyNTEy',
-                            'subRecipe': None,
-                            'preparations': []
-                        }, {
-                            'id': 'cmVjaXBlSXRlbToxNDQ1ODI2',
-                            'subRecipe': None,
-                            'preparations': []
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-]
-'''

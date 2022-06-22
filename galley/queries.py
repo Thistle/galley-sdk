@@ -104,7 +104,6 @@ def recipe_connection_query(
         __fields__('id')
     return query
 
-
 def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     has_next_page = True
     page_size = DEFAULT_PAGE_SIZE
@@ -135,7 +134,6 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
         has_next_page = page_info.get('hasNextPage', False)
     return raw_recipes_data
 
-
 def get_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
@@ -146,7 +144,6 @@ def get_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
-
 
 def get_ops_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
@@ -169,7 +166,6 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'dietaryFlagsWithUsages')
     return query
-
 
 def get_raw_menu_data(dates: List[str],
                       location_name: str,
@@ -213,7 +209,6 @@ def get_raw_menu_data(dates: List[str],
                         continue
     return response
 
-
 def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__('id', 'parentRecipeItems')
@@ -223,7 +218,6 @@ def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
     query.viewer.recipes.parentRecipeItems.recipe.recipeItems.subRecipe.__fields__('id')
     query.viewer.recipes.parentRecipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
-
 
 def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     """
@@ -241,7 +235,6 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
                 variables={'id': recipe_ids}),
             'recipes')
     return validated_response_data
-
 
 def get_untagged_core_recipe_item_ids(ids):
     recipe_item_ids = []

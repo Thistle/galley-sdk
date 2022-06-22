@@ -6,7 +6,7 @@ from galley.mutations import (
     upsert_menu_data,
     build_upsert_mutation_query,
     update_recipe_item_data,
-    build_update_mutation_query
+    build_bulk_update_recipe_item_query
 )
 
 
@@ -253,7 +253,7 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        ret = build_update_mutation_query(payload)
+        ret = build_bulk_update_recipe_item_query(payload)
         mutation_str = bytes(ret).decode('utf-8')
         self.assertEqual(mutation_str, expected_str)
 
@@ -274,7 +274,7 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        ret = build_update_mutation_query(payload)
+        ret = build_bulk_update_recipe_item_query(payload)
         mutation_str = bytes(ret).decode('utf-8')
 
         key_len = len('"cmVjaXBlOjIwMjI5NA=="')
@@ -307,7 +307,7 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        ret = build_update_mutation_query(payload)
+        ret = build_bulk_update_recipe_item_query(payload)
         mutation_str = bytes(ret).decode('utf-8')
         self.assertEqual(mutation_str, expected_str)
 
@@ -355,7 +355,7 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        ret = build_update_mutation_query(payload)
+        ret = build_bulk_update_recipe_item_query(payload)
         mutation_str = bytes(ret).decode("utf-8")
         self.assertEqual(mutation_str, expected_str)
 
