@@ -2,28 +2,11 @@ from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum
 
 mock_recipeTreeComponents = [
     {
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                'value': 250.893279435
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                'value': 0.250893279435
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 8.85
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.5531249995122273
-            },
-            {
-                'unit': { 'id': 'dW5pdDoxNA==','name': 'each' },
-                'value': 1
-            }
-        ],
+        'quantity': 8.85,
+        'unit': {
+            'id': 'dW5pdDoz',
+            'name': 'oz'
+        },
         'ingredient': None,
         'recipeItem': {
             'preparations': [
@@ -49,36 +32,11 @@ mock_recipeTreeComponents = [
                 'recipeTreeComponents': [
                     {
                         'ingredient': None,
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                                'value': 113.3980924
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.1133980924
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 4
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.2499999997795377
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4NDI0ODk=', 'name': 'batch' },
-                                'value': 0.004166666662992295
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0MjU=', 'name': 'min batch' },
-                                'value': 0.024999999977953772
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0MjY=', 'name': 'max batch' },
-                                'value': 0.004166666662992295
-                            }
-                        ],
+                        'quantity': 4,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': {
@@ -105,32 +63,11 @@ mock_recipeTreeComponents = [
                                 ],
                                 'recipeTreeComponents': [
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 13607.7711
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 13.6077711
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 480.0000004232875
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                                'value': 30
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo5MjU0Mjc=', 'name': 'min batch' },
-                                                'value': 1.2
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo5MjU0Mjg=', 'name': 'max batch' },
-                                                'value': 0.1923076923076923
-                                            }
-                                        ],
+                                        'quantity': 30,
+                                        'unit': {
+                                            'id': 'dW5pdDo0',
+                                            'name': 'lb'
+                                        },
                                         'ingredient': None,
                                         'recipeItem': {
                                             'subRecipe': {
@@ -160,24 +97,11 @@ mock_recipeTreeComponents = [
                                         }
                                     },
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 3175.14659
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 3.17514659
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 112.00000009876709
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                                'value': 7
-                                            }
-                                        ],
+                                        'quantity': 7,
+                                        'unit': {
+                                            'id': 'dW5pdDo0',
+                                            'name': 'lb'
+                                        },
                                         'ingredient': {
                                             'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
                                             'name': 'olives, kalamata, sliced',
@@ -189,28 +113,11 @@ mock_recipeTreeComponents = [
                                         }
                                     },
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 226.7961848
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 0.2267961848
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 8
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                                'value': 0.4999999995590754
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo5MjU0Mjg=', 'name': 'max batch' },
-                                                'value': 0.26315789450477656
-                                            }
-                                        ],
+                                        'quantity': 8,
+                                        'unit': {
+                                            'id': 'dW5pdDoz',
+                                            'name': 'oz'
+                                        },
                                         'ingredient': None,
                                         'recipeItem': {
                                             'subRecipe': {
@@ -253,32 +160,11 @@ mock_recipeTreeComponents = [
                     },
                     {
                         'ingredient': None,
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 42.52428465
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.04252428465
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 1.5
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.09374999991732665
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0Mjc=', 'name': 'min batch' },
-                                'value': 0.009374999991732665
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0Mjg=', 'name': 'max batch' },
-                                'value': 0.0015624999986221107
-                            }
-                        ],
+                        'quantity': 1.5,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': {
@@ -314,28 +200,11 @@ mock_recipeTreeComponents = [
                                 ],
                                 'recipeTreeComponents': [
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 25401.17272
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 25.40117272
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 896.000000790136
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                                'value': 56
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo5MjU0Mjg=', 'name': 'max batch' },
-                                                'value': 1.4
-                                            }
-                                        ],
+                                        'quantity': 56,
+                                        'unit': {
+                                            'id': 'dW5pdDo0',
+                                            'name': 'lb'
+                                        },
                                         'ingredient': None,
                                         'recipeItem': {
                                             'subRecipe': {
@@ -385,64 +254,11 @@ mock_recipeTreeComponents = [
                             ],
                             'dietaryFlags': []
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 0.87380775
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5', 'name': 'floz' },
-                                'value': 15.74973508218365
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMA==', 'name': 'qt' },
-                                'value': 0.4921792215262711
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMQ==', 'name': 'gal' },
-                                'value': 0.12304480538156776
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.07087380775
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 2.5
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo1', 'name': 'l' },
-                                'value': 0.4657752582200901
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo2', 'name': 'ml' },
-                                'value': 465.7752582200901
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3', 'name': 'tsp' },
-                                'value': 94.49841062091676
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4', 'name': 'tbsp' },
-                                'value': 31.49947027087968
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.15624999986221108
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMg==', 'name': 'pt' },
-                                'value': 0.9843584430525422
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMw==', 'name': 'cup' },
-                                'value': 1.9687168819444443
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3NjY3Mjg=', 'name': 'bag' },
-                                'value': 0.052083333287403694
-                            }
-                        ],
+                        'quantity': 2.5,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -475,28 +291,11 @@ mock_recipeTreeComponents = [
                                 }
                             ]
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                                'value': 24.097094634999998
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg'},
-                                'value': 0.024097094634999996
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz'},
-                                'value': 0.85
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb'},
-                                'value': 0.05312499995315176
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxNA==', 'name': 'each'},
-                                'value': 1
-                            }
-                        ],
+                        'quantity': 0.85,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -507,32 +306,11 @@ mock_recipeTreeComponents = [
         }
     },
     {
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                'value': 85.0485693
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                'value': 0.0850485693
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 3
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.1874999998346533
-            },
-            {
-                'unit': { 'id': 'dW5pdDo5MzY4MzI=', 'name': 'max batch' },
-                'value': 0.0018749999983465329
-            },
-            {
-                'unit': { 'id': 'dW5pdDo5MzY4MzM=', 'name': 'min batch' },
-                'value': 0.012499999988976886
-            }
-        ],
+        'quantity': 3,
+        'unit': {
+            'id': 'dW5pdDoz',
+            'name': 'oz'
+        },
         'ingredient': None,
         'recipeItem': {
             'preparations': [],
@@ -591,24 +369,11 @@ mock_recipeTreeComponents = [
                             'categoryValues': [],
                             'dietaryFlags': []
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 21.262142325
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.021262142325
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 0.75
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.04687499995866332
-                            }
-                        ],
+                        'quantity': 0.75,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -622,60 +387,11 @@ mock_recipeTreeComponents = [
                             'categoryValues': [],
                             'dietaryFlags': []
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                                'value': 56.6990462
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5', 'name': 'floz'},
-                                'value': 4.108626522338965
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMA==', 'name': 'qt'},
-                                'value': 0.12839457887736186
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMQ==', 'name': 'gal'},
-                                'value': 0.032098644719340465
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg'},
-                                'value': 0.0566990462
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz'},
-                                'value': 2
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo1', 'name': 'l'},
-                                'value': 0.1215065884845991
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo2', 'name': 'ml'},
-                                'value': 121.50658848459908
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3', 'name': 'tsp'},
-                                'value': 24.651759167376795
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4', 'name': 'tbsp'},
-                                'value': 8.217253072463768
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb'},
-                                'value': 0.12499999988976886
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMg==', 'name': 'pt'},
-                                'value': 0.2567891577547237
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMw==', 'name': 'cup'},
-                                'value': 0.5135783144240632
-                            }
-                        ],
+                        'quantity': 2,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -683,32 +399,11 @@ mock_recipeTreeComponents = [
                     },
                     {
                         'ingredient': None,
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 34019.42775
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 34.01942775
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 1200.0000010582187
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0','name': 'lb' },
-                                'value': 75
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjQ3NTk=','name': 'max batch' },
-                                'value': 0.5
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjQ3NjI=','name': 'min batch' },
-                                'value': 3
-                            }
-                        ],
+                        'quantity': 75,
+                        'unit': {
+                            'id': 'dW5pdDo0',
+                            'name': 'lb'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': {
@@ -737,24 +432,11 @@ mock_recipeTreeComponents = [
                                 ],
                                 'recipeTreeComponents': [
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 2324.66089625
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 2.32466089625
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 82.00000007231162
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0','name': 'lb' },
-                                                'value': 5.125
-                                            },
-                                        ],
+                                        'quantity': 5.125,
+                                        'unit': {
+                                            'id': 'dW5pdDo0',
+                                            'name': 'lb'
+                                        },
                                         'ingredient': None,
                                         'recipeItem': {
                                             'subRecipe': {
@@ -776,24 +458,11 @@ mock_recipeTreeComponents = [
                                         }
                                     },
                                     {
-                                        'quantityUnitValues': [
-                                            {
-                                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                                'value': 34019.42775
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                                'value': 34.01942775
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                                'value': 1200.0000010582187
-                                            },
-                                            {
-                                                'unit': { 'id': 'dW5pdDo0','name': 'lb' },
-                                                'value': 75
-                                            },
-                                        ],
+                                        'quantity': 75,
+                                        'unit': {
+                                            'id': 'dW5pdDo0',
+                                            'name': 'lb'
+                                        },
                                         'ingredient': {
                                             'id': 'aW5ncmVkaWVudDoyNDQyODE=',
                                             'name': 'beans, garbanzo, dry',
@@ -816,60 +485,11 @@ mock_recipeTreeComponents = [
                             'categoryValues': [],
                             'dietaryFlags': [],
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 2721.55422
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5', 'name': 'floz' },
-                                'value': 100.79830461486422
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMA==', 'name': 'qt' },
-                                'value': 3.149947020545912
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMQ==', 'name': 'gal' },
-                                'value': 0.787486755136478
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 2.72155422
-                            }, {
-
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 96.00000008465751
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo1', 'name': 'l' },
-                                'value': 2.980961655237335
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo2', 'name': 'ml' },
-                                'value': 2980.9616552373345
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3', 'name': 'tsp' },
-                                'value': 604.7898285072006
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4', 'name': 'tbsp' },
-                                'value': 201.5966099114077
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 6
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMg==', 'name': 'pt' },
-                                'value': 6.299894041091824
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMw==', 'name': 'cup' },
-                                'value': 12.599788055555555
-                            }
-                        ],
+                        'quantity': 6,
+                        'unit': {
+                            'id': 'dW5pdDo0',
+                            'name': 'lb'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -883,60 +503,11 @@ mock_recipeTreeComponents = [
                             'categoryValues': [],
                             'dietaryFlags': []
                         },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 2721.55422
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5', 'name': 'floz' },
-                                'value': 89.23128605250278
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMA==', 'name': 'qt' },
-                                'value': 2.7884776903193327
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMQ==', 'name': 'gal' },
-                                'value': 0.6971194225798332
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 2.72155422
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 96.00000008465751
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo1', 'name': 'l' },
-                                'value': 2.638884088242887
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo2', 'name': 'ml' },
-                                'value': 2638.8840882428867
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3', 'name': 'tsp' },
-                                'value': 535.3877170391612
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4', 'name': 'tbsp' },
-                                'value': 178.4625727084593
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 6
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMg==', 'name': 'pt' },
-                                'value': 5.576955380638665
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxMw==', 'name': 'cup' },
-                                'value': 11.153910737704917
-                            }
-                        ],
+                        'quantity': 6,
+                        'unit': {
+                            'id': 'dW5pdDo0',
+                            'name': 'lb'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': None
@@ -947,32 +518,11 @@ mock_recipeTreeComponents = [
         }
     },
     {
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                'value': 65.20390312999999
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                'value': 0.06520390312999999
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 2.3
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.14374999987323417
-            },
-            {
-                'unit': { 'id': 'dW5pdDoxNA==', 'name': 'each' },
-                'value': 1
-            },
-            {
-                'unit': { 'id': 'dW5pdDo3ODA1MzM=', 'name': 'case' },
-                'value': 0.006666666666666667
-            }
-        ],
+        'quantity': 2.3,
+        'unit': {
+            'id': 'dW5pdDoz',
+            'name': 'oz'
+        },
         'ingredient': {
             'id': 'aW5ncmVkaWVudDoyNDQ4OTQ=',
             'name': 'TS20 - 20oz Meal Boxes',
@@ -995,24 +545,11 @@ mock_recipeTreeComponents = [
         }
     },
     {
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                'value': 56.6990462
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg'},
-                'value': 0.0566990462
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz'},
-                'value': 2
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb'},
-                'value': 0.12499999988976886
-            }
-        ],
+        'quantity': 2,
+        'unit': {
+            'id': 'dW5pdDoz',
+            'name': 'oz'
+        },
         'ingredient': None,
         'recipeItem': {
             'preparations': [
@@ -1035,36 +572,11 @@ mock_recipeTreeComponents = [
                 'recipeTreeComponents': [
                     {
                         'ingredient': None,
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 56.6990462
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.0566990462
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 2
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.12499999988976886
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3NTU1MjQ=', 'name': 'batch' },
-                                'value': 0.0020833333314961475
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MzUzMzg=', 'name': 'max batch' },
-                                'value': 0.0020833333314961475
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MzUzMzk=', 'name': 'min batch' },
-                                'value': 0.012499999988976886
-                            }
-                        ],
+                        'quantity': 2,
+                        'unit': {
+                            'id': 'dW5pdDoz',
+                            'name': 'oz'
+                        },
                         'recipeItem': {
                             'preparations': [],
                             'subRecipe': {
@@ -1108,16 +620,10 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE4OTcwNA==',
         'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
         'allergens': [],
-        'quantity': [
-            {
-                'value': 4,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.2499999997795377,
-                'unit': 'lb'
-            }
-        ],
+        'quantity':{
+            'value': 4,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 50,
             'unit': 'lb'
@@ -1134,48 +640,30 @@ mock_formatted_primaryRecipeComponents = [
                 'id': 'cmVjaXBlOjE4ODYwNg==',
                 'name': 'Cooked Rainbow Quinoa',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 480.0000004232875,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 30,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity':{
+                    'value': 30,
+                    'unit': 'lb'
+                }
             },
             {
                 'type': 'ingredient',
                 'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
                 'name': 'olives, kalamata, sliced',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 112.00000009876709,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 7,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 7,
+                    'unit': 'lb'
+                }
             },
             {
                 'type': 'recipe',
                 'id': 'cmVjaXBlOjE3Mjk2NQ==',
                 'name': 'Sliced Scallion',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 8,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 0.4999999995590754,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 8,
+                    'unit': 'oz'
+                }
             },
         ],
     },
@@ -1184,16 +672,10 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE3NjQ3Mw==',
         'name': 'Tofu Feta',
         'allergens': ['soy'],
-        'quantity': [
-            {
-                'value': 1.5,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.09374999991732665,
-                'unit': 'lb'
-            }
-        ],
+        'quantity': {
+            'value': 1.5,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 60,
             'unit': 'lb'
@@ -1222,16 +704,10 @@ mock_formatted_primaryRecipeComponents = [
                 'id': 'cmVjaXBlOjE5MDA5MQ==',
                 'name': 'Small Diced Tofu (1/4")',
                 'allergens': ['soy'],
-                'quantity': [
-                    {
-                        'value': 896.000000790136,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 56,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity':{
+                    'value': 56,
+                    'unit': 'lb'
+                }
             }
         ],
     },
@@ -1240,36 +716,24 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
         'name': 'Spring Mix Lettuce*',
         'allergens': [],
-        'quantity': [
-            {
-                'value': 2.5,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.15624999986221108,
-                'unit': 'lb'
-            }
-        ],
+        'quantity': {
+            'value': 2.5,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 30,
             'unit': 'lb'
-        },
+        }
     },
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
         'name': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
         'allergens': ['sesame_seeds', 'tree_nuts'],
-        'quantity': [
-            {
-                'value': 0.85,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.05312499995315176,
-                'unit': 'lb'
-            }
-        ],
+        'quantity': {
+            'value': 0.85,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 40,
             'unit': 'lb'
@@ -1280,16 +744,10 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE3MDU4NA==',
         'name': 'Smashed Chickpea Salad - COOKED GARBANZOS',
         'allergens': [],
-        'quantity': [
-            {
-                'value': 3,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.1874999998346533,
-                'unit': 'lb'
-            }
-        ],
+        'quantity': {
+            'value': 3,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 60,
             'unit': 'lb'
@@ -1330,80 +788,50 @@ mock_formatted_primaryRecipeComponents = [
                 'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
                 'name': 'spice sumac',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 0.75,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 0.04687499995866332,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 0.75,
+                    'unit': 'oz'
+                }
             },
             {
                 'type': 'ingredient',
                 'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
                 'name': 'spice, black pepper, ground',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 2,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 0.12499999988976886,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 2,
+                    'unit': 'oz'
+                }
             },
             {
                 'type': 'recipe',
                 'id': 'cmVjaXBlOjE3NjQ4MA==',
                 'name': 'Cooked Garbanzo Beans',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 1200.0000010582187,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 75,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity':{
+                    'value': 75,
+                    'unit': 'lb'
+                }
             },
             {
                 'type': 'ingredient',
                 'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
                 'name': 'oil, olive',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 96.00000008465751,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 6,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity':{
+                    'value': 6,
+                    'unit': 'lb'
+                }
             },
             {
                 'type': 'ingredient',
                 'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
                 'name': 'juice, lemon',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 96.00000008465751,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 6,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 6,
+                    'unit': 'lb'
+                }
             },
         ],
     },
@@ -1412,16 +840,10 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjIyMzU3MQ==',
         'name': 'Red Wine Vinaigrette',
         'allergens': [],
-        'quantity': [
-            {
-                'value': 2,
-                'unit': 'oz'
-            },
-            {
-                'value': 0.12499999988976886,
-                'unit': 'lb'
-            }
-        ],
+        'quantity': {
+            'value': 2,
+            'unit': 'oz'
+        },
         'binWeight': {
             'value': 60,
             'unit': 'lb'
@@ -1433,16 +855,10 @@ mock_formatted_primaryRecipeComponents = [
                 'id': 'cmVjaXBlOjE3NDI4OA==',
                 'name': 'Red Wine Vinaigrette BASE',
                 'allergens': [],
-                'quantity': [
-                    {
-                        'value': 2,
-                        'unit': 'oz'
-                    },
-                    {
-                        'value': 0.12499999988976886,
-                        'unit': 'lb'
-                    }
-                ]
+                'quantity': {
+                    'value': 2,
+                    'unit': 'oz'
+                }
             }
         ],
     }
@@ -1733,3 +1149,4 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
             ]
         }
     )
+
