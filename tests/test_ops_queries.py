@@ -67,6 +67,7 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             }
+            }
             ingredient {
             id
             name
