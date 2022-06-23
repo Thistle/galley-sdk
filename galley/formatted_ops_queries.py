@@ -50,28 +50,33 @@ class FormattedRecipeComponent:
             self.dietary_flags = self.data.get('dietaryFlagsWithUsages')
 
     def to_primary_component_dict(self):
-        pcd = dict(type=self.type,
-                   id=self.data.get('id'),
-                   name=get_external_name(self.data),
-                   allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-                   usage=dict(value=self.quantity, unit=self.unit),
-                   quantity=format_quantity_value(self.quantity_values),
-                   binWeight=format_bin_weight(self.data.get('categoryValues')))
+        component = dict(
+            type=self.type,
+            id=self.data.get('id'),
+            name=get_external_name(self.data),
+            usage=dict(value=self.quantity, unit=self.unit),
+            quantity=format_quantity_value(self.quantity_values),
+            binWeight=format_bin_weight(self.data.get('categoryValues')),
+            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe'))
+        )
 
         if self.type == 'recipe':
-            return {
-                **pcd,
-                'instructions': format_recipe_instructions(self.subrecipe.get('recipeInstructions')),
-                'recipeComponents': [FormattedRecipeComponent(rtc).to_subcomponent_dict() for rtc in self.rtc]
-            }
-        return pcd
+            return dict(
+                **component,
+                instructions=format_instructions(self.subrecipe.get('recipeInstructions')),
+                recipeComponents=[FormattedRecipeComponent(rtc).to_subcomponent_dict()
+                                  for rtc in self.rtc]
+            )
+        return component
 
     def to_subcomponent_dict(self):
-        return dict(type=self.type,
-                    id=self.data.get('id'),
-                    name=format_name(self.data, is_recipe=(self.type=='recipe')),
-                    allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-                    usage=dict(value=self.quantity, unit=self.unit))
+        return dict(
+            type=self.type,
+            id=self.data.get('id'),
+            name=format_name(self.data, is_recipe=(self.type=='recipe')),
+            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
+            usage=dict(value=self.quantity, unit=self.unit)
+        )
 
 
 def format_name(data: Dict, is_recipe=True) -> Optional[str]:
@@ -85,7 +90,7 @@ def format_name(data: Dict, is_recipe=True) -> Optional[str]:
     return data.get('name') or None
 
 
-def format_recipe_instructions(instructions: List) -> List[Optional[Dict[str, Union[int, str]]]]:
+def format_instructions(instructions: List) -> List[Optional[Dict[str, Union[int, str]]]]:
     """
     Takes in a list of instructions and returns a formatted dict list
     of instruction text and its ordinal position at 1-based index.
@@ -208,30 +213,30 @@ def get_formatted_ops_menu_data(
 
     formatted_menus = []
     for menu in menus:
-        formatted_menu: Dict = {
-            'name': menu.get('name'),
-            'id': menu.get('id'),
-            'date': menu.get('date'),
-            'location': menu['location'].get('name'),
-            'categoryMenuType': get_category_menu_type(menu.get('categoryValues')),
-            'menuItems': []
-        }
+        formatted_menu: Dict = dict(
+            name=menu.get('name'),
+            id=menu.get('id'),
+            date=menu.get('date'),
+            location=menu['location'].get('name'),
+            categoryMenuType=get_category_menu_type(menu.get('categoryValues')),
+            menuItems=[]
+        )
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
             meal_code = get_meal_code(menu_item.get('categoryValues'))
             if meal_code.lower() in MEAL_CODE_WHITELIST:
                 formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
-                formatted_menu['menuItems'].append({
-                    'menuItemId': menu_item.get('id'),
-                    'mealCode': meal_code,
-                    'recipeId': menu_item.get('recipeId'),
-                    'recipeName': formatted_recipe.externalName,
-                    'mealContainer': formatted_recipe.recipe_tags.get('mealContainer', ''),
-                    'platePhotoUrl': formatted_recipe.plate_photo_url,
-                    'totalCount': menu_item.get('volume'),
-                    'totalCountUnit': menu_item.get('unit', {}).get('name'),
-                    'primaryRecipeComponents': format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
-                })
+                formatted_menu['menuItems'].append(dict(
+                    menuItemId=menu_item.get('id'),
+                    mealCode=meal_code,
+                    recipeId=menu_item.get('recipeId'),
+                    recipeName=formatted_recipe.externalName,
+                    mealContainer=formatted_recipe.recipe_tags.get('mealContainer', ''),
+                    platePhotoUrl=formatted_recipe.plate_photo_url,
+                    totalCount=menu_item.get('volume'),
+                    totalCountUnit=menu_item.get('unit', {}).get('name'),
+                    primaryRecipeComponents=format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
+                ))
         formatted_menus.append(formatted_menu)
     return formatted_menus
