@@ -166,7 +166,7 @@ def format_quantity_value(quantity_values: List) -> Dict:
             break
     return quantity
 
-
+  
 def is_core_recipe(component: Dict) -> bool:
     """
     Returns True if a recipe component contains a "Core Recipe"
