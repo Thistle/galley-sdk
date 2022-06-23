@@ -11,6 +11,7 @@ from galley.formatted_queries import (
 from galley.enums import (
     PreparationEnum,
     DietaryFlagEnum,
+    QuantityUnitEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
     RecipeCategoryTagTypeEnum as RecipeCTagEnum
@@ -32,6 +33,7 @@ DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
 class FormattedRecipeComponent:
     def __init__(self, rtc):
+        self.quantity_values = rtc.get('quantityUnitValues') or []
         self.quantity = rtc.get('quantity') or 0.0
         self.unit = rtc.get('unit', {}).get('name') or ''
         self.ingredient = rtc.get('ingredient') or {}
@@ -48,14 +50,14 @@ class FormattedRecipeComponent:
             self.dietary_flags = self.data.get('dietaryFlagsWithUsages')
 
     def to_primary_component_dict(self):
-        pcd = {
-            'type': self.type,
-            'id': self.data.get('id'),
-            'name': get_external_name(self.data),
-            'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': dict(value=self.quantity, unit=self.unit),
-            'binWeight': format_bin_weight(self.data.get('categoryValues')),
-        }
+        pcd = dict(type=self.type,
+                   id=self.data.get('id'),
+                   name=get_external_name(self.data),
+                   allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
+                   usage=dict(value=self.quantity, unit=self.unit),
+                   quantity=format_quantity_value(self.quantity_values),
+                   binWeight=format_bin_weight(self.data.get('categoryValues')))
+
         if self.type == 'recipe':
             return {
                 **pcd,
@@ -65,13 +67,11 @@ class FormattedRecipeComponent:
         return pcd
 
     def to_subcomponent_dict(self):
-        return {
-            'type': self.type,
-            'id': self.data.get('id'),
-            'name': format_name(self.data, is_recipe=(self.type=='recipe')),
-            'allergens': format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            'quantity': dict(value=self.quantity, unit=self.unit)
-        }
+        return dict(type=self.type,
+                    id=self.data.get('id'),
+                    name=format_name(self.data, is_recipe=(self.type=='recipe')),
+                    allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
+                    usage=dict(value=self.quantity, unit=self.unit))
 
 
 def format_name(data: Dict, is_recipe=True) -> Optional[str]:
@@ -94,10 +94,8 @@ def format_recipe_instructions(instructions: List) -> List[Optional[Dict[str, Un
     Example: [in] [{'text': 'instruction text', 'position': 0}, ...]
              [out] [{'id': 1, 'text': 'instruction text'}, ...]
     """
-    return [
-        {'id': 1 + i['position'], 'text': i['text']}
-        for i in instructions
-    ] if instructions else []
+    return [dict(id=i['position'] + 1, text=i['text'])
+            for i in instructions] if instructions else []
 
 
 def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
@@ -144,11 +142,24 @@ def format_bin_weight(category_values: List) -> Dict:
             if cv.get('category', {}).get('id') in tags:
                 value = cv['name']
                 break
+    return dict(value=float(value),
+                unit=DEFAULT_BIN_WEIGHT_UNIT)
 
-    return {
-        'value': float(value),
-        'unit': DEFAULT_BIN_WEIGHT_UNIT
-    }
+
+def format_quantity_value(quantity_values: List) -> Dict:
+    """
+    Filters a list of quantity values to return only unit values in
+    ounces (oz) and pounds (lb).
+    """
+    quantity = dict()
+    unit = QuantityUnitEnum.LB.value
+
+    for qv in quantity_values:
+        if qv.get('unit', {}).get('id') == unit:
+            quantity = dict(value=qv['value'],
+                            unit=qv['unit']['name'])
+            break
+    return quantity
 
 
 def is_core_recipe(component: Dict) -> bool:
@@ -177,12 +188,12 @@ def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict
 
         if ingredient and is_packaging(rtc):
             continue
-
         if subrecipe and is_core_recipe(rtc):
             components.extend(subrecipe.get('recipeTreeComponents') or [])
         else:
             components.append(rtc)
-    return [FormattedRecipeComponent(c).to_primary_component_dict() for c in components]
+    return [FormattedRecipeComponent(c).to_primary_component_dict()
+            for c in components]
 
 
 def get_formatted_ops_menu_data(

@@ -203,6 +203,7 @@ class TestGetFormattedOpsMenuData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
+        self.maxDiff = None
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
         result = get_formatted_ops_menu_data(['2022-03-28'])
         self.assertEqual(result, [formatted_ops_menu('2022-03-28')])

@@ -61,6 +61,13 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
             ingredient {
             id
             name
@@ -112,6 +119,13 @@ class TestOpsMenuDataQuery(TestCase):
             unit {
             id
             name
+            }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
             }
             ingredient {
             id
