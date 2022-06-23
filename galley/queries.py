@@ -245,7 +245,7 @@ def get_untagged_core_recipe_item_ids(ids):
         logger.exception(error)
         raise ValueError(error)
 
-    recipes = get_raw_recipe_items_data(ids)
+    recipes = get_raw_recipe_items_data(ids) or []
 
     # prepare collection data: ensure concurrent order between ids and recipes
     templateRecipe = {
