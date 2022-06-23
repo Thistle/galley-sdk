@@ -111,6 +111,8 @@ class UnitValue(Type):
 
 class RecipeTreeComponent(Type):
     id = Field(ID)
+    quantity = float
+    unit = Field(Unit)
     quantityUnitValues = Field(UnitValue)
     ingredient = Field(Ingredient)
     recipeItem = Field('RecipeItem')
