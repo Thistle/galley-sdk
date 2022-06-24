@@ -14,6 +14,11 @@ from galley.types import (
     RecipeItemInput
 )
 from galley.enums import PreparationEnum
+import logging
+
+logger = logging.getLogger(__name__)
+
+GALLEY_ERROR_PREFIX = "(GalleyError)"
 
 
 # This is graphql root for mutating data according to sgqlc lib. So this class name has to be Mutation.
@@ -84,8 +89,16 @@ def build_bulk_update_recipe_item_query(args):
     ids = []
     if args.get("ids"):
         ids = {id for id in args["ids"] if type(id) == str}
+        invalid_ids = [id for id in args["ids"] if id not in ids]
+        for invalid_id in invalid_ids:
+            logger.info(f"{GALLEY_ERROR_PREFIX} Key {invalid_id} \
+                         is not a valid id and will not be included \
+                         in the query")
         if len(ids) <= 0:
-            raise ValueError("No valid IDs provided. All IDs must be strings.")
+            msg = f"{GALLEY_ERROR_PREFIX} No valid IDs provided. \
+                    All IDs must be strings."
+            logger.exception(msg)
+            raise ValueError(msg)
 
     mutation = Operation(Mutation)
     bulk_input = BulkUpdateRecipeItemsInput(
@@ -95,7 +108,7 @@ def build_bulk_update_recipe_item_query(args):
     mutation.bulkUpdateRecipeItems(input=bulk_input)
     return mutation
 
-def update_recipe_item_data(args):
+def bulk_update_recipe_item_data(args):
     if not args.get("attrs"):
         raise ValueError("attrs property not provided")
 

@@ -5,7 +5,7 @@ from sgqlc.endpoint.http import HTTPEndpoint
 from galley.mutations import (
     upsert_menu_data,
     build_upsert_mutation_query,
-    update_recipe_item_data,
+    bulk_update_recipe_item_data,
     build_bulk_update_recipe_item_query
 )
 
@@ -319,7 +319,7 @@ class TestUpdateRecipeItemData(TestCase):
             }
         }
         with self.assertRaises(ValueError):
-            update_recipe_item_data(payload)
+            bulk_update_recipe_item_data(payload)
 
     def test_exception_raised_if_no_valid_recipe_id_provided(self):
         payload = {
@@ -329,7 +329,7 @@ class TestUpdateRecipeItemData(TestCase):
             }
         }
         with self.assertRaises(ValueError):
-            update_recipe_item_data(payload)
+            bulk_update_recipe_item_data(payload)
 
     def test_exception_raised_if_no_attrs_provided(self):
         payload = {
@@ -337,7 +337,7 @@ class TestUpdateRecipeItemData(TestCase):
             "attrs": None
         }
         with self.assertRaises(ValueError):
-            update_recipe_item_data(payload)
+            bulk_update_recipe_item_data(payload)
 
     def test_no_mutations_done_if_already_tagged_recipe_item_id_is_provided(self):
         expected_str = '''mutation {
@@ -360,7 +360,7 @@ class TestUpdateRecipeItemData(TestCase):
         self.assertEqual(mutation_str, expected_str)
 
     @mock.patch('galley.mutations.make_request_to_galley')
-    def test_update_recipe_item_data_raises_exception_if_thrown_from_request(self, mock_mr):
+    def test_bulk_update_recipe_item_data_raises_exception_if_thrown_from_request(self, mock_mr):
         mock_mr.return_value = {
             "errors": [
                 { "message": "Unexpected error value: { message: ... }" }
@@ -373,11 +373,11 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        result = update_recipe_item_data(payload)
+        result = bulk_update_recipe_item_data(payload)
         self.assertIsNone(result)
 
     @mock.patch('galley.mutations.make_request_to_galley')
-    def test_update_recipe_item_data_returns_expected_response_data(self, mock_mr):
+    def test_bulk_update_recipe_item_data_returns_expected_response_data(self, mock_mr):
         mock_mr.return_value = self.response_data
         payload = {
             "ids": ["cmVjaXBlOjIwMjI5NA=="],
@@ -385,5 +385,5 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        result = update_recipe_item_data(payload)
+        result = bulk_update_recipe_item_data(payload)
         self.assertEqual(result, self.response_data['data'])
