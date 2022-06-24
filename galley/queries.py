@@ -238,7 +238,7 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     return validated_response_data
 
 def get_untagged_core_recipe_item_ids(ids):
-    recipe_item_ids = []
+    recipe_collection = []
     ids = [id for id in ids if type(id) == str]
     if len(ids) <= 0:
         error = "No valid recipe ids provided. All ids must be a string."
@@ -259,7 +259,6 @@ def get_untagged_core_recipe_item_ids(ids):
             }
         }]
     }
-    recipeCollection = {}
     for recipe in recipes:
         recipeId = recipe["id"]
         recipePos = ids.index(recipeId)
@@ -267,45 +266,21 @@ def get_untagged_core_recipe_item_ids(ids):
         if recipePos >= 0:
             parentItems = recipe["parentRecipeItems"]
             # collect all recipe items 2d array
-            recipeCollection[recipeId] = [parentItem['recipe']['recipeItems'] \
-                        for parentItem in parentItems]
-            '''
-            print("   ", recipeId, " ::: ", recipePos, " ::: ", ids[recipePos])
-            print("\n\n.....................................\n\n")
-            print(len(recipeItems))
-            print("\n\n********************>>>>>>>>>>>>>>>>>>>\n\n")
-            # single array and filter out only the subrecipes whose ids matching the entry recipe id
-            recipeCollection[recipeId] = [recipeItem for recipeItem in recipeItems \
-                                         if recipeItem and recipeItem['subRecipe'] \
-                                            and recipeItem['subRecipe']['id'] == ids[recipePos]]
-            '''
+            for parentItem in parentItems:
+                recipe_collection.append({
+                    "recipe_id__": ids[recipePos],
+                    "recipe_id": recipeId,
+                    "recipe_data": parentItem['recipe']['recipeItems']
+                })
 
-    '''
-    # check for untagged recipe items
-    for recipeInCollection in recipeCollection:
-        preparationSet = {preparation.get('id') for preparation \
-                         in recipeInCollection['preparations']}
-        if PreparationEnum.CORE_RECIPE.value in preparationSet:
-            recipe_item_ids.append(recipeInCollection[id])
-
-    from pprint import pprint
-    print("\n\n********************>>>>>>>>>>>>>>>>>>>\n\n")
-    pprint(recipe_item_ids)
-    print("\n\n********************>>>>>>>>>>>>>>>>>>>\n\n")
-    '''
-
-    if recipes:
-        recipes = sorted(recipes, key=lambda r: r['id'])
-        for id, recipe in zip(sorted(ids), recipes):
-            for parent in recipe['parentRecipeItems']:
-                for recipe_item in parent['recipe']['recipeItems']:
-                    if recipe_item['subRecipe']:
-                        if recipe_item['subRecipe']['id'] == id \
-                            and PreparationEnum.CORE_RECIPE.value \
-                                not in {prep.get('id') for prep in recipe_item['preparations']}:
-                            recipe_item_ids.append(recipe_item['id'])
-
-    # pprint(recipe_item_ids)
-    # print("\n\n********************>>>>>>>>>>>>>>>>>>>\n\n")
-
+    recipe_item_ids = []
+    for recipes_in_collection in recipe_collection:
+        for recipe_in_collection in recipes_in_collection["recipe_data"]:
+            if recipe_in_collection and recipe_in_collection["subRecipe"] \
+                and recipe_in_collection["subRecipe"]["id"] == \
+                    recipes_in_collection["recipe_id"] \
+                and PreparationEnum.CORE_RECIPE.value \
+                    not in {preparation["id"] for \
+                        preparation in recipe_in_collection["preparations"]}:
+                recipe_item_ids.append(recipe_in_collection["id"])
     return recipe_item_ids
