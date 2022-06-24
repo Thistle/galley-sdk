@@ -7,7 +7,7 @@ from galley.formatted_queries import (
 )
 from galley.formatted_ops_queries import (
     get_formatted_ops_menu_data,
-    format_recipe_instructions,
+    format_instructions,
     format_allergens,
     format_bin_weight
 )
@@ -106,7 +106,7 @@ class TestGetMenuTypeFromMenuCategoryValues(TestCase):
 
 
 class TestFormattedRecipeInstructions(TestCase):
-    def test_format_recipe_instructions_successful(self):
+    def test_format_instructions_successful(self):
         response = [{"text": "Please keep in mind the tamper seal from bottled containers can fall into the recipe you are making. Be sure to discard any tamper seals immediately after breaking the seal.",
                      "position": 0},
                     {"text": "In the blixer combine all of the ingredients and blend on intervals of 30 seconds until the texture is smooth and creamy.",
@@ -119,15 +119,15 @@ class TestFormattedRecipeInstructions(TestCase):
                      "text": "In the blixer combine all of the ingredients and blend on intervals of 30 seconds until the texture is smooth and creamy."},
                     {"id": 3,
                      "text": "Pour into lexans."}]
-        result = format_recipe_instructions(response)
+        result = format_instructions(response)
         self.assertEqual(result, expected)
 
-    def test_format_recipe_instructions_empty(self):
-        result = format_recipe_instructions([])
+    def test_format_instructions_empty(self):
+        result = format_instructions([])
         self.assertEqual(result, [])
 
-    def test_format_recipe_instructions_None(self):
-        result = format_recipe_instructions(None)
+    def test_format_instructions_None(self):
+        result = format_instructions(None)
         self.assertEqual(result, [])
 
 
@@ -203,6 +203,7 @@ class TestGetFormattedOpsMenuData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
+        self.maxDiff = None
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
         result = get_formatted_ops_menu_data(['2022-03-28'])
         self.assertEqual(result, [formatted_ops_menu('2022-03-28')])
