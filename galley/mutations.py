@@ -110,10 +110,14 @@ def build_bulk_update_recipe_item_query(args):
 
 def bulk_update_recipe_item_data(args):
     if not args.get("attrs"):
-        raise ValueError("attrs property not provided")
+        msg = f"{GALLEY_ERROR_PREFIX} attrs property not provided"
+        logger.exception(msg)
+        raise ValueError(msg)
 
     if not args.get("ids"):
-        raise ValueError("recipe item id list not provided")
+        msg = f"{GALLEY_ERROR_PREFIX} Recipe item id list not provided"
+        logger.exception(msg)
+        raise ValueError(msg)
 
     # apply filter to ensure that only untagged recipe items are selected for tagging
     recipe_item_ids = get_untagged_core_recipe_item_ids(args["ids"])

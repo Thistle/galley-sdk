@@ -238,6 +238,7 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     return validated_response_data
 
 def get_untagged_core_recipe_item_ids(ids):
+    recipe_item_ids = []
     recipe_collection = []
     ids = [id for id in ids if type(id) == str]
     if len(ids) <= 0:
@@ -264,7 +265,7 @@ def get_untagged_core_recipe_item_ids(ids):
         recipePos = ids.index(recipeId)
         parentItems = templateRecipe["parentRecipeItems"]
         if recipePos >= 0:
-            parentItems = recipe["parentRecipeItems"]
+            parentItems = recipe.get("parentRecipeItems", [])
             # collect all recipe items 2d array
             for parentItem in parentItems:
                 recipe_collection.append({
@@ -273,7 +274,6 @@ def get_untagged_core_recipe_item_ids(ids):
                     "recipe_data": parentItem['recipe']['recipeItems']
                 })
 
-    recipe_item_ids = []
     for recipes_in_collection in recipe_collection:
         for recipe_in_collection in recipes_in_collection["recipe_data"]:
             if recipe_in_collection and recipe_in_collection["subRecipe"] \
