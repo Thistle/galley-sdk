@@ -9,7 +9,10 @@ from galley.common import make_request_to_galley, validate_response_data
 from galley.enums import MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
-                          RecipeConnectionFilter)
+                          RecipeConnectionFilter,
+                          RecipeItemConnectionFilter,
+                          RecipeItemConnection,
+                          RecipeItemConnectionPaginationOptions)
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +26,13 @@ class Viewer(Type):
         args=(ArgDict({
             'filters': RecipeConnectionFilter,
             'paginationOptions': PaginationOptions
+        }))
+    )
+    recipeItemConnection = Field(
+        RecipeItemConnection,
+        args=(ArgDict({
+            'filters': RecipeItemConnectionFilter,
+            'paginationOptions': RecipeItemConnectionPaginationOptions
         }))
     )
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
@@ -220,6 +230,14 @@ def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
     query.viewer.recipes.parentRecipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
+def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.recipeItemConnection(filters=RecipeItemConnectionFilter(subRecipeIds=sub_recipe_ids)).__fields__('edges')
+    query.viewer.recipeItemConnection.edges.__fields__('node')
+    query.viewer.recipeItemConnection.edges.node.__fields__('id', 'recipeId', 'preparations')
+    query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
+    return query
+
 def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
     """
     Returns a list of dictionaries containing the recipe items data for the
@@ -235,6 +253,15 @@ def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
                 op=query.__to_graphql__(auto_select_depth=3),
                 variables={'id': recipe_ids}),
             'recipes')
+    return validated_response_data
+
+def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
+    query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)
+    validated_response_data = validate_response_data(
+            make_request_to_galley(
+                op=query.__to_graphql__(auto_select_depth=3),
+                variables={'subRecipeIds': sub_recipe_ids}),
+            'recipeItemConnection')
     return validated_response_data
 
 def get_untagged_core_recipe_item_ids(ids):
@@ -284,3 +311,33 @@ def get_untagged_core_recipe_item_ids(ids):
                         preparation in recipe_in_collection["preparations"]}:
                 recipe_item_ids.append(recipe_in_collection["id"])
     return recipe_item_ids
+
+def get_untagged_core_recipe_item_ids_via_connection(ids):
+    recipe_item_ids = []
+    ids = [id for id in ids if type(id) == str]
+    if len(ids) <= 0:
+        error = "No valid recipe ids provided. All ids must be a string."
+        logger.exception(error)
+        raise ValueError(error)
+    recipe_item_connection = get_raw_recipe_items_data_via_connection(ids) or []
+    for recipe_item in recipe_item_connection["edges"]:
+        recipe_item_ids.append(recipe_item["node"]["id"])
+    return recipe_item_ids
+
+def get_untagged(ids):
+    a = get_untagged_core_recipe_item_ids(ids)
+    b = get_untagged_core_recipe_item_ids_via_connection(ids)
+
+    from pprint import pprint
+    pprint(a)
+    print("============================>>>")
+    pprint(b)
+
+    is_invalid = len(a) is not len(b)
+    for r in a:
+        if r not in b:
+            is_invalid = is_invalid and False
+    if is_invalid:
+        print("There was a problem with the results")
+    else:
+        print("Both results match")

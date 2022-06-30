@@ -137,6 +137,7 @@ class RecipeItem(Type):
     recipe = Field("Recipe")
     ingredient = Field(Ingredient)
     subRecipe = Field(SubRecipe)
+    recipeId = str
     subRecipeId = str
     preparations = Field(Preparation)
     quantity = float
@@ -304,11 +305,11 @@ class RecipeItemConnectionEdge(Type):
     node = Field(RecipeItem)
 
 
-class RecipeItemConnectionOrderByEnum():
+class RecipeItemConnectionOrderByEnum(Enum):
     __choices__ = ('CreatedAt', 'RecipeName')
 
 
-class SortDirectionEnum():
+class SortDirectionEnum(Enum):
     __choices__ = ('asc', 'desc')
 
 
