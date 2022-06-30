@@ -319,7 +319,7 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
         error = "No valid recipe ids provided. All ids must be a string."
         logger.exception(error)
         raise ValueError(error)
-    recipe_item_connection = get_raw_recipe_items_data_via_connection(ids) or []
-    for recipe_item in recipe_item_connection["edges"]:
+    recipe_item_connection = get_raw_recipe_items_data_via_connection(ids) or {}
+    for recipe_item in recipe_item_connection.get("edges", []):
         recipe_item_ids.append(recipe_item["node"]["id"])
     return recipe_item_ids
