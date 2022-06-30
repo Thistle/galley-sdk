@@ -241,6 +241,7 @@ class TestUpdateRecipeItemData(TestCase):
             bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
             recipeItems {
             id
+            recipeId
             subRecipeId
             quantity
             }
@@ -263,6 +264,7 @@ class TestUpdateRecipeItemData(TestCase):
             bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA==", "cmVjaXBlOjE3NjQxNA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
             recipeItems {
             id
+            recipeId
             subRecipeId
             quantity
             }
@@ -296,6 +298,7 @@ class TestUpdateRecipeItemData(TestCase):
             bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
             recipeItems {
             id
+            recipeId
             subRecipeId
             quantity
             }
@@ -344,6 +347,7 @@ class TestUpdateRecipeItemData(TestCase):
             bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
             recipeItems {
             id
+            recipeId
             subRecipeId
             quantity
             }
