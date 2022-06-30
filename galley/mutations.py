@@ -87,16 +87,8 @@ def upsert_menu_data(args):
 
 def build_bulk_update_recipe_item_query(args):
     ids = []
-    invalid_ids = []
     if args.get("ids"):
-        for id in args["ids"]:
-            ids.append(id)
-        else:
-            invalid_ids.append(id)
-        for invalid_id in invalid_ids:
-            logger.info(f"{GALLEY_ERROR_PREFIX} Key {invalid_id} \
-                         is not a valid id and will not be included \
-                         in the query")
+        ids = [id for id in args["ids"] if type(id) == str]
         if len(ids) <= 0:
             msg = f"{GALLEY_ERROR_PREFIX} No valid IDs provided. \
                     All IDs must be strings."
