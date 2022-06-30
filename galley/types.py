@@ -297,3 +297,35 @@ class BulkUpdateRecipeItemsInput(Input):
 
 class BulkUpdateRecipeItemsPayload(Type):
     recipeItems = Field(list_of(RecipeItem))
+
+
+class RecipeItemConnectionEdge(Type):
+    index = int
+    node = Field(RecipeItem)
+
+
+class RecipeItemConnectionOrderByEnum():
+    __choices__ = ('CreatedAt', 'RecipeName')
+
+
+class SortDirectionEnum():
+    __choices__ = ('asc', 'desc')
+
+
+class RecipeItemConnection(Connection):
+    edges = list_of(RecipeItemConnectionEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+
+
+class RecipeItemConnectionFilter(Input):
+    ingredients = list_of(str)
+    recipeIds = list_of(str)
+    subRecipeIds = list_of(str)
+
+
+class RecipeItemConnectionPaginationOptions(Input):
+    first = int
+    orderBy = RecipeItemConnectionOrderByEnum
+    sortDirection = SortDirectionEnum
+    startIndex = int
