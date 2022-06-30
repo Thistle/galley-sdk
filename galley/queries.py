@@ -323,21 +323,3 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
     for recipe_item in recipe_item_connection["edges"]:
         recipe_item_ids.append(recipe_item["node"]["id"])
     return recipe_item_ids
-
-def get_untagged(ids):
-    a = get_untagged_core_recipe_item_ids(ids)
-    b = get_untagged_core_recipe_item_ids_via_connection(ids)
-
-    from pprint import pprint
-    pprint(a)
-    print("============================>>>")
-    pprint(b)
-
-    is_invalid = len(a) is not len(b)
-    for r in a:
-        if r not in b:
-            is_invalid = is_invalid and False
-    if is_invalid:
-        print("There was a problem with the results")
-    else:
-        print("Both results match")
