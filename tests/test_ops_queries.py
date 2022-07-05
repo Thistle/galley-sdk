@@ -2,7 +2,9 @@ import logging
 from unittest import TestCase, mock
 from galley.queries import (get_ops_menu_query,
                             get_ops_recipe_items_query,
-                            get_raw_recipe_items_data)
+                            get_raw_recipe_items_data,
+                            get_ops_recipe_item_connection_query,
+                            get_raw_recipe_items_data_via_connection)
 
 logger = logging.getLogger(__name__)
 
@@ -228,22 +230,23 @@ class TestOpsRecipeDataQuery(TestCase):
     def setUp(self) -> None:
         self.data = {
             'WRONGID==': None,
-            'cmVjaXBlOjE3NjQxNA==': {
-                'id': 'cmVjaXBlOjE3NjQxNA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDE3', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIx', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU5', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIw', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjQ5MTk5', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI3', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDcw', 'subRecipe': {'id': 'cmVjaXBlOjE3NDgyMA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU3', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDY3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjUyNTEy', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI2', 'subRecipe': None, 'preparations': []}]}}]},
-            'cmVjaXBlOjIwMjI5NA==': {
-                'id': 'cmVjaXBlOjIwMjI5NA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMTgx', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTgy', 'subRecipe': {'id': 'cmVjaXBlOjE4NTQ1OQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg3', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI0', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMjAw', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjEy', 'subRecipe': {'id': 'cmVjaXBlOjE3NDg1Ng=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg1', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjE0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMjAz', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODAy', 'subRecipe': None, 'preparations': []}]}}]}
+            # 'cmVjaXBlOjE3NjQxNA==': {
+            #     'id': 'cmVjaXBlOjE3NjQxNA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDE3', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIx', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU5', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIw', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjQ5MTk5', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI3', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDcw', 'subRecipe': {'id': 'cmVjaXBlOjE3NDgyMA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU3', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDY3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjUyNTEy', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI2', 'subRecipe': None, 'preparations': []}]}}]},
+            # 'cmVjaXBlOjIwMjI5NA==': {
+            #     'id': 'cmVjaXBlOjIwMjI5NA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMTgx', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTgy', 'subRecipe': {'id': 'cmVjaXBlOjE4NTQ1OQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg3', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI0', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMjAw', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjEy', 'subRecipe': {'id': 'cmVjaXBlOjE3NDg1Ng=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg1', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjE0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMjAz', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODAy', 'subRecipe': None, 'preparations': []}]}}]}
+
+            'cmVjaXBlOjE3NjQxNA==': {'edges': [{'node': {'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'recipeId': 'cmVjaXBlOjE3NjQyMw==', 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}}, {'node': {'id': 'cmVjaXBlSXRlbToxMTUwNDE3', 'recipeId': 'cmVjaXBlOjE3NjQxMw==', 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}}]},
+
+            'cmVjaXBlOjIwMjI5NA==': {'edges': [{'node': {'id': 'cmVjaXBlSXRlbToxMjkwMjAw', 'recipeId': 'cmVjaXBlOjIwMjMwNQ==', 'preparations': []}}, {'node': {'id': 'cmVjaXBlSXRlbToxMjkwMTgx', 'recipeId': 'cmVjaXBlOjIwMjMwMA==', 'preparations': []}}]},
         }
+
         self.expected_query = '''query {
             viewer {
-            recipes(where: {id: ["cmVjaXBlOjIwMjI5NA=="]}) {
+            recipeItemConnection(filters: {subRecipeIds: ["cmVjaXBlOjIwMjI5NA=="]}) {
+            edges {
+            node {
             id
-            parentRecipeItems {
-            recipe {
-            recipeItems {
-            id
-            subRecipe {
-            id
-            }
+            recipeId
             preparations {
             id
             name
@@ -252,26 +255,32 @@ class TestOpsRecipeDataQuery(TestCase):
             }
             }
             }
-            }
             }'''.replace(' '*12, '')
 
     def response(self, *data):
-        return ({
+        '''return ({
             'data': {
                 'viewer': {
                     'recipes': [d for d in data if d]
                 }
             }
+        })'''
+        return ({
+            'data': {
+                'viewer': {
+                    'recipeItemConnection': data
+                }
+            }
         })
 
     def test_get_ops_recipe_items_query(self):
-        query = get_ops_recipe_items_query(recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
+        query = get_ops_recipe_item_connection_query(sub_recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
         query_str = bytes(query).decode('utf-8')
         self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_raw_recipe_items_data_successful(self, mock_retrieval_method):
+    def test_get_raw_recipe_items_data_via_connection_successful(self, mock_retrieval_method):
         mock_retrieval_method.side_effect = [
             self.response(self.data['cmVjaXBlOjIwMjI5NA==']),
             self.response(self.data['cmVjaXBlOjE3NjQxNA=='], self.data['cmVjaXBlOjIwMjI5NA==']),
@@ -282,18 +291,18 @@ class TestOpsRecipeDataQuery(TestCase):
         self.maxDiff = None
 
         # one valid menu name
-        result1 = get_raw_recipe_items_data(["cmVjaXBlOjIwMjI5NA=="])
-        self.assertEqual(result1, [self.data["cmVjaXBlOjIwMjI5NA=="]])
+        result1 = get_raw_recipe_items_data_via_connection(["cmVjaXBlOjIwMjI5NA=="])
+        self.assertEqual(result1, (self.data["cmVjaXBlOjIwMjI5NA=="],))
 
         # multiple valid menu names
-        result2 = get_raw_recipe_items_data(['cmVjaXBlOjIwMjI5NA==', 'cmVjaXBlOjE3NjQxNA=='])
-        self.assertEqual(result2, [self.data['cmVjaXBlOjE3NjQxNA=='],
-                                   self.data['cmVjaXBlOjIwMjI5NA==']])
+        result2 = get_raw_recipe_items_data_via_connection(['cmVjaXBlOjIwMjI5NA==', 'cmVjaXBlOjE3NjQxNA=='])
+        self.assertEqual(result2, (self.data['cmVjaXBlOjE3NjQxNA=='],
+                                   self.data['cmVjaXBlOjIwMjI5NA==']))
 
         # one valid menu name and one invalid menu name
-        result3 = get_raw_recipe_items_data(['WRONGID==', 'cmVjaXBlOjE3NjQxNA=='])
-        self.assertEqual(result3, [self.data['cmVjaXBlOjIwMjI5NA==']])
+        result3 = get_raw_recipe_items_data_via_connection(['WRONGID==', 'cmVjaXBlOjE3NjQxNA=='])
+        self.assertEqual(result3, (None, self.data['cmVjaXBlOjIwMjI5NA=='],))
 
         # one invalid menu name
-        result4 = get_raw_recipe_items_data(['WRONGID=='])
-        self.assertEqual(result4, [])
+        result4 = get_raw_recipe_items_data_via_connection(['WRONGID=='])
+        self.assertEqual(result4, (None,))

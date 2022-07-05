@@ -264,43 +264,6 @@ def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[L
             'recipeItemConnection')
     return validated_response_data
 
-def get_untagged_core_recipe_item_ids(ids):
-    recipe_item_ids = []
-    recipe_collection = []
-    ids = [id for id in ids if type(id) == str]
-    if len(ids) <= 0:
-        error = "No valid recipe ids provided. All ids must be a string."
-        logger.exception(error)
-        raise ValueError(error)
-
-    recipes = get_raw_recipe_items_data(ids) or []
-
-    # prepare collection data: ensure concurrent order between ids and recipes
-    for recipe in recipes:
-        recipeId = recipe["id"]
-        parentItems = None
-        if recipeId in ids:
-            recipePos = ids.index(recipeId)
-            parentItems = recipe.get("parentRecipeItems", [])
-            # collect all recipe items 2d array
-            for parentItem in parentItems:
-                recipe_collection.append({
-                    "recipe_id__": ids[recipePos],
-                    "recipe_id": recipeId,
-                    "recipe_data": parentItem['recipe']['recipeItems']
-                })
-
-    for recipes_in_collection in recipe_collection:
-        for recipe_in_collection in recipes_in_collection["recipe_data"]:
-            if recipe_in_collection and recipe_in_collection["subRecipe"] \
-                and recipe_in_collection["subRecipe"]["id"] == \
-                    recipes_in_collection["recipe_id"] \
-                and PreparationEnum.CORE_RECIPE.value \
-                    not in {preparation["id"] for \
-                        preparation in recipe_in_collection["preparations"]}:
-                recipe_item_ids.append(recipe_in_collection["id"])
-    return recipe_item_ids
-
 def get_untagged_core_recipe_item_ids_via_connection(ids):
     recipe_item_ids = []
     ids = [id for id in ids if type(id) == str]
