@@ -276,22 +276,11 @@ def get_untagged_core_recipe_item_ids(ids):
     recipes = get_raw_recipe_items_data(ids) or []
 
     # prepare collection data: ensure concurrent order between ids and recipes
-    templateRecipe = {
-        "parentRecipeItems": [{
-            "recipe": {
-                "recipeItems": [{
-                    "subRecipe": {
-                        "id": None
-                    }
-                }]
-            }
-        }]
-    }
     for recipe in recipes:
         recipeId = recipe["id"]
-        recipePos = ids.index(recipeId)
-        parentItems = templateRecipe["parentRecipeItems"]
-        if recipePos >= 0:
+        parentItems = None
+        if recipeId in ids:
+            recipePos = ids.index(recipeId)
             parentItems = recipe.get("parentRecipeItems", [])
             # collect all recipe items 2d array
             for parentItem in parentItems:
