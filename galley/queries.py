@@ -220,16 +220,6 @@ def get_raw_menu_data(dates: List[str],
                         continue
     return response
 
-def get_ops_recipe_items_query(recipe_ids: List[str]) -> Operation:
-    query = Operation(Query)
-    query.viewer.recipes(where=FilterInput(id=recipe_ids)).__fields__('id', 'parentRecipeItems')
-    query.viewer.recipes.parentRecipeItems.__fields__('recipe')
-    query.viewer.recipes.parentRecipeItems.recipe.__fields__('recipeItems')
-    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.__fields__('id', 'subRecipe', 'preparations')
-    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.subRecipe.__fields__('id')
-    query.viewer.recipes.parentRecipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
-    return query
-
 def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.recipeItemConnection(filters=RecipeItemConnectionFilter(subRecipeIds=sub_recipe_ids)).__fields__('edges')
@@ -237,23 +227,6 @@ def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation
     query.viewer.recipeItemConnection.edges.node.__fields__('id', 'recipeId', 'preparations')
     query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
     return query
-
-def get_raw_recipe_items_data(recipe_ids: List) -> Iterable[List[Dict]]:
-    """
-    Returns a list of dictionaries containing the recipe items data for the
-    recipe ids. If there is no recipe items data for the recipe ids, returns None.
-
-    :param recipe_ids: The recipe ids for which the recipe items data is to be
-    fetched.
-    """
-    query = get_ops_recipe_items_query(recipe_ids=recipe_ids)
-
-    validated_response_data = validate_response_data(
-            make_request_to_galley(
-                op=query.__to_graphql__(auto_select_depth=3),
-                variables={'id': recipe_ids}),
-            'recipes')
-    return validated_response_data
 
 def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
     query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)

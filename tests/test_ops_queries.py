@@ -1,8 +1,6 @@
 import logging
 from unittest import TestCase, mock
 from galley.queries import (get_ops_menu_query,
-                            get_ops_recipe_items_query,
-                            get_raw_recipe_items_data,
                             get_ops_recipe_item_connection_query,
                             get_raw_recipe_items_data_via_connection)
 
@@ -273,7 +271,7 @@ class TestOpsRecipeDataQuery(TestCase):
             }
         })
 
-    def test_get_ops_recipe_items_query(self):
+    def test_get_ops_recipe_item_connection_query(self):
         query = get_ops_recipe_item_connection_query(sub_recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
         query_str = bytes(query).decode('utf-8')
         self.maxDiff = None
