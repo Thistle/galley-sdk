@@ -1,6 +1,3 @@
-from ensurepip import version
-from os import name
-from typing import Any, Dict
 from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
                          as d, list_of)
 from sgqlc.types.relay import (Connection, Node)
