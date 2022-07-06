@@ -299,6 +299,13 @@ class TestRecipeConnectionQuery(TestCase):
             zincMg
             zincPercentRDI
             }
+            versionConnection(paginationOptions: {first: 1, orderBy: "createdAt", sortDirection: desc}) {
+            edges {
+            node {
+            id
+            }
+            }
+            }
             recipeItems {
             ingredient {
             externalName

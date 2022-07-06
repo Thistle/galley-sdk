@@ -72,6 +72,8 @@ def recipe_connection_query(
         __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'reconciledNutritionals')
     query.viewer.recipeConnection.edges.node.media.\
         __fields__('altText', 'caption', 'sourceUrl')
+    query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.\
+        __fields__('id')
     query.viewer.recipeConnection.edges.node.recipeItems.\
         __fields__('ingredient')
     query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\

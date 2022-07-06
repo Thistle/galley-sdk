@@ -36,6 +36,17 @@ def mock_recipe_base(id):
                 'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
             },
         ],
+        "versionConnection": {
+            "edges": [
+                {
+                    "node": {
+                        "id": "dmVyc2lvbjozNjQ0NTY1",
+                        "versionNumber": 107,
+                        "action": "update"
+                    }
+                }
+            ]
+        },
         'isDish': True,
         'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data,

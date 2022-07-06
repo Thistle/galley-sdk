@@ -509,6 +509,7 @@ class TestGetFormattedRecipesData(TestCase):
             {
                 'id': '1',
                 'externalName': 'Test Recipe 1',
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
@@ -547,6 +548,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'id': '2',
                 'externalName': 'Test Recipe 2',
                 'notes': 'Some notes about recipe 2',
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'description': 'Details about recipe 2',
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU2',
                 'nutrition': mock_nutrition_data.mock_data,
@@ -645,6 +647,7 @@ class TestGetFormattedRecipesData(TestCase):
             {
                 'id': '1',
                 'externalName': 'Test Recipe 1',
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
@@ -708,6 +711,7 @@ class TestGetFormattedRecipesData(TestCase):
             {
                 'id': '1',
                 'externalName': 'Test Recipe 1',
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',

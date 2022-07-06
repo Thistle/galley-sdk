@@ -1,3 +1,4 @@
+from ensurepip import version
 from os import name
 from typing import Any, Dict
 from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
@@ -168,6 +169,27 @@ class DietaryFlagsWithUsages(Type):
     dietaryFlag = Field(DietaryFlag)
 
 
+class PageInfoType(Type):
+    endIndex = int
+    hasNextPage = bool
+    hasPreviousPage = bool
+    startIndex = int
+
+
+class VersionNode(Node):
+    id = Field(ID)
+
+
+class RecipeVersionConnectionEdge(Type):
+    node = Field(VersionNode)
+
+
+class RecipeVersionConnection(Connection):
+    edges = Field(RecipeVersionConnectionEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+
+
 class Recipe(Type):
     id = str
     name = str
@@ -178,6 +200,7 @@ class Recipe(Type):
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     reconciledNutritionals = Field(Nutrition)
+    versionConnection = Field(RecipeVersionConnection)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
@@ -185,6 +208,18 @@ class Recipe(Type):
     isDish = bool
     totalYield = float
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+
+
+class SortDirection(str, Enum):
+    asc = 'asc'
+    desc = 'desc'
+
+
+class PaginationOptions(Input):
+    first = int
+    orderBy = str
+    sortDirection = SortDirection
+    startIndex = int
 
 
 class RecipeNode(Node):
@@ -196,6 +231,7 @@ class RecipeNode(Node):
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     reconciledNutritionals = Field(Nutrition)
+    versionConnection = Field(RecipeVersionConnection, args=ArgDict({'paginationOptions': PaginationOptions}))
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
@@ -204,13 +240,6 @@ class RecipeNode(Node):
 
 class RecipeEdge(Type):
     node = Field(RecipeNode)
-
-
-class PageInfoType(Type):
-    endIndex = int
-    hasNextPage = bool
-    hasPreviousPage = bool
-    startIndex = int
 
 
 class RecipeConnection(Connection):
@@ -278,8 +307,3 @@ class MenuFilterInput(Input):
 
 class RecipeConnectionFilter(Input):
     id = list_of(str)
-
-
-class PaginationOptions(Input):
-    first = int
-    startIndex = int
