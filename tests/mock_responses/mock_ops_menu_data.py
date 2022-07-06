@@ -1171,17 +1171,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE2DEF-OPS',
                         'name': 'Test Recipe Name 2',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [
                             {
                                 'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
@@ -1229,17 +1218,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE3GHI-OPS',
                         'name': 'Test Recipe Name 3',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [
                             {
                                 'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
@@ -1276,17 +1254,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE4JKL-OPS',
                         'name': 'Jar Salad 1',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [
                             {
                                 'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
@@ -1323,17 +1290,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE5MNO-OPS',
                         'name': 'Side Soup 4',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [
                             {
                                 'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
@@ -1370,17 +1326,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE6PQR-OPS',
                         'name': 'Baby Avocado',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [
                             {
                                 'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
@@ -1417,17 +1362,6 @@ def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
                     'recipe': {
                         'id': 'RECIPE7STU-OPS',
                         'name': 'Juice',
-                        "versionConnection": {
-                            "edges": [
-                                {
-                                    "node": {
-                                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                                        "versionNumber": 107,
-                                        "action": "update"
-                                    }
-                                }
-                            ]
-                        },
                         'categoryValues': [],
                         'files': {},
                         'recipeTreeComponents': mock_recipeTreeComponents
