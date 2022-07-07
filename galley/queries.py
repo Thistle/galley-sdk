@@ -248,5 +248,8 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
         raise ValueError(error)
     recipe_item_connection = get_raw_recipe_items_data_via_connection(ids) or {}
     for recipe_item in recipe_item_connection.get("edges", []):
-        recipe_item_ids.append(recipe_item["node"]["id"])
+        recipe_item = recipe_item["node"]
+        preparations = [preparation["id"] for preparation in recipe_item["preparations"]]
+        if PreparationEnum.CORE_RECIPE.value not in preparations:
+            recipe_item_ids.append(recipe_item["id"])
     return recipe_item_ids
