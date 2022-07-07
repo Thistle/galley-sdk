@@ -156,11 +156,14 @@ class FormattedRecipe:
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
         self.formatted_recipe_tree_components_data = format_recipe_tree_components_data(self.recipe_tree_components)
         self.allergens = get_recipe_allergens(recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', []))
+        version_edges = recipe_data.get('versionConnection', {}).get('edges', [])
+        self.version_id = version_edges[0].get('node', {}).get('id') if version_edges else None
 
     def to_dict(self):
         return {
             'id': self.galleyId,
             'externalName': self.externalName,
+            'version': self.version_id,
             'notes': self.notes,
             'description': self.description,
             'nutrition': self.nutrition,

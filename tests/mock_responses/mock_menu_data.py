@@ -78,6 +78,17 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                          'name': 'vegan'}
                     ],
                     'isDish': True,
+                    "versionConnection": {
+                        "edges": [
+                            {
+                                "node": {
+                                    "id": "dmVyc2lvbjozNjQ0NTY1",
+                                    "versionNumber": 107,
+                                    "action": "update"
+                                }
+                            }
+                        ]
+                    },
                     'media': [
                         {
                             'altText': 'Recipe_1_Plating.jpg',
