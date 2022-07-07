@@ -310,11 +310,6 @@ class RecipeConnectionFilter(Input):
     id = list_of(str)
 
 
-class PaginationOptions(Input):
-    first = int
-    startIndex = int
-
-
 class RecipeItemInput(Input):
     preparationIds = Field(list_of(str))
 
