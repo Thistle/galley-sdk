@@ -357,8 +357,10 @@ class TestUpdateRecipeItemData(TestCase):
                 "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
             }
         }
-        result = bulk_update_recipe_item_data(payload)
-        self.assertIsNone(result)
+        with self.assertRaises(ValueError):
+            bulk_update_recipe_item_data(payload)
+        # result = bulk_update_recipe_item_data(payload)
+        # self.assertIsNone(result)
 
     @mock.patch('galley.mutations.make_request_to_galley')
     def test_bulk_update_recipe_item_data_returns_expected_response_data(self, mock_mr):

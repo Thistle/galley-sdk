@@ -122,4 +122,13 @@ def bulk_update_recipe_item_data(args):
     }
     mutation = build_bulk_update_recipe_item_query(payload)
     response = make_request_to_galley(op=mutation)
-    return validate_response_data(response)
+
+    from pprint import pprint
+    pprint(response)
+
+    valid_response = validate_response_data(response)
+
+    if valid_response is None:
+        raise ValueError("Error running migration. Invalid response returned.")
+
+    return valid_response
