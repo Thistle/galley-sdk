@@ -224,17 +224,11 @@ class TestOpsMenuDataQuery(TestCase):
         self.assertEqual(query_str, self.expected_query)
 
 
-class TestOpsRecipeDataQuery(TestCase):
+class TestOpsRecipeItemConnectionQuery(TestCase):
     def setUp(self) -> None:
         self.data = {
             'WRONGID==': None,
-            # 'cmVjaXBlOjE3NjQxNA==': {
-            #     'id': 'cmVjaXBlOjE3NjQxNA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDE3', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIx', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU5', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDIw', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjQ5MTk5', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI3', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'subRecipe': {'id': 'cmVjaXBlOjE3NjQxNA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMTUwNDcw', 'subRecipe': {'id': 'cmVjaXBlOjE3NDgyMA=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjU3', 'subRecipe': {'id': 'cmVjaXBlOjIyMjEyMA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMTUwNDY3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjUyNTEy', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI2', 'subRecipe': None, 'preparations': []}]}}]},
-            # 'cmVjaXBlOjIwMjI5NA==': {
-            #     'id': 'cmVjaXBlOjIwMjI5NA==', 'parentRecipeItems': [{'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMTgx', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTgy', 'subRecipe': {'id': 'cmVjaXBlOjE4NTQ1OQ=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg3', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMTg3', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODI0', 'subRecipe': None, 'preparations': []}]}}, {'recipe': {'recipeItems': [{'id': 'cmVjaXBlSXRlbToxMjkwMjAw', 'subRecipe': {'id': 'cmVjaXBlOjIwMjI5NA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjEy', 'subRecipe': {'id': 'cmVjaXBlOjE3NDg1Ng=='}, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMzkzNjg1', 'subRecipe': {'id': 'cmVjaXBlOjIyMTEyOA=='}, 'preparations': [{'id': 'cHJlcGFyYXRpb246MjgzMzQ=', 'name': 'standalone'}, {'id': 'cHJlcGFyYXRpb246MzEwMjI=', 'name': '2 oz WINPAK'}]}, {'id': 'cmVjaXBlSXRlbToxMjkwMjE0', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxMjkwMjAz', 'subRecipe': None, 'preparations': []}, {'id': 'cmVjaXBlSXRlbToxNDQ1ODAy', 'subRecipe': None, 'preparations': []}]}}]}
-
             'cmVjaXBlOjE3NjQxNA==': {'edges': [{'node': {'id': 'cmVjaXBlSXRlbToxMTUwNDY5', 'recipeId': 'cmVjaXBlOjE3NjQyMw==', 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}}, {'node': {'id': 'cmVjaXBlSXRlbToxMTUwNDE3', 'recipeId': 'cmVjaXBlOjE3NjQxMw==', 'preparations': [{'id': 'cHJlcGFyYXRpb246MzEzNjk=', 'name': 'Core Recipe'}]}}]},
-
             'cmVjaXBlOjIwMjI5NA==': {'edges': [{'node': {'id': 'cmVjaXBlSXRlbToxMjkwMjAw', 'recipeId': 'cmVjaXBlOjIwMjMwNQ==', 'preparations': []}}, {'node': {'id': 'cmVjaXBlSXRlbToxMjkwMTgx', 'recipeId': 'cmVjaXBlOjIwMjMwMA==', 'preparations': []}}]},
         }
 
@@ -256,13 +250,6 @@ class TestOpsRecipeDataQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def response(self, *data):
-        '''return ({
-            'data': {
-                'viewer': {
-                    'recipes': [d for d in data if d]
-                }
-            }
-        })'''
         return ({
             'data': {
                 'viewer': {
