@@ -233,7 +233,8 @@ class TestUpdateRecipeItemData(TestCase):
                         }
                     ]
                 }
-            }
+            },
+            'noRepeats': {'bulkUpdateRecipeItems': {'recipeItems': []}},
         }
 
     def test_single_recipe_item_mutation(self):
@@ -391,3 +392,20 @@ class TestUpdateRecipeItemData(TestCase):
         }
         result = bulk_update_recipe_item_data(payload)
         self.assertEqual(result, self.response_data['data'])
+
+    @mock.patch('galley.mutations.make_request_to_galley')
+    @mock.patch('galley.mutations.make_request_to_galley')
+    def test_bulk_update_recipe_item_data_avoids_duplications(self, mock_first, mock_second):
+        # first migration run
+        mock_first.return_value = { "data": self.response_data["data"] }
+        # second migration run
+        mock_second.return_value = { "data": self.response_data["noRepeats"] }
+        payload = {
+            "ids": ["cmVjaXBlOjIwMjI5NA=="],
+            "attrs": {
+                "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
+            }
+        }
+        result = bulk_update_recipe_item_data(payload)
+        # expect no repeat response after the second call
+        self.assertEqual(result, self.response_data['noRepeats'])
