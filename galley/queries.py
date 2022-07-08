@@ -240,6 +240,7 @@ def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[L
     return validated_response_data
 
 def get_untagged_core_recipe_item_ids_via_connection(ids):
+    preparationTag = PreparationEnum.CORE_RECIPE.value
     recipe_item_ids = []
     ids = [id for id in ids if type(id) == str]
     if len(ids) <= 0:
@@ -250,6 +251,6 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
     for recipe_item in recipe_item_connection.get("edges", []):
         recipe_item = recipe_item["node"]
         preparations = [preparation["id"] for preparation in recipe_item["preparations"]]
-        if PreparationEnum.CORE_RECIPE.value not in preparations:
+        if preparationTag not in preparations:
             recipe_item_ids.append(recipe_item["id"])
     return recipe_item_ids
