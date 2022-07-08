@@ -343,27 +343,6 @@ class TestUpdateRecipeItemData(TestCase):
         with self.assertRaises(ValueError):
             bulk_update_recipe_item_data(payload)
 
-    def test_no_mutations_done_if_already_tagged_recipe_item_id_is_provided(self):
-        expected_str = '''mutation {
-            bulkUpdateRecipeItems(input: {ids: ["cmVjaXBlOjIwMjI5NA=="], attrs: {preparationIds: ["cHJlcGFyYXRpb246MzEzNjk="]}}) {
-            recipeItems {
-            id
-            recipeId
-            subRecipeId
-            quantity
-            }
-            }
-            }'''.replace(' '*12, '')
-        payload = {
-            "ids": ["cmVjaXBlOjIwMjI5NA=="],
-            "attrs": {
-                "preparationIds": ["cHJlcGFyYXRpb246MzEzNjk="]
-            }
-        }
-        ret = build_bulk_update_recipe_item_query(payload)
-        mutation_str = bytes(ret).decode("utf-8")
-        self.assertEqual(mutation_str, expected_str)
-
     @mock.patch('galley.mutations.make_request_to_galley')
     def test_bulk_update_recipe_item_data_raises_exception_if_thrown_from_request(self, mock_mr):
         mock_mr.return_value = {
