@@ -1,15 +1,18 @@
 import logging
-from typing import Any, Dict, List, Optional
+from re import template
+from typing import Any, Dict, Iterable, List, Optional
 
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
 from galley.common import make_request_to_galley, validate_response_data
-from galley.enums import MenuCategoryEnum
+from galley.enums import MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
-                          RecipeConnectionFilter)
-
+                          RecipeConnectionFilter,
+                          RecipeItemConnectionFilter,
+                          RecipeItemConnection,
+                          RecipeItemConnectionPaginationOptions)
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +26,13 @@ class Viewer(Type):
         args=(ArgDict({
             'filters': RecipeConnectionFilter,
             'paginationOptions': PaginationOptions
+        }))
+    )
+    recipeItemConnection = Field(
+        RecipeItemConnection,
+        args=(ArgDict({
+            'filters': RecipeItemConnectionFilter,
+            'paginationOptions': RecipeItemConnectionPaginationOptions
         }))
     )
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
@@ -45,7 +55,8 @@ class Query(Type):
                         'externalName': str,
                         'instructions': Any,
                         'notes': Any,
-                        'description': Any
+                        'description': Any,
+                        'parentRecipeItems': Any,
                     }]
                 }
             }
@@ -106,7 +117,6 @@ def recipe_connection_query(
         __fields__('id')
     return query
 
-
 def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
     has_next_page = True
     page_size = DEFAULT_PAGE_SIZE
@@ -137,7 +147,6 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
         has_next_page = page_info.get('hasNextPage', False)
     return raw_recipes_data
 
-
 def get_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
@@ -148,7 +157,6 @@ def get_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
-
 
 def get_ops_menu_query(dates: List[str]) -> Operation:
     query = Operation(Query)
@@ -171,7 +179,6 @@ def get_ops_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.ingredient.__fields__('id', 'name', 'externalName', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'dietaryFlagsWithUsages')
     return query
-
 
 def get_raw_menu_data(dates: List[str],
                       location_name: str,
@@ -214,3 +221,36 @@ def get_raw_menu_data(dates: List[str],
                     else:
                         continue
     return response
+
+def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.recipeItemConnection(filters=RecipeItemConnectionFilter(subRecipeIds=sub_recipe_ids)).__fields__('edges')
+    query.viewer.recipeItemConnection.edges.__fields__('node')
+    query.viewer.recipeItemConnection.edges.node.__fields__('id', 'recipeId', 'preparations')
+    query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
+    return query
+
+def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
+    query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)
+    validated_response_data = validate_response_data(
+            make_request_to_galley(
+                op=query.__to_graphql__(auto_select_depth=3),
+                variables={'subRecipeIds': sub_recipe_ids}),
+            'recipeItemConnection')
+    return validated_response_data
+
+def get_untagged_core_recipe_item_ids_via_connection(ids):
+    preparationTag = PreparationEnum.CORE_RECIPE.value
+    recipe_item_ids = []
+    ids = [id for id in ids if type(id) == str]
+    if len(ids) <= 0:
+        error = "No valid recipe ids provided. All ids must be a string."
+        logger.exception(error)
+        raise ValueError(error)
+    recipe_item_connection = get_raw_recipe_items_data_via_connection(ids) or {}
+    for recipe_item in recipe_item_connection.get("edges", []):
+        recipe_item = recipe_item["node"]
+        preparations = [preparation["id"] for preparation in recipe_item["preparations"]]
+        if preparationTag not in preparations:
+            recipe_item_ids.append(recipe_item["id"])
+    return recipe_item_ids

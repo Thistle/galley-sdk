@@ -7,9 +7,8 @@ from galley.queries import (
     get_menu_query,
     get_raw_menu_data,
     get_raw_recipes_data,
-    recipe_connection_query,
+    recipe_connection_query
 )
-
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu
 

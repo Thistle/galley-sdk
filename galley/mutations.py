@@ -1,13 +1,30 @@
 from sgqlc.operation import Operation
 from sgqlc.types import Field, Type
-
+from typing import Dict, List, Optional, Union, Any
 from galley.common import make_request_to_galley, validate_response_data
-from galley.types import (BulkMenusInput, MenuInput, MenuItemInput, MenuPayload, UnitInput)
+from galley.queries import get_untagged_core_recipe_item_ids_via_connection
+from galley.types import (
+    BulkMenusInput,
+    MenuInput,
+    MenuItemInput,
+    MenuPayload,
+    UnitInput,
+    BulkUpdateRecipeItemsPayload,
+    BulkUpdateRecipeItemsInput,
+    RecipeItemInput
+)
+from galley.enums import PreparationEnum
+import logging
+
+logger = logging.getLogger(__name__)
+
+GALLEY_ERROR_PREFIX = "(GalleyError)"
 
 
 # This is graphql root for mutating data according to sgqlc lib. So this class name has to be Mutation.
 class Mutation(Type):
     bulkUpsertMenus = Field(MenuPayload, args={'input': BulkMenusInput})
+    bulkUpdateRecipeItems = Field(BulkUpdateRecipeItemsPayload, args={'input': BulkUpdateRecipeItemsInput})
 
 
 # MENU MUTATIONS
@@ -20,7 +37,6 @@ def build_unit_input(item):
         name = item['unit_name']
     else:
         name = 'each'
-
     return UnitInput(name=name)
 
 def build_menu_item_inputs(items):
@@ -44,7 +60,6 @@ def build_menu_inputs(menus):
         menu_input = MenuInput(id=menu['menu_id'])
         menu_input.menuItems = build_menu_item_inputs(menu['menu_items'])
         menu_inputs.append(menu_input)
-
     return menu_inputs
 
 def build_upsert_mutation_query(args):
@@ -69,3 +84,48 @@ def upsert_menu_data(args):
     mutation = build_upsert_mutation_query(args)
     response = make_request_to_galley(op=mutation)
     return validate_response_data(response)
+
+def build_bulk_update_recipe_item_query(args):
+    ids = []
+    if args.get("ids"):
+        ids = [id for id in args["ids"] if type(id) == str]
+        if len(ids) <= 0:
+            msg = f"{GALLEY_ERROR_PREFIX} No valid IDs provided. \
+                    All IDs must be strings."
+            logger.exception(msg)
+            raise ValueError(msg)
+
+    mutation = Operation(Mutation)
+    bulk_input = BulkUpdateRecipeItemsInput(
+        ids=ids,
+        attrs=RecipeItemInput(args["attrs"])
+    )
+    mutation.bulkUpdateRecipeItems(input=bulk_input)
+    return mutation
+
+def bulk_update_recipe_item_data(args):
+    if not args.get("attrs"):
+        msg = f"{GALLEY_ERROR_PREFIX} attrs property not provided"
+        logger.exception(msg)
+        raise ValueError(msg)
+
+    if not args.get("ids"):
+        msg = f"{GALLEY_ERROR_PREFIX} Recipe item id list not provided"
+        logger.exception(msg)
+        raise ValueError(msg)
+
+    # apply filter to ensure that only untagged recipe items are selected for tagging
+    recipe_item_ids = get_untagged_core_recipe_item_ids_via_connection(args["ids"])
+    payload = {
+        "ids": recipe_item_ids,
+        "attrs": args["attrs"],
+    }
+    mutation = build_bulk_update_recipe_item_query(payload)
+    response = make_request_to_galley(op=mutation)
+
+    valid_response = validate_response_data(response)
+
+    if valid_response is None:
+        raise ValueError("Error running migration. Invalid response returned.")
+
+    return valid_response

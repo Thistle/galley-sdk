@@ -133,8 +133,11 @@ class SubRecipe(Type):
 
 
 class RecipeItem(Type):
+    id = ID
+    recipe = Field("Recipe")
     ingredient = Field(Ingredient)
     subRecipe = Field(SubRecipe)
+    recipeId = str
     subRecipeId = str
     preparations = Field(Preparation)
     quantity = float
@@ -205,6 +208,7 @@ class Recipe(Type):
     isDish = bool
     totalYield = float
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    parentRecipeItems = Field(list_of(RecipeItem))
 
 
 class SortDirection(str, Enum):
@@ -293,7 +297,7 @@ class BulkMenusInput(Input):
 
 
 class FilterInput(Input):
-    id = ID
+    id = list_of(ID)
     name = list_of(str)
 
 
@@ -304,3 +308,48 @@ class MenuFilterInput(Input):
 
 class RecipeConnectionFilter(Input):
     id = list_of(str)
+
+
+class RecipeItemInput(Input):
+    preparationIds = Field(list_of(str))
+
+
+class BulkUpdateRecipeItemsInput(Input):
+    ids = Field(list_of(ID))
+    attrs = Field(RecipeItemInput)
+
+
+class BulkUpdateRecipeItemsPayload(Type):
+    recipeItems = Field(list_of(RecipeItem))
+
+
+class RecipeItemConnectionEdge(Type):
+    index = int
+    node = Field(RecipeItem)
+
+
+class RecipeItemConnectionOrderByEnum(Enum):
+    __choices__ = ('CreatedAt', 'RecipeName')
+
+
+class SortDirectionEnum(Enum):
+    __choices__ = ('asc', 'desc')
+
+
+class RecipeItemConnection(Connection):
+    edges = list_of(RecipeItemConnectionEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+
+
+class RecipeItemConnectionFilter(Input):
+    ingredients = list_of(str)
+    recipeIds = list_of(str)
+    subRecipeIds = list_of(str)
+
+
+class RecipeItemConnectionPaginationOptions(Input):
+    first = int
+    orderBy = RecipeItemConnectionOrderByEnum
+    sortDirection = SortDirectionEnum
+    startIndex = int
