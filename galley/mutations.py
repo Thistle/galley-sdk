@@ -82,7 +82,11 @@ def build_upsert_mutation_query(args):
 # ]
 def upsert_menu_data(args):
     mutation = build_upsert_mutation_query(args)
-    response = make_request_to_galley(op=mutation)
+    try:
+        response = make_request_to_galley(op=mutation)
+    except Exception as ex:
+        logger.exception(ex)
+        response = None
     return validate_response_data(response)
 
 def build_bulk_update_recipe_item_query(args):
