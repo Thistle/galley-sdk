@@ -198,8 +198,8 @@ class TestUpsertMenuData(TestCase):
                 }
             ]
         }]
-        result = upsert_menu_data(payload)
-        self.assertIsNone(result)
+        with self.assertRaises(ValueError):
+            upsert_menu_data(payload)
 
     def test_exception_raised_if_no_menu_id_present(self):
         payload = [{
@@ -363,8 +363,10 @@ class TestUpdateRecipeItemData(TestCase):
         # self.assertIsNone(result)
 
     @mock.patch('galley.mutations.make_request_to_galley')
-    def test_bulk_update_recipe_item_data_returns_expected_response_data(self, mock_mr):
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_bulk_update_recipe_item_data_returns_expected_response_data(self, mock_mr, mock_mr_2):
         mock_mr.return_value = self.response_data
+        mock_mr_2.return_value = self.response_data
         payload = {
             "ids": ["cmVjaXBlOjIwMjI5NA=="],
             "attrs": {
@@ -375,7 +377,7 @@ class TestUpdateRecipeItemData(TestCase):
         self.assertEqual(result, self.response_data['data'])
 
     @mock.patch('galley.mutations.make_request_to_galley')
-    @mock.patch('galley.mutations.make_request_to_galley')
+    @mock.patch('galley.queries.make_request_to_galley')
     def test_bulk_update_recipe_item_data_avoids_duplications(self, mock_first, mock_second):
         # first migration run
         mock_first.return_value = { "data": self.response_data["data"] }

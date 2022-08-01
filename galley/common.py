@@ -42,13 +42,11 @@ def validate_response_data(data, *fields):
     error = None
 
     if data is None:
-        logger.info(f"{GALLEY_ERROR_PREFIX} Error retrieving response data: API return null value or raised an exception")
-        return None
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Error retrieving response data: API return null value or raised an exception")
 
     if any(key in data for key in ('error', 'errors')):
         error = data.get('error') or data.get('errors')
-        logger.error(f"{GALLEY_ERROR_PREFIX} Error retrieving response data{f': {error}' if error else ''}")
-        return None
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Error retrieving response data{f': {error}' if error else ''}")
 
     if 'data' in data and data['data']:
         head = data['data']
@@ -57,14 +55,12 @@ def validate_response_data(data, *fields):
             if data['data']['viewer']:
                 head = data['data']['viewer']
             else:
-                logger.error(f"{GALLEY_ERROR_PREFIX} Error retrieving 'viewer' data")
-                return None
+                raise ValueError(f"{GALLEY_ERROR_PREFIX} Error retrieving 'viewer' data")
 
         return validate_fields(head, fields) if fields else head
 
     else:
-        logger.error(f"{GALLEY_ERROR_PREFIX} Error retrieving response data")
-        return None
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Error retrieving response data")
 
 
 def validate_fields(data, keys):

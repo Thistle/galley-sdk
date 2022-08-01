@@ -171,10 +171,10 @@ class TestQueryWeekMenuData(TestCase):
             get_raw_menu_data(['YYYY-MM-DD'], "Vacaville", "production")
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_raw_menu_data_null(self, mock_retrieval_method):
+    def test_get_raw_menu_data_exception(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
-        result = get_raw_menu_data([], 'Vacaville', 'production')
-        self.assertEqual(result, [])
+        with self.assertRaises(ValueError):
+            get_raw_menu_data([], 'Vacaville', 'production')
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_filters_by_location(self, mock_retrieval_method):
