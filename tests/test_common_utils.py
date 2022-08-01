@@ -55,8 +55,8 @@ class TestValidateResponseData(TestCase):
             }],
             "data": None
         }
-        result = validate_response_data(self.response_data)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.response_data)
 
     def test_query_viewer_field_successful(self):
         self.data = {
@@ -79,15 +79,15 @@ class TestValidateResponseData(TestCase):
                 "viewer": None
             }
         }
-        result = validate_response_data(self.return_value)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.return_value)
 
     def test_response_data_failure(self):
         self.return_value = {
             'data': None
         }
-        result = validate_response_data(self.return_value)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.return_value)
 
     def test_response_data_fields_check_success(self):
         self.data = {
