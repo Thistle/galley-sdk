@@ -808,10 +808,10 @@ class TestGetFormattedMenuData(TestCase):
         self.assertEqual(result, [formatted_menu('2021-11-14', onlySellableMenuItems=True)])
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_menu_data_null(self, mock_retrieval_method):
+    def test_get_formatted_menu_data_exception(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
-        result = get_formatted_menu_data([])
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            get_formatted_menu_data([])
 
     @mock.patch('galley.formatted_queries.get_raw_menu_data')
     def test_get_formatted_menu_data_args_defaults(self, mock_grmd):

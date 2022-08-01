@@ -55,8 +55,8 @@ class TestValidateResponseData(TestCase):
             }],
             "data": None
         }
-        result = validate_response_data(self.response_data)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.response_data)
 
     def test_query_viewer_field_successful(self):
         self.data = {
@@ -79,15 +79,15 @@ class TestValidateResponseData(TestCase):
                 "viewer": None
             }
         }
-        result = validate_response_data(self.return_value)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.return_value)
 
     def test_response_data_failure(self):
         self.return_value = {
             'data': None
         }
-        result = validate_response_data(self.return_value)
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            validate_response_data(self.return_value)
 
     def test_response_data_fields_check_success(self):
         self.data = {
@@ -139,12 +139,6 @@ class TestQueryGalleyDataOperation(TestCase):
         self.assertEqual(mock_endpoint_call.call_count, 3)
         self.assertEqual(result, MockUnavailableResponse)
 
-    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'side_effect': Exception()})
-    def test_retrieve_exception_no_retry(self, mock_endpoint_call):
-        result = make_request_to_galley(op=Operation(Query))
-        self.assertEqual(mock_endpoint_call.call_count, 1)
-        self.assertEqual(result, None)
-
 
 class TestMutateGalleyDataOperation(TestCase):
     @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
@@ -161,12 +155,6 @@ class TestMutateGalleyDataOperation(TestCase):
         result = make_request_to_galley(op=Operation(Mutation))
         self.assertEqual(mock_endpoint_call.call_count, 3)
         self.assertEqual(result, MockUnavailableResponse)
-
-    @mock.patch('sgqlc.endpoint.http.HTTPEndpoint.__call__', **{'side_effect': Exception()})
-    def test_mutation_exception_no_retry(self, mock_endpoint_call):
-        result = make_request_to_galley(op=Operation(Mutation))
-        self.assertEqual(mock_endpoint_call.call_count, 1)
-        self.assertEqual(result, None)
 
 
 class TestCanRetry(TestCase):
