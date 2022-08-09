@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import Dict, List, Optional
 
 from galley.enums import (
@@ -350,6 +351,8 @@ def format_standalone_data(standalone_recipe_item):
             standalone_data['standaloneServings'] = standalone_servings if standalone_servings else None
     return standalone_data
 
+def format_title(text):
+  return re.sub("(?<!\s)'S", "'s", text.title())
 
 def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
     ingredients: List[str] = []
@@ -481,7 +484,7 @@ def get_formatted_menu_data(dates: List[str],
 
             formatted_menu['menuItems'].append({
                 'allergens': formatted_recipe_dict.get('allergens', []),
-                'baseMeal': formatted_recipe.recipe_tags.get('baseMeal', '').title(),
+                'baseMeal': format_title(formatted_recipe.recipe_tags.get('baseMeal', '')),
                 'deliveryDate': menu.get('date'),
                 'hasAllergen': formatted_recipe_dict.get('hasAllergen', False),
                 'highlightTags': formatted_recipe_dict.get('highlightTags', []),

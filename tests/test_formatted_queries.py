@@ -2,13 +2,14 @@ from unittest import TestCase, mock
 
 from galley.enums import RecipeCategoryTagTypeEnum
 from galley.formatted_queries import (
+    calculate_serving_size_weight,
+    calculate_servings,
     format_recipe_tree_components_data,
+    format_title,
     get_formatted_menu_data,
     get_formatted_recipes_data,
-    ingredients_from_recipe_items,
-    calculate_servings,
-    calculate_serving_size_weight,
     get_recipe_category_tags,
+    ingredients_from_recipe_items,
 )
 
 from tests.mock_responses import (
@@ -820,3 +821,16 @@ class TestGetFormattedMenuData(TestCase):
         mock_grmd.assert_called_with(dates, 'Vacaville', 'production')
         get_formatted_menu_data(dates, 'Montana', 'staging')
         mock_grmd.assert_called_with(dates, 'Montana', 'staging')
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_menu_data_base_meal_title_format(self, mock_retrieval_method):
+        self.assertEqual(format_title("beet-poke"), "Beet-Poke")
+        self.assertEqual(format_title("persephone's salad"), "Persephone's Salad")
+        self.assertEqual(
+            format_title("brussel sprout & asian pear 'fried' rice"),
+            "Brussel Sprout & Asian Pear 'Fried' Rice"
+        )
+        self.assertEqual(
+            format_title('beetroot quinoa & sun "cheese" salad'),
+            'Beetroot Quinoa & Sun "Cheese" Salad'
+        )
