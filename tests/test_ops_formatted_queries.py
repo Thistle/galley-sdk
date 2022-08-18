@@ -220,10 +220,10 @@ class TestGetFormattedOpsMenuData(TestCase):
                                   formatted_ops_menu('2022-04-18')])
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_ops_menu_data_null(self, mock_retrieval_method):
+    def test_get_formatted_ops_menu_data_exception(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
-        result = get_formatted_ops_menu_data([])
-        self.assertEqual(result, None)
+        with self.assertRaises(ValueError):
+            get_formatted_ops_menu_data([])
 
     @mock.patch('galley.formatted_ops_queries.get_raw_menu_data')
     def test_get_formatted_ops_menu_data_args_defaults(self, mock_gromd):
