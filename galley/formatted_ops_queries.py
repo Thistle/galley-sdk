@@ -55,7 +55,7 @@ class FormattedRecipeComponent:
             id=self.data.get('id'),
             name=get_external_name(self.data),
             usage=dict(value=self.quantity, unit=self.unit),
-            quantity=format_quantity_value(self.quantity_values),
+            quantityValues=format_quantity_value(self.quantity_values),
             binWeight=format_bin_weight(self.data.get('categoryValues')),
             allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe'))
         )
@@ -151,20 +151,19 @@ def format_bin_weight(category_values: List) -> Dict:
                 unit=DEFAULT_BIN_WEIGHT_UNIT)
 
 
-def format_quantity_value(quantity_values: List) -> Dict:
+def format_quantity_value(quantity_values: List) -> List[Dict]:
     """
     Filters a list of quantity values to return only unit values in
     ounces (oz) and pounds (lb).
     """
-    quantity = dict()
-    unit = QuantityUnitEnum.LB.value
+    quantities = list()
+    units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
 
     for qv in quantity_values:
-        if qv.get('unit', {}).get('id') == unit:
-            quantity = dict(value=qv['value'],
-                            unit=qv['unit']['name'])
-            break
-    return quantity
+        if qv.get('unit', {}).get('id') in units:
+            quantities.append(dict(value=qv['value'],
+                                   unit=qv['unit']['name']))
+    return quantities
 
 
 def is_core_recipe(component: Dict) -> bool:
