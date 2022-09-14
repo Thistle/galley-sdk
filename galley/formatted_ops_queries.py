@@ -151,7 +151,7 @@ def format_bin_weight(category_values: List) -> Dict:
                 unit=DEFAULT_BIN_WEIGHT_UNIT)
 
 
-def format_quantity_value(quantity_values: List) -> Dict:
+def format_quantity_value(quantity_values: List) -> List[Dict]:
     """
     Filters a list of quantity values to return only unit values in
     ounces (oz) and pounds (lb).
