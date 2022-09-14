@@ -156,15 +156,14 @@ def format_quantity_value(quantity_values: List) -> Dict:
     Filters a list of quantity values to return only unit values in
     ounces (oz) and pounds (lb).
     """
-    quantity = dict()
-    unit = QuantityUnitEnum.LB.value
+    quantities = list()
+    units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
 
     for qv in quantity_values:
-        if qv.get('unit', {}).get('id') == unit:
-            quantity = dict(value=qv['value'],
-                            unit=qv['unit']['name'])
-            break
-    return quantity
+        if qv.get('unit', {}).get('id') in units:
+            quantities.append(dict(value=qv['value'],
+                                   unit=qv['unit']['name']))
+    return quantities
 
 
 def is_core_recipe(component: Dict) -> bool:
