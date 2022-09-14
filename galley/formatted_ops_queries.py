@@ -55,7 +55,7 @@ class FormattedRecipeComponent:
             id=self.data.get('id'),
             name=get_external_name(self.data),
             usage=dict(value=self.quantity, unit=self.unit),
-            quantity=format_quantity_value(self.quantity_values),
+            quantityValues=format_quantity_value(self.quantity_values),
             binWeight=format_bin_weight(self.data.get('categoryValues')),
             allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe'))
         )

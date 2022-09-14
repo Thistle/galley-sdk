@@ -826,10 +826,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 4,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.2499999997795377,
             'unit': 'lb'
-        },
+        },{
+            'value': 4,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 50.0,
             'unit': 'lb'
@@ -882,10 +885,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 1.5,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.09374999991732665,
             'unit': 'lb'
-        },
+        },{
+            'value': 1.5,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 60.0,
             'unit': 'lb'
@@ -930,10 +936,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 2.5,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.15624999986221108,
             'unit': 'lb'
-        },
+        },{
+            'value': 2.5,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 30.0,
             'unit': 'lb'
@@ -948,10 +957,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 0.85,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.05312499995315176,
             'unit': 'lb'
-        },
+        },{
+            'value': 0.85,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 40.0,
             'unit': 'lb'
@@ -966,10 +978,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 3,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.1874999998346533,
             'unit': 'lb'
-        },
+        },{
+            'value': 3,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 60.0,
             'unit': 'lb'
@@ -1066,10 +1081,13 @@ mock_formatted_primaryRecipeComponents = [
             'value': 2,
             'unit': 'oz'
         },
-        'quantity': {
+        'quantityValues': [{
             'value': 0.12499999988976886,
             'unit': 'lb'
-        },
+        },{
+            'value': 2,
+            'unit': 'oz'
+        }],
         'binWeight': {
             'value': 60,
             'unit': 'lb'
