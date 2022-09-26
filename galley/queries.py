@@ -85,6 +85,12 @@ def recipe_connection_query(
         __fields__('altText', 'caption', 'sourceUrl')
     query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.\
         __fields__('id')
+    query.viewer.recipeConnection.edges.node.allIngredientsWithUsages.ingredient.\
+        __fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.allIngredientsWithUsages.\
+        __fields__('totalQuantity', 'totalQuantityUnitValues')
+    query.viewer.recipeConnection.edges.node.allIngredientsWithUsages.unit.\
+        __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeItems.\
         __fields__('ingredient')
     query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
@@ -111,6 +117,12 @@ def recipe_connection_query(
         __fields__('id', 'name', 'category')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
         __fields__('id', 'allIngredients', 'externalName', 'name', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
+        __fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\
+        __fields__('totalQuantity', 'totalQuantityUnitValues')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.unit.\
+        __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.unit.\
         __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.dietaryFlag.\

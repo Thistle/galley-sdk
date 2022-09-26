@@ -95,3 +95,8 @@ class DietaryFlagEnum(Enum):
 class QuantityUnitEnum(Enum):
     OZ = 'dW5pdDoz'
     LB = 'dW5pdDo0'
+
+
+class IngredientFormatOptionEnum(Enum):
+    USAGES = 'ingredientUsages'  # value: boolean / default: False
+    UNIT = 'ingredientUnit'      # value: string  / default: 'oz'

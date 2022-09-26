@@ -118,6 +118,13 @@ class RecipeTreeComponent(Type):
     recipeItem = Field('RecipeItem')
 
 
+class IngredientWithUsages(Type):
+    ingredient = Field(Ingredient)
+    totalQuantity = float
+    unit = Field(Unit)
+    totalQuantityUnitValues = Field(UnitValue)
+
+
 class SubRecipe(Type):
     id = Field(ID)
     allIngredients = str
@@ -130,6 +137,7 @@ class SubRecipe(Type):
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
     categoryValues = Field(CategoryValue)
+    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeItem(Type):
@@ -237,6 +245,7 @@ class RecipeNode(Node):
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeEdge(Type):
