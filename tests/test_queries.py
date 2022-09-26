@@ -305,6 +305,34 @@ class TestRecipeConnectionQuery(TestCase):
             }
             }
             }
+            allIngredientsWithUsages {
+            ingredient {
+            id
+            name
+            externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            }
+            totalQuantity
+            totalQuantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            unit {
+            id
+            name
+            }
+            }
             recipeItems {
             ingredient {
             externalName
@@ -498,6 +526,34 @@ class TestRecipeConnectionQuery(TestCase):
             nutritionalsUnit {
             id
             name
+            }
+            allIngredientsWithUsages {
+            ingredient {
+            id
+            name
+            externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
+            }
+            totalQuantity
+            totalQuantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            unit {
+            id
+            name
+            }
             }
             }
             subRecipeId
