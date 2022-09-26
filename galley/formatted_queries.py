@@ -224,7 +224,7 @@ class FormattedRecipe:
 
 
 def get_ingredients_usages(data: List[Dict]) -> Dict:
-    ingredients = {}
+    ingredients: Dict = {}
 
     for usage in data:
         unit = usage.get('unit') or {}
