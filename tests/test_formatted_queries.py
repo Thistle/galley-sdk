@@ -8,8 +8,7 @@ from galley.formatted_queries import (
     format_title,
     get_formatted_menu_data,
     get_formatted_recipes_data,
-    get_recipe_category_tags,
-    ingredients_from_recipe_items,
+    get_recipe_category_tags
 )
 
 from tests.mock_responses import (

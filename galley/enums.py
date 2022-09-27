@@ -98,5 +98,5 @@ class QuantityUnitEnum(Enum):
 
 
 class IngredientFormatOptionEnum(Enum):
-    USAGES = 'ingredientUsages'  # value: boolean / default: False
-    UNIT = 'ingredientUnit'      # value: string  / default: 'oz'
+    USAGES = 'includeIngredientUsages'  # value: boolean / default: False
+    UNIT = 'ingredientUnit'             # value: string  / default: 'oz'
