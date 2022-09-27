@@ -220,7 +220,7 @@ class FormattedRecipe:
                     **self.allergens)
 
 
-def get_ingredients_usages(data: Optional[List[Dict]]) -> Optional[Dict]:
+def get_ingredients_usages(data: List[Dict]) -> Optional[Dict]:
     ingredients: Dict = {}
 
     for usage in data:
