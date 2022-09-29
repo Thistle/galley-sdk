@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
-
 from galley.enums import RecipeCategoryTagTypeEnum
+from tests.mock_responses.mock_menu_data import mock_menu
 from galley.formatted_queries import (
     calculate_serving_size_weight,
     calculate_servings,
@@ -11,7 +11,6 @@ from galley.formatted_queries import (
     get_ingredients_usages,
     get_recipe_category_tags
 )
-
 from tests.mock_responses import (
     mock_nutrition_data,
     mock_all_ingredients_with_usages_data,
@@ -20,7 +19,133 @@ from tests.mock_responses import (
     mock_recipe_category_values,
     mock_recipes_data
 )
-from tests.mock_responses.mock_menu_data import mock_menu
+
+
+STANDALONE_NUTRITION = {'addedSugarG': 0,
+                        'calciumMg': 3.1684181569284497,
+                        'calciumPercentRDI': 0.002,
+                        'caloriesKCal': 53.66203631343362,
+                        'carbsG': 5.931480844736274,
+                        'carbsPercentDRV': 0.022,
+                        'cholesterolMg': 0,
+                        'cholesterolPercentDRV': None,
+                        'copperMg': 0.021694334590068795,
+                        'copperPercentRDI': 0.024,
+                        'fiberG': 0.25925700237554117,
+                        'fiberPercentDRV': 0.009,
+                        'folateMcg': 4.662944286512987,
+                        'folatePercentRDI': 0.012,
+                        'ironMg': 0.08727603182928573,
+                        'ironPercentRDI': 0.005,
+                        'magnesiumMg': 8.422029852813752,
+                        'magnesiumPercentRDI': 0.02,
+                        'manganeseMg': 0.07968240957035716,
+                        'manganesePercentRDI': 0.035,
+                        'niacinMg': 0.6287359687622166,
+                        'niacinPercentRDI': 0.039,
+                        'pantothenicAcidMg': 0.06062563923716235,
+                        'phosphorusMg': 16.6108569332684,
+                        'phosphorusPercentRDI': 0.013,
+                        'potassiumMg': 35.3618045624374,
+                        'potassiumPercentRDI': 0.008,
+                        'proteinG': 1.190862966668126,
+                        'proteinPercentRDI': 0.024,
+                        'riboflavinMg': 0.009900242547519483,
+                        'riboflavinPercentRDI': 0.008,
+                        'saturatedFatG': 1.1966419313881989,
+                        'seleniumMcg': 0.1983239364917749,
+                        'seleniumPercentRDI': 0.004,
+                        'sodiumMg': 80.1688699548479,
+                        'sodiumPercentDRV': 0.035,
+                        'sugarG': 4.635864789281829,
+                        'sugarPercentDRV': None,
+                        'thiaminMg': 0.008514061320616884,
+                        'thiaminPercentRDI': 0.007,
+                        'totalFatG': 3.2182500200225643,
+                        'totalFatPercentDRV': 0.041,
+                        'transFatG': 0.0035436903875000004,
+                        'vitaminAMcg': 1.449295858309044,
+                        'vitaminAPercentRDI': 0.002,
+                        'vitaminB12Mcg': 0,
+                        'vitaminB12PercentRDI': None,
+                        'vitaminB6Mg': 0.022999931273467538,
+                        'vitaminB6PercentRDI': 0.014,
+                        'vitaminCMg': 1.7259736392050762,
+                        'vitaminCPercentRDI': 0.019,
+                        'vitaminDMcg': 0,
+                        'vitaminDPercentRDI': None,
+                        'vitaminEMg': 0.4437743529419914,
+                        'vitaminEPercentRDI': 0.03,
+                        'vitaminKMcg': 0.046390128709090914,
+                        'vitaminKPercentRDI': 0,
+                        'zincMg': 0.12343713881647085,
+                        'zincPercentRDI': 0.011}
+
+
+COMBINED_INGREDIENTS_LIST_WITH_USAGES = [('Chicken', 3.2876712),
+                                         ('Baby Spinach*', 2.5),
+                                         ('Water', 1.8333333),
+                                         ('Quinoa', 1.5625),
+                                         ('Cucumber', 1.1111111),
+                                         ('Cabbage', 1),
+                                         ('Rainbow Carrots*', 1),
+                                         ('Snap Peas', 1),
+                                         ('Coconut Aminos (Coconut Tree Sap, Sea Salt)*', 0.6),
+                                         ('Lime Juice', 0.4),
+                                         ('Coconut Milk (Coconut, Water, Guar Gum)*', 0.3333333),
+                                         ('Peanut Butter (Dry Roasted Peanuts)', 0.3333333),
+                                         ('Poaching Liquid', 0.2),
+                                         ('Lemon Zest', 0.1083333),
+                                         ('Garlic', 0.0970319),
+                                         ('Sambal (Red Chile Peppers, Vinegar, Salt)', 0.0833333),
+                                         ('Toasted Sesame Oil', 0.05),
+                                         ('Carrot', 0.0273973),
+                                         ('Celery*', 0.0273973),
+                                         ('Onions', 0.0273973),
+                                         ('Granulated Garlic', 0.025),
+                                         ('Sesame Seed*', 0.025),
+                                         ('Sea Salt', 0.0136201),
+                                         ('Black Pepper', 0.003125)]
+
+
+STANDALONE_INGREDIENTS_LIST_WITH_USAGES = [('Coconut Aminos (Coconut Tree Sap, Sea Salt)*', 0.6),
+                                           ('Lime Juice', 0.4),
+                                           ('Coconut Milk (Coconut, Water, Guar Gum)*', 0.3333333),
+                                           ('Peanut Butter (Dry Roasted Peanuts)', 0.3333333),
+                                           ('Water', 0.1666667),
+                                           ('Garlic', 0.0833333),
+                                           ('Sambal (Red Chile Peppers, Vinegar, Salt)', 0.0833333)]
+
+
+INGREDIENTS_LIST_WITH_USAGES = [('Chicken', 3.2876712),
+                                ('Baby Spinach*', 2.5),
+                                ('Water', 1.6666666),
+                                ('Quinoa', 1.5625),
+                                ('Cucumber', 1.1111111),
+                                ('Cabbage', 1),
+                                ('Rainbow Carrots*', 1),
+                                ('Snap Peas', 1),
+                                ('Poaching Liquid', 0.2),
+                                ('Lemon Zest', 0.1083333),
+                                ('Toasted Sesame Oil', 0.05),
+                                ('Carrot', 0.0273973),
+                                ('Celery*', 0.0273973),
+                                ('Onions', 0.0273973),
+                                ('Granulated Garlic', 0.025),
+                                ('Sesame Seed*', 0.025),
+                                ('Garlic', 0.013698600000000005),
+                                ('Sea Salt', 0.0136201),
+                                ('Black Pepper', 0.003125)]
+
+
+INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in INGREDIENTS_LIST_WITH_USAGES}
+STANDALONE_INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in STANDALONE_INGREDIENTS_LIST_WITH_USAGES}
+COMBINED_INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in COMBINED_INGREDIENTS_LIST_WITH_USAGES}
+
+
+INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in INGREDIENTS_LIST_WITH_USAGES]
+STANDALONE_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in STANDALONE_INGREDIENTS_LIST_WITH_USAGES]
+COMBINED_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in COMBINED_INGREDIENTS_LIST_WITH_USAGES]
 
 
 def formatted_menu(date, onlySellableMenuItems=False):
@@ -96,34 +221,8 @@ def formatted_menu(date, onlySellableMenuItems=False):
 class TestIngredientsFromRecipeItems(TestCase):
     def test_get_ingredient_usages_successful(self):
         self.maxDiff = None
-        expected_result = {
-            'Peanut Butter (Dry Roasted Peanuts)': 0.3333333,
-            'Cabbage': 1,
-            'Rainbow Carrots*': 1,
-            'Coconut Aminos (Coconut Tree Sap, Sea Salt)*': 0.6,
-            'Lime Juice': 0.4,
-            'Lemon Zest': 0.1083333,
-            'Coconut Milk (Coconut, Water, Guar Gum)*': 0.3333333,
-            'Toasted Sesame Oil': 0.05,
-            'Quinoa': 1.5625,
-            'Sea Salt': 0.0136201,
-            'Sambal (Red Chile Peppers, Vinegar, Salt)': 0.0833333,
-            'Sesame Seed*': 0.025,
-            'Black Pepper': 0.003125,
-            'Water': 1.8333333,
-            'Granulated Garlic': 0.025,
-            'Carrot': 0.0273973,
-            'Cucumber': 1.1111111,
-            'Chicken': 3.2876712,
-            'Snap Peas': 1,
-            'Garlic': 0.0833333 + 0.0136986,
-            'Baby Spinach*': 2.5,
-            'Onions': 0.0273973,
-            'Celery*': 0.0273973,
-            'Poaching Liquid': 0.2
-        }
         result = get_ingredients_usages(mock_all_ingredients_with_usages_data.mock_data)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result, COMBINED_INGREDIENTS_WITH_USAGES)
 
     def test_get_ingredient_usages_null(self):
         result = get_formatted_recipes_data(None)
@@ -196,76 +295,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                'addedSugarG': 0,
-                'calciumMg': 3.1684181569284497,
-                'calciumPercentRDI': 0.002,
-                'caloriesKCal': 53.66203631343362,
-                'carbsG': 5.931480844736274,
-                'carbsPercentDRV': 0.022,
-                'cholesterolMg': 0,
-                'cholesterolPercentDRV': None,
-                'copperMg': 0.021694334590068795,
-                'copperPercentRDI': 0.024,
-                'fiberG': 0.25925700237554117,
-                'fiberPercentDRV': 0.009,
-                'folateMcg': 4.662944286512987,
-                'folatePercentRDI': 0.012,
-                'ironMg': 0.08727603182928573,
-                'ironPercentRDI': 0.005,
-                'magnesiumMg': 8.422029852813752,
-                'magnesiumPercentRDI': 0.02,
-                'manganeseMg': 0.07968240957035716,
-                'manganesePercentRDI': 0.035,
-                'niacinMg': 0.6287359687622166,
-                'niacinPercentRDI': 0.039,
-                'pantothenicAcidMg': 0.06062563923716235,
-                'phosphorusMg': 16.6108569332684,
-                'phosphorusPercentRDI': 0.013,
-                'potassiumMg': 35.3618045624374,
-                'potassiumPercentRDI': 0.008,
-                'proteinG': 1.190862966668126,
-                'proteinPercentRDI': 0.024,
-                'riboflavinMg': 0.009900242547519483,
-                'riboflavinPercentRDI': 0.008,
-                'saturatedFatG': 1.1966419313881989,
-                'seleniumMcg': 0.1983239364917749,
-                'seleniumPercentRDI': 0.004,
-                'sodiumMg': 80.1688699548479,
-                'sodiumPercentDRV': 0.035,
-                'sugarG': 4.635864789281829,
-                'sugarPercentDRV': None,
-                'thiaminMg': 0.008514061320616884,
-                'thiaminPercentRDI': 0.007,
-                'totalFatG': 3.2182500200225643,
-                'totalFatPercentDRV': 0.041,
-                'transFatG': 0.0035436903875000004,
-                'vitaminAMcg': 1.449295858309044,
-                'vitaminAPercentRDI': 0.002,
-                'vitaminB12Mcg': 0,
-                'vitaminB12PercentRDI': None,
-                'vitaminB6Mg': 0.022999931273467538,
-                'vitaminB6PercentRDI': 0.014,
-                'vitaminCMg': 1.7259736392050762,
-                'vitaminCPercentRDI': 0.019,
-                'vitaminDMcg': 0,
-                'vitaminDPercentRDI': None,
-                'vitaminEMg': 0.4437743529419914,
-                'vitaminEPercentRDI': 0.03,
-                'vitaminKMcg': 0.046390128709090914,
-                'vitaminKPercentRDI': 0,
-                'zincMg': 0.12343713881647085,
-                'zincPercentRDI': 0.011
-                },
-            'standaloneIngredients': {
-                'Coconut Aminos (Coconut Tree Sap, Sea Salt)*': 0.6,
-                'Coconut Milk (Coconut, Water, Guar Gum)*': 0.3333333,
-                'Garlic': 0.0833333,
-                'Lime Juice': 0.4,
-                'Peanut Butter (Dry Roasted Peanuts)': 0.3333333,
-                'Sambal (Red Chile Peppers, Vinegar, Salt)': 0.0833333,
-                'Water': 0.1666667
-            },
+            'standaloneNutrition': STANDALONE_NUTRITION,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
             'standaloneNetWeight': 71,
             'standaloneSuggestedServing': "1 oz",
             'standaloneServingSizeWeight': 28,
@@ -283,76 +314,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                "addedSugarG": 0,
-                "calciumMg": 3.1684181569284497,
-                "calciumPercentRDI": 0.002,
-                "caloriesKCal": 53.66203631343362,
-                "carbsG": 5.931480844736274,
-                "carbsPercentDRV": 0.022,
-                "cholesterolMg": 0,
-                "cholesterolPercentDRV": None,
-                "copperMg": 0.021694334590068795,
-                "copperPercentRDI": 0.024,
-                "fiberG": 0.25925700237554117,
-                "fiberPercentDRV": 0.009,
-                "folateMcg": 4.662944286512987,
-                "folatePercentRDI": 0.012,
-                "ironMg": 0.08727603182928573,
-                "ironPercentRDI": 0.005,
-                "magnesiumMg": 8.422029852813752,
-                "magnesiumPercentRDI": 0.02,
-                "manganeseMg": 0.07968240957035716,
-                "manganesePercentRDI": 0.035,
-                "niacinMg": 0.6287359687622166,
-                "niacinPercentRDI": 0.039,
-                "pantothenicAcidMg": 0.06062563923716235,
-                "phosphorusMg": 16.6108569332684,
-                "phosphorusPercentRDI": 0.013,
-                "potassiumMg": 35.3618045624374,
-                "potassiumPercentRDI": 0.008,
-                "proteinG": 1.190862966668126,
-                "proteinPercentRDI": 0.024,
-                "riboflavinMg": 0.009900242547519483,
-                "riboflavinPercentRDI": 0.008,
-                "saturatedFatG": 1.1966419313881989,
-                "seleniumMcg": 0.1983239364917749,
-                "seleniumPercentRDI": 0.004,
-                "sodiumMg": 80.1688699548479,
-                "sodiumPercentDRV": 0.035,
-                "sugarG": 4.635864789281829,
-                "sugarPercentDRV": None,
-                "thiaminMg": 0.008514061320616884,
-                "thiaminPercentRDI": 0.007,
-                "totalFatG": 3.2182500200225643,
-                "totalFatPercentDRV": 0.041,
-                "transFatG": 0.0035436903875000004,
-                "vitaminAMcg": 1.449295858309044,
-                "vitaminAPercentRDI": 0.002,
-                "vitaminB12Mcg": 0,
-                "vitaminB12PercentRDI": None,
-                "vitaminB6Mg": 0.022999931273467538,
-                "vitaminB6PercentRDI": 0.014,
-                "vitaminCMg": 1.7259736392050762,
-                "vitaminCPercentRDI": 0.019,
-                "vitaminDMcg": 0,
-                "vitaminDPercentRDI": None,
-                "vitaminEMg": 0.4437743529419914,
-                "vitaminEPercentRDI": 0.03,
-                "vitaminKMcg": 0.046390128709090914,
-                "vitaminKPercentRDI": 0,
-                "zincMg": 0.12343713881647085,
-                "zincPercentRDI": 0.011
-                },
-            'standaloneIngredients': {
-                'Coconut Aminos (Coconut Tree Sap, Sea Salt)*': 0.6,
-                'Coconut Milk (Coconut, Water, Guar Gum)*': 0.3333333,
-                'Garlic': 0.0833333,
-                'Lime Juice': 0.4,
-                'Peanut Butter (Dry Roasted Peanuts)': 0.3333333,
-                'Sambal (Red Chile Peppers, Vinegar, Salt)': 0.0833333,
-                'Water': 0.1666667
-            },
+            'standaloneNutrition': STANDALONE_NUTRITION,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': "1.5 oz",
             'standaloneServingSizeWeight': 43,
@@ -369,76 +332,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                "addedSugarG": 0,
-                "calciumMg": 3.1684181569284497,
-                "calciumPercentRDI": 0.002,
-                "caloriesKCal": 53.66203631343362,
-                "carbsG": 5.931480844736274,
-                "carbsPercentDRV": 0.022,
-                "cholesterolMg": 0,
-                "cholesterolPercentDRV": None,
-                "copperMg": 0.021694334590068795,
-                "copperPercentRDI": 0.024,
-                "fiberG": 0.25925700237554117,
-                "fiberPercentDRV": 0.009,
-                "folateMcg": 4.662944286512987,
-                "folatePercentRDI": 0.012,
-                "ironMg": 0.08727603182928573,
-                "ironPercentRDI": 0.005,
-                "magnesiumMg": 8.422029852813752,
-                "magnesiumPercentRDI": 0.02,
-                "manganeseMg": 0.07968240957035716,
-                "manganesePercentRDI": 0.035,
-                "niacinMg": 0.6287359687622166,
-                "niacinPercentRDI": 0.039,
-                "pantothenicAcidMg": 0.06062563923716235,
-                "phosphorusMg": 16.6108569332684,
-                "phosphorusPercentRDI": 0.013,
-                "potassiumMg": 35.3618045624374,
-                "potassiumPercentRDI": 0.008,
-                "proteinG": 1.190862966668126,
-                "proteinPercentRDI": 0.024,
-                "riboflavinMg": 0.009900242547519483,
-                "riboflavinPercentRDI": 0.008,
-                "saturatedFatG": 1.1966419313881989,
-                "seleniumMcg": 0.1983239364917749,
-                "seleniumPercentRDI": 0.004,
-                "sodiumMg": 80.1688699548479,
-                "sodiumPercentDRV": 0.035,
-                "sugarG": 4.635864789281829,
-                "sugarPercentDRV": None,
-                "thiaminMg": 0.008514061320616884,
-                "thiaminPercentRDI": 0.007,
-                "totalFatG": 3.2182500200225643,
-                "totalFatPercentDRV": 0.041,
-                "transFatG": 0.0035436903875000004,
-                "vitaminAMcg": 1.449295858309044,
-                "vitaminAPercentRDI": 0.002,
-                "vitaminB12Mcg": 0,
-                "vitaminB12PercentRDI": None,
-                "vitaminB6Mg": 0.022999931273467538,
-                "vitaminB6PercentRDI": 0.014,
-                "vitaminCMg": 1.7259736392050762,
-                "vitaminCPercentRDI": 0.019,
-                "vitaminDMcg": 0,
-                "vitaminDPercentRDI": None,
-                "vitaminEMg": 0.4437743529419914,
-                "vitaminEPercentRDI": 0.03,
-                "vitaminKMcg": 0.046390128709090914,
-                "vitaminKPercentRDI": 0,
-                "zincMg": 0.12343713881647085,
-                "zincPercentRDI": 0.011
-                },
-            'standaloneIngredients': {
-                'Coconut Aminos (Coconut Tree Sap, Sea Salt)*': 0.6,
-                'Coconut Milk (Coconut, Water, Guar Gum)*': 0.3333333,
-                'Garlic': 0.0833333,
-                'Lime Juice': 0.4,
-                'Peanut Butter (Dry Roasted Peanuts)': 0.3333333,
-                'Sambal (Red Chile Peppers, Vinegar, Salt)': 0.0833333,
-                'Water': 0.1666667
-            },
+            'standaloneNutrition': STANDALONE_NUTRITION,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': None,
             'standaloneServingSizeWeight': None,
@@ -543,32 +438,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
-                'ingredients': [
-                    'Chicken',
-                    'Baby Spinach*',
-                    'Water',
-                    'Quinoa',
-                    'Cucumber',
-                    'Cabbage',
-                    'Rainbow Carrots*',
-                    'Snap Peas',
-                    'Coconut Aminos (Coconut Tree Sap, Sea Salt)*',
-                    'Lime Juice',
-                    'Coconut Milk (Coconut, Water, Guar Gum)*',
-                    'Peanut Butter (Dry Roasted Peanuts)',
-                    'Poaching Liquid',
-                    'Lemon Zest',
-                    'Garlic',
-                    'Sambal (Red Chile Peppers, Vinegar, Salt)',
-                    'Toasted Sesame Oil',
-                    'Carrot',
-                    'Celery*',
-                    'Onions',
-                    'Granulated Garlic',
-                    'Sesame Seed*',
-                    'Sea Salt',
-                    'Black Pepper'
-                ],
+                'ingredients': COMBINED_INGREDIENTS_LIST_NO_USAGES,
                 'netWeight': 829,
                 'grossWeight': 1382,
                 'hasStandalone': True,
@@ -599,32 +469,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
-                'ingredients': [
-                    'Chicken',
-                    'Baby Spinach*',
-                    'Water',
-                    'Quinoa',
-                    'Cucumber',
-                    'Cabbage',
-                    'Rainbow Carrots*',
-                    'Snap Peas',
-                    'Coconut Aminos (Coconut Tree Sap, Sea Salt)*',
-                    'Lime Juice',
-                    'Coconut Milk (Coconut, Water, Guar Gum)*',
-                    'Peanut Butter (Dry Roasted Peanuts)',
-                    'Poaching Liquid',
-                    'Lemon Zest',
-                    'Garlic',
-                    'Sambal (Red Chile Peppers, Vinegar, Salt)',
-                    'Toasted Sesame Oil',
-                    'Carrot',
-                    'Celery*',
-                    'Onions',
-                    'Granulated Garlic',
-                    'Sesame Seed*',
-                    'Sea Salt',
-                    'Black Pepper'
-                ],
+                'ingredients': COMBINED_INGREDIENTS_LIST_NO_USAGES,
                 'standaloneIngredients': None,
                 'standaloneNutrition': None,
                 'standaloneRecipeId': 'standalone1',
@@ -676,6 +521,28 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_no_standalone(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection':
+                        mock_recipes_data.mock_recipe_connection_with_no_standalone(['1'])
+                }
+            }
+        }
+        result = get_formatted_recipes_data(["1"])
+        formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_NO_USAGES)
+        self.assertEqual(formatted_recipe['hasStandalone'], False)
+        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
+        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneServings'], None)
+        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
+
+    @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_standalone(self, mock_retrieval_method):
         mock_retrieval_method.return_value = {
             'data': {
@@ -687,6 +554,7 @@ class TestGetFormattedRecipesData(TestCase):
         }
         result = get_formatted_recipes_data(['1'])
         formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_NO_USAGES)
         self.assertEqual(formatted_recipe['hasStandalone'], True)
         self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
         self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
@@ -694,13 +562,53 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
         self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
         self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], ['Coconut Aminos (Coconut Tree Sap, Sea Salt)*',
-                                                                     'Lime Juice',
-                                                                     'Coconut Milk (Coconut, Water, Guar Gum)*',
-                                                                     'Peanut Butter (Dry Roasted Peanuts)',
-                                                                     'Water',
-                                                                     'Garlic',
-                                                                     'Sambal (Red Chile Peppers, Vinegar, Salt)'])
+        self.assertEqual(formatted_recipe['standaloneIngredients'], STANDALONE_INGREDIENTS_LIST_NO_USAGES)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_no_standalone_with_ingredient_usages_format_option(self, mock_retrieval_method):
+        self.maxDiff = None
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection':
+                        mock_recipes_data.mock_recipe_connection_with_no_standalone(['1'])
+                }
+            }
+        }
+        result = get_formatted_recipes_data(["1"], includeIngredientUsages=True)
+        formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_WITH_USAGES)
+        self.assertEqual(formatted_recipe['hasStandalone'], False)
+        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
+        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneServings'], None)
+        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_with_standalone_and_ingredient_usages_format_option(self, mock_retrieval_method):
+        self.maxDiff = None
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection':
+                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])
+                }
+            }
+        }
+        result = get_formatted_recipes_data(["1"], includeIngredientUsages=True)
+        formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_WITH_USAGES)
+        self.assertEqual(formatted_recipe['hasStandalone'], True)
+        self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
+        self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], 71)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
+        self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
+        self.assertEqual(formatted_recipe['standaloneIngredients'], STANDALONE_INGREDIENTS_LIST_WITH_USAGES)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_allergen_and_standalone_successful(
@@ -724,100 +632,12 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
-                'ingredients': [
-                    'Chicken',
-                    'Baby Spinach*',
-                    'Water',
-                    'Quinoa',
-                    'Cucumber',
-                    'Cabbage',
-                    'Rainbow Carrots*',
-                    'Snap Peas',
-                    'Poaching Liquid',
-                    'Lemon Zest',
-                    'Toasted Sesame Oil',
-                    'Carrot',
-                    'Celery*',
-                    'Onions',
-                    'Granulated Garlic',
-                    'Sesame Seed*',
-                    'Garlic',
-                    'Sea Salt',
-                    'Black Pepper'
-                ],
+                'ingredients': INGREDIENTS_LIST_NO_USAGES,
                 'netWeight': 156,
                 'grossWeight': 227,
                 'hasStandalone': True,
-                'standaloneIngredients': [
-                    'Coconut Aminos (Coconut Tree Sap, Sea Salt)*',
-                    'Lime Juice',
-                    'Coconut Milk (Coconut, Water, Guar Gum)*',
-                    'Peanut Butter (Dry Roasted Peanuts)',
-                    'Water',
-                    'Garlic',
-                    'Sambal (Red Chile Peppers, Vinegar, Salt)'
-                ],
-                'standaloneNutrition': {
-                    "addedSugarG": 0,
-                    "calciumMg": 3.1684181569284497,
-                    "calciumPercentRDI": 0.002,
-                    "caloriesKCal": 53.66203631343362,
-                    "carbsG": 5.931480844736274,
-                    "carbsPercentDRV": 0.022,
-                    "cholesterolMg": 0,
-                    "cholesterolPercentDRV": None,
-                    "copperMg": 0.021694334590068795,
-                    "copperPercentRDI": 0.024,
-                    "fiberG": 0.25925700237554117,
-                    "fiberPercentDRV": 0.009,
-                    "folateMcg": 4.662944286512987,
-                    "folatePercentRDI": 0.012,
-                    "ironMg": 0.08727603182928573,
-                    "ironPercentRDI": 0.005,
-                    "magnesiumMg": 8.422029852813752,
-                    "magnesiumPercentRDI": 0.02,
-                    "manganeseMg": 0.07968240957035716,
-                    "manganesePercentRDI": 0.035,
-                    "niacinMg": 0.6287359687622166,
-                    "niacinPercentRDI": 0.039,
-                    "pantothenicAcidMg": 0.06062563923716235,
-                    "phosphorusMg": 16.6108569332684,
-                    "phosphorusPercentRDI": 0.013,
-                    "potassiumMg": 35.3618045624374,
-                    "potassiumPercentRDI": 0.008,
-                    "proteinG": 1.190862966668126,
-                    "proteinPercentRDI": 0.024,
-                    "riboflavinMg": 0.009900242547519483,
-                    "riboflavinPercentRDI": 0.008,
-                    "saturatedFatG": 1.1966419313881989,
-                    "seleniumMcg": 0.1983239364917749,
-                    "seleniumPercentRDI": 0.004,
-                    "sodiumMg": 80.1688699548479,
-                    "sodiumPercentDRV": 0.035,
-                    "sugarG": 4.635864789281829,
-                    "sugarPercentDRV": None,
-                    "thiaminMg": 0.008514061320616884,
-                    "thiaminPercentRDI": 0.007,
-                    "totalFatG": 3.2182500200225643,
-                    "totalFatPercentDRV": 0.041,
-                    "transFatG": 0.0035436903875000004,
-                    "vitaminAMcg": 1.449295858309044,
-                    "vitaminAPercentRDI": 0.002,
-                    "vitaminB12Mcg": 0,
-                    "vitaminB12PercentRDI": None,
-                    "vitaminB6Mg": 0.022999931273467538,
-                    "vitaminB6PercentRDI": 0.014,
-                    "vitaminCMg": 1.7259736392050762,
-                    "vitaminCPercentRDI": 0.019,
-                    "vitaminDMcg": 0,
-                    "vitaminDPercentRDI": None,
-                    "vitaminEMg": 0.4437743529419914,
-                    "vitaminEPercentRDI": 0.03,
-                    "vitaminKMcg": 0.046390128709090914,
-                    "vitaminKPercentRDI": 0,
-                    "zincMg": 0.12343713881647085,
-                    "zincPercentRDI": 0.011
-                },
+                'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_NO_USAGES,
+                'standaloneNutrition': STANDALONE_NUTRITION,
                 'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
                 'standaloneRecipeName': 'Peanut Coconut Sauce',
                 'standaloneNetWeight': 71,
@@ -869,32 +689,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
-                'ingredients': [
-                    'Chicken',
-                    'Baby Spinach*',
-                    'Water',
-                    'Quinoa',
-                    'Cucumber',
-                    'Cabbage',
-                    'Rainbow Carrots*',
-                    'Snap Peas',
-                    'Coconut Aminos (Coconut Tree Sap, Sea Salt)*',
-                    'Lime Juice',
-                    'Coconut Milk (Coconut, Water, Guar Gum)*',
-                    'Peanut Butter (Dry Roasted Peanuts)',
-                    'Poaching Liquid',
-                    'Lemon Zest',
-                    'Garlic',
-                    'Sambal (Red Chile Peppers, Vinegar, Salt)',
-                    'Toasted Sesame Oil',
-                    'Carrot',
-                    'Celery*',
-                    'Onions',
-                    'Granulated Garlic',
-                    'Sesame Seed*',
-                    'Sea Salt',
-                    'Black Pepper'
-                ],
+                'ingredients': COMBINED_INGREDIENTS_LIST_NO_USAGES,
                 'netWeight': 829,
                 'grossWeight': 1382,
                 'hasStandalone': True,
@@ -984,15 +779,10 @@ class TestGetFormattedMenuData(TestCase):
         get_formatted_menu_data(dates, 'Montana', 'staging')
         mock_grmd.assert_called_with(dates, 'Montana', 'staging')
 
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_menu_data_base_meal_title_format(self, mock_retrieval_method):
+    def test_get_formatted_menu_data_base_meal_title_format(self):
         self.assertEqual(format_title("beet-poke"), "Beet-Poke")
         self.assertEqual(format_title("persephone's salad"), "Persephone's Salad")
-        self.assertEqual(
-            format_title("brussel sprout & asian pear 'fried' rice"),
-            "Brussel Sprout & Asian Pear 'Fried' Rice"
-        )
-        self.assertEqual(
-            format_title('beetroot quinoa & sun "cheese" salad'),
-            'Beetroot Quinoa & Sun "Cheese" Salad'
-        )
+        self.assertEqual(format_title("brussel sprout & asian pear 'fried' rice"),
+                         "Brussel Sprout & Asian Pear 'Fried' Rice")
+        self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"),
+                         "Beetroot Quinoa & Sun 'Cheese' Salad")

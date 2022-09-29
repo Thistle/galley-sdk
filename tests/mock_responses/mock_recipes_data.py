@@ -1,5 +1,3 @@
-from galley.types import PageInfoType
-from galley.enums import RecipeCategoryTagTypeEnum
 from tests.mock_responses import (mock_nutrition_data,
                                   mock_recipe_items,
                                   mock_recipe_tree_components,
@@ -63,6 +61,13 @@ def mock_recipe(id):
     })
 
 
+def mock_recipe_with_no_standalone_recipe_item(id):
+    return ({
+        **mock_recipe_base(id),
+        'recipeTreeComponents': mock_recipe_tree_components.mock_recipe_tree_components_data_no_pkg_no_standalone
+    })
+
+
 def mock_recipe_with_standalone_recipe_item(id):
     return ({
         **mock_recipe_base(id),
@@ -92,6 +97,29 @@ def mock_recipe_connection(ids,
         edges.append(
             {
                 'node': mock_recipe(id)
+            }
+        )
+
+    return ({
+        'edges': edges,
+        'pageInfo': mock_page_info(
+            end_index=end_index,
+            has_next_page=has_next_page,
+            has_previous_page=has_previous_page,
+            start_index=start_index)
+    })
+
+
+def mock_recipe_connection_with_no_standalone(ids,
+                                              end_index: int = 1,
+                                              has_next_page: bool = False,
+                                              has_previous_page: bool = False,
+                                              start_index: int = 0):
+    edges = []
+    for id in ids:
+        edges.append(
+            {
+                'node': mock_recipe_with_no_standalone_recipe_item(id)
             }
         )
 

@@ -1,20 +1,17 @@
 import re
-import json
 import logging
 from typing import Dict, List, Optional
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
-from galley.enums import (
-    DietaryFlagEnum,
-    IngredientCategoryTagTypeEnum,
-    IngredientCategoryValueEnum,
-    MenuCategoryEnum,
-    MenuItemCategoryEnum,
-    PreparationEnum,
-    QuantityUnitEnum,
-    RecipeCategoryTagTypeEnum,
-    RecipeMediaEnum,
-    IngredientFormatOptionEnum as FormatIngredientEnum
-)
+from galley.enums import (DietaryFlagEnum,
+                          IngredientCategoryTagTypeEnum,
+                          IngredientCategoryValueEnum,
+                          MenuCategoryEnum,
+                          MenuItemCategoryEnum,
+                          PreparationEnum,
+                          QuantityUnitEnum,
+                          RecipeCategoryTagTypeEnum,
+                          RecipeMediaEnum,
+                          IngredientFormatOptionEnum as FormatIngredientEnum)
 
 
 logger = logging.getLogger(__name__)
@@ -419,32 +416,6 @@ def format_standalone_data(standalone_recipe_item):
 
 def format_title(text):
   return re.sub("(?<!\s)'S", "'s", text.title())
-
-
-# def ingredients_from_recipe_items(recipe_items: List[Dict]) -> Optional[List]:
-#     ingredients: List[str] = []
-
-#     for recipeItem in recipe_items:
-#         ingredient = recipeItem.get('ingredient')
-#         sub_recipe = recipeItem.get('subRecipe')
-#         recipe_item = RecipeItem(
-#             ingredient=ingredient if ingredient else None,
-#             preparations=recipeItem.get('preparations', [])
-#         )
-
-#         # Top Level Ingredient
-#         if ingredient:
-#             external_name = get_external_name(ingredient)
-#             if not recipe_item.is_packaging() and external_name not in ingredients:
-#                 ingredients.append(external_name)
-
-#         # SubRecipe Ingredients
-#         elif sub_recipe:
-#             if not recipe_item.is_standalone():
-#                 for _ingredient in sub_recipe.get('allIngredients'):
-#                     if _ingredient not in ingredients:
-#                         ingredients.append(_ingredient)
-#     return ingredients
 
 
 def get_meal_slug(menu_item: Dict) -> Optional[str]:
