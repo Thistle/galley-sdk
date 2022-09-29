@@ -507,13 +507,15 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                 "name": "Balinese Gado Gado Salad BASE",
                 "externalName": None,
                 "allIngredients": [
-                    "Baby Spinach",
-                    "Green Beans",
+                    "Baby Spinach*",
+                    "Water",
+                    "Quinoa",
                     "Cucumber",
-                    "Shredded Rainbow Carrots",
+                    "Snap Peas",
+                    "Rainbow Carrots*",
                     "Cabbage",
                     "Lemon Zest",
-                    "Himalayan Pink Salt"
+                    "Sea Salt"
                 ],
                 "reconciledNutritionals": {
                     "addedSugarG": 0,
@@ -575,7 +577,1229 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                     "vitaminKPercentRDI": 3.879,
                     "zincMg": 0.7685196228818442,
                     "zincPercentRDI": 0.07
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMzQ=",
+                            "name": "cabbage, green, shredded PF, SEND TO PLATE",
+                            "externalName": "Cabbage",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.5482717436342086,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07963349202222812,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01990837300555703,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07536139009403706,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.36139009403705,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.289630482485409,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.096543504501881,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15926698404445624,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3185339674157303,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.012499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo3NjY3MzA=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNDg=",
+                            "name": "carrot rainbow, shredded PF, SEND TO PLATE",
+                            "externalName": "Rainbow Carrots*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.7718451967456605,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.055370162421705484,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.013842540605426373,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.052399716549760146,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 52.399716549760136,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 10.631071194853135,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.543690405473964,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.11074032484341097,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.22148064921875,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NTA=",
+                            "name": "frozen, lemon zest",
+                            "externalName": "Lemon Zest",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MA==",
+                                    "name": "frozen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1083333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 3.0711973908492296,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.25593311503868965,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00799790984833957,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0019994774620848924,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00307119739084923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1083333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.007568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 7.568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.5355986923091287,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.511866231808205,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.006770831244029147,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01599581969667914,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03199163932574791,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NDU=",
+                            "name": "quinoa, white, dry",
+                            "externalName": "Quinoa",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MQ==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5625,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44.296129843749995,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.0845237608772478,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.06514136755494764,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01628534188873691,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04429612984375,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5625,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.061646725352658985,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 61.64672535265899,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 12.507142582180158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.169047535851722,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09765624991388192,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.13028273510989527,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.26056546966911764,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0067708,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 0.19194895100548,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.005258875378904337,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00016433985566022293,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 4.108496391505573e-05,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00019194895100548,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0067708,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.00015552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 0.15552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.031553252316103717,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.01051775079337342,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.0004231749996268236,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00032867971132044587,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.0006573594212516439,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.6666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 47.249206111650764,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.5976857206750927,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.049927678792199844,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.012481919698049961,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.6666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 47.24920611165076,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 9.58611433701636,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.1953714521550216,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.10416666865814073,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.09985535758439969,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.19971071474673546,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUyODg=",
+                            "name": "cucumber, persian, whole",
+                            "externalName": "Cucumber",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.1111111,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 31.49946979611641,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.42303614225943,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07571987947761212,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01892996986940303,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.03149946979611641,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.1111111,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07165773131728269,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 71.65773131728268,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 14.538216873220406,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.84607230090538,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06944444368876049,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15143975895522424,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.30287951727035006,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU0MTc=",
+                            "name": "peas, snap, trimmed PF, SEND TO PLATE",
+                            "externalName": "Snap Peas",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzA=",
+                            "name": "spinach, baby, SEND TO PLATE",
+                            "externalName": "Baby Spinach*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 2.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 70.87380775,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.899682098620378,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5906150658315252,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1476537664578813,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.07087380775,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5589303098641081,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 558.9303098641082,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 113.39809274510012,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.79936432505561,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.15624999986221108,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1812301316630505,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3624602583333334,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.03906249996555277,
+                                "unit": {
+                                    "id": "dW5pdDo3NzAzNzY=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -687,11 +1911,16 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                 "name": "Sesame Ground Chicken",
                 "externalName": None,
                 "allIngredients": [
-                    "Ground Chicken",
+                    "Chicken",
+                    "Poaching Liquid",
+                    "Toasted Sesame Oil",
+                    "Celery*",
+                    "Onions",
+                    "Carrot",
+                    "Granulated Garlic",
+                    "Sesame Seed*",
                     "Garlic",
-                    "Sesame Seeds",
-                    "Sesame Oil",
-                    "Himalayan Pink Salt",
+                    "Sea Salt",
                     "Black Pepper"
                 ],
                 "reconciledNutritionals": {
@@ -754,7 +1983,1411 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                     "vitaminKPercentRDI": 11.481,
                     "zincMg": 1114.7717097471852,
                     "zincPercentRDI": 101.343
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ2MzI=",
+                            "name": "oil, sesame toasted",
+                            "externalName": "Toasted Sesame Oil",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Nw==",
+                                    "name": "oils / vinegars / wines",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDc2OQ==",
+                                    "name": "kitchen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 680.388555,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 24.96838738166362,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.7802621060067857,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.19506552650169642,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.680388555,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 24.00000002116438,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.7384033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 738.4033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 149.81032449260934,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 49.93677493218358,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.5605242120135714,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.1210484174311928,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 3.2876712,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 93.20391062960472,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.553531802388621,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.079797868858373,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01994946721459325,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.09320391062960472,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 3.2876712,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07551694859783442,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.51694859783443,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.321190835054573,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.1070636220462795,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.20547944981879812,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.159595737716746,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3191914747589203,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3ODI=",
+                            "name": "seeds, white sesame",
+                            "externalName": "Sesame Seed*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.143694814675566,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5669904631982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14174761579956607,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5365730974695438,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 536.5730974695439,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 108.86216903529612,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 36.28738975205339,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1339809263965286,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.267961848,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
+                            "name": "spice, black pepper, ground",
+                            "externalName": "Black Pepper",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 42.52428465,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 3.081469891754223,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.09629593415802139,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.024073983539505347,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04252428465,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.0911299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 91.1299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 18.488819375532596,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 6.162939804347825,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09374999991732665,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.19259186831604277,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3851837358180474,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5NTg=",
+                            "name": "spice, granulated garlic",
+                            "externalName": "Granulated Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 17.53578742524053,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5479933572703899,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.13699833931759747,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5185951302332374,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 518.5951302332375,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 105.21472469375253,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 35.07157496907217,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.0959867145407798,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.191973424449095,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUwMTE=",
+                            "name": "carrot, whole",
+                            "externalName": "Carrot",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 23.30097787398069,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.72815555886967,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1820388897174175,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.6890921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 689.0921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 139.8058674329801,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 46.60195590554134,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.45631111773934,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.9126222293232127,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUzNjM=",
+                            "name": "chicken, breast, raw",
+                            "externalName": "Chicken",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Ng==",
+                                    "name": "protein",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 98.630137,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44737.87759525469,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 44.737877595254695,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1578.0821933916304,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 98.630137,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU1OTM=",
+                            "name": "garlic, whole head",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6.5753425,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 186.40782409416173,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 10.965166141724803,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.34266144207373467,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.08566536051843367,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.18640782409416173,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 6.5753425,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.3242786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 324.2786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 65.79099693933516,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 21.930332357604883,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.4109589058875962,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.6853228841474693,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 1.370645765398248,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzM=",
+                            "name": "onion, red, whole",
+                            "externalName": "Onions",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.640782299184554,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5825244470957359,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14563111177393398,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5512737289561687,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 551.2737289561686,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 111.84469394638408,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.281564724433075,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1650488941914718,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3300977834585703,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzQ=",
+                            "name": "celery, bunch",
+                            "externalName": "Celery*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 29.529952157124043,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.9228110053001758,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.23070275132504395,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.8733049171582871,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 873.304917158287,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 177.17971318239063,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 59.059904513953384,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.8456220106003516,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.6912440133997153,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNTEyOTA=",
+                            "name": "Poaching Liquid",
+                            "externalName": "Poaching Liquid",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2721.55422,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 90.71847415337783,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 2.8349523184913217,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.7087380796228304,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 2.72155422,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 96.00000008465751,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 2.6828654897136017,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 2682.8654897136016,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 544.3108456564806,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 181.43694892026699,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 6,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 5.669904636982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 11.33980925,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -947,6 +3580,775 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                     "id": "dW5pdDoz",
                     "name": "oz"
                 },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMjk=",
+                            "name": "butter, peanut, smooth",
+                            "externalName": "Peanut Butter (Dry Roasted Peanuts)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.29301829780856087,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00915682181038789,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0022892054525969724,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.008665585332884921,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 8.66558533288492,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.7581097892293158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.5860365975987473,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01831364362077578,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03662728716414431,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNzk=",
+                            "name": "coconut aminos",
+                            "externalName": "Coconut Aminos (Coconut Tree Sap, Sea Salt)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 17.00971386,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.01700971386,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.6,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.03749999996693065,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ0NjI=",
+                            "name": "garlic, cloves",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.13896819513784955,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004342756099893374,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0010856890249733434,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.833809171954875,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.27793639121551383,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.008685512199786747,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.017371024362861982,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1MzY=",
+                            "name": "juice, lime",
+                            "externalName": "Lime Juice",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMw==",
+                                    "name": "walk-in",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.4,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 11.33980924,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.37486972757594145,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.011714678991699676,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.002928669747924919,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.01133980924,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.4,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.011086221022098013,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 11.086221022098014,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 2.2492183684978535,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.7497394576870536,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.024999999977953772,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.023429357983399353,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.046858715867768595,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NzQ=",
+                            "name": "milk, coconut",
+                            "externalName": "Coconut Milk (Coconut, Water, Guar Gum)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjU=",
+                            "name": "sambal chili paste",
+                            "externalName": "Sambal (Red Chile Peppers, Vinegar, Salt)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.15976860082585165,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004992768777918185,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0012481921944795461,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00472492146165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.9586116062516906,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.31953720273218716,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.010416668740814069,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00998553755583637,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.01997107506946634,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [
@@ -1514,13 +4916,15 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                 "name": "Balinese Gado Gado Salad BASE",
                 "externalName": None,
                 "allIngredients": [
-                    "Baby Spinach",
-                    "Green Beans",
+                    "Baby Spinach*",
+                    "Water",
+                    "Quinoa",
                     "Cucumber",
-                    "Shredded Rainbow Carrots",
+                    "Snap Peas",
+                    "Rainbow Carrots*",
                     "Cabbage",
                     "Lemon Zest",
-                    "Himalayan Pink Salt"
+                    "Sea Salt"
                 ],
                 "reconciledNutritionals": {
                     "addedSugarG": 0,
@@ -1582,7 +4986,1229 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                     "vitaminKPercentRDI": 3.879,
                     "zincMg": 0.7685196228818442,
                     "zincPercentRDI": 0.07
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMzQ=",
+                            "name": "cabbage, green, shredded PF, SEND TO PLATE",
+                            "externalName": "Cabbage",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.5482717436342086,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07963349202222812,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01990837300555703,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07536139009403706,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.36139009403705,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.289630482485409,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.096543504501881,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15926698404445624,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3185339674157303,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.012499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo3NjY3MzA=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNDg=",
+                            "name": "carrot rainbow, shredded PF, SEND TO PLATE",
+                            "externalName": "Rainbow Carrots*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.7718451967456605,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.055370162421705484,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.013842540605426373,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.052399716549760146,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 52.399716549760136,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 10.631071194853135,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.543690405473964,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.11074032484341097,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.22148064921875,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NTA=",
+                            "name": "frozen, lemon zest",
+                            "externalName": "Lemon Zest",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MA==",
+                                    "name": "frozen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1083333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 3.0711973908492296,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.25593311503868965,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00799790984833957,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0019994774620848924,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00307119739084923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1083333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.007568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 7.568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.5355986923091287,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.511866231808205,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.006770831244029147,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01599581969667914,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03199163932574791,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NDU=",
+                            "name": "quinoa, white, dry",
+                            "externalName": "Quinoa",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MQ==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5625,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44.296129843749995,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.0845237608772478,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.06514136755494764,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01628534188873691,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04429612984375,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5625,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.061646725352658985,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 61.64672535265899,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 12.507142582180158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.169047535851722,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09765624991388192,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.13028273510989527,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.26056546966911764,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0067708,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 0.19194895100548,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.005258875378904337,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00016433985566022293,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 4.108496391505573e-05,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00019194895100548,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0067708,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.00015552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 0.15552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.031553252316103717,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.01051775079337342,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.0004231749996268236,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00032867971132044587,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.0006573594212516439,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.6666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 47.249206111650764,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.5976857206750927,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.049927678792199844,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.012481919698049961,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.6666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 47.24920611165076,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 9.58611433701636,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.1953714521550216,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.10416666865814073,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.09985535758439969,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.19971071474673546,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUyODg=",
+                            "name": "cucumber, persian, whole",
+                            "externalName": "Cucumber",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.1111111,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 31.49946979611641,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.42303614225943,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07571987947761212,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01892996986940303,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.03149946979611641,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.1111111,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07165773131728269,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 71.65773131728268,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 14.538216873220406,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.84607230090538,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06944444368876049,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15143975895522424,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.30287951727035006,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU0MTc=",
+                            "name": "peas, snap, trimmed PF, SEND TO PLATE",
+                            "externalName": "Snap Peas",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzA=",
+                            "name": "spinach, baby, SEND TO PLATE",
+                            "externalName": "Baby Spinach*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 2.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 70.87380775,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.899682098620378,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5906150658315252,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1476537664578813,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.07087380775,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5589303098641081,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 558.9303098641082,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 113.39809274510012,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.79936432505561,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.15624999986221108,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1812301316630505,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3624602583333334,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.03906249996555277,
+                                "unit": {
+                                    "id": "dW5pdDo3NzAzNzY=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -1694,11 +6320,16 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                 "name": "Sesame Ground Chicken",
                 "externalName": None,
                 "allIngredients": [
-                    "Ground Chicken",
+                    "Chicken",
+                    "Poaching Liquid",
+                    "Toasted Sesame Oil",
+                    "Celery*",
+                    "Onions",
+                    "Carrot",
+                    "Granulated Garlic",
+                    "Sesame Seed*",
                     "Garlic",
-                    "Sesame Seeds",
-                    "Sesame Oil",
-                    "Himalayan Pink Salt",
+                    "Sea Salt",
                     "Black Pepper"
                 ],
                 "reconciledNutritionals": {
@@ -1761,7 +6392,1411 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                     "vitaminKPercentRDI": 11.481,
                     "zincMg": 1114.7717097471852,
                     "zincPercentRDI": 101.343
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ2MzI=",
+                            "name": "oil, sesame toasted",
+                            "externalName": "Toasted Sesame Oil",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Nw==",
+                                    "name": "oils / vinegars / wines",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDc2OQ==",
+                                    "name": "kitchen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 680.388555,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 24.96838738166362,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.7802621060067857,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.19506552650169642,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.680388555,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 24.00000002116438,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.7384033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 738.4033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 149.81032449260934,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 49.93677493218358,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.5605242120135714,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.1210484174311928,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 3.2876712,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 93.20391062960472,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.553531802388621,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.079797868858373,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01994946721459325,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.09320391062960472,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 3.2876712,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07551694859783442,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.51694859783443,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.321190835054573,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.1070636220462795,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.20547944981879812,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.159595737716746,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3191914747589203,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3ODI=",
+                            "name": "seeds, white sesame",
+                            "externalName": "Sesame Seed*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.143694814675566,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5669904631982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14174761579956607,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5365730974695438,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 536.5730974695439,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 108.86216903529612,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 36.28738975205339,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1339809263965286,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.267961848,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
+                            "name": "spice, black pepper, ground",
+                            "externalName": "Black Pepper",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 42.52428465,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 3.081469891754223,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.09629593415802139,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.024073983539505347,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04252428465,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.0911299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 91.1299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 18.488819375532596,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 6.162939804347825,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09374999991732665,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.19259186831604277,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3851837358180474,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5NTg=",
+                            "name": "spice, granulated garlic",
+                            "externalName": "Granulated Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 17.53578742524053,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5479933572703899,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.13699833931759747,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5185951302332374,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 518.5951302332375,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 105.21472469375253,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 35.07157496907217,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.0959867145407798,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.191973424449095,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUwMTE=",
+                            "name": "carrot, whole",
+                            "externalName": "Carrot",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 23.30097787398069,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.72815555886967,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1820388897174175,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.6890921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 689.0921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 139.8058674329801,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 46.60195590554134,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.45631111773934,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.9126222293232127,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUzNjM=",
+                            "name": "chicken, breast, raw",
+                            "externalName": "Chicken",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Ng==",
+                                    "name": "protein",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 98.630137,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44737.87759525469,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 44.737877595254695,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1578.0821933916304,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 98.630137,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU1OTM=",
+                            "name": "garlic, whole head",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6.5753425,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 186.40782409416173,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 10.965166141724803,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.34266144207373467,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.08566536051843367,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.18640782409416173,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 6.5753425,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.3242786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 324.2786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 65.79099693933516,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 21.930332357604883,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.4109589058875962,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.6853228841474693,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 1.370645765398248,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzM=",
+                            "name": "onion, red, whole",
+                            "externalName": "Onions",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.640782299184554,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5825244470957359,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14563111177393398,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5512737289561687,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 551.2737289561686,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 111.84469394638408,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.281564724433075,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1650488941914718,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3300977834585703,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzQ=",
+                            "name": "celery, bunch",
+                            "externalName": "Celery*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 29.529952157124043,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.9228110053001758,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.23070275132504395,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.8733049171582871,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 873.304917158287,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 177.17971318239063,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 59.059904513953384,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.8456220106003516,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.6912440133997153,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNTEyOTA=",
+                            "name": "Poaching Liquid",
+                            "externalName": "Poaching Liquid",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2721.55422,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 90.71847415337783,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 2.8349523184913217,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.7087380796228304,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 2.72155422,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 96.00000008465751,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 2.6828654897136017,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 2682.8654897136016,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 544.3108456564806,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 181.43694892026699,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 6,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 5.669904636982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 11.33980925,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -1954,6 +7989,775 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                     "id": "dW5pdDoz",
                     "name": "oz"
                 },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMjk=",
+                            "name": "butter, peanut, smooth",
+                            "externalName": "Peanut Butter (Dry Roasted Peanuts)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.29301829780856087,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00915682181038789,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0022892054525969724,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.008665585332884921,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 8.66558533288492,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.7581097892293158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.5860365975987473,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01831364362077578,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03662728716414431,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNzk=",
+                            "name": "coconut aminos",
+                            "externalName": "Coconut Aminos (Coconut Tree Sap, Sea Salt)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 17.00971386,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.01700971386,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.6,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.03749999996693065,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ0NjI=",
+                            "name": "garlic, cloves",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.13896819513784955,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004342756099893374,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0010856890249733434,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.833809171954875,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.27793639121551383,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.008685512199786747,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.017371024362861982,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1MzY=",
+                            "name": "juice, lime",
+                            "externalName": "Lime Juice",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMw==",
+                                    "name": "walk-in",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.4,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 11.33980924,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.37486972757594145,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.011714678991699676,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.002928669747924919,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.01133980924,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.4,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.011086221022098013,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 11.086221022098014,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 2.2492183684978535,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.7497394576870536,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.024999999977953772,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.023429357983399353,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.046858715867768595,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NzQ=",
+                            "name": "milk, coconut",
+                            "externalName": "Coconut Milk (Coconut, Water, Guar Gum)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjU=",
+                            "name": "sambal chili paste",
+                            "externalName": "Sambal (Red Chile Peppers, Vinegar, Salt)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.15976860082585165,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004992768777918185,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0012481921944795461,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00472492146165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.9586116062516906,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.31953720273218716,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.010416668740814069,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00998553755583637,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.01997107506946634,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ],
             },
             "ingredient": None,
             "preparations": [
@@ -2521,13 +9325,15 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                 "name": "Balinese Gado Gado Salad BASE",
                 "externalName": None,
                 "allIngredients": [
-                    "Baby Spinach",
-                    "Green Beans",
+                    "Baby Spinach*",
+                    "Water",
+                    "Quinoa",
                     "Cucumber",
-                    "Shredded Rainbow Carrots",
+                    "Snap Peas",
+                    "Rainbow Carrots*",
                     "Cabbage",
                     "Lemon Zest",
-                    "Himalayan Pink Salt"
+                    "Sea Salt"
                 ],
                 "reconciledNutritionals": {
                     "addedSugarG": 0,
@@ -2589,7 +9395,1229 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                     "vitaminKPercentRDI": 3.879,
                     "zincMg": 0.7685196228818442,
                     "zincPercentRDI": 0.07
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMzQ=",
+                            "name": "cabbage, green, shredded PF, SEND TO PLATE",
+                            "externalName": "Cabbage",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.5482717436342086,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07963349202222812,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01990837300555703,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07536139009403706,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.36139009403705,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.289630482485409,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.096543504501881,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15926698404445624,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3185339674157303,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.012499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo3NjY3MzA=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNDg=",
+                            "name": "carrot rainbow, shredded PF, SEND TO PLATE",
+                            "externalName": "Rainbow Carrots*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.7718451967456605,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.055370162421705484,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.013842540605426373,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.052399716549760146,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 52.399716549760136,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 10.631071194853135,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.543690405473964,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.11074032484341097,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.22148064921875,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NTA=",
+                            "name": "frozen, lemon zest",
+                            "externalName": "Lemon Zest",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MA==",
+                                    "name": "frozen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1083333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 3.0711973908492296,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.25593311503868965,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00799790984833957,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0019994774620848924,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00307119739084923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1083333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.007568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 7.568845578810205,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.5355986923091287,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.511866231808205,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.006770831244029147,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01599581969667914,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03199163932574791,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NDU=",
+                            "name": "quinoa, white, dry",
+                            "externalName": "Quinoa",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5MQ==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5625,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44.296129843749995,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.0845237608772478,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.06514136755494764,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01628534188873691,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04429612984375,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5625,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.061646725352658985,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 61.64672535265899,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 12.507142582180158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.169047535851722,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09765624991388192,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.13028273510989527,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.26056546966911764,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0067708,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 0.19194895100548,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.005258875378904337,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00016433985566022293,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 4.108496391505573e-05,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00019194895100548,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0067708,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.00015552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 0.15552350720662617,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.031553252316103717,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.01051775079337342,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.0004231749996268236,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00032867971132044587,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.0006573594212516439,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.6666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 47.249206111650764,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 1.5976857206750927,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.049927678792199844,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.012481919698049961,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.6666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.04724920611165077,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 47.24920611165076,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 9.58611433701636,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 3.1953714521550216,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.10416666865814073,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.09985535758439969,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.19971071474673546,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUyODg=",
+                            "name": "cucumber, persian, whole",
+                            "externalName": "Cucumber",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.1111111,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 31.49946979611641,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.42303614225943,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.07571987947761212,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01892996986940303,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.03149946979611641,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.1111111,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07165773131728269,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 71.65773131728268,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 14.538216873220406,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 4.84607230090538,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.06944444368876049,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.15143975895522424,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.30287951727035006,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU0MTc=",
+                            "name": "peas, snap, trimmed PF, SEND TO PLATE",
+                            "externalName": "Snap Peas",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNTE2NA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjU4Mg==",
+                                        "name": "prefabricated",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 28.3495231,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0283495231,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.06249999994488443,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzA=",
+                            "name": "spinach, baby, SEND TO PLATE",
+                            "externalName": "Baby Spinach*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDM5NQ==",
+                                    "name": "send to plate",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjUwMg==",
+                                        "name": "lead time",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 2.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 70.87380775,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.899682098620378,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5906150658315252,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1476537664578813,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.07087380775,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5589303098641081,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 558.9303098641082,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 113.39809274510012,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.79936432505561,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.15624999986221108,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1812301316630505,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3624602583333334,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            },
+                            {
+                                "value": 0.03906249996555277,
+                                "unit": {
+                                    "id": "dW5pdDo3NzAzNzY=",
+                                    "name": "bag"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -2701,11 +10729,16 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                 "name": "Sesame Ground Chicken",
                 "externalName": None,
                 "allIngredients": [
-                    "Ground Chicken",
+                    "Chicken",
+                    "Poaching Liquid",
+                    "Toasted Sesame Oil",
+                    "Celery*",
+                    "Onions",
+                    "Carrot",
+                    "Granulated Garlic",
+                    "Sesame Seed*",
                     "Garlic",
-                    "Sesame Seeds",
-                    "Sesame Oil",
-                    "Himalayan Pink Salt",
+                    "Sea Salt",
                     "Black Pepper"
                 ],
                 "reconciledNutritionals": {
@@ -2768,7 +10801,1411 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                     "vitaminKPercentRDI": 11.481,
                     "zincMg": 1114.7717097471852,
                     "zincPercentRDI": 101.343
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ2MzI=",
+                            "name": "oil, sesame toasted",
+                            "externalName": "Toasted Sesame Oil",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Nw==",
+                                    "name": "oils / vinegars / wines",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDc2OQ==",
+                                    "name": "kitchen",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 680.388555,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 24.96838738166362,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.7802621060067857,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.19506552650169642,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.680388555,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 24.00000002116438,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.7384033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 738.4033457927344,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 149.81032449260934,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 49.93677493218358,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.5605242120135714,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.1210484174311928,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjQ=",
+                            "name": "salt, sea",
+                            "externalName": "Sea Salt",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 3.2876712,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 93.20391062960472,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 2.553531802388621,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.079797868858373,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.01994946721459325,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.09320391062960472,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 3.2876712,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.07551694859783442,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 75.51694859783443,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 15.321190835054573,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 5.1070636220462795,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.20547944981879812,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.159595737716746,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3191914747589203,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3ODI=",
+                            "name": "seeds, white sesame",
+                            "externalName": "Sesame Seed*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.143694814675566,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5669904631982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14174761579956607,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5365730974695438,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 536.5730974695439,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 108.86216903529612,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 36.28738975205339,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1339809263965286,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.267961848,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
+                            "name": "spice, black pepper, ground",
+                            "externalName": "Black Pepper",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 1.5,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 42.52428465,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 3.081469891754223,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.09629593415802139,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.024073983539505347,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.04252428465,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.0911299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 91.1299413634493,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 18.488819375532596,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 6.162939804347825,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.09374999991732665,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.19259186831604277,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.3851837358180474,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5NTg=",
+                            "name": "spice, granulated garlic",
+                            "externalName": "Granulated Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOA==",
+                                    "name": "spices",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 12,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 340.1942772,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 17.53578742524053,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5479933572703899,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.13699833931759747,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3401942772,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 12,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5185951302332374,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 518.5951302332375,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 105.21472469375253,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 35.07157496907217,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.7499999993386132,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.0959867145407798,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.191973424449095,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUwMTE=",
+                            "name": "carrot, whole",
+                            "externalName": "Carrot",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 23.30097787398069,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.72815555886967,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.1820388897174175,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.6890921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 689.0921611952108,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 139.8058674329801,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 46.60195590554134,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.45631111773934,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.9126222293232127,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDUzNjM=",
+                            "name": "chicken, breast, raw",
+                            "externalName": "Chicken",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Ng==",
+                                    "name": "protein",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMg==",
+                                    "name": "freezer",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 98.630137,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 44737.87759525469,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 44.737877595254695,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 1578.0821933916304,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 98.630137,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDU1OTM=",
+                            "name": "garlic, whole head",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6.5753425,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 186.40782409416173,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 10.965166141724803,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.34266144207373467,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.08566536051843367,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.18640782409416173,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 6.5753425,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.3242786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 324.2786665577329,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 65.79099693933516,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 21.930332357604883,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.4109589058875962,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.6853228841474693,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 1.370645765398248,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzM=",
+                            "name": "onion, red, whole",
+                            "externalName": "Onions",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 18.640782299184554,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.5825244470957359,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.14563111177393398,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.5512737289561687,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 551.2737289561686,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 111.84469394638408,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 37.281564724433075,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.1650488941914718,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 2.3300977834585703,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDcxNzQ=",
+                            "name": "celery, bunch",
+                            "externalName": "Celery*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 13.1506849,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 372.81564535337117,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 29.529952157124043,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.9228110053001758,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.23070275132504395,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.3728156453533712,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 13.1506849,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.8733049171582871,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 873.304917158287,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 177.17971318239063,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 59.059904513953384,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.8219178055251927,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 1.8456220106003516,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 3.6912440133997153,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNTEyOTA=",
+                            "name": "Poaching Liquid",
+                            "externalName": "Poaching Liquid",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2721.55422,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 90.71847415337783,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 2.8349523184913217,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.7087380796228304,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 2.72155422,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 96.00000008465751,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 2.6828654897136017,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 2682.8654897136016,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 544.3108456564806,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 181.43694892026699,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 6,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 5.669904636982643,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 11.33980925,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDo0",
+                            "name": "lb"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [],
@@ -2955,7 +12392,776 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                     "vitaminKPercentRDI": 0,
                     "zincMg": 0.12343713881647085,
                     "zincPercentRDI": 0.011
-                }
+                },
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzMjk=",
+                            "name": "butter, peanut, smooth",
+                            "externalName": "Peanut Butter (Dry Roasted Peanuts)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mw==",
+                                    "name": "nuts / seeds / butters",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzNw==",
+                                    "name": "dry goods",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.29301829780856087,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.00915682181038789,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0022892054525969724,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.008665585332884921,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 8.66558533288492,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 1.7581097892293158,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.5860365975987473,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.01831364362077578,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.03662728716414431,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQzNzk=",
+                            "name": "coconut aminos",
+                            "externalName": "Coconut Aminos (Coconut Tree Sap, Sea Salt)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.6,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 17.00971386,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.01700971386,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.6,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.03749999996693065,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ0NjI=",
+                            "name": "garlic, cloves",
+                            "externalName": "Garlic",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5NQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDgwMw==",
+                                    "name": "cooler",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIzOQ==",
+                                    "name": "produce",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.13896819513784955,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004342756099893374,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0010856890249733434,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.109780046264589,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.833809171954875,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.27793639121551383,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.008685512199786747,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.017371024362861982,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1MzY=",
+                            "name": "juice, lime",
+                            "externalName": "Lime Juice",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNDIwMw==",
+                                    "name": "walk-in",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.4,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 11.33980924,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.37486972757594145,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.011714678991699676,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.002928669747924919,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.01133980924,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.4,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.011086221022098013,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 11.086221022098014,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 2.2492183684978535,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.7497394576870536,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.024999999977953772,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.023429357983399353,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.046858715867768595,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ1NzQ=",
+                            "name": "milk, coconut",
+                            "externalName": "Coconut Milk (Coconut, Water, Guar Gum)*",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OA==",
+                                    "name": "yes",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.3333333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 9.449840088349232,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.00944984008834923,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.3333333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.020833331231628144,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ3NjU=",
+                            "name": "sambal chili paste",
+                            "externalName": "Sambal (Red Chile Peppers, Vinegar, Salt)",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.0833333,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 2.3624593133492295,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0023624593133492297,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.0833333,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.005208331245407037,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "id": "aW5ncmVkaWVudDoyNDQ5MTk=",
+                            "name": "water",
+                            "externalName": "Water",
+                            "categoryValues": [
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk4OQ==",
+                                    "name": "no",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQxOQ==",
+                                        "name": "is organic",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxMzk5Mg==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQyMA==",
+                                        "name": "accounting group",
+                                        "itemType": "ingredient"
+                                    }
+                                },
+                                {
+                                    "id": "Y2F0ZWdvcnlWYWx1ZToxNjQ4MA==",
+                                    "name": "canned",
+                                    "category": {
+                                        "id": "Y2F0ZWdvcnk6MjQ1NA==",
+                                        "name": "storage area",
+                                        "itemType": "ingredient"
+                                    }
+                                }
+                            ]
+                        },
+                        "totalQuantity": 0.1666667,
+                        "totalQuantityUnitValues": [
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.15976860082585165,
+                                "unit": {
+                                    "id": "dW5pdDo5",
+                                    "name": "floz"
+                                }
+                            },
+                            {
+                                "value": 0.004992768777918185,
+                                "unit": {
+                                    "id": "dW5pdDoxMA==",
+                                    "name": "qt"
+                                }
+                            },
+                            {
+                                "value": 0.0012481921944795461,
+                                "unit": {
+                                    "id": "dW5pdDoxMQ==",
+                                    "name": "gal"
+                                }
+                            },
+                            {
+                                "value": 0.00472492146165077,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 0.1666667,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.004724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo1",
+                                    "name": "l"
+                                }
+                            },
+                            {
+                                "value": 4.724921461650769,
+                                "unit": {
+                                    "id": "dW5pdDo2",
+                                    "name": "ml"
+                                }
+                            },
+                            {
+                                "value": 0.9586116062516906,
+                                "unit": {
+                                    "id": "dW5pdDo3",
+                                    "name": "tsp"
+                                }
+                            },
+                            {
+                                "value": 0.31953720273218716,
+                                "unit": {
+                                    "id": "dW5pdDo4",
+                                    "name": "tbsp"
+                                }
+                            },
+                            {
+                                "value": 0.010416668740814069,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            },
+                            {
+                                "value": 0.00998553755583637,
+                                "unit": {
+                                    "id": "dW5pdDoxMg==",
+                                    "name": "pt"
+                                }
+                            },
+                            {
+                                "value": 0.01997107506946634,
+                                "unit": {
+                                    "id": "dW5pdDoxMw==",
+                                    "name": "cup"
+                                }
+                            }
+                        ],
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        }
+                    }
+                ]
             },
             "ingredient": None,
             "preparations": [

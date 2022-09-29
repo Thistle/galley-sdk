@@ -1,9 +1,10 @@
 from galley.types import PageInfoType
+from galley.enums import RecipeCategoryTagTypeEnum
 from tests.mock_responses import (mock_nutrition_data,
                                   mock_recipe_items,
                                   mock_recipe_tree_components,
-                                  mock_recipe_category_values)
-from galley.enums import RecipeCategoryTagTypeEnum
+                                  mock_recipe_category_values,
+                                  mock_all_ingredients_with_usages_data)
 
 
 def mock_recipe_base(id):
@@ -36,13 +37,13 @@ def mock_recipe_base(id):
                 'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
             },
         ],
-        "versionConnection": {
-            "edges": [
+        'versionConnection': {
+            'edges': [
                 {
-                    "node": {
-                        "id": "dmVyc2lvbjozNjQ0NTY1",
-                        "versionNumber": 107,
-                        "action": "update"
+                    'node': {
+                        'id': 'dmVyc2lvbjozNjQ0NTY1',
+                        'versionNumber': 107,
+                        'action': 'update'
                     }
                 }
             ]
@@ -50,7 +51,8 @@ def mock_recipe_base(id):
         'isDish': True,
         'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data,
-        'dietaryFlagsWithUsages': []
+        'allIngredientsWithUsages': mock_all_ingredients_with_usages_data.mock_data,
+        'dietaryFlagsWithUsages': [],
 })
 
 
@@ -104,10 +106,10 @@ def mock_recipe_connection(ids,
 
 
 def mock_recipe_connection_with_standalone(ids,
-                           end_index: int = 1,
-                           has_next_page: bool = False,
-                           has_previous_page: bool = False,
-                           start_index: int = 0):
+                                           end_index: int = 1,
+                                           has_next_page: bool = False,
+                                           has_previous_page: bool = False,
+                                           start_index: int = 0):
     edges = []
     for id in ids:
         edges.append(
