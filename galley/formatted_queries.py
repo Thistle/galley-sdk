@@ -181,6 +181,7 @@ class FormattedRecipe:
 
     def recipe_ingredients_usages(self):
         ingredients = self.allIngredientsWithUsages
+
         if ingredients and self.standalone_usages:
             for ingredient, usage in self.standalone_usages.items():
                 ingredients[ingredient] -= usage
@@ -197,8 +198,7 @@ class FormattedRecipe:
             return None
 
         sorted_usages = sorted(ingredients.items(),
-                               key=lambda x: x[1],
-                               reverse=True)
+                               key=lambda x: (-x[1], x[0]))
         return (sorted_usages if
                 self.format[FormatIngredientEnum.USAGES.value] else
                 list(ingredient for ingredient, _ in sorted_usages))

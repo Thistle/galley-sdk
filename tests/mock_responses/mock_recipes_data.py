@@ -52,7 +52,7 @@ def mock_recipe_base(id):
         'recipeItems': mock_recipe_items.mock_data,
         'reconciledNutritionals': mock_nutrition_data.mock_data,
         'allIngredientsWithUsages': mock_all_ingredients_with_usages_data.mock_data,
-        'dietaryFlagsWithUsages': [],
+        'dietaryFlagsWithUsages': []
 })
 
 
