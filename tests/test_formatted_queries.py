@@ -14,7 +14,7 @@ from galley.formatted_queries import (
 
 from tests.mock_responses import (
     mock_nutrition_data,
-    mock_recipe_items,
+    mock_all_ingredients_with_usages_data,
     mock_recipe_tree_components,
     mock_recipe_tree_components,
     mock_recipe_category_values,
@@ -94,23 +94,42 @@ def formatted_menu(date, onlySellableMenuItems=False):
 
 
 class TestIngredientsFromRecipeItems(TestCase):
-    # def test_ingredients_from_recipes_successful(self):
-    #     expected_result = [
-    #         'Unique 1',
-    #         'Duplicate 1',
-    #         'Duplicate 2',
-    #         'Duplicate 3',
-    #         'Unique 2',
-    #         'Unique 4'
-    #     ]
-    #     result = ingredients_from_recipe_items(mock_recipe_items.mock_data)
-    #     self.assertEqual(result, expected_result)
+    def test_get_ingredient_usages_successful(self):
+        self.maxDiff = None
+        expected_result = {
+            'Peanut Butter (Dry Roasted Peanuts)': 0.3333333,
+            'Cabbage': 1,
+            'Rainbow Carrots*': 1,
+            'Coconut Aminos (Coconut Tree Sap, Sea Salt)*': 0.6,
+            'Lime Juice': 0.4,
+            'Lemon Zest': 0.1083333,
+            'Coconut Milk (Coconut, Water, Guar Gum)*': 0.3333333,
+            'Toasted Sesame Oil': 0.05,
+            'Quinoa': 1.5625,
+            'Sea Salt': 0.0136201,
+            'Sambal (Red Chile Peppers, Vinegar, Salt)': 0.0833333,
+            'Sesame Seed*': 0.025,
+            'Black Pepper': 0.003125,
+            'Water': 1.8333333,
+            'Granulated Garlic': 0.025,
+            'Carrot': 0.0273973,
+            'Cucumber': 1.1111111,
+            'Chicken': 3.2876712,
+            'Snap Peas': 1,
+            'Garlic': 0.0833333 + 0.0136986,
+            'Baby Spinach*': 2.5,
+            'Onions': 0.0273973,
+            'Celery*': 0.0273973,
+            'Poaching Liquid': 0.2
+        }
+        result = get_ingredients_usages(mock_all_ingredients_with_usages_data.mock_data)
+        self.assertEqual(result, expected_result)
 
-    def test_ingredients_from_recipes_null(self):
+    def test_get_ingredient_usages_null(self):
         result = get_formatted_recipes_data(None)
         self.assertEqual(result, [])
 
-    def test_ingredients_from_recipes_empty(self):
+    def test_get_ingredient_usages_empty(self):
         result = get_ingredients_usages([])
         self.assertEqual(result, {})
 

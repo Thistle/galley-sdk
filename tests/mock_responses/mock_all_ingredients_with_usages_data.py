@@ -1782,7 +1782,7 @@ mock_data = [
                         }
                     ]
                 },
-                "totalQuantity": 1.8333333,
+                "totalQuantity": 51.97412473834923,
                 "totalQuantityUnitValues": [
                     {
                         "value": 51.97412473834923,
@@ -1877,8 +1877,8 @@ mock_data = [
                     }
                 ],
                 "unit": {
-                    "id": "dW5pdDoz",
-                    "name": "oz"
+                    "id": "dW5pdDox",
+                    "name": "g"
                 }
             },
     {
@@ -2318,7 +2318,7 @@ mock_data = [
                         }
                     ]
                 },
-                "totalQuantity": 3.2876712,
+                "totalQuantity": 0.20547944981879812,
                 "totalQuantityUnitValues": [
                     {
                         "value": 93.20391062960472,
@@ -2350,8 +2350,8 @@ mock_data = [
                     }
                 ],
                 "unit": {
-                    "id": "dW5pdDoz",
-                    "name": "oz"
+                    "id": "dW5pdDo0",
+                    "name": "lb"
                 }
             },
     {
