@@ -8,7 +8,7 @@ from galley.enums import (DietaryFlagEnum,
                           MenuCategoryEnum,
                           MenuItemCategoryEnum,
                           PreparationEnum,
-                          QuantityUnitEnum,
+                          QuantityUnitEnum as UnitEnum,
                           RecipeCategoryTagTypeEnum,
                           RecipeMediaEnum,
                           IngredientFormatOptionEnum as FormatIngredientEnum)
@@ -228,7 +228,7 @@ def get_ingredients_usages(data: List[Dict]) -> Optional[Dict]:
 
         name = get_external_name(ingredient)
         quantity = usage.get('totalQuantity') \
-                   if unit.get('id') == QuantityUnitEnum.OZ.value \
+                   if unit.get('id') == UnitEnum.OZ.value \
                    else recipe_item.mass('oz')
 
         if not quantity:
@@ -415,22 +415,34 @@ def format_standalone_data(standalone_recipe_item):
     return standalone_data
 
 
-def calculate_relative_ratio(subrecipe: Dict, quantity: float, servings: float) -> float:
-    recipe_tree_components = subrecipe.get('recipeTreeComponents') or []
+def calculate_relative_ratio(
+    subrecipe: Dict,
+    quantity: Optional[float],
+    servings: Optional[float]
+) -> Optional[float]:
+    if quantity is not None and servings is not None:
+        components = subrecipe.get('recipeTreeComponents')
 
-    if recipe_tree_components:
-        max_batch = recipe_tree_components[0].get('quantity') or 0
-        unit = recipe_tree_components[0].get('unit') or {}
+        if components:
+            unit = components[0].get('unit') or {}
+            unit_values = components[0].get('quantityUnitValues')
+            component = RecipeItem(quantity_unit_values= \
+                                   unit_values or [])
 
-        if unit.get('id') != QuantityUnitEnum.OZ.value:
-            quantities = recipe_tree_components[0].get('quantityUnitValues') or []
-            component = RecipeItem(quantity_unit_values=quantities)
-            max_batch = component.mass('oz')
-        return (quantity * servings) / max_batch
+            max_batch = components[0].get('quantity') if \
+                        unit.get('id') == UnitEnum.OZ.value else \
+                        component.mass('oz')
+            return (quantity * servings) / max_batch
     return None
 
 
-def calculate_relative_usages(usages: Dict, ratio: float) -> Dict:
+def calculate_relative_usages(
+    usages: Dict,
+    ratio: Optional[float]
+) -> Optional[Dict]:
+    if ratio is None:
+        return None
+
     for ingredient, usage in usages.items():
         usages[ingredient] = usage * ratio
     return usages
