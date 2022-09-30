@@ -95,8 +95,6 @@ def recipe_connection_query(
         __fields__('ingredient')
     query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
         __fields__('id', 'allIngredients', 'name', 'externalName', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
-    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.recipeTreeComponents.\
-        __fields__('id')
     query.viewer.recipeConnection.edges.node.recipeItems.preparations.\
         __fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
@@ -117,6 +115,8 @@ def recipe_connection_query(
         __fields__('id', 'name', 'category')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
         __fields__('id', 'allIngredients', 'externalName', 'name', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[0]).\
+        __fields__('id', 'quantity', 'unit', 'quantityUnitValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
         __fields__('id', 'name', 'externalName', 'categoryValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\

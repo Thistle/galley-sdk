@@ -178,7 +178,6 @@ class FormattedRecipe:
 
     def recipe_ingredients_usages(self):
         ingredients = self.allIngredientsWithUsages
-
         if ingredients and self.standalone_usages:
             for ingredient, usage in self.standalone_usages.items():
                 ingredients[ingredient] -= usage
@@ -402,11 +401,13 @@ def format_standalone_data(standalone_recipe_item):
             standalone_usage_quantity = standalone_recipe_item.standalone_usage_quantity()
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
             standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
+            standalone_subrecipe_usages = get_ingredients_usages(standalone_subrecipe.get('allIngredientsWithUsages') or [])
+            standalone_subrecipe_ratio = calculate_relative_ratio(standalone_subrecipe, standalone_nutritionals_quantity, standalone_servings)
 
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
-            standalone_data['standaloneIngredients'] = get_ingredients_usages(standalone_subrecipe.get('allIngredientsWithUsages') or [])
+            standalone_data['standaloneIngredients'] = calculate_relative_usages(standalone_subrecipe_usages, standalone_subrecipe_ratio)
             standalone_data['standaloneNetWeight'] = round(standalone_recipe_item_net_weight) if standalone_recipe_item_net_weight else None
             standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
             standalone_data['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
@@ -414,8 +415,29 @@ def format_standalone_data(standalone_recipe_item):
     return standalone_data
 
 
+def calculate_relative_ratio(subrecipe: Dict, quantity: float, servings: float) -> float:
+    recipe_tree_components = subrecipe.get('recipeTreeComponents') or []
+
+    if recipe_tree_components:
+        max_batch = recipe_tree_components[0].get('quantity') or 0
+        unit = recipe_tree_components[0].get('unit') or {}
+
+        if unit.get('id') != QuantityUnitEnum.OZ.value:
+            quantities = recipe_tree_components[0].get('quantityUnitValues') or []
+            component = RecipeItem(quantity_unit_values=quantities)
+            max_batch = component.mass('oz')
+        return (quantity * servings) / max_batch
+    return None
+
+
+def calculate_relative_usages(usages: Dict, ratio: float) -> Dict:
+    for ingredient, usage in usages.items():
+        usages[ingredient] = usage * ratio
+    return usages
+
+
 def format_title(text):
-  return re.sub("(?<!\s)'S", "'s", text.title())
+    return re.sub("(?<!\s)'S", "'s", text.title())
 
 
 def get_meal_slug(menu_item: Dict) -> Optional[str]:

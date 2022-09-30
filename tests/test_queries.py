@@ -421,9 +421,6 @@ class TestRecipeConnectionQuery(TestCase):
             text
             position
             }
-            recipeTreeComponents {
-            id
-            }
             }
             preparations {
             id
@@ -526,6 +523,21 @@ class TestRecipeConnectionQuery(TestCase):
             nutritionalsUnit {
             id
             name
+            }
+            recipeTreeComponents(levels: [0]) {
+            id
+            quantity
+            unit {
+            id
+            name
+            }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
             }
             allIngredientsWithUsages {
             ingredient {
