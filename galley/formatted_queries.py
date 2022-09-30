@@ -402,12 +402,12 @@ def format_standalone_data(standalone_recipe_item):
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
             standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
             standalone_subrecipe_usages = get_ingredients_usages(standalone_subrecipe.get('allIngredientsWithUsages') or [])
-            standalone_subrecipe_ratio = calculate_relative_ratio(standalone_subrecipe, standalone_nutritionals_quantity, standalone_servings)
+            standalone_usage_ratio = calculate_usage_ratio(standalone_subrecipe, standalone_usage_quantity)
 
             standalone_data['standaloneRecipeId'] = standalone_subrecipe.get('id')
             standalone_data['standaloneRecipeName'] = get_external_name(standalone_subrecipe)
             standalone_data['standaloneNutrition'] = standalone_subrecipe.get('reconciledNutritionals')
-            standalone_data['standaloneIngredients'] = calculate_relative_usages(standalone_subrecipe_usages, standalone_subrecipe_ratio)
+            standalone_data['standaloneIngredients'] = calculate_relative_usages(standalone_subrecipe_usages, standalone_usage_ratio)
             standalone_data['standaloneNetWeight'] = round(standalone_recipe_item_net_weight) if standalone_recipe_item_net_weight else None
             standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
             standalone_data['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
@@ -415,12 +415,11 @@ def format_standalone_data(standalone_recipe_item):
     return standalone_data
 
 
-def calculate_relative_ratio(
+def calculate_usage_ratio(
     subrecipe: Dict,
-    quantity: Optional[float],
-    servings: Optional[float]
+    usage: Optional[float]
 ) -> Optional[float]:
-    if quantity is not None and servings is not None:
+    if usage is not None:
         components = subrecipe.get('recipeTreeComponents')
 
         if components:
@@ -432,7 +431,7 @@ def calculate_relative_ratio(
             max_batch = components[0].get('quantity') if \
                         unit.get('id') == UnitEnum.OZ.value else \
                         component.mass('oz')
-            return (quantity * servings) / max_batch
+            return usage / max_batch
     return None
 
 
@@ -440,11 +439,9 @@ def calculate_relative_usages(
     usages: Dict,
     ratio: Optional[float]
 ) -> Optional[Dict]:
-    if ratio is None:
-        return None
-
-    for ingredient, usage in usages.items():
-        usages[ingredient] = usage * ratio
+    if ratio is not None:
+        for ingredient, usage in usages.items():
+            usages[ingredient] = usage * ratio
     return usages
 
 

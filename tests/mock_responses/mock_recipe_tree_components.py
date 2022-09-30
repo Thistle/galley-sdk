@@ -2257,6 +2257,46 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                     "id": "dW5pdDoz",
                     "name": "oz"
                 },
+                "recipeTreeComponents": [
+                    {
+                        "id": "eqbt2cv9o7",
+                        "quantity": 2.5,
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        },
+                        "quantityUnitValues": [
+                            {
+                                "value": 56.6990462,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0566990462,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2.5,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.12499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "allIngredientsWithUsages": [
                     {
                         "ingredient": {
@@ -5042,6 +5082,46 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                     "id": "dW5pdDoz",
                     "name": "oz"
                 },
+                "recipeTreeComponents": [
+                    {
+                        "id": "eqbt2cv9o7",
+                        "quantity": 2,
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        },
+                        "quantityUnitValues": [
+                            {
+                                "value": 56.6990462,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0566990462,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.12499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "allIngredientsWithUsages": [
                     {
                         "ingredient": {
@@ -7821,6 +7901,46 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                     "zincMg": 0.12343713881647085,
                     "zincPercentRDI": 0.011
                 },
+                "recipeTreeComponents": [
+                    {
+                        "id": "eqbt2cv9o7",
+                        "quantity": 2,
+                        "unit": {
+                            "id": "dW5pdDoz",
+                            "name": "oz"
+                        },
+                        "quantityUnitValues": [
+                            {
+                                "value": 56.6990462,
+                                "unit": {
+                                    "id": "dW5pdDox",
+                                    "name": "g"
+                                }
+                            },
+                            {
+                                "value": 0.0566990462,
+                                "unit": {
+                                    "id": "dW5pdDoy",
+                                    "name": "kg"
+                                }
+                            },
+                            {
+                                "value": 2,
+                                "unit": {
+                                    "id": "dW5pdDoz",
+                                    "name": "oz"
+                                }
+                            },
+                            {
+                                "value": 0.12499999988976886,
+                                "unit": {
+                                    "id": "dW5pdDo0",
+                                    "name": "lb"
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "allIngredientsWithUsages": [
                     {
                         "ingredient": {

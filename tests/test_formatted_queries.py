@@ -292,7 +292,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
-        expected = {
+        expected_formatted_standalone = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
             'standaloneNutrition': STANDALONE_NUTRITION,
@@ -305,17 +305,20 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'grossWeight': 227,
             'hasStandalone': True
         }
-        self.assertEqual(result, expected)
+        self.assertEqual(result, expected_formatted_standalone)
 
     def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
         self.maxDiff = None
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
+        expected_standalone_usages = {
+            ingredient: usage * (1.5 / 2.0) for ingredient, usage in STANDALONE_INGREDIENTS_WITH_USAGES.items()
+        }
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
             'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
+            'standaloneIngredients': expected_standalone_usages,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': "1.5 oz",
             'standaloneServingSizeWeight': 43,
