@@ -182,7 +182,7 @@ class FormattedRecipe:
         if ingredients and self.standalone_usages:
             for ingredient, usage in self.standalone_usages.items():
                 ingredients[ingredient] -= usage
-                if ingredients[ingredient] <= 0:
+                if round(ingredients[ingredient], 5) <= 0:
                     del ingredients[ingredient]
         return ingredients
 
