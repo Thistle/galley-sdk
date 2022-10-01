@@ -163,20 +163,21 @@ class FormattedRecipe:
         self.recipe_items = recipe_data.get('recipeItems', [])
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents', [])
         self.formatted_recipe_tree_components_data = format_recipe_tree_components_data(self.recipe_tree_components)
-        self.standalone_usages = self.formatted_recipe_tree_components_data.get('standaloneIngredients')
-        self.recipe_usages = self.recipe_ingredients_usages()
         self.allergens = get_recipe_allergens(recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', []))
         version_edges = recipe_data.get('versionConnection', {}).get('edges', [])
         self.version_id = version_edges[0].get('node', {}).get('id') if version_edges else None
+        self.standalone_usages = self.formatted_recipe_tree_components_data.get('standaloneIngredients')
+        self.nonstandalone_usages = self.filter_nonstandalone_usages()
+        self.formatted_ingredients = self.format_ingredients_by_usage(0)
+        self.formatted_standalone_ingredients = self.format_ingredients_by_usage(1)
 
     def format_options(self, options):
         return {
-            FormatIngredientEnum.USAGES.value: False,
-            FormatIngredientEnum.UNIT.value: 'oz',
+            FormatIngredientEnum.INCLUDE_USAGES.value: False,
             **options
         }
 
-    def recipe_ingredients_usages(self):
+    def filter_nonstandalone_usages(self):
         ingredients = self.allIngredientsWithUsages
         if ingredients and self.standalone_usages:
             for ingredient, usage in self.standalone_usages.items():
@@ -185,23 +186,23 @@ class FormattedRecipe:
                     del ingredients[ingredient]
         return ingredients
 
-    def ingredients_by_usage(self, is_standalone):
+    def format_ingredients_by_usage(self, is_standalone):
         ingredients = self.standalone_usages if \
                       is_standalone else \
-                      self.recipe_usages
+                      self.nonstandalone_usages
 
         if not ingredients:
             return None
 
-        sorted_usages = sorted(ingredients.items(),
-                               key=lambda x: (-x[1], x[0]))
-        return (sorted_usages if
-                self.format[FormatIngredientEnum.USAGES.value] else
-                list(ingredient for ingredient, _ in sorted_usages))
+        ingredients_by_usage = sorted(ingredients.items(),
+                                      key=lambda x: (-x[1], x[0]))
+        return ingredients_by_usage if \
+               self.format[FormatIngredientEnum.INCLUDE_USAGES.value] else \
+               list(ingredient for ingredient, _ in ingredients_by_usage)
 
     def to_dict(self):
         self.formatted_recipe_tree_components_data.update(dict(
-            standaloneIngredients=self.ingredients_by_usage(1)
+            standaloneIngredients=self.formatted_standalone_ingredients
         ))
         return dict(id=self.galleyId,
                     externalName=self.externalName,
@@ -210,7 +211,7 @@ class FormattedRecipe:
                     description=self.description,
                     menuPhotoUrl=self.menuPhotoUrl,
                     nutrition=self.nutrition,
-                    ingredients=self.ingredients_by_usage(0),
+                    ingredients=self.formatted_ingredients,
                     **self.formatted_recipe_tree_components_data,
                     **self.recipe_tags,
                     **self.allergens)
