@@ -24,6 +24,11 @@ class Unit(Type):
     name = Field(str)
 
 
+class UnitValue(Type):
+    value = float
+    unit = Field(Unit)
+
+
 class Nutrition(Type):
     addedSugarG = float
     calciumMg = float
@@ -104,11 +109,6 @@ class Preparation(Type):
     name = str
 
 
-class UnitValue(Type):
-    value = float
-    unit = Field(Unit)
-
-
 class RecipeTreeComponent(Type):
     id = Field(ID)
     quantity = float
@@ -116,6 +116,13 @@ class RecipeTreeComponent(Type):
     quantityUnitValues = Field(UnitValue)
     ingredient = Field(Ingredient)
     recipeItem = Field('RecipeItem')
+
+
+class IngredientWithUsages(Type):
+    ingredient = Field(Ingredient)
+    totalQuantity = float
+    unit = Field(Unit)
+    totalQuantityUnitValues = Field(UnitValue)
 
 
 class SubRecipe(Type):
@@ -130,6 +137,7 @@ class SubRecipe(Type):
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
     categoryValues = Field(CategoryValue)
+    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeItem(Type):
@@ -237,6 +245,7 @@ class RecipeNode(Node):
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeEdge(Type):
