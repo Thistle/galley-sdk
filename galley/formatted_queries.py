@@ -371,7 +371,7 @@ def format_recipe_tree_components_data(
 
 
 def format_ingredients_data(data: List):
-    ingredients = {}
+    ingredients: Dict = {}
 
     for item in data:
         usages = item.get_ingredients_usages()
