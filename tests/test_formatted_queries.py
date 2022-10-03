@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
-
 from galley.enums import RecipeCategoryTagTypeEnum
+from tests.mock_responses.mock_menu_data import mock_menu
 from galley.formatted_queries import (
     calculate_serving_size_weight,
     calculate_servings,
@@ -8,10 +8,8 @@ from galley.formatted_queries import (
     format_title,
     get_formatted_menu_data,
     get_formatted_recipes_data,
-    get_recipe_category_tags,
-    ingredients_from_recipe_items,
+    get_recipe_category_tags
 )
-
 from tests.mock_responses import (
     mock_nutrition_data,
     mock_recipe_items,
@@ -20,8 +18,68 @@ from tests.mock_responses import (
     mock_recipe_category_values,
     mock_recipes_data
 )
-from tests.mock_responses.mock_menu_data import mock_menu
 
+STANDALONE_NUTRITION = {
+    "addedSugarG": 0,
+    "calciumMg": 3.1684181569284497,
+    "calciumPercentRDI": 0.002,
+    "caloriesKCal": 53.66203631343362,
+    "carbsG": 5.931480844736274,
+    "carbsPercentDRV": 0.022,
+    "cholesterolMg": 0,
+    "cholesterolPercentDRV": None,
+    "copperMg": 0.021694334590068795,
+    "copperPercentRDI": 0.024,
+    "fiberG": 0.25925700237554117,
+    "fiberPercentDRV": 0.009,
+    "folateMcg": 4.662944286512987,
+    "folatePercentRDI": 0.012,
+    "ironMg": 0.08727603182928573,
+    "ironPercentRDI": 0.005,
+    "magnesiumMg": 8.422029852813752,
+    "magnesiumPercentRDI": 0.02,
+    "manganeseMg": 0.07968240957035716,
+    "manganesePercentRDI": 0.035,
+    "niacinMg": 0.6287359687622166,
+    "niacinPercentRDI": 0.039,
+    "pantothenicAcidMg": 0.06062563923716235,
+    "phosphorusMg": 16.6108569332684,
+    "phosphorusPercentRDI": 0.013,
+    "potassiumMg": 35.3618045624374,
+    "potassiumPercentRDI": 0.008,
+    "proteinG": 1.190862966668126,
+    "proteinPercentRDI": 0.024,
+    "riboflavinMg": 0.009900242547519483,
+    "riboflavinPercentRDI": 0.008,
+    "saturatedFatG": 1.1966419313881989,
+    "seleniumMcg": 0.1983239364917749,
+    "seleniumPercentRDI": 0.004,
+    "sodiumMg": 80.1688699548479,
+    "sodiumPercentDRV": 0.035,
+    "sugarG": 4.635864789281829,
+    "sugarPercentDRV": None,
+    "thiaminMg": 0.008514061320616884,
+    "thiaminPercentRDI": 0.007,
+    "totalFatG": 3.2182500200225643,
+    "totalFatPercentDRV": 0.041,
+    "transFatG": 0.0035436903875000004,
+    "vitaminAMcg": 1.449295858309044,
+    "vitaminAPercentRDI": 0.002,
+    "vitaminB12Mcg": 0,
+    "vitaminB12PercentRDI": None,
+    "vitaminB6Mg": 0.022999931273467538,
+    "vitaminB6PercentRDI": 0.014,
+    "vitaminCMg": 1.7259736392050762,
+    "vitaminCPercentRDI": 0.019,
+    "vitaminDMcg": 0,
+    "vitaminDPercentRDI": None,
+    "vitaminEMg": 0.4437743529419914,
+    "vitaminEPercentRDI": 0.03,
+    "vitaminKMcg": 0.046390128709090914,
+    "vitaminKPercentRDI": 0,
+    "zincMg": 0.12343713881647085,
+    "zincPercentRDI": 0.011
+}
 
 def formatted_menu(date, onlySellableMenuItems=False):
     formatted_menu = {
@@ -93,26 +151,26 @@ def formatted_menu(date, onlySellableMenuItems=False):
     return formatted_menu
 
 
-class TestIngredientsFromRecipeItems(TestCase):
-    def test_ingredients_from_recipes_successful(self):
-        expected_result = [
-            'Unique 1',
-            'Duplicate 1',
-            'Duplicate 2',
-            'Duplicate 3',
-            'Unique 2',
-            'Unique 4'
-        ]
-        result = ingredients_from_recipe_items(mock_recipe_items.mock_data)
-        self.assertEqual(result, expected_result)
+# class TestIngredientsFromRecipeItems(TestCase):
+#     def test_ingredients_from_recipes_successful(self):
+#         expected_result = [
+#             'Unique 1',
+#             'Duplicate 1',
+#             'Duplicate 2',
+#             'Duplicate 3',
+#             'Unique 2',
+#             'Unique 4'
+#         ]
+#         result = ingredients_from_recipe_items(mock_recipe_items.mock_data)
+#         self.assertEqual(result, expected_result)
 
-    def test_ingredients_from_recipes_null(self):
-        result = get_formatted_recipes_data(None)
-        self.assertEqual(result, [])
+#     def test_ingredients_from_recipes_null(self):
+#         result = get_formatted_recipes_data(None)
+#         self.assertEqual(result, [])
 
-    def test_ingredients_from_recipes_empty(self):
-        result = ingredients_from_recipe_items([])
-        self.assertEqual(result, [])
+#     def test_ingredients_from_recipes_empty(self):
+#         result = ingredients_from_recipe_items([])
+#         self.assertEqual(result, [])
 
 
 class TestCalculateServings(TestCase):
@@ -177,67 +235,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                "addedSugarG": 0,
-                "calciumMg": 3.1684181569284497,
-                "calciumPercentRDI": 0.002,
-                "caloriesKCal": 53.66203631343362,
-                "carbsG": 5.931480844736274,
-                "carbsPercentDRV": 0.022,
-                "cholesterolMg": 0,
-                "cholesterolPercentDRV": None,
-                "copperMg": 0.021694334590068795,
-                "copperPercentRDI": 0.024,
-                "fiberG": 0.25925700237554117,
-                "fiberPercentDRV": 0.009,
-                "folateMcg": 4.662944286512987,
-                "folatePercentRDI": 0.012,
-                "ironMg": 0.08727603182928573,
-                "ironPercentRDI": 0.005,
-                "magnesiumMg": 8.422029852813752,
-                "magnesiumPercentRDI": 0.02,
-                "manganeseMg": 0.07968240957035716,
-                "manganesePercentRDI": 0.035,
-                "niacinMg": 0.6287359687622166,
-                "niacinPercentRDI": 0.039,
-                "pantothenicAcidMg": 0.06062563923716235,
-                "phosphorusMg": 16.6108569332684,
-                "phosphorusPercentRDI": 0.013,
-                "potassiumMg": 35.3618045624374,
-                "potassiumPercentRDI": 0.008,
-                "proteinG": 1.190862966668126,
-                "proteinPercentRDI": 0.024,
-                "riboflavinMg": 0.009900242547519483,
-                "riboflavinPercentRDI": 0.008,
-                "saturatedFatG": 1.1966419313881989,
-                "seleniumMcg": 0.1983239364917749,
-                "seleniumPercentRDI": 0.004,
-                "sodiumMg": 80.1688699548479,
-                "sodiumPercentDRV": 0.035,
-                "sugarG": 4.635864789281829,
-                "sugarPercentDRV": None,
-                "thiaminMg": 0.008514061320616884,
-                "thiaminPercentRDI": 0.007,
-                "totalFatG": 3.2182500200225643,
-                "totalFatPercentDRV": 0.041,
-                "transFatG": 0.0035436903875000004,
-                "vitaminAMcg": 1.449295858309044,
-                "vitaminAPercentRDI": 0.002,
-                "vitaminB12Mcg": 0,
-                "vitaminB12PercentRDI": None,
-                "vitaminB6Mg": 0.022999931273467538,
-                "vitaminB6PercentRDI": 0.014,
-                "vitaminCMg": 1.7259736392050762,
-                "vitaminCPercentRDI": 0.019,
-                "vitaminDMcg": 0,
-                "vitaminDPercentRDI": None,
-                "vitaminEMg": 0.4437743529419914,
-                "vitaminEPercentRDI": 0.03,
-                "vitaminKMcg": 0.046390128709090914,
-                "vitaminKPercentRDI": 0,
-                "zincMg": 0.12343713881647085,
-                "zincPercentRDI": 0.011
-                },
+            'standaloneNutrition': STANDALONE_NUTRITION,
             'standaloneIngredients': [
                 "Coconut Aminos (Coconut Tree Sap, Sea Salt)",
                 "Lime Juice",
@@ -263,67 +261,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                "addedSugarG": 0,
-                "calciumMg": 3.1684181569284497,
-                "calciumPercentRDI": 0.002,
-                "caloriesKCal": 53.66203631343362,
-                "carbsG": 5.931480844736274,
-                "carbsPercentDRV": 0.022,
-                "cholesterolMg": 0,
-                "cholesterolPercentDRV": None,
-                "copperMg": 0.021694334590068795,
-                "copperPercentRDI": 0.024,
-                "fiberG": 0.25925700237554117,
-                "fiberPercentDRV": 0.009,
-                "folateMcg": 4.662944286512987,
-                "folatePercentRDI": 0.012,
-                "ironMg": 0.08727603182928573,
-                "ironPercentRDI": 0.005,
-                "magnesiumMg": 8.422029852813752,
-                "magnesiumPercentRDI": 0.02,
-                "manganeseMg": 0.07968240957035716,
-                "manganesePercentRDI": 0.035,
-                "niacinMg": 0.6287359687622166,
-                "niacinPercentRDI": 0.039,
-                "pantothenicAcidMg": 0.06062563923716235,
-                "phosphorusMg": 16.6108569332684,
-                "phosphorusPercentRDI": 0.013,
-                "potassiumMg": 35.3618045624374,
-                "potassiumPercentRDI": 0.008,
-                "proteinG": 1.190862966668126,
-                "proteinPercentRDI": 0.024,
-                "riboflavinMg": 0.009900242547519483,
-                "riboflavinPercentRDI": 0.008,
-                "saturatedFatG": 1.1966419313881989,
-                "seleniumMcg": 0.1983239364917749,
-                "seleniumPercentRDI": 0.004,
-                "sodiumMg": 80.1688699548479,
-                "sodiumPercentDRV": 0.035,
-                "sugarG": 4.635864789281829,
-                "sugarPercentDRV": None,
-                "thiaminMg": 0.008514061320616884,
-                "thiaminPercentRDI": 0.007,
-                "totalFatG": 3.2182500200225643,
-                "totalFatPercentDRV": 0.041,
-                "transFatG": 0.0035436903875000004,
-                "vitaminAMcg": 1.449295858309044,
-                "vitaminAPercentRDI": 0.002,
-                "vitaminB12Mcg": 0,
-                "vitaminB12PercentRDI": None,
-                "vitaminB6Mg": 0.022999931273467538,
-                "vitaminB6PercentRDI": 0.014,
-                "vitaminCMg": 1.7259736392050762,
-                "vitaminCPercentRDI": 0.019,
-                "vitaminDMcg": 0,
-                "vitaminDPercentRDI": None,
-                "vitaminEMg": 0.4437743529419914,
-                "vitaminEPercentRDI": 0.03,
-                "vitaminKMcg": 0.046390128709090914,
-                "vitaminKPercentRDI": 0,
-                "zincMg": 0.12343713881647085,
-                "zincPercentRDI": 0.011
-                },
+            'standaloneNutrition': STANDALONE_NUTRITION,
             'standaloneIngredients': [
                 "Coconut Aminos (Coconut Tree Sap, Sea Salt)",
                 "Lime Juice",
@@ -349,67 +287,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected = {
             'standaloneRecipeId': 'cmVjaXBlOjE3MDM5NA==',
             'standaloneRecipeName': 'Peanut Coconut Sauce',
-            'standaloneNutrition': {
-                "addedSugarG": 0,
-                "calciumMg": 3.1684181569284497,
-                "calciumPercentRDI": 0.002,
-                "caloriesKCal": 53.66203631343362,
-                "carbsG": 5.931480844736274,
-                "carbsPercentDRV": 0.022,
-                "cholesterolMg": 0,
-                "cholesterolPercentDRV": None,
-                "copperMg": 0.021694334590068795,
-                "copperPercentRDI": 0.024,
-                "fiberG": 0.25925700237554117,
-                "fiberPercentDRV": 0.009,
-                "folateMcg": 4.662944286512987,
-                "folatePercentRDI": 0.012,
-                "ironMg": 0.08727603182928573,
-                "ironPercentRDI": 0.005,
-                "magnesiumMg": 8.422029852813752,
-                "magnesiumPercentRDI": 0.02,
-                "manganeseMg": 0.07968240957035716,
-                "manganesePercentRDI": 0.035,
-                "niacinMg": 0.6287359687622166,
-                "niacinPercentRDI": 0.039,
-                "pantothenicAcidMg": 0.06062563923716235,
-                "phosphorusMg": 16.6108569332684,
-                "phosphorusPercentRDI": 0.013,
-                "potassiumMg": 35.3618045624374,
-                "potassiumPercentRDI": 0.008,
-                "proteinG": 1.190862966668126,
-                "proteinPercentRDI": 0.024,
-                "riboflavinMg": 0.009900242547519483,
-                "riboflavinPercentRDI": 0.008,
-                "saturatedFatG": 1.1966419313881989,
-                "seleniumMcg": 0.1983239364917749,
-                "seleniumPercentRDI": 0.004,
-                "sodiumMg": 80.1688699548479,
-                "sodiumPercentDRV": 0.035,
-                "sugarG": 4.635864789281829,
-                "sugarPercentDRV": None,
-                "thiaminMg": 0.008514061320616884,
-                "thiaminPercentRDI": 0.007,
-                "totalFatG": 3.2182500200225643,
-                "totalFatPercentDRV": 0.041,
-                "transFatG": 0.0035436903875000004,
-                "vitaminAMcg": 1.449295858309044,
-                "vitaminAPercentRDI": 0.002,
-                "vitaminB12Mcg": 0,
-                "vitaminB12PercentRDI": None,
-                "vitaminB6Mg": 0.022999931273467538,
-                "vitaminB6PercentRDI": 0.014,
-                "vitaminCMg": 1.7259736392050762,
-                "vitaminCPercentRDI": 0.019,
-                "vitaminDMcg": 0,
-                "vitaminDPercentRDI": None,
-                "vitaminEMg": 0.4437743529419914,
-                "vitaminEPercentRDI": 0.03,
-                "vitaminKMcg": 0.046390128709090914,
-                "vitaminKPercentRDI": 0,
-                "zincMg": 0.12343713881647085,
-                "zincPercentRDI": 0.011
-                },
+            'standaloneNutrition': STANDALONE_NUTRITION,
             'standaloneIngredients': [
                 "Coconut Aminos (Coconut Tree Sap, Sea Salt)",
                 "Lime Juice",
@@ -632,12 +510,12 @@ class TestGetFormattedRecipesData(TestCase):
         result = get_formatted_recipes_data(['1'])
         formatted_recipe = result[0]
         self.assertEqual(formatted_recipe['hasStandalone'], True)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Peanut Coconut Sauce')
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3MDM5NA==')
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], 71)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "1 oz")
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 28)
-        self.assertEqual(formatted_recipe['standaloneServings'], 2.5)
+        self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Vanilla Cashew Cream')
+        self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3NDI3NQ==')
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], 43)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "0.75 oz")
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 21.5)
+        self.assertEqual(formatted_recipe['standaloneServings'], 2.0)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_allergen_successful(
@@ -726,24 +604,41 @@ class TestGetFormattedRecipesData(TestCase):
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
                 'ingredients': [
-                    'Unique 1',
-                    'Duplicate 1',
-                    'Duplicate 2',
-                    'Duplicate 3',
-                    'Unique 2',
-                    'Unique 4'
+                    'Water',
+                    'Sprouted Brown Rice',
+                    'Coconut Milk (Coconut, Water, Guar Gum)*',
+                    'Golden Raisins',
+                    'Hemp Seeds',
+                    'Pistachio Nuts*',
+                    'Dried Blueberries*',
+                    'Coconut Chips*',
+                    'Maple Syrup*',
+                    'Flax Seed*',
+                    'Vanilla Extract*',
+                    'Sea Salt',
+                    'Cinnamon',
+                    'Cardamom'
                 ],
-                'netWeight': 829,
-                'grossWeight': 1382,
+                'netWeight': 213,
+                'grossWeight': 291,
                 'hasStandalone': True,
-                'standaloneIngredients': None,
+                'standaloneIngredients': [
+                    'Water',
+                    'Cashew',
+                    'Lemon Juice',
+                    'Maple Syrup*',
+                    'Oats',
+                    'Lemon Zest',
+                    'Vanilla Extract*',
+                    'Sea Salt'
+                ],
                 'standaloneNutrition': None,
-                'standaloneRecipeId': 'standalone1',
-                'standaloneRecipeName': 'Standalone 1',
-                'standaloneNetWeight': 276,
-                'standaloneSuggestedServing': None,
-                'standaloneServingSizeWeight': None,
-                'standaloneServings': None,
+                'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
+                'standaloneRecipeName': 'Vanilla Cashew Cream',
+                'standaloneNetWeight': 43,
+                'standaloneSuggestedServing': '1.5 oz',
+                'standaloneServingSizeWeight': 43,
+                'standaloneServings': 1.0,
                 'hasAllergen': False,
                 'allergens': []
             }

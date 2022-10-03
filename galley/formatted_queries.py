@@ -399,7 +399,7 @@ def format_standalone_data(standalone_data):
             standalone_usage_quantity = standalone_data.standalone_usage_quantity()
             standalone_servings = calculate_servings(standalone_usage_quantity, standalone_nutritionals_quantity)
             standalone_serving_size_weight = calculate_serving_size_weight(standalone_recipe_item_net_weight, standalone_servings)
-
+            
             standalone['standaloneRecipeId'] = subrecipe.get('id')
             standalone['standaloneRecipeName'] = get_external_name(subrecipe)
             standalone['standaloneNutrition'] = subrecipe.get('reconciledNutritionals')
