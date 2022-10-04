@@ -127,11 +127,6 @@ INGREDIENTS_LIST_WITH_USAGES = [("Water", 4.800000000000001),
                                 ("Cardamom", 0.003749999996693066)]
 
 
-INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in INGREDIENTS_LIST_WITH_USAGES}
-STANDALONE_INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in STANDALONE_INGREDIENTS_LIST_WITH_USAGES}
-COMBINED_INGREDIENTS_WITH_USAGES = {ingredient: usage for ingredient, usage in COMBINED_INGREDIENTS_LIST_WITH_USAGES}
-
-
 INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in INGREDIENTS_LIST_WITH_USAGES]
 STANDALONE_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in STANDALONE_INGREDIENTS_LIST_WITH_USAGES]
 COMBINED_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in COMBINED_INGREDIENTS_LIST_WITH_USAGES]
@@ -308,14 +303,14 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
         expected_formatted_standalone = {
-            'ingredients': INGREDIENTS_WITH_USAGES,
+            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': "0.75 oz",
             'standaloneServingSizeWeight': 21,
@@ -328,14 +323,14 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
         expected = {
-            'ingredients': INGREDIENTS_WITH_USAGES,
+            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': "1.5 oz",
             'standaloneServingSizeWeight': 43,
@@ -348,14 +343,14 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = format_recipe_tree_components_data(
             mock_recipe_tree_components.mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data)
         expected = {
-            'ingredients': INGREDIENTS_WITH_USAGES,
+            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_WITH_USAGES,
+            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
             'standaloneNetWeight': 43,
             'standaloneSuggestedServing': None,
             'standaloneServingSizeWeight': None,

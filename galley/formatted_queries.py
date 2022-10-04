@@ -138,8 +138,7 @@ class RecipeItem:
         nutritionals_unit = self.standalone_nutritionals_unit()
         if nutritionals_unit is not None and self.unit_values is not None:
             return next((value.get('value') for value in self.unit_values
-                         if (value.get('unit') or {}).get('name') == \
-                         nutritionals_unit), None)
+                         if (value.get('unit') or {}).get('name') == nutritionals_unit), None)
         else:
             return None
 
@@ -193,33 +192,46 @@ class FormattedRecipe:
         self.recipe_items = recipe_data.get('recipeItems', [])
         self.recipe_tree_components = recipe_data.get('recipeTreeComponents') or []
         self.formatted_recipe_tree_components_data = format_recipe_tree_components_data(self.recipe_tree_components)
+        self.ingredients_usages = self.formatted_recipe_tree_components_data.get('ingredients')
+        self.standalone_ingredients_usages = self.formatted_recipe_tree_components_data.get('standaloneIngredients')
         self.allergens = get_recipe_allergens(recipe_dietry_flags=recipe_data.get('dietaryFlagsWithUsages', []))
         version_edges = recipe_data.get('versionConnection', {}).get('edges', [])
         self.version_id = version_edges[0].get('node', {}).get('id') if version_edges else None
-        self.ingredients = self.format_ingredients_by_usage(self.formatted_recipe_tree_components_data.get('ingredients'))
-        self.standalone_ingredients = self.format_ingredients_by_usage(self.formatted_recipe_tree_components_data.get('standaloneIngredients'))
 
     def format_options(self, options):
+        self.validate_format_options(options)
         return {
             FormatIngredientEnum.INCLUDE_USAGES.value: False,
             **options
         }
 
-    def format_ingredients_by_usage(self, ingredients):
-        if not ingredients:
-            return None
+    def validate_format_options(self, options):
+        validator = {
+            FormatIngredientEnum.INCLUDE_USAGES.value: (bool, 'missing boolean value')
+        }
 
-        ingredients_by_usage = sorted(ingredients.items(),
-                                      key=lambda x: (-x[1], x[0]))
-        return ingredients_by_usage if \
-               self.format[FormatIngredientEnum.INCLUDE_USAGES.value] else \
-               list(ingredient for ingredient, _ in ingredients_by_usage)
+        for option, value in options.items():
+            if option in validator and type(value) != validator[option][0]:
+                raise Exception(f'"{option}" {validator[option][1]}')
+            elif option not in validator:
+                raise Exception(f'"{option}" is not a valid option.')
+        return None
+
+    def format_ingredients(self):
+        if self.format[FormatIngredientEnum.INCLUDE_USAGES.value] is False:
+            if self.ingredients_usages:
+                self.formatted_recipe_tree_components_data.update(dict(
+                    ingredients=\
+                        [ingredient for ingredient, _ in self.ingredients_usages]
+                ))
+            if self.standalone_ingredients_usages:
+                self.formatted_recipe_tree_components_data.update(dict(
+                    standaloneIngredients=\
+                        [ingredient for ingredient, _ in self.standalone_ingredients_usages]
+                ))
 
     def to_dict(self):
-        self.formatted_recipe_tree_components_data.update(dict(
-            ingredients=self.ingredients,
-            standaloneIngredients=self.standalone_ingredients
-        ))
+        self.format_ingredients()
         return dict(id=self.galleyId,
                     externalName=self.externalName,
                     version=self.version_id,
@@ -363,21 +375,22 @@ def format_recipe_tree_components_data(
     if len(standalones) > 1:
         logger.error(f"More than one standalone recipe items found for recipe "
                      f"tree component id {recipe_tree_component.get('id')}")
-    return dict(ingredients=format_ingredients_data(subcomponents),
+
+    return dict(ingredients=get_ingredients_data(subcomponents),
                 netWeight=round(net_weight),
                 grossWeight=round(gross_weight),
                 hasStandalone=bool(standalones),
                 **format_standalone_data(standalone))
 
 
-def format_ingredients_data(data: List):
+def get_ingredients_data(data: List):
     ingredients: Dict = {}
 
     for item in data:
         usages = item.get_ingredients_usages()
         for ingredient, usage in usages.items():
             ingredients[ingredient] = ingredients.get(ingredient, 0) + usage
-    return ingredients
+    return sorted(ingredients.items(), key=lambda x: (-x[1], x[0]))
 
 
 def format_standalone_data(standalone_data):
@@ -405,7 +418,7 @@ def format_standalone_data(standalone_data):
             standalone['standaloneRecipeId'] = subrecipe.get('id')
             standalone['standaloneRecipeName'] = get_external_name(subrecipe)
             standalone['standaloneNutrition'] = subrecipe.get('reconciledNutritionals')
-            standalone['standaloneIngredients'] = standalone_data.get_ingredients_usages()
+            standalone['standaloneIngredients'] = get_ingredients_data([standalone_data])
             standalone['standaloneNetWeight'] = round(standalone_recipe_item_net_weight) if standalone_recipe_item_net_weight else None
             standalone['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)
             standalone['standaloneServingSizeWeight'] = round(standalone_serving_size_weight) if standalone_serving_size_weight else None
