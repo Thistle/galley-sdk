@@ -164,12 +164,12 @@ class RecipeItem:
                         unit = usage.get('unit') or {}
                         usage_item = RecipeItem(ingredient=usage.get('ingredient'),
                                                 unit_values=usage.get('totalQuantityUnitValues'))
-                        name = get_external_name(usage_item.ingredient)
                         quantity = usage.get('totalQuantity') if \
                                    unit.get('id') == UnitEnum.OZ.value else \
                                    usage_item.mass('oz')
-                        ingredients[name] = ingredients.get(name, 0) + \
-                                            quantity * (self.mass('oz') / max_batch)
+                        name = get_external_name(usage_item.ingredient)
+                        subquantity = quantity * (self.mass('oz') / max_batch)
+                        ingredients[name] = ingredients.get(name, 0) + subquantity
         return ingredients
 
 class FormattedRecipe:
