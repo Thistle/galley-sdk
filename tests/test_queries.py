@@ -306,17 +306,9 @@ class TestRecipeConnectionQuery(TestCase):
             }
             }
             recipeItems {
-            ingredient {
-            externalName
-            categoryValues {
+            preparations {
             id
             name
-            category {
-            id
-            name
-            itemType
-            }
-            }
             }
             subRecipe {
             id
@@ -393,30 +385,11 @@ class TestRecipeConnectionQuery(TestCase):
             text
             position
             }
-            recipeTreeComponents {
-            id
-            }
-            }
-            preparations {
-            id
-            name
-            }
-            }
-            recipeTreeComponents(levels: [1]) {
-            id
-            quantityUnitValues {
-            unit {
-            id
-            name
-            }
-            value
-            }
-            recipeItem {
-            preparations {
-            id
-            name
             }
             ingredient {
+            id
+            name
+            externalName
             categoryValues {
             id
             name
@@ -426,13 +399,51 @@ class TestRecipeConnectionQuery(TestCase):
             itemType
             }
             }
+            }
+            }
+            recipeTreeComponents(levels: [1]) {
+            id
+            quantity
+            unit {
+            id
+            name
+            }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            recipeItem {
+            quantity
+            unit {
+            id
+            name
+            }
+            preparations {
+            id
+            name
+            }
+            subRecipeId
+            ingredient {
+            name
             externalName
+            categoryValues {
+            id
+            name
+            category {
+            id
+            name
+            itemType
+            }
+            }
             }
             subRecipe {
             id
-            allIngredients
             externalName
             name
+            allIngredients
             reconciledNutritionals {
             addedSugarG
             calciumMg
@@ -499,12 +510,39 @@ class TestRecipeConnectionQuery(TestCase):
             id
             name
             }
-            }
-            subRecipeId
+            recipeTreeComponents(levels: [0]) {
             quantity
             unit {
             id
             name
+            }
+            quantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            }
+            allIngredientsWithUsages {
+            totalQuantity
+            unit {
+            id
+            name
+            }
+            totalQuantityUnitValues {
+            value
+            unit {
+            id
+            name
+            }
+            }
+            ingredient {
+            id
+            externalName
+            name
+            }
+            }
             }
             }
             }
