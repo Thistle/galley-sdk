@@ -5,7 +5,7 @@ from typing import Any, Dict, Iterable, List, Optional
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import make_request_to_galley, validate_response_data
+from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
 from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
@@ -187,7 +187,10 @@ def get_raw_menu_data(dates: List[str],
     :param menu_type: The type of menu to be fetched. ex. "production",
     "development"
     """
-    location_id = LocationEnum[location_name.upper()].value
+    try:
+        location_id = LocationEnum[location_name.upper()].value
+    except KeyError:
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Invalid location name: {f'{location_name}'}")
     query = get_menu_query(dates=dates, location_id=location_id)
 
     if is_ops:
