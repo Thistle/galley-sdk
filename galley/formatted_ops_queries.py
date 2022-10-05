@@ -188,7 +188,7 @@ def is_packaging(ingredient: Dict) -> bool:
     return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
 
 
-def get_cupping_container(preparations: List) -> bool:
+def get_cupping_container(preparations: List) -> Optional[bool]:
     """
     Returns True if a recipe component contains a cupping container
     preparation.
