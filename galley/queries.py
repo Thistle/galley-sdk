@@ -150,9 +150,9 @@ def get_menu_query(dates: List[str], location_id: str) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
-def get_ops_menu_query(dates: List[str]) -> Operation:
+def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
+    query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume', 'unit')
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues')
@@ -191,7 +191,7 @@ def get_raw_menu_data(dates: List[str],
     query = get_menu_query(dates=dates, location_id=location_id)
 
     if is_ops:
-        query = get_ops_menu_query(dates=dates)
+        query = get_ops_menu_query(dates=dates, location_id=location_id)
 
     validated_response_data = validate_response_data(
             make_request_to_galley(

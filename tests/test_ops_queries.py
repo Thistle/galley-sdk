@@ -1,5 +1,6 @@
 import logging
 from unittest import TestCase, mock
+from galley.enums import LocationEnum
 from galley.queries import (get_ops_menu_query,
                             get_ops_recipe_item_connection_query,
                             get_raw_recipe_items_data_via_connection)
@@ -11,7 +12,7 @@ class TestOpsMenuDataQuery(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
-            menus(where: {date: ["2022-03-28"]}) {
+            menus(where: {date: ["2022-03-28"], locationId: "bG9jYXRpb246MTkyOA=="}) {
             id
             name
             date
@@ -218,7 +219,7 @@ class TestOpsMenuDataQuery(TestCase):
             }'''.replace(' '*12, '')
 
     def test_get_ops_menu_query(self):
-        query = get_ops_menu_query(dates=["2022-03-28"])
+        query = get_ops_menu_query(dates=["2022-03-28"], location_id=LocationEnum.VACAVILLE.value)
         query_str = bytes(query).decode('utf-8')
         self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)

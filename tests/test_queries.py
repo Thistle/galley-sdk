@@ -49,7 +49,7 @@ class TestQueryWeekMenuData(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
-            menus(where: {date: ["2021-10-04", "2021-10-07"], locationId:"bG9jYXRpb246MTkyOA=="}) {
+            menus(where: {date: ["2021-10-04", "2021-10-07"], locationId: "bG9jYXRpb246MTkyOA=="}) {
             id
             name
             date
