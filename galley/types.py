@@ -313,6 +313,7 @@ class FilterInput(Input):
 class MenuFilterInput(Input):
     id = ID
     date = list_of(d.Date)
+    locationId = ID
 
 
 class RecipeConnectionFilter(Input):

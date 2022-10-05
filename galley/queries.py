@@ -5,8 +5,8 @@ from typing import Any, Dict, Iterable, List, Optional
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import make_request_to_galley, validate_response_data
-from galley.enums import MenuCategoryEnum, PreparationEnum
+from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
+from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
 from galley.types import (FilterInput, Menu, MenuFilterInput,
                           PaginationOptions, Recipe, RecipeConnection,
                           RecipeConnectionFilter,
@@ -139,9 +139,9 @@ def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
         has_next_page = page_info.get('hasNextPage', False)
     return raw_recipes_data
 
-def get_menu_query(dates: List[str]) -> Operation:
+def get_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
+    query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
     query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'media', 'isDish', 'dietaryFlagsWithUsages')
     query.viewer.menus.menuItems.recipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
@@ -150,9 +150,9 @@ def get_menu_query(dates: List[str]) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
-def get_ops_menu_query(dates: List[str]) -> Operation:
+def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
-    query.viewer.menus(where=MenuFilterInput(date=dates)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
+    query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume', 'unit')
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues')
@@ -187,10 +187,14 @@ def get_raw_menu_data(dates: List[str],
     :param menu_type: The type of menu to be fetched. ex. "production",
     "development"
     """
-    query = get_menu_query(dates=dates)
+    try:
+        location_id = LocationEnum[location_name.upper()].value
+    except KeyError:
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Invalid location name: {f'{location_name}'}")
+    query = get_menu_query(dates=dates, location_id=location_id)
 
     if is_ops:
-        query = get_ops_menu_query(dates=dates)
+        query = get_ops_menu_query(dates=dates, location_id=location_id)
 
     validated_response_data = validate_response_data(
             make_request_to_galley(

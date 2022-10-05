@@ -1,5 +1,6 @@
 import logging
 from unittest import TestCase, mock
+from galley.enums import LocationEnum
 from sgqlc.operation import Operation
 
 from galley.queries import (
@@ -48,7 +49,7 @@ class TestQueryWeekMenuData(TestCase):
     def setUp(self) -> None:
         self.expected_query = '''query {
             viewer {
-            menus(where: {date: ["2021-10-04", "2021-10-07"]}) {
+            menus(where: {date: ["2021-10-04", "2021-10-07"], locationId: "bG9jYXRpb246MTkyOA=="}) {
             id
             name
             date
@@ -123,7 +124,7 @@ class TestQueryWeekMenuData(TestCase):
         })
 
     def test_week_menu_data_query(self):
-        query = get_menu_query(["2021-10-04", "2021-10-07"])
+        query = get_menu_query(["2021-10-04", "2021-10-07"], location_id=LocationEnum.VACAVILLE.value)
         query_str = query.__to_graphql__(auto_select_depth=3)
         self.assertEqual(query_str.replace(' ', ''),
                          self.expected_query.replace(' ', ''))
