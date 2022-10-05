@@ -4,7 +4,7 @@ from setuptools import setup
 # are dependencies that are required on remote installs, not local development.
 setup(
     name='galley_sdk',
-    version='0.40.0',
+    version='0.41.0',
     packages=['galley'],
     install_requires=['sgqlc==14.0', 'backoff==1.11.1']
 )

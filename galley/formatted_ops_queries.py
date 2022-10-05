@@ -1,15 +1,15 @@
 import logging
 from typing import Dict, List, Optional, Union
-
 from galley.queries import get_raw_menu_data
 from galley.formatted_queries import (
-    FormattedRecipe,
     get_category_menu_type,
     get_meal_code,
-    get_external_name
+    get_external_name,
+    get_plate_photo_url,
+    get_recipe_category_tags
 )
 from galley.enums import (
-    PreparationEnum,
+    PreparationEnum as PrepEnum,
     DietaryFlagEnum,
     QuantityUnitEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
@@ -27,6 +27,7 @@ JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
 SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
 MEAL_CODE_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
+
 DEFAULT_BIN_WEIGHT_VALUE = 60
 DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
@@ -36,9 +37,11 @@ class FormattedRecipeComponent:
         self.quantity_values = rtc.get('quantityUnitValues') or []
         self.quantity = rtc.get('quantity') or 0.0
         self.unit = rtc.get('unit', {}).get('name') or ''
-        self.ingredient = rtc.get('ingredient') or {}
-        self.subrecipe = rtc.get('recipeItem').get('subRecipe') or {}
+        self.recipeitem = rtc.get('recipeItem') or {}
+        self.ingredient = self.recipeitem.get('ingredient') or {}
+        self.subrecipe = self.recipeitem.get('subRecipe') or {}
         self.rtc = self.subrecipe.get('recipeTreeComponents') or []
+        self.preparations = self.recipeitem.get('preparations') or []
 
         if self.ingredient:
             self.type = 'ingredient'
@@ -57,7 +60,8 @@ class FormattedRecipeComponent:
             usage=dict(value=self.quantity, unit=self.unit),
             quantityValues=format_quantity_value(self.quantity_values),
             binWeight=format_bin_weight(self.data.get('categoryValues')),
-            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe'))
+            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
+            cuppingContainer=get_cupping_container(self.preparations)
         )
 
         if self.type == 'recipe':
@@ -166,33 +170,53 @@ def format_quantity_value(quantity_values: List) -> List[Dict]:
     return quantities
 
 
-def is_core_recipe(component: Dict) -> bool:
+def is_core_recipe(recipeitem: Dict) -> bool:
     """
     Returns True if a recipe component contains a "Core Recipe"
     preparation.
     """
-    preparations = component.get('recipeItem', {}).get('preparations') or []
-    return any(prep.get('id') == PreparationEnum.CORE_RECIPE.value for prep in preparations)
+    preparations = recipeitem.get('preparations') or []
+    return any(prep.get('id') == PrepEnum.CORE_RECIPE.value for prep in preparations)
 
 
-def is_packaging(component: Dict) -> bool:
+def is_packaging(ingredient: Dict) -> bool:
     """
     Checks and returns True if an ingredient-typed component is a food
     package item.
     """
-    cvs = component.get('ingredient', {}).get('categoryValues') or []
+    cvs = ingredient.get('categoryValues') or []
     return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
+
+
+def get_cupping_container(preparations: List) -> bool:
+    """
+    Returns True if a recipe component contains a cupping container
+    preparation.
+    """
+    containers = {
+        PrepEnum.INSERT.value,
+        PrepEnum.INSERT12.value,
+        PrepEnum.TWO_OZ_RAM.value,
+        PrepEnum.FOUR_OZ_RAM.value,
+        PrepEnum.THREE_OZ_RAM.value,
+        PrepEnum.TWO_OZ_WINPAK.value,
+        PrepEnum.TWELVE_OZ_ROUND_INSERT.value
+    }
+    return next((prep.get('name')
+                 for prep in preparations
+                 if prep.get('id') in containers), None)
 
 
 def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
     components: List = []
     for rtc in recipe_tree_components:
-        ingredient = rtc.get('ingredient') or {}
-        subrecipe = rtc.get('recipeItem', {}).get('subRecipe') or {}
+        recipeitem = rtc.get('recipeItem') or {}
+        ingredient = recipeitem.get('ingredient') or {}
+        subrecipe = recipeitem.get('subRecipe') or {}
 
-        if ingredient and is_packaging(rtc):
+        if ingredient and is_packaging(ingredient):
             continue
-        if subrecipe and is_core_recipe(rtc):
+        if subrecipe and is_core_recipe(recipeitem):
             components.extend(subrecipe.get('recipeTreeComponents') or [])
         else:
             components.append(rtc)
@@ -225,17 +249,19 @@ def get_formatted_ops_menu_data(
         for menu_item in menu_items:
             meal_code = get_meal_code(menu_item.get('categoryValues'))
             if meal_code.lower() in MEAL_CODE_WHITELIST:
-                formatted_recipe = FormattedRecipe(menu_item.get('recipe') or {})
+                recipe = menu_item.get('recipe') or {}
+                files = recipe.get('files') or {}
+                category_values = recipe.get('categoryValues') or []
                 formatted_menu['menuItems'].append(dict(
                     menuItemId=menu_item.get('id'),
                     mealCode=meal_code,
                     recipeId=menu_item.get('recipeId'),
-                    recipeName=formatted_recipe.externalName,
-                    mealContainer=formatted_recipe.recipe_tags.get('mealContainer', ''),
-                    platePhotoUrl=formatted_recipe.plate_photo_url,
+                    recipeName=get_external_name(recipe),
+                    mealContainer=get_recipe_category_tags(category_values).get('mealContainer'),
+                    platePhotoUrl=get_plate_photo_url(files.get('photos') or []),
                     totalCount=menu_item.get('volume'),
                     totalCountUnit=menu_item.get('unit', {}).get('name'),
-                    primaryRecipeComponents=format_ops_menu_rtc_data(formatted_recipe.recipe_tree_components)
+                    primaryRecipeComponents=format_ops_menu_rtc_data(recipe.get('recipeTreeComponents') or [])
                 ))
         formatted_menus.append(formatted_menu)
     return formatted_menus

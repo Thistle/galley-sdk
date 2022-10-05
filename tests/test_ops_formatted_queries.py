@@ -134,17 +134,18 @@ class TestFormattedRecipeInstructions(TestCase):
 class TestFormattedAllergenData(TestCase):
     def test_format_recipe_allergen_data_successful(self):
         mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
-        mock_data['dietaryFlagsWithUsage'] = [{'dietaryFlag': {'id': DF.PEANUTS.value,
-                                                               'name': 'peanuts'}},
-                                              {'dietaryFlag': {'id': DF.SOY_BEANS.value,
-                                                               'name': 'soy beans'}}]
+        mock_data['dietaryFlagsWithUsage'] = [
+            {'dietaryFlag': {'id': DF.PEANUTS.value, 'name': 'peanuts'}},
+            {'dietaryFlag': {'id': DF.SOY_BEANS.value, 'name': 'soy beans'}}
+        ]
         expected = ['peanuts', 'soy']
         result = format_allergens(mock_data['dietaryFlagsWithUsage'])
         self.assertEqual(result, expected)
 
     def test_format_ingredient_allergen_data_successful(self):
-        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe'] \
-            ['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']\
+                    ['recipeTreeComponents'][3]['recipeItem']['ingredient']\
+                    ['dietaryFlags']
         expected = ['sesame_seeds', 'tree_nuts']
         result = format_allergens(mock_data, is_recipe=False)
         self.assertEqual(result, expected)

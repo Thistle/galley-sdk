@@ -27,10 +27,16 @@ class PreparationEnum(Enum):
     """
     Enum for preparations.  <preparation name>: <preparation id>
     """
-    STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
-    TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
-    THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
     CORE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
+    STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
+    # CUPPING CONTAINERS
+    INSERT = 'cHJlcGFyYXRpb246MjgyNzE='
+    INSERT12 = 'cHJlcGFyYXRpb246MjgzODE='
+    TWO_OZ_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
+    FOUR_OZ_RAM = 'cHJlcGFyYXRpb246MzAwMzE='
+    THREE_OZ_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
+    TWO_OZ_WINPAK = 'cHJlcGFyYXRpb246MzEwMjI='
+    TWELVE_OZ_ROUND_INSERT = 'cHJlcGFyYXRpb246Mjg2MDY='
 
 
 class IngredientCategoryValueEnum(Enum):
