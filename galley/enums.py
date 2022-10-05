@@ -1,6 +1,14 @@
 from enum import Enum
 
 
+class LocationEnum(Enum):
+    """
+    Enum for locations. <location name>: <location id>
+    """
+    VACAVILLE = 'bG9jYXRpb246MTkyOA=='
+    BURLINGTON = 'bG9jYXRpb246Mzg1MQ=='
+
+
 class MenuCategoryEnum(Enum):
     """
     Enum for categories, for item type menu <category name>: <category id>
