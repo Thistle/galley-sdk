@@ -5,7 +5,6 @@ from setuptools import setup
 setup(
     name='galley_sdk',
     version='0.41.0',
-    version='0.40.1',
     packages=['galley'],
     install_requires=['sgqlc==14.0', 'backoff==1.11.1']
 )
