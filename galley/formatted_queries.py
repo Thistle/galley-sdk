@@ -104,6 +104,14 @@ class RecipeItem:
                     for cat_val in self.category_values
         )
 
+    def get_label_name(self):
+        for cat_val in self.category_values:
+            if cat_val.get('id') == IngredientCategoryValueEnum.LABEL.value:
+                external_name = self.ingredient.get('externalName')
+                if external_name:
+                    return external_name
+                return self.ingredient.get('name')
+
     def mass(self, unit: str='g'):
         if self.unit_values is None:
             raise Exception('Cannot get mass without quantity unit values')
@@ -284,7 +292,7 @@ def get_recipe_category_tags(
         RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value: 'highlightOne',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value: 'highlightTwo',
-        RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value: 'noNutritionOnWebsite',
+        RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value: 'noNutritionOnWebsite'
     }
 
     for recipe_category_value in recipe_category_values:
@@ -347,6 +355,7 @@ def format_recipe_tree_components_data(
     net_weight, gross_weight = 0, 0
     subcomponents, standalones = [], []
 
+    label_name = None
     for recipe_tree_component in recipe_tree_components:
         recipe_item = recipe_tree_component.get('recipeItem') or {}
         if recipe_item:
@@ -358,6 +367,9 @@ def format_recipe_tree_components_data(
                 subrecipe=recipe_item.get('subRecipe'),
             )
             mass = recipe_item.mass() if recipe_item.mass() else 0
+
+            if recipe_item.get_label_name():
+                label_name = recipe_item.get_label_name()
 
             if recipe_item.is_packaging():
                 gross_weight += mass
@@ -380,6 +392,7 @@ def format_recipe_tree_components_data(
                 netWeight=round(net_weight),
                 grossWeight=round(gross_weight),
                 hasStandalone=bool(standalones),
+                labelName=label_name,
                 **format_standalone_data(standalone))
 
 
