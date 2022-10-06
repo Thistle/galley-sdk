@@ -7,6 +7,7 @@ from galley.formatted_queries import (
 )
 from galley.formatted_ops_queries import (
     FormattedRecipeComponent,
+    format_ops_menu_rtc_data,
     get_cupping_container,
     get_formatted_ops_menu_data,
     format_instructions,
@@ -150,6 +151,13 @@ class TestFormattedCuppingContainerData(TestCase):
         result = FormattedRecipeComponent(mock_rtc) \
                 .to_primary_component_dict()
         self.assertEqual(result['cuppingContainer'], None)
+
+    def test_get_cupping_container_from_nested_primary_component(self):
+        mock_rtc = mock_recipeTreeComponents[0]
+        result = format_ops_menu_rtc_data([mock_rtc])[0]
+        self.assertEqual(result['id'], 'cmVjaXBlOjE4OTcwNA==')
+        self.assertEqual(result['cuppingContainer'], '2 oz RAM')
+        self.assertEqual(result, mock_primaryComponents[0])
 
 
 class TestFormattedAllergenData(TestCase):
