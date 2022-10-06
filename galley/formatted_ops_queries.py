@@ -40,8 +40,8 @@ class FormattedRecipeComponent:
         self.recipeitem = rtc.get('recipeItem') or {}
         self.ingredient = self.recipeitem.get('ingredient') or {}
         self.subrecipe = self.recipeitem.get('subRecipe') or {}
-        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
         self.preparations = self.recipeitem.get('preparations') or []
+        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
 
         if self.ingredient:
             self.type = 'ingredient'

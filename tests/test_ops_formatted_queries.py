@@ -6,6 +6,8 @@ from galley.formatted_queries import (
     get_meal_code
 )
 from galley.formatted_ops_queries import (
+    FormattedRecipeComponent,
+    get_cupping_container,
     get_formatted_ops_menu_data,
     format_instructions,
     format_allergens,
@@ -129,6 +131,25 @@ class TestFormattedRecipeInstructions(TestCase):
     def test_format_instructions_None(self):
         result = format_instructions(None)
         self.assertEqual(result, [])
+
+
+class TestFormattedCuppingContainerData(TestCase):
+    def test_get_cupping_container_data_successful(self):
+        mock_data = mock_recipeTreeComponents[4]['recipeItem']
+        result = get_cupping_container(mock_data['preparations'])
+        self.assertEqual(result, '2 oz WINPAK')
+
+    def test_get_cupping_container_data_empty_preparations(self):
+        mock_data = mock_recipeTreeComponents[1]['recipeItem']
+        result = get_cupping_container(mock_data['preparations'])
+        self.assertEqual(result, None)
+
+    def test_get_cupping_container_data_null_preparations(self):
+        mock_rtc = mock_recipeTreeComponents[1]
+        mock_rtc['recipeItem']['preparations'] = None
+        result = FormattedRecipeComponent(mock_rtc) \
+                .to_primary_component_dict()
+        self.assertEqual(result['cuppingContainer'], None)
 
 
 class TestFormattedAllergenData(TestCase):
