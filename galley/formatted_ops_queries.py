@@ -9,9 +9,10 @@ from galley.formatted_queries import (
     get_recipe_category_tags
 )
 from galley.enums import (
-    PreparationEnum as PrepEnum,
+    ContainerEnum,
     DietaryFlagEnum,
     QuantityUnitEnum,
+    PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
     RecipeCategoryTagTypeEnum as RecipeCTagEnum
@@ -193,18 +194,9 @@ def get_cupping_container(preparations: List) -> Optional[bool]:
     Returns True if a recipe component contains a cupping container
     preparation.
     """
-    containers = {
-        PrepEnum.INSERT.value,
-        PrepEnum.INSERT12.value,
-        PrepEnum.TWO_OZ_RAM.value,
-        PrepEnum.FOUR_OZ_RAM.value,
-        PrepEnum.THREE_OZ_RAM.value,
-        PrepEnum.TWO_OZ_WINPAK.value,
-        PrepEnum.TWELVE_OZ_ROUND_INSERT.value
-    }
     return next((prep.get('name')
                  for prep in preparations
-                 if prep.get('id') in containers), None)
+                 if prep.get('id') in ContainerEnum.CUPPING.values), None)
 
 
 def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
