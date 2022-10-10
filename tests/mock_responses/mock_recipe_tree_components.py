@@ -1,4 +1,4 @@
-from galley.enums import PreparationEnum
+from galley.enums import IngredientCategoryValueEnum, PreparationEnum
 
 
 mock_recipe_tree_components_data = [

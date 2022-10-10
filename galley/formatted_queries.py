@@ -368,8 +368,9 @@ def format_recipe_tree_components_data(
             )
             mass = recipe_item.mass() if recipe_item.mass() else 0
 
-            if recipe_item.get_label_name():
-                label_name = recipe_item.get_label_name()
+            component_label_name = recipe_item.get_label_name()
+            if component_label_name:
+                label_name = component_label_name
 
             if recipe_item.is_packaging():
                 gross_weight += mass
