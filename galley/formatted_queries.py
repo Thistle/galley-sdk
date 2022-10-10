@@ -111,6 +111,7 @@ class RecipeItem:
                 if external_name:
                     return external_name
                 return self.ingredient.get('name')
+        return None
 
     def mass(self, unit: str='g'):
         if self.unit_values is None:
