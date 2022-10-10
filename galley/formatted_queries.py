@@ -104,7 +104,7 @@ class RecipeItem:
                     for cat_val in self.category_values
         )
 
-    def get_label_name(self):
+    def get_label_name(self) -> Optional[str]:
         for cat_val in self.category_values:
             if cat_val.get('id') == IngredientCategoryValueEnum.LABEL.value:
                 external_name = self.ingredient.get('externalName')
