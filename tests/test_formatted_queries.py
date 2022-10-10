@@ -1,5 +1,5 @@
 from unittest import TestCase, mock
-from galley.enums import RecipeCategoryTagTypeEnum
+from galley.enums import IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
 from tests.mock_responses.mock_menu_data import mock_menu
 from galley.formatted_queries import (
     RecipeItem,
@@ -243,6 +243,46 @@ class TestIngredientsFromRecipeItems(TestCase):
         self.assertEqual(result, {})
 
 
+class TestRecipeItemLabelName(TestCase):
+    def test_returns_none_if_not_a_label(self):
+        ingredient = {
+            'categoryValues': [
+                {'id': 'NotALabelId'}
+            ]
+        }
+        recipe_item = RecipeItem(ingredient=ingredient)
+        self.assertEqual(recipe_item.get_label_name(), None)
+
+    def test_returns_none_if_is_a_label_but_no_external_name_or_name(self):
+        ingredient = {
+            'categoryValues': [
+                {'id': IngredientCategoryValueEnum.LABEL.value}
+            ]
+        }
+        recipe_item = RecipeItem(ingredient=ingredient)
+        self.assertEqual(recipe_item.get_label_name(), None)
+
+    def test_returns_external_name_if_exists_and_is_a_label(self):
+        ingredient = {
+            'categoryValues': [
+                {'id': IngredientCategoryValueEnum.LABEL.value}
+            ],
+            'externalName': 'Ingredient External Name'
+        }
+        recipe_item = RecipeItem(ingredient=ingredient)
+        self.assertEqual(recipe_item.get_label_name(), ingredient['externalName'])
+
+    def test_returns_name_if_external_name_does_not_exist_and_is_a_label(self):
+        ingredient = {
+            'categoryValues': [
+                {'id': IngredientCategoryValueEnum.LABEL.value}
+            ],
+            'name': 'Name'
+        }
+        recipe_item = RecipeItem(ingredient=ingredient)
+        self.assertEqual(recipe_item.get_label_name(), ingredient['name'])
+
+
 class TestCalculateServings(TestCase):
     def test_calculate_servings_sucessful_with_expected_data(self):
         expected_result = 2.5
@@ -307,6 +347,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
+            'labelName': None,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
@@ -327,6 +368,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
+            'labelName': None,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
@@ -347,6 +389,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'netWeight': 213,
             'grossWeight': 291,
             'hasStandalone': True,
+            'labelName': None,
             'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
             'standaloneRecipeName': 'Vanilla Cashew Cream',
             'standaloneNutrition': STANDALONE_NUTRITION,
@@ -442,6 +485,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
+                'labelName': None,
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
@@ -473,6 +517,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'notes': 'Some notes about recipe 2',
                 'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'description': 'Details about recipe 2',
+                'labelName': None,
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU2',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
@@ -636,6 +681,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
+                'labelName': None,
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
@@ -693,6 +739,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'version': 'dmVyc2lvbjozNjQ0NTY1',
                 'notes': 'Some notes about recipe 1',
                 'description': 'Details about recipe 1',
+                'labelName': None,
                 'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
                 'nutrition': mock_nutrition_data.mock_data,
                 'proteinType': 'vegan',
@@ -800,3 +847,4 @@ class TestGetFormattedMenuData(TestCase):
                          "Brussel Sprout & Asian Pear 'Fried' Rice")
         self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"),
                          "Beetroot Quinoa & Sun 'Cheese' Salad")
+

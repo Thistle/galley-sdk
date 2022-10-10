@@ -59,6 +59,7 @@ class IngredientCategoryValueEnum(Enum):
     Enum for Ingredient CategoryValues. <categoryValue name>: <categoryValue id>
     """
     FOOD_PACKAGE = 'Y2F0ZWdvcnlWYWx1ZToxNDAxNQ=='
+    LABEL = 'Y2F0ZWdvcnlWYWx1ZToyMjI3OA=='
 
 
 class IngredientCategoryTagTypeEnum(Enum):
