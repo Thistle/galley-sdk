@@ -227,7 +227,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                     'recipeItems': [{
                         'preparations': [
                             {
-                                'id': PreparationEnum.TWO_OUNCE_RAM.value,
+                                'id': PreparationEnum.TWO_OZ_RAM.value,
                                 'name':  '2 oz RAM'
                             }
                         ],
@@ -329,7 +329,7 @@ def mock_menu(date, location_name="Vacaville", menu_type="production"):
                     'recipeItems': [{
                         'preparations': [
                             {
-                                'id': PreparationEnum.THREE_OUNCE_RAM.value,
+                                'id': PreparationEnum.THREE_OZ_RAM.value,
                                 'name':  '3.25 oz RAM'},
                             {
                                 'id': PreparationEnum.STANDALONE.value,

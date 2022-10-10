@@ -6,6 +6,9 @@ from galley.formatted_queries import (
     get_meal_code
 )
 from galley.formatted_ops_queries import (
+    FormattedRecipeComponent,
+    format_ops_menu_rtc_data,
+    get_cupping_container,
     get_formatted_ops_menu_data,
     format_instructions,
     format_allergens,
@@ -131,20 +134,47 @@ class TestFormattedRecipeInstructions(TestCase):
         self.assertEqual(result, [])
 
 
+class TestFormattedCuppingContainerData(TestCase):
+    def test_get_cupping_container_data_successful(self):
+        mock_data = mock_recipeTreeComponents[4]['recipeItem']
+        result = get_cupping_container(mock_data['preparations'])
+        self.assertEqual(result, '2 oz WINPAK')
+
+    def test_get_cupping_container_data_empty_preparations(self):
+        mock_data = mock_recipeTreeComponents[1]['recipeItem']
+        result = get_cupping_container(mock_data['preparations'])
+        self.assertEqual(result, None)
+
+    def test_get_cupping_container_data_null_preparations(self):
+        mock_rtc = mock_recipeTreeComponents[1]
+        mock_rtc['recipeItem']['preparations'] = None
+        result = FormattedRecipeComponent(mock_rtc) \
+                .to_primary_component_dict()
+        self.assertEqual(result['cuppingContainer'], None)
+
+    def test_get_cupping_container_from_nested_primary_component(self):
+        mock_rtc = mock_recipeTreeComponents[0]
+        result = format_ops_menu_rtc_data([mock_rtc])[0]
+        self.assertEqual(result['id'], 'cmVjaXBlOjE4OTcwNA==')
+        self.assertEqual(result['cuppingContainer'], '2 oz RAM')
+        self.assertEqual(result, mock_primaryComponents[0])
+
+
 class TestFormattedAllergenData(TestCase):
     def test_format_recipe_allergen_data_successful(self):
         mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']
-        mock_data['dietaryFlagsWithUsage'] = [{'dietaryFlag': {'id': DF.PEANUTS.value,
-                                                               'name': 'peanuts'}},
-                                              {'dietaryFlag': {'id': DF.SOY_BEANS.value,
-                                                               'name': 'soy beans'}}]
+        mock_data['dietaryFlagsWithUsage'] = [
+            {'dietaryFlag': {'id': DF.PEANUTS.value, 'name': 'peanuts'}},
+            {'dietaryFlag': {'id': DF.SOY_BEANS.value, 'name': 'soy beans'}}
+        ]
         expected = ['peanuts', 'soy']
         result = format_allergens(mock_data['dietaryFlagsWithUsage'])
         self.assertEqual(result, expected)
 
     def test_format_ingredient_allergen_data_successful(self):
-        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe'] \
-            ['recipeTreeComponents'][3]['ingredient']['dietaryFlags']
+        mock_data = mock_recipeTreeComponents[0]['recipeItem']['subRecipe']\
+                    ['recipeTreeComponents'][3]['recipeItem']['ingredient']\
+                    ['dietaryFlags']
         expected = ['sesame_seeds', 'tree_nuts']
         result = format_allergens(mock_data, is_recipe=False)
         self.assertEqual(result, expected)

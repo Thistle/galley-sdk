@@ -29,7 +29,6 @@ mock_recipeTreeComponents = [
                 'value': 1
             }
         ],
-        'ingredient': None,
         'recipeItem': {
             'preparations': [
                 {
@@ -37,6 +36,7 @@ mock_recipeTreeComponents = [
                     'name': 'Base Recipe'
                 }
             ],
+            'ingredient': None,
             'subRecipe': {
                 'externalName': None,
                 'id': 'cmVjaXBlOjE5MjY1NA==',
@@ -53,7 +53,6 @@ mock_recipeTreeComponents = [
                 ],
                 'recipeTreeComponents': [
                     {
-                        'ingredient': None,
                         'quantity': 4,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -90,13 +89,19 @@ mock_recipeTreeComponents = [
                             }
                         ],
                         'recipeItem': {
-                            'preparations': [],
+                            'preparations': [
+                                {
+                                    'id': PreparationEnum.TWO_OZ_RAM.value,
+                                    'name': '2 oz RAM'
+                                }
+                            ],
+                            'ingredient': None,
                             'subRecipe': {
                                 'externalName': None,
                                 'id':'cmVjaXBlOjE4OTcwNA==',
                                 'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
                                 'dietaryFlagsWithUsages': [],
-                                "categoryValues": [
+                                'categoryValues': [
                                     {
                                         "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NA==",
                                         "name": "50",
@@ -120,8 +125,8 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDo0',
                                             'name': 'lb'
                                         },
-                                        'ingredient': None,
                                         'recipeItem': {
+                                            'ingredient': None,
                                             'subRecipe': {
                                                 'id': 'cmVjaXBlOjE4ODYwNg==',
                                                 'name': 'Cooked Rainbow Quinoa',
@@ -154,13 +159,13 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDo0',
                                             'name': 'lb'
                                         },
-                                        'ingredient': {
-                                            'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
-                                            'name': 'olives, kalamata, sliced',
-                                            'externalName': 'Kalamata Olives',
-                                            'dietaryFlags': []
-                                        },
                                         'recipeItem': {
+                                            'ingredient': {
+                                                'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
+                                                'name': 'olives, kalamata, sliced',
+                                                'externalName': 'Kalamata Olives',
+                                                'dietaryFlags': []
+                                            },
                                             'subRecipe': None
                                         }
                                     },
@@ -170,8 +175,8 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDoz',
                                             'name': 'oz'
                                         },
-                                        'ingredient': None,
                                         'recipeItem': {
+                                            'ingredient': None,
                                             'subRecipe': {
                                                 'id': 'cmVjaXBlOjE3Mjk2NQ==',
                                                 'name': 'Sliced Scallion',
@@ -211,7 +216,6 @@ mock_recipeTreeComponents = [
                         }
                     },
                     {
-                        'ingredient': None,
                         'quantity': 1.5,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -244,7 +248,13 @@ mock_recipeTreeComponents = [
                             }
                         ],
                         'recipeItem': {
-                            'preparations': [],
+                            'preparations': [
+                                {
+                                    'id': PreparationEnum.INSERT12.value,
+                                    'name': 'INSERT12'
+                                }
+                            ],
+                            'ingredient': None,
                             'subRecipe': {
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NjQ3Mw==',
@@ -283,8 +293,8 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDo0',
                                             'name': 'lb'
                                         },
-                                        'ingredient': None,
                                         'recipeItem': {
+                                            'ingredient': None,
                                             'subRecipe': {
                                                 'id': 'cmVjaXBlOjE5MDA5MQ==',
                                                 'name': 'Small Diced Tofu (1/4")',
@@ -315,23 +325,6 @@ mock_recipeTreeComponents = [
                         }
                     },
                     {
-                        'ingredient': {
-                            'externalName': 'Spring Mix Lettuce*',
-                            'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-                            'name': 'lettuce, spring mix, SEND TO PLATE',
-                            'categoryValues': [
-                                {
-                                    "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Mw==",
-                                    "name": "30",
-                                    "category": {
-                                        "id": "Y2F0ZWdvcnk6MzExOA==",
-                                        "name": "bin weight",
-                                        "itemType": "ingredient"
-                                    }
-                                }
-                            ],
-                            'dietaryFlags': []
-                        },
                         'quantity': 2.5,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -365,36 +358,27 @@ mock_recipeTreeComponents = [
                         ],
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Spring Mix Lettuce*',
+                                'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
+                                'name': 'lettuce, spring mix, SEND TO PLATE',
+                                'categoryValues': [
+                                    {
+                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Mw==",
+                                        "name": "30",
+                                        "category": {
+                                            "id": "Y2F0ZWdvcnk6MzExOA==",
+                                            "name": "bin weight",
+                                            "itemType": "ingredient"
+                                        }
+                                    }
+                                ],
+                                'dietaryFlags': []
+                            },
                             'subRecipe': None
                         }
                     },
                     {
-                        'ingredient': {
-                            'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
-                            'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-                            'name': 'crispy roasted chickpeas, 0.85 oz bag',
-                            'categoryValues': [
-                                {
-                                    "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NQ==",
-                                    "name": "40",
-                                    "category": {
-                                        "id": "Y2F0ZWdvcnk6MzExOA==",
-                                        "name": "bin weight",
-                                        "itemType": "ingredient"
-                                    }
-                                }
-                            ],
-                            'dietaryFlags': [
-                                {
-                                    'id': DietaryFlagEnum.SESAME_SEEDS.value,
-                                    'name': 'sesame seeds'
-                                },
-                                {
-                                    'id': DietaryFlagEnum.TREE_NUTS.value,
-                                    'name': 'tree nuts'
-                                }
-                            ]
-                        },
                         'quantity': 0.85,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -424,6 +408,32 @@ mock_recipeTreeComponents = [
                         ],
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
+                                'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
+                                'name': 'crispy roasted chickpeas, 0.85 oz bag',
+                                'categoryValues': [
+                                    {
+                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NQ==",
+                                        "name": "40",
+                                        "category": {
+                                            "id": "Y2F0ZWdvcnk6MzExOA==",
+                                            "name": "bin weight",
+                                            "itemType": "ingredient"
+                                        }
+                                    }
+                                ],
+                                'dietaryFlags': [
+                                    {
+                                        'id': DietaryFlagEnum.SESAME_SEEDS.value,
+                                        'name': 'sesame seeds'
+                                    },
+                                    {
+                                        'id': DietaryFlagEnum.TREE_NUTS.value,
+                                        'name': 'tree nuts'
+                                    }
+                                ]
+                            },
                             'subRecipe': None
                         }
                     }
@@ -455,9 +465,9 @@ mock_recipeTreeComponents = [
                 'value': 0.012499999988976886
             }
         ],
-        'ingredient': None,
         'recipeItem': {
             'preparations': [],
+            'ingredient': None,
             'subRecipe': {
                 'externalName': None,
                 'id': 'cmVjaXBlOjE3MDU4NA==',
@@ -506,13 +516,6 @@ mock_recipeTreeComponents = [
                 'dietaryFlagsWithUsages': [],
                 'recipeTreeComponents': [
                     {
-                        'ingredient': {
-                            'externalName': 'Sumac',
-                            'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
-                            'name': 'spice sumac',
-                            'categoryValues': [],
-                            'dietaryFlags': []
-                        },
                         'quantity': 0.75,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -520,17 +523,17 @@ mock_recipeTreeComponents = [
                         },
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Sumac',
+                                'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
+                                'name': 'spice sumac',
+                                'categoryValues': [],
+                                'dietaryFlags': []
+                            },
                             'subRecipe': None
                         }
                     },
                     {
-                        'ingredient': {
-                            'externalName': 'Black Pepper',
-                            'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
-                            'name': 'spice, black pepper, ground',
-                            'categoryValues': [],
-                            'dietaryFlags': []
-                        },
                         'quantity': 2,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -538,11 +541,17 @@ mock_recipeTreeComponents = [
                         },
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Black Pepper',
+                                'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
+                                'name': 'spice, black pepper, ground',
+                                'categoryValues': [],
+                                'dietaryFlags': []
+                            },
                             'subRecipe': None
                         }
                     },
                     {
-                        'ingredient': None,
                         'quantity': 75,
                         'unit': {
                             'id': 'dW5pdDo0',
@@ -550,6 +559,7 @@ mock_recipeTreeComponents = [
                         },
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': None,
                             'subRecipe': {
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NjQ4MA==',
@@ -581,8 +591,8 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDo0',
                                             'name': 'lb'
                                         },
-                                        'ingredient': None,
                                         'recipeItem': {
+                                            'ingredient': None,
                                             'subRecipe': {
                                                 'id': 'cmVjaXBlOjIwMjM5OA==',
                                                 'name': 'Mirepoix Sachet',
@@ -607,13 +617,13 @@ mock_recipeTreeComponents = [
                                             'id': 'dW5pdDo0',
                                             'name': 'lb'
                                         },
-                                        'ingredient': {
-                                            'id': 'aW5ncmVkaWVudDoyNDQyODE=',
-                                            'name': 'beans, garbanzo, dry',
-                                            'externalName': 'Garbanzo Beans',
-                                            'dietaryFlags': []
-                                        },
                                         'recipeItem': {
+                                            'ingredient': {
+                                                'id': 'aW5ncmVkaWVudDoyNDQyODE=',
+                                                'name': 'beans, garbanzo, dry',
+                                                'externalName': 'Garbanzo Beans',
+                                                'dietaryFlags': []
+                                            },
                                             'subRecipe': None
                                         }
                                     }
@@ -622,13 +632,6 @@ mock_recipeTreeComponents = [
                         }
                     },
                     {
-                        'ingredient': {
-                            'externalName': 'Extra Virgin Olive Oil',
-                            'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
-                            'name': 'oil, olive',
-                            'categoryValues': [],
-                            'dietaryFlags': [],
-                        },
                         'quantity': 6,
                         'unit': {
                             'id': 'dW5pdDo0',
@@ -636,17 +639,17 @@ mock_recipeTreeComponents = [
                         },
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Extra Virgin Olive Oil',
+                                'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
+                                'name': 'oil, olive',
+                                'categoryValues': [],
+                                'dietaryFlags': [],
+                            },
                             'subRecipe': None
                         }
                     },
                     {
-                        'ingredient': {
-                            'externalName': 'Lemon Juice',
-                            'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
-                            'name': 'juice, lemon',
-                            'categoryValues': [],
-                            'dietaryFlags': []
-                        },
                         'quantity': 6,
                         'unit': {
                             'id': 'dW5pdDo0',
@@ -654,11 +657,64 @@ mock_recipeTreeComponents = [
                         },
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': {
+                                'externalName': 'Lemon Juice',
+                                'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
+                                'name': 'juice, lemon',
+                                'categoryValues': [],
+                                'dietaryFlags': []
+                            },
                             'subRecipe': None
                         }
                     }
                 ],
             }
+        }
+    },
+    {
+        "quantity": 0.75,
+        "unit": {
+            "id": "dW5pdDoz",
+            "name": "oz"
+        },
+        "quantityUnitValues": [
+            {
+                "unit": { "id": "dW5pdDox", "name": "g" },
+                "value": 21.262142325
+            },
+            {
+                "unit": { "id": "dW5pdDoy", "name": "kg" },
+                "value": 0.021262142325
+            },
+            {
+                "unit": { "id": "dW5pdDoz", "name": "oz" },
+                "value": 0.75
+            },
+            {
+                "unit": { "id": "dW5pdDo0", "name": "lb" },
+                "value": 0.04687499995866332
+            }
+        ],
+        "recipeItem": {
+            "preparations": [
+                {
+                    "id": PreparationEnum.TWELVE_OZ_ROUND_INSERT.value,
+                    "name": "12-oz-clean-round-sided-INSERT"
+                }
+            ],
+            "ingredient": {
+                "id": "aW5ncmVkaWVudDoyNDUyMDQ=",
+                "name": "crackers, Mary's seeded GF, SEND TO PLATE",
+                "externalName": "Seed Crackers (Brown Rice, Quinoa, Pumpkin Seeds, Sunflower Seeds, Sesame Seeds, Flax Seeds, Poppy Seeds, Minced Onion, Garlic Powder, Sea Salt)*",
+                "categoryValues": [],
+                "dietaryFlags": [
+                    {
+                        "id": "ZGlldGFyeUZsYWc6MTY=",
+                        "name": "sesame seeds"
+                    },
+                ]
+            },
+            "subRecipe": None
         }
     },
     {
@@ -685,24 +741,24 @@ mock_recipeTreeComponents = [
                 'value': 0.006666666666666667
             }
         ],
-        'ingredient': {
-            'id': 'aW5ncmVkaWVudDoyNDQ4OTQ=',
-            'name': 'TS20 - 20oz Meal Boxes',
-            'externalName': 'TS20',
-            'dietaryFlags': [],
-            'categoryValues': [
-                {
-                  'id': 'Y2F0ZWdvcnlWYWx1ZToxNDgwMg==',
-                  'name': 'warehouse - packaging'
-                },
-                {
-                  'id': IngredientCategoryValueEnum.FOOD_PACKAGE.value,
-                  'name': 'food pkg'
-                }
-            ],
-        },
         'recipeItem': {
             'preparations': [],
+            'ingredient': {
+                'id': 'aW5ncmVkaWVudDoyNDQ4OTQ=',
+                'name': 'TS20 - 20oz Meal Boxes',
+                'externalName': 'TS20',
+                'dietaryFlags': [],
+                'categoryValues': [
+                    {
+                        'id': 'Y2F0ZWdvcnlWYWx1ZToxNDgwMg==',
+                        'name': 'warehouse - packaging'
+                    },
+                    {
+                        'id': IngredientCategoryValueEnum.FOOD_PACKAGE.value,
+                        'name': 'food pkg'
+                    }
+                ],
+            },
             'subRecipe': None
         }
     },
@@ -712,7 +768,7 @@ mock_recipeTreeComponents = [
             'id': 'dW5pdDoz',
             'name': 'oz'
         },
-         'quantityUnitValues': [
+        'quantityUnitValues': [
             {
                 'unit': { 'id': 'dW5pdDox', 'name': 'g'},
                 'value': 56.6990462
@@ -730,11 +786,10 @@ mock_recipeTreeComponents = [
                 'value': 0.12499999988976886
             }
         ],
-        'ingredient': None,
         'recipeItem': {
             'preparations': [
                 {
-                    'id': 'cHJlcGFyYXRpb246MzEwMjI=',
+                    'id': PreparationEnum.TWO_OZ_WINPAK.value,
                     'name': '2 oz WINPAK'
                 },
                 {
@@ -742,6 +797,7 @@ mock_recipeTreeComponents = [
                     'name': 'standalone'
                 }
             ],
+            'ingredient': None,
             'subRecipe': {
                 'externalName': 'Red Wine Vinaigrette',
                 'id': 'cmVjaXBlOjIyMzU3MQ==',
@@ -751,7 +807,6 @@ mock_recipeTreeComponents = [
                 'dietaryFlagsWithUsages': [],
                 'recipeTreeComponents': [
                     {
-                        'ingredient': None,
                         'quantity': 2,
                         'unit': {
                             'id': 'dW5pdDoz',
@@ -781,6 +836,7 @@ mock_recipeTreeComponents = [
                         ],
                         'recipeItem': {
                             'preparations': [],
+                            'ingredient': None,
                             'subRecipe': {
                                 'externalName': None,
                                 'id': 'cmVjaXBlOjE3NDI4OA==',
@@ -822,6 +878,7 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE4OTcwNA==',
         'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
         'allergens': [],
+        'cuppingContainer': '2 oz RAM',
         'usage': {
             'value': 4,
             'unit': 'oz'
@@ -881,6 +938,7 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE3NjQ3Mw==',
         'name': 'Tofu Feta',
         'allergens': ['soy'],
+        'cuppingContainer': 'INSERT12',
         'usage': {
             'value': 1.5,
             'unit': 'oz'
@@ -932,6 +990,7 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
         'name': 'Spring Mix Lettuce*',
         'allergens': [],
+        'cuppingContainer': None,
         'usage': {
             'value': 2.5,
             'unit': 'oz'
@@ -953,6 +1012,7 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
         'name': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
         'allergens': ['sesame_seeds', 'tree_nuts'],
+        'cuppingContainer': None,
         'usage': {
             'value': 0.85,
             'unit': 'oz'
@@ -974,6 +1034,7 @@ mock_formatted_primaryRecipeComponents = [
         'id': 'cmVjaXBlOjE3MDU4NA==',
         'name': 'Smashed Chickpea Salad - COOKED GARBANZOS',
         'allergens': [],
+        'cuppingContainer': None,
         'usage': {
             'value': 3,
             'unit': 'oz'
@@ -1073,10 +1134,33 @@ mock_formatted_primaryRecipeComponents = [
         ],
     },
     {
+        'type': 'ingredient',
+        'id': 'aW5ncmVkaWVudDoyNDUyMDQ=',
+        'name': 'Seed Crackers (Brown Rice, Quinoa, Pumpkin Seeds, Sunflower Seeds, Sesame Seeds, Flax Seeds, Poppy Seeds, Minced Onion, Garlic Powder, Sea Salt)*',
+        'allergens': ['sesame_seeds'],
+        'cuppingContainer': '12-oz-clean-round-sided-INSERT',
+        'usage': {
+            'value': 0.75,
+            'unit': 'oz'
+        },
+        'quantityValues':[{
+            'value': 0.75,
+            'unit': 'oz'
+        }, {
+            'value': 0.04687499995866332,
+            'unit': 'lb'
+        }],
+        'binWeight': {
+            'value': 60.0,
+            'unit': 'lb'
+        },
+    },
+    {
         'type': 'recipe',
         'id': 'cmVjaXBlOjIyMzU3MQ==',
         'name': 'Red Wine Vinaigrette',
         'allergens': [],
+        'cuppingContainer': '2 oz WINPAK',
         'usage': {
             'value': 2,
             'unit': 'oz'

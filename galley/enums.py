@@ -27,10 +27,31 @@ class PreparationEnum(Enum):
     """
     Enum for preparations.  <preparation name>: <preparation id>
     """
-    STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
-    TWO_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
-    THREE_OUNCE_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
     CORE_RECIPE = 'cHJlcGFyYXRpb246MzEzNjk='
+    STANDALONE = 'cHJlcGFyYXRpb246MjgzMzQ='
+    INSERT = 'cHJlcGFyYXRpb246MjgyNzE='
+    INSERT12 = 'cHJlcGFyYXRpb246MjgzODE='
+    TWO_OZ_RAM = 'cHJlcGFyYXRpb246MjgxMTU='
+    FOUR_OZ_RAM = 'cHJlcGFyYXRpb246MzAwMzE='
+    THREE_OZ_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
+    TWO_OZ_WINPAK = 'cHJlcGFyYXRpb246MzEwMjI='
+    TWELVE_OZ_ROUND_INSERT = 'cHJlcGFyYXRpb246Mjg2MDY='
+
+
+class ContainerEnum(set, Enum):  # type: ignore
+    CUPPING = {
+        PreparationEnum.INSERT,
+        PreparationEnum.INSERT12,
+        PreparationEnum.TWO_OZ_RAM,
+        PreparationEnum.FOUR_OZ_RAM,
+        PreparationEnum.THREE_OZ_RAM,
+        PreparationEnum.TWO_OZ_WINPAK,
+        PreparationEnum.TWELVE_OZ_ROUND_INSERT
+    }
+
+    @property
+    def values(self):
+        return set(enum.value for enum in self)
 
 
 class IngredientCategoryValueEnum(Enum):

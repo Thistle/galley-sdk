@@ -71,6 +71,11 @@ class TestOpsMenuDataQuery(TestCase):
             name
             }
             }
+            recipeItem {
+            preparations {
+            id
+            name
+            }
             ingredient {
             id
             name
@@ -88,11 +93,6 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             }
-            }
-            recipeItem {
-            preparations {
-            id
-            name
             }
             subRecipe {
             id
@@ -130,6 +130,11 @@ class TestOpsMenuDataQuery(TestCase):
             name
             }
             }
+            recipeItem {
+            preparations {
+            id
+            name
+            }
             ingredient {
             id
             name
@@ -148,7 +153,6 @@ class TestOpsMenuDataQuery(TestCase):
             name
             }
             }
-            recipeItem {
             subRecipe {
             id
             name
@@ -178,6 +182,7 @@ class TestOpsMenuDataQuery(TestCase):
             id
             name
             }
+            recipeItem {
             ingredient {
             id
             name
@@ -187,7 +192,6 @@ class TestOpsMenuDataQuery(TestCase):
             name
             }
             }
-            recipeItem {
             subRecipe {
             id
             name
