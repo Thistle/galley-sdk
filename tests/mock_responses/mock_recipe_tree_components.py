@@ -488,6 +488,7 @@ mock_recipe_tree_components_data = [
                 "name": "Vanilla Cashew Cream",
                 "reconciledNutritionals": {
                     'addedSugarG': 0,
+                    'addedSugarPercentDRV': 0.0,
                     'calciumMg': 3.1684181569284497,
                     'calciumPercentRDI': 0.002,
                     'caloriesKCal': 53.66203631343362,
@@ -519,6 +520,7 @@ mock_recipe_tree_components_data = [
                     'riboflavinMg': 0.009900242547519483,
                     'riboflavinPercentRDI': 0.008,
                     'saturatedFatG': 1.1966419313881989,
+                    'saturatedFatPercentDRV': 0.01840987586,
                     'seleniumMcg': 0.1983239364917749,
                     'seleniumPercentRDI': 0.004,
                     'sodiumMg': 80.1688699548479,
@@ -2269,6 +2271,7 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                 "name": "Vanilla Cashew Cream",
                 "reconciledNutritionals": {
                     'addedSugarG': 0,
+                    'addedSugarPercentDRV': 0.0,
                     'calciumMg': 3.1684181569284497,
                     'calciumPercentRDI': 0.002,
                     'caloriesKCal': 53.66203631343362,
@@ -2300,6 +2303,7 @@ mock_recipe_tree_components_data_with_multiple_servings_of_standalone = [
                     'riboflavinMg': 0.009900242547519483,
                     'riboflavinPercentRDI': 0.008,
                     'saturatedFatG': 1.1966419313881989,
+                    'saturatedFatPercentDRV': 0.01840987586,
                     'seleniumMcg': 0.1983239364917749,
                     'seleniumPercentRDI': 0.004,
                     'sodiumMg': 80.1688699548479,
@@ -3231,6 +3235,7 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                 "name": "Vanilla Cashew Cream",
                 "reconciledNutritionals": {
                     'addedSugarG': 0,
+                    'addedSugarPercentDRV': 0.0,
                     'calciumMg': 3.1684181569284497,
                     'calciumPercentRDI': 0.002,
                     'caloriesKCal': 53.66203631343362,
@@ -3262,6 +3267,7 @@ mock_recipe_tree_components_data_with_one_serving_of_standalone = [
                     'riboflavinMg': 0.009900242547519483,
                     'riboflavinPercentRDI': 0.008,
                     'saturatedFatG': 1.1966419313881989,
+                    'saturatedFatPercentDRV': 0.01840987586,
                     'seleniumMcg': 0.1983239364917749,
                     'seleniumPercentRDI': 0.004,
                     'sodiumMg': 80.1688699548479,
@@ -4201,6 +4207,7 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                 "name": "Vanilla Cashew Cream",
                 "reconciledNutritionals": {
                     'addedSugarG': 0,
+                    'addedSugarPercentDRV': 0.0,
                     'calciumMg': 3.1684181569284497,
                     'calciumPercentRDI': 0.002,
                     'caloriesKCal': 53.66203631343362,
@@ -4232,6 +4239,7 @@ mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_d
                     'riboflavinMg': 0.009900242547519483,
                     'riboflavinPercentRDI': 0.008,
                     'saturatedFatG': 1.1966419313881989,
+                    'saturatedFatPercentDRV': 0.01840987586,
                     'seleniumMcg': 0.1983239364917749,
                     'seleniumPercentRDI': 0.004,
                     'sodiumMg': 80.1688699548479,
