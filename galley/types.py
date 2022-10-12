@@ -31,6 +31,7 @@ class UnitValue(Type):
 
 class Nutrition(Type):
     addedSugarG = float
+    addedSugarPercentDRV = float
     calciumMg = float
     calciumPercentRDI = float
     caloriesKCal = float
@@ -62,6 +63,7 @@ class Nutrition(Type):
     riboflavinMg = float
     riboflavinPercentRDI = float
     saturatedFatG = float
+    saturatedFatPercentDRV = float
     seleniumMcg = float
     seleniumPercentRDI = float
     sodiumMg = float

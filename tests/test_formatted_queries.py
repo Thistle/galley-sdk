@@ -21,6 +21,7 @@ from tests.mock_responses import (
 
 
 STANDALONE_NUTRITION = {'addedSugarG': 0,
+                        'addedSugarPercentDRV': 0.0,
                         'calciumMg': 3.1684181569284497,
                         'calciumPercentRDI': 0.002,
                         'caloriesKCal': 53.66203631343362,
@@ -52,6 +53,7 @@ STANDALONE_NUTRITION = {'addedSugarG': 0,
                         'riboflavinMg': 0.009900242547519483,
                         'riboflavinPercentRDI': 0.008,
                         'saturatedFatG': 1.1966419313881989,
+                        'saturatedFatPercentDRV': 0.01840987586,
                         'seleniumMcg': 0.1983239364917749,
                         'seleniumPercentRDI': 0.004,
                         'sodiumMg': 80.1688699548479,

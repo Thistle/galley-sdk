@@ -240,6 +240,7 @@ class TestRecipeConnectionQuery(TestCase):
             }
             reconciledNutritionals {
             addedSugarG
+            addedSugarPercentDRV
             calciumMg
             calciumPercentRDI
             caloriesKCal
@@ -271,6 +272,7 @@ class TestRecipeConnectionQuery(TestCase):
             riboflavinMg
             riboflavinPercentRDI
             saturatedFatG
+            saturatedFatPercentDRV
             seleniumMcg
             seleniumPercentRDI
             sodiumMg
@@ -318,6 +320,7 @@ class TestRecipeConnectionQuery(TestCase):
             externalName
             reconciledNutritionals {
             addedSugarG
+            addedSugarPercentDRV
             calciumMg
             calciumPercentRDI
             caloriesKCal
@@ -349,6 +352,7 @@ class TestRecipeConnectionQuery(TestCase):
             riboflavinMg
             riboflavinPercentRDI
             saturatedFatG
+            saturatedFatPercentDRV
             seleniumMcg
             seleniumPercentRDI
             sodiumMg
@@ -447,6 +451,7 @@ class TestRecipeConnectionQuery(TestCase):
             allIngredients
             reconciledNutritionals {
             addedSugarG
+            addedSugarPercentDRV
             calciumMg
             calciumPercentRDI
             caloriesKCal
@@ -478,6 +483,7 @@ class TestRecipeConnectionQuery(TestCase):
             riboflavinMg
             riboflavinPercentRDI
             saturatedFatG
+            saturatedFatPercentDRV
             seleniumMcg
             seleniumPercentRDI
             sodiumMg

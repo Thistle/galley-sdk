@@ -1,5 +1,6 @@
 mock_data = {
 	'addedSugarG': 0,
+	'addedSugarPercentDRV': 0.0,
 	'calciumMg': 111.98919574121712,
 	'calciumPercentRDI': 0.086,
 	'caloriesKCal': 432.85693190562375,
@@ -31,6 +32,7 @@ mock_data = {
 	'riboflavinMg': 0.25357865086256715,
 	'riboflavinPercentRDI': 0.195,
 	'saturatedFatG': 4.504105090278564,
+	'saturatedFatPercentDRV': 0.06929392446,
 	'seleniumMcg': 25.00140713878487,
 	'seleniumPercentRDI': 0.455,
 	'sodiumMg': 259.10792677825793,
