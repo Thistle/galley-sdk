@@ -988,7 +988,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-        'name': 'Spring Mix Lettuce*',
+        'name': 'lettuce, spring mix, SEND TO PLATE',
         'allergens': [],
         'cuppingContainer': None,
         'usage': {
@@ -1010,7 +1010,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-        'name': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
+        'name': 'crispy roasted chickpeas, 0.85 oz bag',
         'allergens': ['sesame_seeds', 'tree_nuts'],
         'cuppingContainer': None,
         'usage': {
@@ -1047,7 +1047,7 @@ mock_formatted_primaryRecipeComponents = [
             'unit': 'lb'
         }],
         'binWeight': {
-            'value': 60,
+            'value': 60.0,
             'unit': 'lb'
         },
         'instructions': [
@@ -1136,7 +1136,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'ingredient',
         'id': 'aW5ncmVkaWVudDoyNDUyMDQ=',
-        'name': 'Seed Crackers (Brown Rice, Quinoa, Pumpkin Seeds, Sunflower Seeds, Sesame Seeds, Flax Seeds, Poppy Seeds, Minced Onion, Garlic Powder, Sea Salt)*',
+        'name': "crackers, Mary's seeded GF, SEND TO PLATE",
         'allergens': ['sesame_seeds'],
         'cuppingContainer': '12-oz-clean-round-sided-INSERT',
         'usage': {
@@ -1158,7 +1158,7 @@ mock_formatted_primaryRecipeComponents = [
     {
         'type': 'recipe',
         'id': 'cmVjaXBlOjIyMzU3MQ==',
-        'name': 'Red Wine Vinaigrette',
+        'name': 'Red Wine Vinaigrette 2oz',
         'allergens': [],
         'cuppingContainer': '2 oz WINPAK',
         'usage': {
@@ -1173,7 +1173,7 @@ mock_formatted_primaryRecipeComponents = [
             'unit': 'lb'
         }],
         'binWeight': {
-            'value': 60,
+            'value': 60.0,
             'unit': 'lb'
         },
         'instructions': [],
