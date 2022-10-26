@@ -67,6 +67,7 @@ class Query(Type):
 
 def recipe_connection_query(
     recipe_ids: List[str],
+    location_id: int,
     page_size: int = DEFAULT_PAGE_SIZE,
     start_index: int = 0
 ) -> Optional[Operation]:
@@ -80,7 +81,7 @@ def recipe_connection_query(
     query.viewer.recipeConnection.totalCount
 
     query.viewer.recipeConnection.edges.node.\
-        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'reconciledNutritionals')
+        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues')
     query.viewer.recipeConnection.edges.node.media.\
         __fields__('altText', 'caption', 'sourceUrl')
     query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.\
@@ -88,7 +89,8 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges.node.recipeItems.\
         __fields__('preparations')
     query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
-        __fields__('id', 'allIngredients', 'name', 'externalName', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
+        __fields__('id', 'allIngredients', 'name', 'externalName', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
         __fields__('id', 'name', 'externalName', 'categoryValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
@@ -98,29 +100,36 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
         __fields__('name','externalName', 'categoryValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
-        __fields__('id', 'externalName', 'name', 'allIngredients', 'reconciledNutritionals', 'nutritionalsQuantity', 'nutritionalsUnit')
+        __fields__('id', 'externalName', 'name', 'allIngredients', 'nutritionalsQuantity', 'nutritionalsUnit')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[0]).\
         __fields__('quantity', 'unit', 'quantityUnitValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\
         __fields__('totalQuantity', 'unit', 'totalQuantityUnitValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
         __fields__('id', 'externalName', 'name')
-    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages.dietaryFlag.\
+    query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
+    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id).dietaryFlag.\
         __fields__('id')
     return query
 
-def get_raw_recipes_data(recipe_ids: List[str]) -> Optional[List[Dict]]:
+def get_raw_recipes_data(recipe_ids: List[str], location_name: str='Vacaville') -> Optional[List[Dict]]:
     has_next_page = True
     page_size = DEFAULT_PAGE_SIZE
     start_index = 0
 
     raw_recipes_data = []
 
+    try:
+        location_id = LocationEnum[location_name.upper()].value
+    except KeyError:
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Invalid location name: {f'{location_name}'}")
+
     if recipe_ids is None:
         return []
 
     while has_next_page:
-        query = recipe_connection_query(recipe_ids=recipe_ids, page_size=page_size, start_index=start_index)
+        query = recipe_connection_query(recipe_ids=recipe_ids, location_id=location_id, page_size=page_size, start_index=start_index)
         raw_data = make_request_to_galley(op=query, variables={'recipeId': recipe_ids or []})
         validated_data = validate_response_data(raw_data, 'recipeConnection')
 

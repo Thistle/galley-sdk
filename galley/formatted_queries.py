@@ -487,9 +487,10 @@ def get_category_menu_type(menu_category_values) -> str:
 
 def get_formatted_recipes_data(
     recipe_ids: List[str],
+    location_name: str='Vacaville',
     **format_options: Dict
 ) -> Optional[List[Dict]]:
-    recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids) or []
+    recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids, location_name=location_name) or []
     formatted_recipes = []
     for recipe_data in recipes_data:
         formatted_recipe = FormattedRecipe(recipe_data, **format_options)
