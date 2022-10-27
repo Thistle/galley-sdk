@@ -18,6 +18,40 @@ from galley.enums import (DietaryFlagEnum,
 logger = logging.getLogger(__name__)
 
 
+def get_external_name_for_ingredient(data_dict):
+    """
+    Checks for locationVendorItem and vendorItem,and if present returns the ingredient externalName
+    plus the vendorItem ingredientListStr for the vendorItem.
+    If more than one vendorItem, uses the ingredientListStr for the vendorItem with priority.
+    If no locationVendorItems or no ingredientListStr, returns externalName. If no externalName, returns name.
+    """
+    FIRST_AND_ONLY_ITEM = 0
+    if 'externalName' in data_dict and data_dict['externalName'] is not None:
+        if 'locationVendorItems' in data_dict and data_dict['locationVendorItems'] is not None:
+            locationVendorItems = data_dict['locationVendorItems']
+            if len(locationVendorItems) and locationVendorItems[FIRST_AND_ONLY_ITEM]['vendorItems']:
+                vendorItems = locationVendorItems[FIRST_AND_ONLY_ITEM]['vendorItems']
+                if len(vendorItems) > 1:
+                    for vendorItem in vendorItems:
+                        if vendorItem['priority'] == 0:
+                            if vendorItem['ingredientListStr']:
+                                return f"{data_dict['externalName']} ({vendorItem['ingredientListStr']})"
+                            else:
+                                return data_dict['externalName']
+                else:
+                    vendorItem = vendorItems[FIRST_AND_ONLY_ITEM]
+                    if vendorItem['ingredientListStr']:
+                        return f"{data_dict['externalName']} ({vendorItem['ingredientListStr']})"
+                    else:
+                        return data_dict['externalName']
+        else:
+            return data_dict['externalName']
+    else:
+         if 'name' in data_dict:
+            return data_dict['name']
+    return None
+
+
 def get_external_name(data_dict):
     """
     Generic method to return external name for a recipe, menu etc.
@@ -156,7 +190,7 @@ class RecipeItem:
         ingredients = {}
 
         if self.ingredient:
-            name = get_external_name(self.ingredient)
+            name = get_external_name_for_ingredient(self.ingredient)
             ingredients[name] = self.mass('oz')
 
         elif self.subrecipe:
@@ -177,7 +211,7 @@ class RecipeItem:
                         quantity = usage.get('totalQuantity') if \
                                    unit.get('id') == UnitEnum.OZ.value else \
                                    usage_item.mass('oz')
-                        name = get_external_name(usage_item.ingredient)
+                        name = get_external_name_for_ingredient(usage_item.ingredient)
                         subquantity = quantity * (self.mass('oz') / max_batch)
                         ingredients[name] = ingredients.get(name, 0) + subquantity
         return ingredients
@@ -239,6 +273,7 @@ class FormattedRecipe:
                     standaloneIngredients=\
                         [ingredient for ingredient, _ in self.standalone_ingredients_usages]
                 ))
+
 
     def to_dict(self):
         self.format_ingredients()
