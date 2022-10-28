@@ -4,7 +4,7 @@ This is a Python SDK for interacting with the graphql API published by Galley (r
 
 
 ## Installation
-To set up your environment and install the required dependencies for local development, you will need both Python and a virtual environment tool like [virtualenv](https://virtualenv.pypa.io/en/latest/#) or [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) installed.
+To set up your environment and install the required dependencies for local development, you will may use both Python and a virtual environment tool like [virtualenv](https://virtualenv.pypa.io/en/latest/#) or [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) or the supplied [Development Container](https://containers.dev/).
 
 > :warning: Python version >3.8 is currently unsupported. You will have to downgrade Python (not recommended) or use pyenv-virtualenv to use galley-sdk.
 
@@ -33,6 +33,14 @@ $ pip install -r requirements.txt
 ```
 
 > Note: When using galley-sdk in the future, make sure you run `pyenv activate py38` beforehand to be in the correct virtual envrionment.
+
+### Using the supplied Development Container
+To use the development container you will need a docker environment installed.  
+
+If you are using VS Code you can then just open the project and you will be prompted to open the project in a container.  
+
+You will not need to install any local python or virtual environments if you use the development container.
+
 
 ### Using galley-sdk in your application:
 
