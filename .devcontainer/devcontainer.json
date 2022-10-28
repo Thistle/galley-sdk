@@ -63,9 +63,9 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
+	// fix for git as per https://www.kenmuse.com/blog/avoiding-dubious-ownership-in-dev-containers/
 	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && pip install -r requirements.txt",
-	//"postCreateCommand": "pip install -r requirements.txt",
-
+	
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
