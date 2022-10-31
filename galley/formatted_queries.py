@@ -1,7 +1,7 @@
 import re
 import logging
 from typing import Dict, List, Optional
-from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE, GALLEY_ERROR_PREFIX
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 from galley.enums import (DietaryFlagEnum,
                           IngredientCategoryTagTypeEnum,
@@ -491,6 +491,8 @@ def get_formatted_recipes_data(
     location_name: str,
     **format_options: Dict
 ) -> Optional[List[Dict]]:
+    if location_name is None:
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Location name required for recipe retrieval.")
     recipes_data = get_raw_recipes_data(recipe_ids=recipe_ids, location_name=location_name) or []
     formatted_recipes = []
     for recipe_data in recipes_data:

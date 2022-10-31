@@ -246,10 +246,6 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_recipe_data)
 
-    def test_should_throw_error_if_no_location_provided(self):
-        with self.assertRaises(TypeError):
-            get_raw_recipes_data(recipe_ids=[])
-
     def test_should_throw_error_if_location_is_not_ours(self):
         with self.assertRaises(ValueError):
             get_raw_recipes_data(recipe_ids=[], location_name="TestLocation")

@@ -851,3 +851,7 @@ class TestGetFormattedMenuData(TestCase):
         self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"),
                          "Beetroot Quinoa & Sun 'Cheese' Salad")
 
+    def test_should_throw_error_if_location_provided_is_None(self):
+        with self.assertRaises(ValueError):
+            get_formatted_recipes_data(recipe_ids=[], location_name=None)
+
