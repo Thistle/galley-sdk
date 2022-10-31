@@ -277,41 +277,40 @@ class TestIngredientExternalName(TestCase):
         self.assertEqual(result, ingredient['externalName'])
 
     def test_should_return_external_name_plus_ingredientListStr_if_ingredientListStr(self):
-        FIRST_LOCATION_VENDOR_ITEM = 0
-        FIRST_VENDOR_ITEM = 0
+        EXTERNAL_NAME = 'Garlic'
+        INGREDIENT_STRING = 'Stuff, Water'
         ingredient = {
-            'externalName': 'Garlic',
+            'externalName': EXTERNAL_NAME,
             'locationVendorItems': [{
                 'vendorItems': [{
-                    "ingredientListStr": "Stuff, Water"
+                    'ingredientListStr': INGREDIENT_STRING
                 }]
             }]
         }
         result = get_external_name_for_ingredient(ingredient)
-        expected_ing_str = f"{ingredient['externalName']} ({ingredient['locationVendorItems'][FIRST_LOCATION_VENDOR_ITEM]['vendorItems'][FIRST_VENDOR_ITEM]['ingredientListStr']})"
-        self.assertEqual(result, expected_ing_str)
+        self.assertEqual(result,  f'{EXTERNAL_NAME} ({INGREDIENT_STRING})')
 
     def test_should_return_ingredientListStr_of_vendorItem_with_priority(self):
-        FIRST_LOCATION_VENDOR_ITEM = 0
-        PRIORITY_VENDOR_ITEM = 1
+        EXTERNAL_NAME = 'Garlic'
+        INGREDIENT_STRING = 'Stuff, Water'
+        PRIORITY_INGREDIENT_STRING = 'Priority Stuff, Water'
         ingredient = {
-            'externalName': 'Garlic',
+            'externalName':  EXTERNAL_NAME,
             'locationVendorItems': [{
                 'vendorItems': [
                     {
-                         "priority": 1,
-                        "ingredientListStr": "Stuff, Water"
+                        'priority': 1,
+                        'ingredientListStr': INGREDIENT_STRING
                     },
                      {
-                        "priority": 0,
-                        "ingredientListStr": "Priority Stuff, Water"
+                        'priority': 0,
+                        'ingredientListStr': PRIORITY_INGREDIENT_STRING
                     }
                 ]
             }]
         }
         result = get_external_name_for_ingredient(ingredient)
-        expected_ing_str = f"{ingredient['externalName']} ({ingredient['locationVendorItems'][FIRST_LOCATION_VENDOR_ITEM]['vendorItems'][PRIORITY_VENDOR_ITEM]['ingredientListStr']})"
-        self.assertEqual(result, expected_ing_str)
+        self.assertEqual(result, f'{EXTERNAL_NAME} ({PRIORITY_INGREDIENT_STRING})')
 
 
 class TestRecipeItemLabelName(TestCase):

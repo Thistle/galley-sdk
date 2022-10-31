@@ -18,38 +18,18 @@ from galley.enums import (DietaryFlagEnum,
 logger = logging.getLogger(__name__)
 
 
-def get_external_name_for_ingredient(data_dict):
-    """
-    Checks for locationVendorItem and vendorItem,and if present returns the ingredient externalName
-    plus the vendorItem ingredientListStr for the vendorItem.
-    If more than one vendorItem, uses the ingredientListStr for the vendorItem with priority.
-    If no locationVendorItems or no ingredientListStr, returns externalName. If no externalName, returns name.
-    """
-    FIRST_AND_ONLY_ITEM = 0
-    if 'externalName' in data_dict and data_dict['externalName'] is not None:
-        if 'locationVendorItems' in data_dict and data_dict['locationVendorItems'] is not None:
-            locationVendorItems = data_dict['locationVendorItems']
-            if len(locationVendorItems) and locationVendorItems[FIRST_AND_ONLY_ITEM]['vendorItems']:
-                vendorItems = locationVendorItems[FIRST_AND_ONLY_ITEM]['vendorItems']
-                if len(vendorItems) > 1:
-                    for vendorItem in vendorItems:
-                        if vendorItem['priority'] == 0:
-                            if vendorItem['ingredientListStr']:
-                                return f"{data_dict['externalName']} ({vendorItem['ingredientListStr']})"
-                            else:
-                                return data_dict['externalName']
-                else:
-                    vendorItem = vendorItems[FIRST_AND_ONLY_ITEM]
-                    if vendorItem['ingredientListStr']:
-                        return f"{data_dict['externalName']} ({vendorItem['ingredientListStr']})"
-                    else:
-                        return data_dict['externalName']
-        else:
-            return data_dict['externalName']
-    else:
-         if 'name' in data_dict:
-            return data_dict['name']
-    return None
+def get_external_name_for_ingredient(ingredient: Dict) -> Optional[str]:
+    name =  (ingredient.get("externalName") or ingredient.get("name"))
+    ingredientListStr = (get_primary_vendor_item_for_ingredient(ingredient) or {}).get("ingredientListStr")
+    return f"{name} ({ingredientListStr})" if name and ingredientListStr else name
+
+
+def get_primary_vendor_item_for_ingredient(ingredient: Dict) -> Optional[Dict]:
+    vendorItems = next(iter(ingredient.get('locationVendorItems',[])),{}).get('vendorItems',[])
+    return (
+        next((vendorItem for vendorItem in vendorItems if vendorItem.get('priority') == 0 and vendorItem['ingredientListStr']),None)
+        or next(iter(vendorItems), None)
+    )
 
 
 def get_external_name(data_dict):
