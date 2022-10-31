@@ -25,8 +25,8 @@ def get_external_name_for_ingredient(ingredient: Dict) -> Optional[str]:
 
 
 def get_primary_vendor_item_for_ingredient(ingredient: Dict) -> Optional[Dict]:
-    locationVendorItems: Dict = next(iter(ingredient.get('locationVendorItems',[])),{})
-    vendorItems: List = locationVendorItems.get('vendorItems',[])
+    locationVendorItems: Dict = next(iter(ingredient.get('locationVendorItems') or []),{})
+    vendorItems: List = locationVendorItems.get('vendorItems') or []
     return (
         next((vendorItem for vendorItem in vendorItems if vendorItem.get('priority') == 0 and vendorItem['ingredientListStr']),None)
         or next(iter(vendorItems), None)
