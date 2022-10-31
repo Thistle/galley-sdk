@@ -19,13 +19,14 @@ logger = logging.getLogger(__name__)
 
 
 def get_external_name_for_ingredient(ingredient: Dict) -> Optional[str]:
-    name =  (ingredient.get("externalName") or ingredient.get("name"))
+    name = (ingredient.get("externalName") or ingredient.get("name"))
     ingredientListStr = (get_primary_vendor_item_for_ingredient(ingredient) or {}).get("ingredientListStr")
     return f"{name} ({ingredientListStr})" if name and ingredientListStr else name
 
 
 def get_primary_vendor_item_for_ingredient(ingredient: Dict) -> Optional[Dict]:
-    vendorItems = next(iter(ingredient.get('locationVendorItems',[])),{}).get('vendorItems',[])
+    locationVendorItems: Dict = next(iter(ingredient.get('locationVendorItems',[])),{})
+    vendorItems: List = locationVendorItems.get('vendorItems',[])
     return (
         next((vendorItem for vendorItem in vendorItems if vendorItem.get('priority') == 0 and vendorItem['ingredientListStr']),None)
         or next(iter(vendorItems), None)
