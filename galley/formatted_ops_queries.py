@@ -1,6 +1,7 @@
 import logging
 from typing import Dict, List, Optional, Union
 from galley.queries import get_raw_menu_data
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
     get_category_menu_type,
     get_meal_code,
@@ -218,8 +219,8 @@ def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict
 
 def get_formatted_ops_menu_data(
     dates: List[str],
-    location_name: str='Vacaville',
-    menu_type: str='production',
+    location_name: str=DEFAULT_LOCATION,
+    menu_type: str=DEFAULT_MENU_TYPE,
 ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
 

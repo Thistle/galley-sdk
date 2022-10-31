@@ -113,7 +113,7 @@ def recipe_connection_query(
         __fields__('id')
     return query
 
-def get_raw_recipes_data(recipe_ids: List[str], location_name: str='Vacaville') -> Optional[List[Dict]]:
+def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[List[Dict]]:
     has_next_page = True
     page_size = DEFAULT_PAGE_SIZE
     start_index = 0

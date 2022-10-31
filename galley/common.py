@@ -10,7 +10,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 GALLEY_ERROR_PREFIX = "(GalleyError)"
-
+DEFAULT_MENU_TYPE = 'production'
+DEFAULT_LOCATION = 'Vacaville'
 
 # GALLEY ENDPOINT BUILDER
 

@@ -1,5 +1,6 @@
 import logging
 from unittest import TestCase, mock
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import LocationEnum
 from sgqlc.operation import Operation
 
@@ -140,23 +141,23 @@ class TestQueryWeekMenuData(TestCase):
         ]
 
         # one valid menu name
-        result1 = get_raw_menu_data(['2021-11-14'], "Vacaville", "production")
+        result1 = get_raw_menu_data(['2021-11-14'], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(result1, [mock_menu('2021-11-14')])
 
         # multiple valid menu names
         result2 = get_raw_menu_data(['2021-11-21', '2021-11-21', '2021-11-28'],
-                                    "Vacaville", "production")
+                                    DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(result2, [mock_menu('2021-11-21'),
                                    mock_menu('2021-11-21'),
                                    mock_menu('2021-11-28')])
 
         # one valid menu name and one invalid menu name
         result3 = get_raw_menu_data(['2021-11-28', '2021-12-05'],
-                                    "Vacaville", "production")
+                                    DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(result3, [mock_menu('2021-11-28')])
 
         # one invalid menu name
-        result4 = get_raw_menu_data(['2021-12-05'], "Vacaville", "production")
+        result4 = get_raw_menu_data(['2021-12-05'], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(result4, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -169,13 +170,13 @@ class TestQueryWeekMenuData(TestCase):
             }
         }
         with self.assertRaises(ValueError):
-            get_raw_menu_data(['YYYY-MM-DD'], "Vacaville", "production")
+            get_raw_menu_data(['YYYY-MM-DD'], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_exception(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
         with self.assertRaises(ValueError):
-            get_raw_menu_data([], 'Vacaville', 'production')
+            get_raw_menu_data([], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_raw_menu_data_filters_by_location(self, mock_retrieval_method):
@@ -183,15 +184,15 @@ class TestQueryWeekMenuData(TestCase):
             'data': {
                 'viewer': {
                     'menus': [
-                        mock_menu('2021-10-04', 'Vacaville'),
+                        mock_menu('2021-10-04', DEFAULT_LOCATION),
                         mock_menu('2021-10-04', 'Long Beach'),
                     ]
                 }
             }
         }
-        result = get_raw_menu_data(['2021-10-04'], 'Vacaville', 'production')
+        result = get_raw_menu_data(['2021-10-04'], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(result, [mock_menu('2021-10-04',
-                                            location_name='Vacaville')])
+                                            location_name=DEFAULT_LOCATION)])
         self.assertEqual(len(result), 1)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -200,16 +201,16 @@ class TestQueryWeekMenuData(TestCase):
             'data': {
                 'viewer': {
                     'menus': [
-                        mock_menu('2021-10-04', menu_type='production'),
+                        mock_menu('2021-10-04', menu_type=DEFAULT_MENU_TYPE),
                         mock_menu('2021-10-04', menu_type='development'),
                     ]
                 }
             }
         }
-        result = get_raw_menu_data(['2021-10-04'], 'Vacaville', 'production')
+        result = get_raw_menu_data(['2021-10-04'], DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         self.assertEqual(len(result), 1)
         self.assertEqual(result,
-                         [mock_menu('2021-10-04', menu_type='production')])
+                         [mock_menu('2021-10-04', menu_type=DEFAULT_MENU_TYPE)])
 
 
 class TestRecipeConnectionQuery(TestCase):
@@ -242,8 +243,12 @@ class TestQueryGetRawRecipesData(TestCase):
                 }
             }
         }
-        result = get_raw_recipes_data(['1'])
+        result = get_raw_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_recipe_data)
+
+    def test_should_throw_error_if_no_location_provided(self):
+        with self.assertRaises(TypeError):
+            get_raw_recipes_data(recipe_ids=[])
 
     def test_should_throw_error_if_location_is_not_ours(self):
         with self.assertRaises(ValueError):
@@ -261,7 +266,7 @@ class TestQueryGetRawRecipesData(TestCase):
                 }
             }
         }
-        result = get_raw_recipes_data(['Fake'])
+        result = get_raw_recipes_data(recipe_ids=['Fake'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -278,7 +283,7 @@ class TestQueryGetRawRecipesData(TestCase):
                 }
             }
         }
-        result = get_raw_recipes_data(['Fake'])
+        result = get_raw_recipes_data(recipe_ids=['Fake'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -290,7 +295,7 @@ class TestQueryGetRawRecipesData(TestCase):
                 }
             }
         }
-        result = get_raw_recipes_data(['Fake'])
+        result = get_raw_recipes_data(recipe_ids=['Fake'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, None)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -327,6 +332,6 @@ class TestQueryGetRawRecipesData(TestCase):
                 }
             }
         ]
-        result = get_raw_recipes_data(['1', '2', '3'])
+        result = get_raw_recipes_data(recipe_ids=['1', '2', '3'], location_name=DEFAULT_LOCATION)
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
