@@ -1,5 +1,6 @@
 from unittest import TestCase, mock
 
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import DietaryFlagEnum as DF
 from galley.formatted_queries import (
     get_category_menu_type,
@@ -21,7 +22,7 @@ from tests.mock_responses.mock_ops_menu_data import (
 )
 
 
-def formatted_ops_menu(date, location_name='Vacaville', menu_type='production'):
+def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE):
     formatted_ops_menu = {
         'name': f'{date} 1_2_3',
         'id': 'MENU123ABC-OPS',
@@ -99,7 +100,7 @@ class TestMealCodeFromMenuItemCategoryValues(TestCase):
 
 class TestGetMenuTypeFromMenuCategoryValues(TestCase):
     def test_get_category_menu_type_successful(self):
-        expected_result = 'production'
+        expected_result = DEFAULT_MENU_TYPE
         result = get_category_menu_type(mock_ops_menu('2022-03-28')['categoryValues'])
         self.assertEqual(result, expected_result)
 
@@ -259,6 +260,6 @@ class TestGetFormattedOpsMenuData(TestCase):
     def test_get_formatted_ops_menu_data_args_defaults(self, mock_gromd):
         dates = ['2022-03-28', '2022-04-04']
         get_formatted_ops_menu_data(dates)
-        mock_gromd.assert_called_with(dates, 'Vacaville', 'production', is_ops=True)
+        mock_gromd.assert_called_with(dates, DEFAULT_LOCATION, DEFAULT_MENU_TYPE, is_ops=True)
         get_formatted_ops_menu_data(dates, 'Montana', 'staging')
         mock_gromd.assert_called_with(dates, 'Montana', 'staging', is_ops=True)

@@ -1,6 +1,7 @@
 from unittest import TestCase, mock
 from galley.enums import IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
 from tests.mock_responses.mock_menu_data import mock_menu
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
     RecipeItem,
     calculate_serving_size_weight,
@@ -139,8 +140,8 @@ def formatted_menu(date, onlySellableMenuItems=False):
         'name': f"{date} 1_2_3",
         'id': 'MENU123ABC',
         'date': f"{date}",
-        'location': 'Vacaville',
-        'categoryMenuType': 'production',
+        'location': DEFAULT_LOCATION,
+        'categoryMenuType': DEFAULT_MENU_TYPE,
         'menuItems': [{
             'allergens': [],
             'baseMeal': '',
@@ -554,7 +555,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1', '2'])
+        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_result)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -566,7 +567,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1', '2'])
+        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -578,7 +579,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1', '2'])
+        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -591,7 +592,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(["1"])
+        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION)
         formatted_recipe = result[0]
         self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_NO_USAGES)
         self.assertEqual(formatted_recipe['hasStandalone'], False)
@@ -613,7 +614,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
         formatted_recipe = result[0]
         self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_NO_USAGES)
         self.assertEqual(formatted_recipe['hasStandalone'], True)
@@ -636,7 +637,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(["1"], includeIngredientUsages=True)
+        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION, includeIngredientUsages=True)
         formatted_recipe = result[0]
         self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_WITH_USAGES)
         self.assertEqual(formatted_recipe['hasStandalone'], False)
@@ -659,7 +660,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(["1"], includeIngredientUsages=True)
+        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION, includeIngredientUsages=True)
         formatted_recipe = result[0]
         self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_WITH_USAGES)
         self.assertEqual(formatted_recipe['hasStandalone'], True)
@@ -726,7 +727,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_result)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -784,7 +785,7 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(['1'])
+        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_result)
 
 
@@ -838,7 +839,7 @@ class TestGetFormattedMenuData(TestCase):
     def test_get_formatted_menu_data_args_defaults(self, mock_grmd):
         dates = ['2021-11-14', '2021-10-04']
         get_formatted_menu_data(dates)
-        mock_grmd.assert_called_with(dates, 'Vacaville', 'production')
+        mock_grmd.assert_called_with(dates, DEFAULT_LOCATION, DEFAULT_MENU_TYPE)
         get_formatted_menu_data(dates, 'Montana', 'staging')
         mock_grmd.assert_called_with(dates, 'Montana', 'staging')
 
@@ -849,4 +850,8 @@ class TestGetFormattedMenuData(TestCase):
                          "Brussel Sprout & Asian Pear 'Fried' Rice")
         self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"),
                          "Beetroot Quinoa & Sun 'Cheese' Salad")
+
+    def test_should_throw_error_if_location_provided_is_None(self):
+        with self.assertRaises(ValueError):
+            get_formatted_recipes_data(recipe_ids=[], location_name=None)
 

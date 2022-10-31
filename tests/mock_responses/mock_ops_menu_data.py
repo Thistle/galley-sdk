@@ -1,3 +1,4 @@
+from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum
 
 mock_recipeTreeComponents = [
@@ -1193,7 +1194,7 @@ mock_formatted_primaryRecipeComponents = [
 ]
 
 
-def mock_ops_menu(date, location_name='Vacaville', menu_type='production'):
+def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE):
     return (
         {
             'name': f'{date} 1_2_3',

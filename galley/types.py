@@ -132,12 +132,12 @@ class SubRecipe(Type):
     allIngredients = str
     name = str
     externalName = str
-    reconciledNutritionals = Field(Nutrition)
+    reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
     nutritionalsQuantity = float
     nutritionalsUnit = Field(Unit)
     recipeInstructions = Field(RecipeInstruction)
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
-    dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages')
+    dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages', args=ArgDict(location_id=ID))
     categoryValues = Field(CategoryValue)
     allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
@@ -152,7 +152,7 @@ class RecipeItem(Type):
     preparations = Field(Preparation)
     quantity = float
     unit = Field(Unit)
-    reconciledNutritionals = Field(Nutrition)
+    reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
 
 
 class RecipeMedia(Type):
@@ -209,7 +209,7 @@ class Recipe(Type):
     notes = str
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
-    reconciledNutritionals = Field(Nutrition)
+    reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
     versionConnection = Field(RecipeVersionConnection)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
@@ -217,7 +217,7 @@ class Recipe(Type):
     files = Field(Files)
     isDish = bool
     totalYield = float
-    dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
     parentRecipeItems = Field(list_of(RecipeItem))
 
 
@@ -241,12 +241,12 @@ class RecipeNode(Node):
     notes = str
     description = str
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
-    reconciledNutritionals = Field(Nutrition)
+    reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
     versionConnection = Field(RecipeVersionConnection, args=ArgDict({'paginationOptions': PaginationOptions}))
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
-    dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages)
+    dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
     allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
