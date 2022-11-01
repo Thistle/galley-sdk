@@ -18,6 +18,21 @@ from galley.enums import (DietaryFlagEnum,
 logger = logging.getLogger(__name__)
 
 
+def get_external_name_for_ingredient(ingredient: Dict) -> Optional[str]:
+    name = (ingredient.get("externalName") or ingredient.get("name"))
+    ingredientListStr = (get_primary_vendor_item_for_ingredient(ingredient) or {}).get("ingredientListStr")
+    return f"{name} ({ingredientListStr})" if name and ingredientListStr else name
+
+
+def get_primary_vendor_item_for_ingredient(ingredient: Dict) -> Optional[Dict]:
+    locationVendorItems: Dict = next(iter(ingredient.get('locationVendorItems') or []),{})
+    vendorItems: List = locationVendorItems.get('vendorItems') or []
+    return (
+        next((vendorItem for vendorItem in vendorItems if vendorItem.get('priority') == 0 and vendorItem['ingredientListStr']),None)
+        or next(iter(vendorItems), None)
+    )
+
+
 def get_external_name(data_dict):
     """
     Generic method to return external name for a recipe, menu etc.
@@ -156,7 +171,7 @@ class RecipeItem:
         ingredients = {}
 
         if self.ingredient:
-            name = get_external_name(self.ingredient)
+            name = get_external_name_for_ingredient(self.ingredient)
             ingredients[name] = self.mass('oz')
 
         elif self.subrecipe:
@@ -177,7 +192,7 @@ class RecipeItem:
                         quantity = usage.get('totalQuantity') if \
                                    unit.get('id') == UnitEnum.OZ.value else \
                                    usage_item.mass('oz')
-                        name = get_external_name(usage_item.ingredient)
+                        name = get_external_name_for_ingredient(usage_item.ingredient)
                         subquantity = quantity * (self.mass('oz') / max_batch)
                         ingredients[name] = ingredients.get(name, 0) + subquantity
         return ingredients
@@ -239,6 +254,7 @@ class FormattedRecipe:
                     standaloneIngredients=\
                         [ingredient for ingredient, _ in self.standalone_ingredients_usages]
                 ))
+
 
     def to_dict(self):
         self.format_ingredients()

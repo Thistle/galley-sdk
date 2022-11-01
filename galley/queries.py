@@ -93,12 +93,14 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
         __fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems(location_ids=location_id)
     query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
         __fields__('id', 'quantity', 'unit', 'quantityUnitValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
         __fields__('quantity', 'unit', 'preparations', 'subRecipeId')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
         __fields__('name','externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=location_id)
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
         __fields__('id', 'externalName', 'name', 'allIngredients', 'nutritionalsQuantity', 'nutritionalsUnit')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals(location_id=location_id)
@@ -108,6 +110,7 @@ def recipe_connection_query(
         __fields__('totalQuantity', 'unit', 'totalQuantityUnitValues')
     query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
         __fields__('id', 'externalName', 'name')
+    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.locationVendorItems(location_ids=location_id)
     query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id).dietaryFlag.\
         __fields__('id')

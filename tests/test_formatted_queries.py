@@ -8,6 +8,7 @@ from galley.formatted_queries import (
     calculate_servings,
     format_recipe_tree_components_data,
     format_title,
+    get_external_name_for_ingredient,
     get_formatted_menu_data,
     get_formatted_recipes_data,
     get_recipe_category_tags
@@ -244,6 +245,87 @@ class TestIngredientsFromRecipeItems(TestCase):
         recipe_item = RecipeItem(ingredient={}, subrecipe={})
         result = recipe_item.get_ingredients_usages()
         self.assertEqual(result, {})
+
+
+class TestIngredientExternalName(TestCase):
+    def test_should_return_name_if_no_external_name(self):
+        ingredient = {
+            'name': 'name',
+            'externalName': None
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result, ingredient['name'])
+
+    def test_should_return_none_if_no_external_name_or_name(self):
+        ingredient = {
+            'name': None,
+            'externalName': None
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result, None)
+
+    def test_should_return_external_name_if_no_ingredientListStr(self):
+        ingredient = {
+            'externalName': 'Garlic',
+            'locationVendorItems': [{
+                'vendorItems': [{
+                    "ingredientListStr": None
+                }]
+            }]
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result, ingredient['externalName'])
+
+    def test_should_return_external_name_plus_ingredientListStr_if_ingredientListStr(self):
+        EXTERNAL_NAME = 'Garlic'
+        INGREDIENT_STRING = 'Stuff, Water'
+        ingredient = {
+            'externalName': EXTERNAL_NAME,
+            'locationVendorItems': [{
+                'vendorItems': [{
+                    'ingredientListStr': INGREDIENT_STRING
+                }]
+            }]
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result,  f'{EXTERNAL_NAME} ({INGREDIENT_STRING})')
+
+    def test_should_return_name_plus_ingredientListStr_if_name_and_ingredientListStr_and_no_externalName(self):
+        NAME = 'Garlic'
+        INGREDIENT_STRING = 'Stuff, Water'
+        ingredient = {
+            'externalName': None,
+            'name': NAME,
+            'locationVendorItems': [{
+                'vendorItems': [{
+                    'ingredientListStr': INGREDIENT_STRING
+                }]
+            }]
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result,  f'{NAME} ({INGREDIENT_STRING})')
+
+    def test_should_return_ingredientListStr_of_vendorItem_with_priority(self):
+        EXTERNAL_NAME = 'Garlic'
+        INGREDIENT_STRING = 'Stuff, Water'
+        PRIORITY_INGREDIENT_STRING = 'Priority Stuff, Water'
+        ingredient = {
+            'externalName':  EXTERNAL_NAME,
+            'locationVendorItems': [{
+                'vendorItems': [
+                    {
+                        'priority': 1,
+                        'ingredientListStr': INGREDIENT_STRING
+                    },
+                     {
+                        'priority': 0,
+                        'ingredientListStr': PRIORITY_INGREDIENT_STRING
+                    }
+                ]
+            }]
+        }
+        result = get_external_name_for_ingredient(ingredient)
+        self.assertEqual(result, f'{EXTERNAL_NAME} ({PRIORITY_INGREDIENT_STRING})')
 
 
 class TestRecipeItemLabelName(TestCase):

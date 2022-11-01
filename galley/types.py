@@ -93,13 +93,23 @@ class Nutrition(Type):
     zincPercentRDI = float
 
 
+class VendorItem(Type):
+    name = str
+    priority = int
+    ingredientListStr = str
+
+
+class LocationVendorItem(Type):
+    vendorItems = Field(list_of(VendorItem))
+
+
 class Ingredient(Type):
     id = Field(ID)
     name = str
     externalName = str
     categoryValues = Field(CategoryValue)
     dietaryFlags = Field('DietaryFlag')
-
+    locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=ID))
 
 class RecipeInstruction(Type):
     text = str
