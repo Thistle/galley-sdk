@@ -17,7 +17,7 @@ from galley.types import (FilterInput, Menu, MenuFilterInput,
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_PAGE_SIZE = 25
+DEFAULT_PAGE_SIZE = 20
 
 
 class Viewer(Type):
