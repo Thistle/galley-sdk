@@ -1,5 +1,4 @@
-from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
-                         as d, list_of)
+from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime as d, list_of)
 from sgqlc.types.relay import (Connection, Node)
 
 
@@ -22,6 +21,7 @@ class CategoryValue(Type):
 class Unit(Type):
     id = Field(ID)
     name = Field(str)
+    unitValues = Field(list_of('UnitValue'))
 
 
 class UnitValue(Type):
@@ -111,6 +111,7 @@ class Ingredient(Type):
     dietaryFlags = Field('DietaryFlag')
     locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=ID))
 
+
 class RecipeInstruction(Type):
     text = str
     position = int
@@ -130,11 +131,23 @@ class RecipeTreeComponent(Type):
     recipeItem = Field('RecipeItem')
 
 
+class AncestorRecipe(Type):
+    id = Field(ID)
+    name = str
+
+
+class RecipeUsage(Type):
+    ancestorRecipes = Field(list_of(AncestorRecipe))
+    quantity = float
+    unit = Field(Unit)
+
+
 class IngredientWithUsages(Type):
     ingredient = Field(Ingredient)
     totalQuantity = float
     unit = Field(Unit)
     totalQuantityUnitValues = Field(UnitValue)
+    usages = Field(list_of(RecipeUsage))
 
 
 class SubRecipe(Type):
@@ -149,7 +162,6 @@ class SubRecipe(Type):
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages', args=ArgDict(location_id=ID))
     categoryValues = Field(CategoryValue)
-    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeItem(Type):
@@ -163,6 +175,7 @@ class RecipeItem(Type):
     quantity = float
     unit = Field(Unit)
     reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
+    nutrientsContributionPercent = float
 
 
 class RecipeMedia(Type):
@@ -257,7 +270,7 @@ class RecipeNode(Node):
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
-    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
+    ingredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeEdge(Type):

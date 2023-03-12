@@ -78,42 +78,38 @@ def recipe_connection_query(
     )
     query.viewer.recipeConnection.edges()
     query.viewer.recipeConnection.pageInfo()
-    query.viewer.recipeConnection.totalCount
-
-    query.viewer.recipeConnection.edges.node.\
-        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.media.\
-        __fields__('altText', 'caption', 'sourceUrl')
-    query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.\
-        __fields__('id')
-    query.viewer.recipeConnection.edges.node.recipeItems.\
-        __fields__('preparations')
-    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
-        __fields__('id', 'allIngredients', 'name', 'externalName', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
-    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
-        __fields__('id', 'name', 'externalName', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems(location_ids=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
-        __fields__('id', 'quantity', 'unit', 'quantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
-        __fields__('quantity', 'unit', 'preparations', 'subRecipeId')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
-        __fields__('name','externalName', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
-        __fields__('id', 'externalName', 'name', 'allIngredients', 'nutritionalsQuantity', 'nutritionalsUnit')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[0]).\
-        __fields__('quantity', 'unit', 'quantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\
-        __fields__('totalQuantity', 'unit', 'totalQuantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
-        __fields__('id', 'externalName', 'name')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.locationVendorItems(location_ids=location_id)
+    query.viewer.recipeConnection.totalCount()
+    query.viewer.recipeConnection.edges.node.__fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues', 'media')
+    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id).dietaryFlag.\
-        __fields__('id')
+    query.viewer.recipeConnection.edges.node.recipeItems.__fields__('preparations', 'nutrientsContributionPercent', 'quantity', 'unit')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.__fields__('id', 'name', 'externalName', 'nutritionalsQuantity', 'nutritionalsUnit')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems(location_ids=location_id)
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.usages.__fields__('ancestorRecipes', 'quantity', 'unit')
+    query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.__fields__('id')
+
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
+    #     __fields__('id', 'quantity', 'unit', 'quantityUnitValues')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
+    #     __fields__('quantity', 'unit', 'preparations', 'subRecipeId')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
+    #     __fields__('name','externalName', 'categoryValues')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=location_id)
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
+    #     __fields__('id', 'externalName', 'name', 'allIngredients', 'nutritionalsQuantity', 'nutritionalsUnit')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals(location_id=location_id)
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[0]).\
+    #     __fields__('quantity', 'unit', 'quantityUnitValues')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\
+    #     __fields__('totalQuantity', 'unit', 'totalQuantityUnitValues')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
+    #     __fields__('id', 'externalName', 'name')
+    # query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.locationVendorItems(location_ids=location_id)
+    # query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
+    # query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id).dietaryFlag.__fields__('id')
     return query
 
 def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[List[Dict]]:
