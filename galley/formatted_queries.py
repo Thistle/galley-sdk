@@ -135,7 +135,7 @@ class RecipeItem:
                     uv.get('value') for uv in self.unit_values
                     if (uv.get('unit') or {}).get('id') == unit
                 ), None)
-                
+
                 base = next((
                     uv.get('value') for uv in self.unit_values
                     if (uv.get('unit') or {}).get('id') == self.unit.get('id')
@@ -198,8 +198,8 @@ class FormattedRecipe:
             description=self.description,
             menuPhotoUrl=self.menu_photo_url,
             nutrition=self.nutrition,
-            **self.ingredients_and_standalone,
             **self.weights,
+            **self.ingredients_and_standalone,
             **self.tags,
             **self.allergens
         )
@@ -356,7 +356,12 @@ def format_ingredients_usages(ingredients_usages: List) -> List:
         name = get_ingredient_name(ingredient.ingredient)
         usage = ingredient.mass(UnitEnum.OZ.value) or 0
         ingredients[name] = ingredients.get(name, 0) + usage
-    return sorted(ingredients.items(), key=lambda x: (-x[1], x[0]))
+    return [
+        ingredient for ingredient, usage in sorted(
+            ingredients.items(),
+            key=lambda x: (-x[1], x[0])
+        )
+    ]
 
 
 def format_standalone_data(
