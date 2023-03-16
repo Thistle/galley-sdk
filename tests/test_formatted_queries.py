@@ -21,70 +21,6 @@ from tests.mock_responses import (
     mock_recipes_data
 )
 
-
-STANDALONE_NUTRITION = {'addedSugarG': 0,
-                        'addedSugarPercentDRV': 0.0,
-                        'calciumMg': 3.1684181569284497,
-                        'calciumPercentRDI': 0.002,
-                        'caloriesKCal': 53.66203631343362,
-                        'carbsG': 5.931480844736274,
-                        'carbsPercentDRV': 0.022,
-                        'cholesterolMg': 0,
-                        'cholesterolPercentDRV': None,
-                        'copperMg': 0.021694334590068795,
-                        'copperPercentRDI': 0.024,
-                        'fiberG': 0.25925700237554117,
-                        'fiberPercentDRV': 0.009,
-                        'folateMcg': 4.662944286512987,
-                        'folatePercentRDI': 0.012,
-                        'ironMg': 0.08727603182928573,
-                        'ironPercentRDI': 0.005,
-                        'magnesiumMg': 8.422029852813752,
-                        'magnesiumPercentRDI': 0.02,
-                        'manganeseMg': 0.07968240957035716,
-                        'manganesePercentRDI': 0.035,
-                        'niacinMg': 0.6287359687622166,
-                        'niacinPercentRDI': 0.039,
-                        'pantothenicAcidMg': 0.06062563923716235,
-                        'phosphorusMg': 16.6108569332684,
-                        'phosphorusPercentRDI': 0.013,
-                        'potassiumMg': 35.3618045624374,
-                        'potassiumPercentRDI': 0.008,
-                        'proteinG': 1.190862966668126,
-                        'proteinPercentRDI': 0.024,
-                        'riboflavinMg': 0.009900242547519483,
-                        'riboflavinPercentRDI': 0.008,
-                        'saturatedFatG': 1.1966419313881989,
-                        'saturatedFatPercentDRV': 0.01840987586,
-                        'seleniumMcg': 0.1983239364917749,
-                        'seleniumPercentRDI': 0.004,
-                        'sodiumMg': 80.1688699548479,
-                        'sodiumPercentDRV': 0.035,
-                        'sugarG': 4.635864789281829,
-                        'sugarPercentDRV': None,
-                        'thiaminMg': 0.008514061320616884,
-                        'thiaminPercentRDI': 0.007,
-                        'totalFatG': 3.2182500200225643,
-                        'totalFatPercentDRV': 0.041,
-                        'transFatG': 0.0035436903875000004,
-                        'vitaminAMcg': 1.449295858309044,
-                        'vitaminAPercentRDI': 0.002,
-                        'vitaminB12Mcg': 0,
-                        'vitaminB12PercentRDI': None,
-                        'vitaminB6Mg': 0.022999931273467538,
-                        'vitaminB6PercentRDI': 0.014,
-                        'vitaminCMg': 1.7259736392050762,
-                        'vitaminCPercentRDI': 0.019,
-                        'vitaminDMcg': 0,
-                        'vitaminDPercentRDI': None,
-                        'vitaminEMg': 0.4437743529419914,
-                        'vitaminEPercentRDI': 0.03,
-                        'vitaminKMcg': 0.046390128709090914,
-                        'vitaminKPercentRDI': 0,
-                        'zincMg': 0.12343713881647085,
-                        'zincPercentRDI': 0.011}
-
-
 COMBINED_INGREDIENTS_LIST_WITH_USAGES = [('Water', 5.425000000000001),
                                          ('Sprouted Brown Rice', 1.1199999999999999),
                                          ('Coconut Milk (Coconut, Water, Guar Gum)*', 1.1),
@@ -104,6 +40,20 @@ COMBINED_INGREDIENTS_LIST_WITH_USAGES = [('Water', 5.425000000000001),
                                          ('Cinnamon', 0.006249999994488444),
                                          ('Cardamom', 0.003749999996693066)]
 
+BASE_INGREDIENTS_LIST_WITH_USAGES = [("Water", 4.800000000000001),
+                                     ("Sprouted Brown Rice", 1.1199999999999999),
+                                     ("Coconut Milk (Coconut, Water, Guar Gum)*", 1.1),
+                                     ("Golden Raisins", 0.5625),
+                                     ("Hemp Seeds", 0.37449999999999994),
+                                     ("Pistachio Nuts*", 0.3375),
+                                     ("Dried Blueberries*", 0.1875),
+                                     ("Coconut Chips*", 0.15),
+                                     ("Maple Syrup*", 0.1),
+                                     ("Flax Seed*", 0.024999999977953775),
+                                     ("Vanilla Extract*", 0.00999999999118151),
+                                     ("Sea Salt", 0.007999999992945208),
+                                     ("Cinnamon", 0.006249999994488444),
+                                     ("Cardamom", 0.003749999996693066)]
 
 STANDALONE_INGREDIENTS_LIST_WITH_USAGES = [("Water", 0.625),
                                            ("Cashew", 0.6000000000000001),
@@ -114,26 +64,20 @@ STANDALONE_INGREDIENTS_LIST_WITH_USAGES = [("Water", 0.625),
                                            ("Vanilla Extract*", 0.018749999983465333),
                                            ("Sea Salt", 0.004687499995866333)]
 
+INGREDIENTS_LIST_NO_USAGES = [
+    ingredient for ingredient, _
+    in BASE_INGREDIENTS_LIST_WITH_USAGES
+]
 
-INGREDIENTS_LIST_WITH_USAGES = [("Water", 4.800000000000001),
-                                ("Sprouted Brown Rice", 1.1199999999999999),
-                                ("Coconut Milk (Coconut, Water, Guar Gum)*", 1.1),
-                                ("Golden Raisins", 0.5625),
-                                ("Hemp Seeds", 0.37449999999999994),
-                                ("Pistachio Nuts*", 0.3375),
-                                ("Dried Blueberries*", 0.1875),
-                                ("Coconut Chips*", 0.15),
-                                ("Maple Syrup*", 0.1),
-                                ("Flax Seed*", 0.024999999977953775),
-                                ("Vanilla Extract*", 0.00999999999118151),
-                                ("Sea Salt", 0.007999999992945208),
-                                ("Cinnamon", 0.006249999994488444),
-                                ("Cardamom", 0.003749999996693066)]
+STANDALONE_INGREDIENTS_LIST_NO_USAGES = [
+    ingredient for ingredient, _ in
+    STANDALONE_INGREDIENTS_LIST_WITH_USAGES
+]
 
-
-INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in INGREDIENTS_LIST_WITH_USAGES]
-STANDALONE_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in STANDALONE_INGREDIENTS_LIST_WITH_USAGES]
-COMBINED_INGREDIENTS_LIST_NO_USAGES = [ingredient for ingredient, _ in COMBINED_INGREDIENTS_LIST_WITH_USAGES]
+COMBINED_INGREDIENTS_LIST_NO_USAGES = [
+    ingredient for ingredient, _
+    in COMBINED_INGREDIENTS_LIST_WITH_USAGES
+]
 
 
 def formatted_menu(date, onlySellableMenuItems=False):
@@ -209,13 +153,17 @@ def formatted_menu(date, onlySellableMenuItems=False):
 class TestIngredientsFromRecipeItems(TestCase):
     def test_get_ingredient_usage_successful(self):
         self.maxDiff = None
-        recipe_item = RecipeItem(ingredient = {"name": "spinach, baby, SEND TO PLATE",
-                                               "externalName": "Baby Spinach*",
-                                               "categoryValues": []},
-                                 unit_values = [{ "value": 85.0485693, "unit": { "id": "dW5pdDox", "name": "g" } },
-                                                { "value": 3, "unit": { "id": "dW5pdDoz", "name": "oz" } },
-                                                { "value": 0.1874999998346533, "unit": { "id": "dW5pdDo0", "name": "lb" } }])
-        result = recipe_item.get_ingredients_usages()
+        recipe_item = RecipeItem(
+            ingredient={"name": "spinach, baby, SEND TO PLATE",
+                        "externalName": "Baby Spinach*",
+                        "categoryValues": []},
+            quantity=3,
+            unit={"id": "dW5pdDoz", "name": "oz"},
+            unit_values=[{"value": 28, "unit": {"id": "dW5pdDox", "name": "g"}},
+                         {"value": 1, "unit": {"id": "dW5pdDoz", "name": "oz"}},
+                         {"value": 0.1874999998346533, "unit": {"id": "dW5pdDo0", "name": "lb"}}]
+        )
+        result = recipe_item.mass()
         self.assertEqual(result, { 'Baby Spinach*': 3 })
 
     def test_get_subrecipe_ingredients_usages_successful(self):
@@ -407,7 +355,8 @@ class TestFormattedRecipeTreeComponents(TestCase):
         expected_net_weight = 213
         expected_gross_weight = 291
         result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data)
+            mock_recipe_tree_components.mock_recipe_tree_components_data
+        )
         self.assertEqual(result['netWeight'], expected_net_weight)
         self.assertEqual(result['grossWeight'], expected_gross_weight)
 

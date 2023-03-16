@@ -1,4 +1,4 @@
-mock_data = {
+MOCK_RECONCILED_NUTRITIONALS = {
 	'addedSugarG': 0,
 	'addedSugarPercentDRV': 0.0,
 	'calciumMg': 111.98919574121712,

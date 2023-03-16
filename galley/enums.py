@@ -123,6 +123,7 @@ class DietaryFlagEnum(Enum):
 
 
 class UnitEnum(Enum):
+    EACH = 'dW5pdDoxNA=='
     OZ = 'dW5pdDoz'
     LB = 'dW5pdDo0'
     G = 'dW5pdDox'
