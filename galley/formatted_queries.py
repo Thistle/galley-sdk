@@ -368,7 +368,7 @@ def format_standalone_data(
     standalone: Optional[RecipeItem],
     standalone_usages: List
 ) -> Dict:
-    standalone_data = dict(
+    standalone_data: Dict = dict(
         hasStandalone=False,
         standaloneRecipeId=None,
         standaloneRecipeName=None,
@@ -382,7 +382,7 @@ def format_standalone_data(
 
     if standalone and standalone.has_standalone_subrecipe():
         subrecipe = standalone.subrecipe
-
+        print(type(subrecipe))
         standalone_recipe_item_net_weight = standalone.mass()
         standalone_nutritionals_quantity = standalone.standalone_nutritionals_quantity()
         standalone_nutritionals_unit = standalone.standalone_nutritionals_unit()
