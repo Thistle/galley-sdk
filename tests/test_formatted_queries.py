@@ -8,7 +8,7 @@ from galley.formatted_queries import (
     calculate_servings,
     format_recipe_tree_components_data,
     format_title,
-    get_external_name_for_ingredient,
+    get_ingredient_name,
     get_formatted_menu_data,
     get_formatted_recipes_data,
     get_recipe_category_tags
@@ -253,7 +253,7 @@ class TestIngredientExternalName(TestCase):
             'name': 'name',
             'externalName': None
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result, ingredient['name'])
 
     def test_should_return_none_if_no_external_name_or_name(self):
@@ -261,7 +261,7 @@ class TestIngredientExternalName(TestCase):
             'name': None,
             'externalName': None
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result, None)
 
     def test_should_return_external_name_if_no_ingredientListStr(self):
@@ -273,7 +273,7 @@ class TestIngredientExternalName(TestCase):
                 }]
             }]
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result, ingredient['externalName'])
 
     def test_should_return_external_name_plus_ingredientListStr_if_ingredientListStr(self):
@@ -287,7 +287,7 @@ class TestIngredientExternalName(TestCase):
                 }]
             }]
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result,  f'{EXTERNAL_NAME} ({INGREDIENT_STRING})')
 
     def test_should_return_name_plus_ingredientListStr_if_name_and_ingredientListStr_and_no_externalName(self):
@@ -302,7 +302,7 @@ class TestIngredientExternalName(TestCase):
                 }]
             }]
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result,  f'{NAME} ({INGREDIENT_STRING})')
 
     def test_should_return_ingredientListStr_of_vendorItem_with_priority(self):
@@ -324,7 +324,7 @@ class TestIngredientExternalName(TestCase):
                 ]
             }]
         }
-        result = get_external_name_for_ingredient(ingredient)
+        result = get_ingredient_name(ingredient)
         self.assertEqual(result, f'{EXTERNAL_NAME} ({PRIORITY_INGREDIENT_STRING})')
 
 

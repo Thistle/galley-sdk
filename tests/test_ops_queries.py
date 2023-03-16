@@ -59,17 +59,17 @@ class TestOpsMenuDataQuery(TestCase):
             }
             }
             recipeTreeComponents(levels: [1]) {
-            quantity
-            unit {
-            id
-            name
-            }
             quantityUnitValues {
             value
             unit {
             id
             name
             }
+            }
+            quantity
+            unit {
+            id
+            name
             }
             recipeItem {
             preparations {
@@ -118,17 +118,17 @@ class TestOpsMenuDataQuery(TestCase):
             }
             }
             recipeTreeComponents(levels: [1]) {
-            quantity
-            unit {
-            id
-            name
-            }
             quantityUnitValues {
             value
             unit {
             id
             name
             }
+            }
+            quantity
+            unit {
+            id
+            name
             }
             recipeItem {
             preparations {

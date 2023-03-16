@@ -3,8 +3,8 @@ from unittest import TestCase, mock
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import DietaryFlagEnum as DF
 from galley.formatted_queries import (
-    get_category_menu_type,
-    get_meal_code
+    get_menu_type,
+    get_item_code
 )
 from galley.formatted_ops_queries import (
     FormattedRecipeComponent,
@@ -88,24 +88,24 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
 
 
 class TestMealCodeFromMenuItemCategoryValues(TestCase):
-    def test_get_meal_code_successful(self):
+    def test_get_item_code_successful(self):
         expected_result = 'lv2'
-        result = get_meal_code(mock_ops_menu('2022-03-28')['menuItems'][1]['categoryValues'])
+        result = get_item_code(mock_ops_menu('2022-03-28')['menuItems'][1])
         self.assertEqual(result, expected_result)
 
-    def test_get_meal_code_empty(self):
-        result = get_meal_code([])
+    def test_get_item_code_empty(self):
+        result = get_item_code({})
         self.assertEqual(result, '')
 
 
 class TestGetMenuTypeFromMenuCategoryValues(TestCase):
-    def test_get_category_menu_type_successful(self):
+    def test_get_menu_type_successful(self):
         expected_result = DEFAULT_MENU_TYPE
-        result = get_category_menu_type(mock_ops_menu('2022-03-28')['categoryValues'])
+        result = get_menu_type(mock_ops_menu('2022-03-28'))
         self.assertEqual(result, expected_result)
 
-    def test_get_category_menu_type_empty(self):
-        result = get_category_menu_type([])
+    def test_get_menu_type_empty(self):
+        result = get_menu_type({})
         self.assertEqual(result, '')
 
 

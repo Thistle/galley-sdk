@@ -37,7 +37,8 @@ class TestQueryRecipes(TestCase):
     def test_recipe_query(self):
         query_operation = Operation(Query)
         query_operation.viewer().recipes().__fields__(
-            'id', 'externalName', 'instructions', 'notes', 'description')
+            'id', 'externalName', 'instructions', 'notes', 'description'
+        )
         query_str = bytes(query_operation).decode('utf-8')
         self.assertEqual(query_str, self.expected_query)
 
@@ -239,15 +240,6 @@ class TestRecipeConnectionQuery(TestCase):
         location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals, 'location_id')
         self.assertEqual(location_id_value, LOCATION_ID)
 
-    def test_recipe_connection_query_should_include_reconciledNutritionals_with_locationId_on_recipeTreeComponents(self):
-        LOCATION_ID = 'test'
-        query = recipe_connection_query(
-            recipe_ids=['test-recipe-id'],
-            location_id=LOCATION_ID
-        )
-        location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals, 'location_id')
-        self.assertEqual(location_id_value, LOCATION_ID)
-
     def test_recipe_connection_query_should_include_dietaryFlagsWithUsages_with_locationId(self):
         LOCATION_ID = 'test'
         query = recipe_connection_query(
@@ -264,25 +256,16 @@ class TestRecipeConnectionQuery(TestCase):
             location_id=LOCATION_ID
         )
         location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems, 'location_ids')
-        self.assertEqual(location_id_value, LOCATION_ID)
+        self.assertEqual(location_id_value, [LOCATION_ID])
 
-    def test_recipe_connection_query_should_include_locationVendorItems_with_locationIds_on_recipeTreeComponents_recipeItem(self):
+    def test_recipe_connection_query_should_include_locationVendorItems_with_locationIds_on_ingredientsWithUsages(self):
         LOCATION_ID = 'test'
         query = recipe_connection_query(
             recipe_ids=['test-recipe-id'],
             location_id=LOCATION_ID
         )
-        location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.locationVendorItems, 'location_ids')
-        self.assertEqual(location_id_value, LOCATION_ID)
-
-    def test_recipe_connection_query_should_include_locationVendorItems_with_locationIds_on_allIngredientsWithUsages(self):
-        LOCATION_ID = 'test'
-        query = recipe_connection_query(
-            recipe_ids=['test-recipe-id'],
-            location_id=LOCATION_ID
-        )
-        location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.locationVendorItems, 'location_ids')
-        self.assertEqual(location_id_value, LOCATION_ID)
+        location_id_value = get_argument_from_query_selector(query.viewer.recipeConnection.edges.node.ingredientsWithUsages.ingredient.locationVendorItems, 'location_ids')
+        self.assertEqual(location_id_value, [LOCATION_ID])
 
 class TestQueryGetRawRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')

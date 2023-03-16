@@ -3,8 +3,8 @@ from typing import Dict, List, Optional, Union
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
-    get_category_menu_type,
-    get_meal_code,
+    get_menu_type,
+    get_item_code,
     get_external_name,
     get_plate_photo_url,
     get_recipe_category_tags
@@ -234,13 +234,13 @@ def get_formatted_ops_menu_data(
             id=menu.get('id'),
             date=menu.get('date'),
             location=menu['location'].get('name'),
-            categoryMenuType=get_category_menu_type(menu.get('categoryValues')),
+            categoryMenuType=get_menu_type(menu),
             menuItems=[]
         )
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
-            meal_code = get_meal_code(menu_item.get('categoryValues'))
+            meal_code = get_item_code(menu_item)
             if meal_code.lower() in MEAL_CODE_WHITELIST:
                 recipe = menu_item.get('recipe') or {}
                 files = recipe.get('files') or {}

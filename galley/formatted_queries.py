@@ -429,7 +429,7 @@ def get_plate_photo_url(photos: List) -> Optional[str]:
 
 
 def get_item_code(menu_item: Dict) -> str:
-    category_values = menu_item['categoryValues']
+    category_values = menu_item.get('categoryValues') or []
     for cv in category_values:
         if cv['category']['id'] == MenuItemCategoryEnum.PRODUCT_CODE.value:
             return cv['name']
@@ -437,7 +437,7 @@ def get_item_code(menu_item: Dict) -> str:
 
 
 def get_menu_type(menu: Dict) -> str:
-    category_values = menu['categoryValues']
+    category_values = menu.get('categoryValues') or []
     for cv in category_values:
         if cv['category']['id'] == MenuCategoryEnum.MENU_TYPE.value:
             return cv['name']
