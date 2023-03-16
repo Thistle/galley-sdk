@@ -18,15 +18,15 @@ class CategoryValue(Type):
     category = Field(Category)
 
 
+class UnitValue(Type):
+    value = float
+    unit = Field('Unit')
+
+
 class Unit(Type):
     id = Field(ID)
     name = Field(str)
-    unitValues = Field(list_of('UnitValue'))
-
-
-class UnitValue(Type):
-    value = float
-    unit = Field(Unit)
+    unitValues = Field(list_of(UnitValue))
 
 
 class Nutrition(Type):
@@ -109,7 +109,7 @@ class Ingredient(Type):
     externalName = str
     categoryValues = Field(CategoryValue)
     dietaryFlags = Field('DietaryFlag')
-    locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=ID))
+    locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=list_of(ID)))
 
 
 class RecipeInstruction(Type):
@@ -175,7 +175,6 @@ class RecipeItem(Type):
     quantity = float
     unit = Field(Unit)
     reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
-    nutrientsContributionPercent = float
 
 
 class RecipeMedia(Type):

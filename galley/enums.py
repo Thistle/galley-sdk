@@ -122,10 +122,7 @@ class DietaryFlagEnum(Enum):
     WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
 
 
-class QuantityUnitEnum(Enum):
+class UnitEnum(Enum):
     OZ = 'dW5pdDoz'
     LB = 'dW5pdDo0'
-
-
-class IngredientFormatOptionEnum(Enum):
-    INCLUDE_USAGES = 'includeIngredientUsages'
+    G = 'dW5pdDox'

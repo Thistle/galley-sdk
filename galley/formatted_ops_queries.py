@@ -12,7 +12,7 @@ from galley.formatted_queries import (
 from galley.enums import (
     ContainerEnum,
     DietaryFlagEnum,
-    QuantityUnitEnum,
+    UnitEnum,
     PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
@@ -163,7 +163,7 @@ def format_quantity_value(quantity_values: List) -> List[Dict]:
     ounces (oz) and pounds (lb).
     """
     quantities = list()
-    units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
+    units = set([UnitEnum.OZ.value, UnitEnum.LB.value])
 
     for qv in quantity_values:
         if qv.get('unit', {}).get('id') in units:
