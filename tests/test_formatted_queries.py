@@ -1,83 +1,62 @@
+from copy import deepcopy
 from unittest import TestCase, mock
-from galley.enums import IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
+from galley.enums import IngredientCategoryValueEnum, PreparationEnum, RecipeCategoryTagTypeEnum, UnitEnum
 from tests.mock_responses.mock_menu_data import mock_menu
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
     RecipeItem,
     calculate_serving_size_weight,
     calculate_servings,
-    format_recipe_tree_components_data,
     format_title,
     get_ingredient_name,
     get_formatted_menu_data,
     get_formatted_recipes_data,
-    get_recipe_category_tags
+    get_recipe_category_tags,
+    get_recipe_ingredients_and_standalone_data,
+    get_recipe_weights
 )
-from tests.mock_responses import (
-    mock_nutrition_data,
-    mock_recipe_tree_components,
-    mock_recipe_tree_components,
-    mock_recipe_category_values,
-    mock_recipes_data
+from tests.mock_responses.mock_recipes_data import mock_recipe
+from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS, MOCK_STANDALONE_RECONCILED_NUTRITIONALS
+from tests.mock_responses.mock_recipe_category_values import MOCK_RECIPE_CATEGORY_VALUES
+from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
+    MOCK_RECIPE_ITEMS,
+    SELLABLE_RECIPE_ID,
+    SELLABLE_RECIPE_NAME,
+    STANDALONE_RECIPE_ID,
+    STANDALONE_RECIPE_NAME,
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
 )
 
-COMBINED_INGREDIENTS_LIST_WITH_USAGES = [('Water', 5.425000000000001),
-                                         ('Sprouted Brown Rice', 1.1199999999999999),
-                                         ('Coconut Milk (Coconut, Water, Guar Gum)*', 1.1),
-                                         ('Cashew', 0.6000000000000001),
-                                         ('Golden Raisins', 0.5625),
-                                         ('Hemp Seeds', 0.37449999999999994),
-                                         ('Pistachio Nuts*', 0.3375),
-                                         ('Dried Blueberries*', 0.1875),
-                                         ('Maple Syrup*', 0.17500000000000002),
-                                         ('Coconut Chips*', 0.15),
-                                         ('Lemon Juice', 0.1),
-                                         ('Oats', 0.07500000000000001),
-                                         ('Vanilla Extract*', 0.028749999974646844),
-                                         ('Flax Seed*', 0.024999999977953775),
-                                         ('Lemon Zest', 0.018749999983465333),
-                                         ('Sea Salt', 0.012687499988811541),
-                                         ('Cinnamon', 0.006249999994488444),
-                                         ('Cardamom', 0.003749999996693066)]
 
-BASE_INGREDIENTS_LIST_WITH_USAGES = [("Water", 4.800000000000001),
-                                     ("Sprouted Brown Rice", 1.1199999999999999),
-                                     ("Coconut Milk (Coconut, Water, Guar Gum)*", 1.1),
-                                     ("Golden Raisins", 0.5625),
-                                     ("Hemp Seeds", 0.37449999999999994),
-                                     ("Pistachio Nuts*", 0.3375),
-                                     ("Dried Blueberries*", 0.1875),
-                                     ("Coconut Chips*", 0.15),
-                                     ("Maple Syrup*", 0.1),
-                                     ("Flax Seed*", 0.024999999977953775),
-                                     ("Vanilla Extract*", 0.00999999999118151),
-                                     ("Sea Salt", 0.007999999992945208),
-                                     ("Cinnamon", 0.006249999994488444),
-                                     ("Cardamom", 0.003749999996693066)]
+BASE_INGREDIENTS = ['Buckwheat Groats',
+                    'Spring Mix Lettuce*, Kale* or Seasonal Greens*§',
+                    'Kidney Beans*',
+                    'Rainbow Carrots*',
+                    'Red Beets',
+                    'Dried Cherries*',
+                    'Hemp Seeds',
+                    'Pumpkin Seed',
+                    'Sunflower Seeds',
+                    'Extra Virgin Olive Oil',
+                    'Parsley',
+                    'Sea Salt',
+                    'Rice Bran Oil',
+                    'Garlic Powder',
+                    'Chili Powder',
+                    'Cumin']
 
-STANDALONE_INGREDIENTS_LIST_WITH_USAGES = [("Water", 0.625),
-                                           ("Cashew", 0.6000000000000001),
-                                           ("Lemon Juice", 0.1),
-                                           ("Maple Syrup*", 0.07500000000000001),
-                                           ("Oats", 0.07500000000000001),
-                                           ("Lemon Zest", 0.018749999983465333),
-                                           ("Vanilla Extract*", 0.018749999983465333),
-                                           ("Sea Salt", 0.004687499995866333)]
 
-INGREDIENTS_LIST_NO_USAGES = [
-    ingredient for ingredient, _
-    in BASE_INGREDIENTS_LIST_WITH_USAGES
-]
-
-STANDALONE_INGREDIENTS_LIST_NO_USAGES = [
-    ingredient for ingredient, _ in
-    STANDALONE_INGREDIENTS_LIST_WITH_USAGES
-]
-
-COMBINED_INGREDIENTS_LIST_NO_USAGES = [
-    ingredient for ingredient, _
-    in COMBINED_INGREDIENTS_LIST_WITH_USAGES
-]
+STANDALONE_INGREDIENTS = ['Rice Bran Oil',
+                          'Aquafaba (Chickpeas, Water)*',
+                          'Champagne Vinegar',
+                          'Maple Syrup*',
+                          'Dijon Mustard (Water, Mustard Seeds, Vinegar, Salt)',
+                          'Garlic',
+                          'Apple Cider Vinegar',
+                          'Garbanzo Beans (Garbanzo Beans, Water, Salt)',
+                          'Sea Salt',
+                          'Poppy Seeds*',
+                          'Black Pepper']
 
 
 def formatted_menu(date, onlySellableMenuItems=False):
@@ -153,56 +132,64 @@ def formatted_menu(date, onlySellableMenuItems=False):
 class TestIngredientsFromRecipeItems(TestCase):
     def test_get_ingredient_usage_successful(self):
         self.maxDiff = None
-        recipe_item = RecipeItem(
-            ingredient={"name": "spinach, baby, SEND TO PLATE",
-                        "externalName": "Baby Spinach*",
-                        "categoryValues": []},
-            quantity=3,
-            unit={"id": "dW5pdDoz", "name": "oz"},
-            unit_values=[{"value": 28, "unit": {"id": "dW5pdDox", "name": "g"}},
-                         {"value": 1, "unit": {"id": "dW5pdDoz", "name": "oz"}},
-                         {"value": 0.1874999998346533, "unit": {"id": "dW5pdDo0", "name": "lb"}}]
-        )
+        data = {
+            "ingredient": {
+                "name": "spinach, baby, SEND TO PLATE",
+                "externalName": "Baby Spinach*",
+                "categoryValues": []
+            },
+            "quantity": 3,
+            "unit": {
+                "id": "dW5pdDoz",
+                "name": "oz",
+                "unitValues": [
+                    {"value": 28, "unit": {"id": "dW5pdDox", "name": "g"}},
+                    {"value": 1, "unit": {"id": "dW5pdDoz", "name": "oz"}},
+                    {"value": 0.18, "unit": {"id": "dW5pdDo0", "name": "lb"}}
+                ]
+            }
+        }
+        recipe_item = RecipeItem(data)
         result = recipe_item.mass()
-        self.assertEqual(result, { 'Baby Spinach*': 3 })
+        self.assertEqual(result, 84)
 
-    def test_get_subrecipe_ingredients_usages_successful(self):
+    def test_get_ingredients_with_usages_successful(self):
         self.maxDiff = None
-        unit_values =  mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone[0]['quantityUnitValues']
-        subrecipe = mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone[0]['recipeItem']['subRecipe']
-        recipe_item = RecipeItem(unit_values=unit_values,
-                                 subrecipe=subrecipe)
-        result = recipe_item.get_ingredients_usages()
-        self.assertEqual(result, {'Cardamom': 0.003749999996693066,
-                                  'Cinnamon': 0.006249999994488444,
-                                  'Coconut Milk (Coconut, Water, Guar Gum)*': 1.1,
-                                  'Flax Seed*': 0.024999999977953775,
-                                  'Hemp Seeds': 0.112,
-                                  'Maple Syrup*': 0.1,
-                                  'Sea Salt': 0.007999999992945208,
-                                  'Sprouted Brown Rice': 1.1199999999999999,
-                                  'Vanilla Extract*': 0.00999999999118151,
-                                  'Water': 4.800000000000001})
-
-    def test_get_ingredient_usages_null(self):
-        recipe_item = RecipeItem(ingredient=None, subrecipe=None)
-        result = recipe_item.get_ingredients_usages()
-        self.assertEqual(result, {})
+        result = get_recipe_ingredients_and_standalone_data(
+            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+        )
+        self.assertEqual(result['ingredients'], ['Buckwheat Groats',
+                                                 'Spring Mix Lettuce*, Kale* or Seasonal Greens*§',
+                                                 'Kidney Beans*',
+                                                 'Rainbow Carrots*',
+                                                 'Red Beets',
+                                                 'Dried Cherries*',
+                                                 'Hemp Seeds',
+                                                 'Pumpkin Seed',
+                                                 'Sunflower Seeds',
+                                                 'Extra Virgin Olive Oil',
+                                                 'Parsley',
+                                                 'Sea Salt',
+                                                 'Rice Bran Oil',
+                                                 'Garlic Powder',
+                                                 'Chili Powder',
+                                                 'Cumin'])
 
     def test_get_ingredient_usages_empty(self):
-        recipe_item = RecipeItem(ingredient={}, subrecipe={})
-        result = recipe_item.get_ingredients_usages()
-        self.assertEqual(result, {})
+        recipe = {'recipeItems': [], 'ingredientsWithUsages': []}
+        result = get_recipe_ingredients_and_standalone_data(recipe)
+        self.assertEqual(result['ingredients'], [])
 
 
 class TestIngredientExternalName(TestCase):
     def test_should_return_name_if_no_external_name(self):
+        NAME = 'name'
         ingredient = {
-            'name': 'name',
+            'name': NAME,
             'externalName': None
         }
         result = get_ingredient_name(ingredient)
-        self.assertEqual(result, ingredient['name'])
+        self.assertEqual(result, NAME)
 
     def test_should_return_none_if_no_external_name_or_name(self):
         ingredient = {
@@ -213,39 +200,51 @@ class TestIngredientExternalName(TestCase):
         self.assertEqual(result, None)
 
     def test_should_return_external_name_if_no_ingredientListStr(self):
+        NAME = 'cloved, garlic'
+        EXTERNAL_NAME = 'Garlic'
         ingredient = {
-            'externalName': 'Garlic',
+            'name': NAME,
+            'externalName': EXTERNAL_NAME,
             'locationVendorItems': [{
                 'vendorItems': [{
+                    "name": NAME,
+                    "priority": 0,
                     "ingredientListStr": None
                 }]
             }]
         }
         result = get_ingredient_name(ingredient)
-        self.assertEqual(result, ingredient['externalName'])
+        self.assertEqual(result, EXTERNAL_NAME)
 
     def test_should_return_external_name_plus_ingredientListStr_if_ingredientListStr(self):
+        NAME = 'cloved, garlic'
         EXTERNAL_NAME = 'Garlic'
         INGREDIENT_STRING = 'Stuff, Water'
         ingredient = {
+            'name': NAME,
             'externalName': EXTERNAL_NAME,
             'locationVendorItems': [{
                 'vendorItems': [{
+                    "name": NAME,
+                    "priority": 0,
                     'ingredientListStr': INGREDIENT_STRING
                 }]
             }]
         }
         result = get_ingredient_name(ingredient)
-        self.assertEqual(result,  f'{EXTERNAL_NAME} ({INGREDIENT_STRING})')
+        self.assertEqual(result, f'{EXTERNAL_NAME} ({INGREDIENT_STRING})')
 
     def test_should_return_name_plus_ingredientListStr_if_name_and_ingredientListStr_and_no_externalName(self):
-        NAME = 'Garlic'
+        NAME = 'cloved, garlic'
+        VENDOR_NAME = 'seasoned garlic'
         INGREDIENT_STRING = 'Stuff, Water'
         ingredient = {
-            'externalName': None,
             'name': NAME,
+            'externalName': None,
             'locationVendorItems': [{
                 'vendorItems': [{
+                    "name": VENDOR_NAME,
+                    "priority": 0,
                     'ingredientListStr': INGREDIENT_STRING
                 }]
             }]
@@ -254,22 +253,21 @@ class TestIngredientExternalName(TestCase):
         self.assertEqual(result,  f'{NAME} ({INGREDIENT_STRING})')
 
     def test_should_return_ingredientListStr_of_vendorItem_with_priority(self):
+        NAME = 'cloved, garlic'
         EXTERNAL_NAME = 'Garlic'
         INGREDIENT_STRING = 'Stuff, Water'
         PRIORITY_INGREDIENT_STRING = 'Priority Stuff, Water'
         ingredient = {
+            'name': NAME,
             'externalName':  EXTERNAL_NAME,
             'locationVendorItems': [{
-                'vendorItems': [
-                    {
-                        'priority': 1,
-                        'ingredientListStr': INGREDIENT_STRING
-                    },
-                     {
-                        'priority': 0,
-                        'ingredientListStr': PRIORITY_INGREDIENT_STRING
-                    }
-                ]
+                'vendorItems': [{
+                    'priority': 1,
+                    'ingredientListStr': INGREDIENT_STRING
+                },{
+                    'priority': 0,
+                    'ingredientListStr': PRIORITY_INGREDIENT_STRING
+                }]
             }]
         }
         result = get_ingredient_name(ingredient)
@@ -278,42 +276,55 @@ class TestIngredientExternalName(TestCase):
 
 class TestRecipeItemLabelName(TestCase):
     def test_returns_none_if_not_a_label(self):
-        ingredient = {
-            'categoryValues': [
-                {'id': 'NotALabelId'}
-            ]
+        data = {
+            'ingredient': {
+                'categoryValues': [{
+                    'id': 'NotALabelId'
+                }]
+            }
         }
-        recipe_item = RecipeItem(ingredient=ingredient)
+        recipe_item = RecipeItem(data)
         self.assertEqual(recipe_item.get_label_name(), None)
 
     def test_returns_none_if_is_a_label_but_no_external_name_or_name(self):
-        ingredient = {
-            'categoryValues': [
-                {'id': IngredientCategoryValueEnum.LABEL.value}
-            ]
+        data = {
+            'ingredient': {
+                'categoryValues': [{
+                    'id': IngredientCategoryValueEnum.LABEL.value
+                }]
+            }
         }
-        recipe_item = RecipeItem(ingredient=ingredient)
+        recipe_item = RecipeItem(data)
         self.assertEqual(recipe_item.get_label_name(), None)
 
     def test_returns_external_name_if_exists_and_is_a_label(self):
-        ingredient = {
-            'categoryValues': [
-                {'id': IngredientCategoryValueEnum.LABEL.value}
-            ],
-            'externalName': 'Ingredient External Name'
+        NAME = 'meal label'
+        EXTERNAL_NAME = 'Meat Meal Label'
+        data = {
+            'ingredient': {
+                'name': NAME,
+                'externalName': EXTERNAL_NAME,
+                'categoryValues': [{
+                    'id': IngredientCategoryValueEnum.LABEL.value
+                }],
+            }
         }
-        recipe_item = RecipeItem(ingredient=ingredient)
-        self.assertEqual(recipe_item.get_label_name(), ingredient['externalName'])
+        recipe_item = RecipeItem(data)
+        self.assertEqual(recipe_item.get_label_name(), EXTERNAL_NAME)
 
     def test_returns_name_if_external_name_does_not_exist_and_is_a_label(self):
-        ingredient = {
-            'categoryValues': [
-                {'id': IngredientCategoryValueEnum.LABEL.value}
-            ],
-            'name': 'Name'
+        NAME = 'meal label'
+        data = {
+            'ingredient': {
+                'name': NAME,
+                'externalName': None,
+                'categoryValues': [{
+                    'id': IngredientCategoryValueEnum.LABEL.value
+                }],
+            }
         }
-        recipe_item = RecipeItem(ingredient=ingredient)
-        self.assertEqual(recipe_item.get_label_name(), ingredient['name'])
+        recipe_item = RecipeItem(data)
+        self.assertEqual(recipe_item.get_label_name(), NAME)
 
 
 class TestCalculateServings(TestCase):
@@ -351,95 +362,76 @@ class TestCalculateServingSizeWeight(TestCase):
 
 
 class TestFormattedRecipeTreeComponents(TestCase):
-    def test_weight_from_recipe_tree_components_with_pkg_and_standalone(self):
-        expected_net_weight = 213
-        expected_gross_weight = 291
-        result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data
-        )
-        self.assertEqual(result['netWeight'], expected_net_weight)
-        self.assertEqual(result['grossWeight'], expected_gross_weight)
+    def test_weights_with_pkg_and_standalone(self):
+        result = get_recipe_weights(MOCK_RECIPE_ITEMS)
+        self.assertEqual(result['netWeight'], 435)
+        self.assertEqual(result['grossWeight'], 557)
 
-    def test_weight_from_recipe_tree_components_successful_no_pkg_no_standalone(self):
-        expected_result = 255
-        result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data_no_pkg_no_standalone)
-        self.assertEqual(result['netWeight'], expected_result)
-        self.assertEqual(result['grossWeight'], expected_result)
+    def test_weight_from_recipe_items_successful_no_pkg_no_standalone(self):
+        result = get_recipe_weights(MOCK_RECIPE_ITEMS[:3])
+        self.assertEqual(result['netWeight'], 435)
+        self.assertEqual(result['grossWeight'], 435)
 
-    def test_weight_from_recipe_tree_components_empty(self):
-        result = format_recipe_tree_components_data([])
+    def test_weight_from_recipe_items_empty(self):
+        result = get_recipe_weights([])
         self.assertEqual(result['netWeight'], 0)
         self.assertEqual(result['grossWeight'], 0)
 
-    def test_format_recipe_tree_components_data_with_more_than_one_serving_of_standalone_component(self):
+    def test_format_data_with_standalone_component(self):
         self.maxDiff = None
-        result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data_with_multiple_servings_of_standalone)
-        expected_formatted_standalone = {
-            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
-            'netWeight': 213,
-            'grossWeight': 291,
-            'hasStandalone': True,
-            'labelName': None,
-            'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
-            'standaloneRecipeName': 'Vanilla Cashew Cream',
-            'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
-            'standaloneNetWeight': 43,
-            'standaloneSuggestedServing': "0.75 oz",
-            'standaloneServingSizeWeight': 21,
-            'standaloneServings': 2.0,
-        }
-        self.assertEqual(result, expected_formatted_standalone)
-
-    def test_format_recipe_tree_components_data_with_one_serving_of_standalone_component(self):
-        self.maxDiff = None
-        result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data_with_one_serving_of_standalone)
+        weights = get_recipe_weights(MOCK_RECIPE_ITEMS)
+        ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
+            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+        )
+        result = weights | ingredients_and_standalone_data
         expected = {
-            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
-            'netWeight': 213,
-            'grossWeight': 291,
+            'ingredients': BASE_INGREDIENTS,
+            'netWeight': 435,
+            'grossWeight': 557,
             'hasStandalone': True,
-            'labelName': None,
-            'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
-            'standaloneRecipeName': 'Vanilla Cashew Cream',
-            'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
-            'standaloneNetWeight': 43,
-            'standaloneSuggestedServing': "1.5 oz",
-            'standaloneServingSizeWeight': 43,
-            'standaloneServings': 1.0
+            'labelName': "Vegan Meal Label",
+            'standaloneRecipeId': STANDALONE_RECIPE_ID,
+            'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+            'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+            'standaloneIngredients': STANDALONE_INGREDIENTS,
+            'standaloneNetWeight': 57,
+            'standaloneSuggestedServing': "1 oz",
+            'standaloneServingSizeWeight': 28,
+            'standaloneServings': 2.0,
         }
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data(self):
-        self.maxDiff = None
-        result = format_recipe_tree_components_data(
-            mock_recipe_tree_components.mock_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data)
+        recipeItems = deepcopy(MOCK_RECIPE_ITEMS)
+        ingredientsWithUsages = deepcopy(MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES['ingredientsWithUsages'])
+        recipeItems[3]['subRecipe']['nutritionalsQuantity'] = None
+        recipeItems[3]['subRecipe']['nutritionalsUnit'] = None
+        data = {'recipeItems': recipeItems, 'ingredientsWithUsages': ingredientsWithUsages}
+
+        weights = get_recipe_weights(recipeItems)
+        ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(data)
+        result = weights | ingredients_and_standalone_data
         expected = {
-            'ingredients': INGREDIENTS_LIST_WITH_USAGES,
-            'netWeight': 213,
-            'grossWeight': 291,
+            'ingredients': BASE_INGREDIENTS,
+            'netWeight': 435,
+            'grossWeight': 557,
             'hasStandalone': True,
-            'labelName': None,
-            'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
-            'standaloneRecipeName': 'Vanilla Cashew Cream',
-            'standaloneNutrition': STANDALONE_NUTRITION,
-            'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_WITH_USAGES,
-            'standaloneNetWeight': 43,
+            'labelName': "Vegan Meal Label",
+            'standaloneRecipeId': STANDALONE_RECIPE_ID,
+            'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+            'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+            'standaloneIngredients': STANDALONE_INGREDIENTS,
+            'standaloneNetWeight': 57,
             'standaloneSuggestedServing': None,
             'standaloneServingSizeWeight': None,
-            'standaloneServings': None
+            'standaloneServings': None,
         }
         self.assertEqual(result, expected)
 
 
 class TestGetRecipeCategoryTags(TestCase):
-
     def test_get_recipe_category_tags_with_all_tags_populated(self):
-        recipe_category_values = mock_recipe_category_values.mock_data
+        recipe_category_values = MOCK_RECIPE_CATEGORY_VALUES
         expected_result = {
             'proteinType': 'vegan',
             'mealContainer': 'ts48',
@@ -455,17 +447,16 @@ class TestGetRecipeCategoryTags(TestCase):
         self.assertEqual(result, expected_result)
 
     def test_get_recipe_category_tags_with_no_tags_populated(self):
-        recipe_category_values = []
         expected_result = {
             'highlightTags': [],
             'displayNutritionOnWebsite': True
         }
 
-        result = get_recipe_category_tags(recipe_category_values)
+        result = get_recipe_category_tags(MOCK_RECIPE_ITEMS)
         self.assertEqual(result, expected_result)
 
     def test_get_recipe_category_tags_with_just_one_highlight_tag(self):
-        recipe_category_values = mock_recipe_category_values.mock_data
+        recipe_category_values = MOCK_RECIPE_CATEGORY_VALUES
         # mock data contains two highlight tags- remove one of them
         recipe_category_values.pop(recipe_category_values.index({
             'name': 'spicy',
@@ -508,20 +499,21 @@ class TestGetRecipeCategoryTags(TestCase):
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
+
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_successful(self, mock_retrieval_method):
+    def test_get_formatted_recipe_data_with_standalone_successful(self, mock_retrieval_method):
         self.maxDiff = None
         expected_result = [
             {
-                'id': '1',
-                'externalName': 'Test Recipe 1',
+                'id': SELLABLE_RECIPE_ID,
+                'externalName': SELLABLE_RECIPE_NAME,
                 'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'notes': 'Some notes about recipe 1',
-                'description': 'Details about recipe 1',
-                'labelName': None,
-                'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
-                'nutrition': mock_nutrition_data.mock_data,
+                'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
+                'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
+                'labelName': 'Vegan Meal Label',
+                'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
+                'nutrition': MOCK_RECONCILED_NUTRITIONALS,
                 'proteinType': 'vegan',
                 'mealContainer': 'ts48',
                 'mealType': 'dinner',
@@ -530,63 +522,34 @@ class TestGetFormattedRecipesData(TestCase):
                 'baseMeal': 'Base Salad Name',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
-                'ingredients': COMBINED_INGREDIENTS_LIST_NO_USAGES,
-                'netWeight': 255,
-                'grossWeight': 255,
-                'hasStandalone': False,
-                'standaloneIngredients': None,
-                'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneNetWeight': None,
-                'standaloneSuggestedServing': None,
-                'standaloneServingSizeWeight': None,
-                'standaloneServings': None,
-                'hasAllergen': False,
-                'allergens': []
-            },
-            {
-                'id': '2',
-                'externalName': 'Test Recipe 2',
-                'notes': 'Some notes about recipe 2',
-                'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'description': 'Details about recipe 2',
-                'labelName': None,
-                'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU2',
-                'nutrition': mock_nutrition_data.mock_data,
-                'proteinType': 'vegan',
-                'mealContainer': 'ts48',
-                'mealType': 'dinner',
-                'proteinAddOn': 'high-protein-legume',
-                'baseMealSlug': 'base-salad',
-                'baseMeal': 'Base Salad Name',
-                'highlightTags': ['new', 'spicy'],
-                'displayNutritionOnWebsite': True,
-                'ingredients': COMBINED_INGREDIENTS_LIST_NO_USAGES,
-                'standaloneIngredients': None,
-                'standaloneNutrition': None,
-                'standaloneRecipeId': None,
-                'standaloneRecipeName': None,
-                'standaloneNetWeight': None,
-                'standaloneSuggestedServing': None,
-                'standaloneServingSizeWeight': None,
-                'standaloneServings': None,
-                'netWeight': 255,
-                'grossWeight': 255,
-                'hasStandalone': False,
+                'ingredients': BASE_INGREDIENTS,
+                'netWeight': 435,
+                'grossWeight': 557,
+                'hasStandalone': True,
+                'standaloneIngredients': STANDALONE_INGREDIENTS,
+                'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+                'standaloneRecipeId': STANDALONE_RECIPE_ID,
+                'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+                'standaloneNetWeight': 57,
+                'standaloneSuggestedServing': "1 oz",
+                'standaloneServingSizeWeight': 28,
+                'standaloneServings': 2.0,
                 'hasAllergen': False,
                 'allergens': []
             }
         ]
-
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipeConnection': mock_recipes_data.mock_recipe_connection_with_no_standalone(['1', '2'])
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': mock_recipe(SELLABLE_RECIPE_ID)
+                        }]
+                    }
                 }
             }
         }
-        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, expected_result)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -594,11 +557,15 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipeConnection': []
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': {}
+                        }]
+                    }
                 }
             }
         }
-        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -606,220 +573,18 @@ class TestGetFormattedRecipesData(TestCase):
         mock_retrieval_method.return_value = {
             'data': {
                 'viewer': {
-                    'recipeConnection': None
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': None
+                        }]
+                    }
                 }
             }
         }
         result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_no_standalone(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection':
-                        mock_recipes_data.mock_recipe_connection_with_no_standalone(['1'])
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION)
-        formatted_recipe = result[0]
-        self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_NO_USAGES)
-        self.assertEqual(formatted_recipe['hasStandalone'], False)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneServings'], None)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_with_standalone(self, mock_retrieval_method):
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection':
-                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
-        formatted_recipe = result[0]
-        self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_NO_USAGES)
-        self.assertEqual(formatted_recipe['hasStandalone'], True)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Vanilla Cashew Cream')
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3NDI3NQ==')
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], 43)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "0.75 oz")
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 21)
-        self.assertEqual(formatted_recipe['standaloneServings'], 2.0)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], STANDALONE_INGREDIENTS_LIST_NO_USAGES)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_no_standalone_with_ingredient_usages_format_option(self, mock_retrieval_method):
-        self.maxDiff = None
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection':
-                        mock_recipes_data.mock_recipe_connection_with_no_standalone(['1'])
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION, includeIngredientUsages=True)
-        formatted_recipe = result[0]
-        self.assertEqual(formatted_recipe['ingredients'], COMBINED_INGREDIENTS_LIST_WITH_USAGES)
-        self.assertEqual(formatted_recipe['hasStandalone'], False)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneServings'], None)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_with_standalone_and_ingredient_usages_format_option(self, mock_retrieval_method):
-        self.maxDiff = None
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection':
-                        mock_recipes_data.mock_recipe_connection_with_standalone(['1'])
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=["1"], location_name=DEFAULT_LOCATION, includeIngredientUsages=True)
-        formatted_recipe = result[0]
-        self.assertEqual(formatted_recipe['ingredients'], INGREDIENTS_LIST_WITH_USAGES)
-        self.assertEqual(formatted_recipe['hasStandalone'], True)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], 'Vanilla Cashew Cream')
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], 'cmVjaXBlOjE3NDI3NQ==')
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], 43)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], "0.75 oz")
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], 21)
-        self.assertEqual(formatted_recipe['standaloneServings'], 2.0)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], STANDALONE_INGREDIENTS_LIST_WITH_USAGES)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_with_allergen_and_standalone_successful(
-        self, mock_retrieval_method
-    ):
-        self.maxDiff = None
-        expected_result = [
-            {
-                'id': '1',
-                'externalName': 'Test Recipe 1',
-                'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'notes': 'Some notes about recipe 1',
-                'description': 'Details about recipe 1',
-                'labelName': None,
-                'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
-                'nutrition': mock_nutrition_data.mock_data,
-                'proteinType': 'vegan',
-                'mealContainer': 'ts48',
-                'mealType': 'dinner',
-                'proteinAddOn': 'high-protein-legume',
-                'baseMealSlug': 'base-salad',
-                'baseMeal': 'Base Salad Name',
-                'highlightTags': ['new', 'spicy'],
-                'displayNutritionOnWebsite': True,
-                'ingredients': INGREDIENTS_LIST_NO_USAGES,
-                'netWeight': 213,
-                'grossWeight': 291,
-                'hasStandalone': True,
-                'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_NO_USAGES,
-                'standaloneNutrition': STANDALONE_NUTRITION,
-                'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
-                'standaloneRecipeName': 'Vanilla Cashew Cream',
-                'standaloneNetWeight': 43,
-                'standaloneSuggestedServing': '0.75 oz',
-                'standaloneServingSizeWeight': 21,
-                'standaloneServings': 2.0,
-                'hasAllergen': True,
-                'allergens': ['soy']
-            }
-        ]
-
-        mock_recipe_data = mock_recipes_data.mock_recipe_connection_with_standalone(['1'])
-        mock_recipe_data['edges'][0]['node']['dietaryFlagsWithUsages'] = [{
-            'dietaryFlag': {
-                'id': 'ZGlldGFyeUZsYWc6Ng==',
-                'name': 'soy beans'
-            }
-        }]
-
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection': mock_recipe_data
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
-        self.assertEqual(result, expected_result)
-
-    @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_recipes_data_with_non_supported_allergen_successful(
-        self, mock_retrieval_method
-    ):
-        self.maxDiff = None
-        expected_result = [
-            {
-                'id': '1',
-                'externalName': 'Test Recipe 1',
-                'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'notes': 'Some notes about recipe 1',
-                'description': 'Details about recipe 1',
-                'labelName': None,
-                'menuPhotoUrl': 'https://cdn.filestackcontent.com/MENU1',
-                'nutrition': mock_nutrition_data.mock_data,
-                'proteinType': 'vegan',
-                'mealContainer': 'ts48',
-                'mealType': 'dinner',
-                'proteinAddOn': 'high-protein-legume',
-                'baseMealSlug': 'base-salad',
-                'baseMeal': 'Base Salad Name',
-                'highlightTags': ['new', 'spicy'],
-                'displayNutritionOnWebsite': True,
-                'ingredients': INGREDIENTS_LIST_NO_USAGES,
-                'netWeight': 213,
-                'grossWeight': 291,
-                'hasStandalone': True,
-                'standaloneIngredients': STANDALONE_INGREDIENTS_LIST_NO_USAGES,
-                'standaloneNutrition': STANDALONE_NUTRITION,
-                'standaloneRecipeId': 'cmVjaXBlOjE3NDI3NQ==',
-                'standaloneRecipeName': 'Vanilla Cashew Cream',
-                'standaloneNetWeight': 43,
-                'standaloneSuggestedServing': '1.5 oz',
-                'standaloneServingSizeWeight': 43,
-                'standaloneServings': 1.0,
-                'hasAllergen': False,
-                'allergens': []
-            }
-        ]
-
-        mock_recipe_data = mock_recipes_data.mock_recipe_connection(['1'])
-        mock_recipe_data['edges'][0]['node']['dietaryFlagsWithUsages'] = [{
-            'dietaryFlag': {
-                'id': 'ZGlldGFyeUZsYWc6MTc=',
-                'name': 'sulphites'
-            }
-        }]
-
-        mock_retrieval_method.return_value = {
-            'data': {
-                'viewer': {
-                    'recipeConnection': mock_recipe_data
-                }
-            }
-        }
-        result = get_formatted_recipes_data(recipe_ids=['1'], location_name=DEFAULT_LOCATION)
-        self.assertEqual(result, expected_result)
-
-
+   
 class TestGetFormattedMenuData(TestCase):
     def response(self, *menus):
         return ({
@@ -885,4 +650,3 @@ class TestGetFormattedMenuData(TestCase):
     def test_should_throw_error_if_location_provided_is_None(self):
         with self.assertRaises(ValueError):
             get_formatted_recipes_data(recipe_ids=[], location_name=None)
-

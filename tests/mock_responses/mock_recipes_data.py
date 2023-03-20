@@ -1,16 +1,16 @@
-from tests.mock_responses import (mock_nutrition_data,
-                                  mock_recipe_items,
-                                  mock_recipe_tree_components,
-                                  mock_recipe_category_values)
+from tests.mock_responses import mock_recipe_tree_components
+from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS
+from tests.mock_responses.mock_recipe_category_values import MOCK_RECIPE_CATEGORY_VALUES
+from tests.mock_responses.mock_recipe_items_ingredients_with_usages import MOCK_RECIPE_ITEMS, MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES, SELLABLE_RECIPE_ID, SELLABLE_RECIPE_NAME
 
 
 def mock_recipe_base(id):
     return ({
-        'id': id,
-        'externalName': f'Test Recipe {id}',
+        'id': SELLABLE_RECIPE_ID,
+        'externalName': SELLABLE_RECIPE_NAME,
         'notes': f'Some notes about recipe {id}',
         'description': f'Details about recipe {id}',
-        'categoryValues': mock_recipe_category_values.mock_data,
+        'categoryValues': MOCK_RECIPE_CATEGORY_VALUES,
         'media': [
             {
                 'altText': 'None.jpg',
@@ -46,8 +46,7 @@ def mock_recipe_base(id):
             ]
         },
         'isDish': True,
-        'recipeItems': mock_recipe_items.mock_data,
-        'reconciledNutritionals': mock_nutrition_data.mock_data,
+        'reconciledNutritionals': MOCK_RECONCILED_NUTRITIONALS,
         'dietaryFlagsWithUsages': []
 })
 
@@ -55,7 +54,7 @@ def mock_recipe_base(id):
 def mock_recipe(id):
     return ({
         **mock_recipe_base(id),
-        'recipeTreeComponents': mock_recipe_tree_components.mock_recipe_tree_components_data
+        **MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
     })
 
 

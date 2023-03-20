@@ -311,7 +311,7 @@ def get_recipe_ingredients_and_standalone_data(recipe: Dict) -> Dict:
     components_usages, standalone_usages = [], []
     standalone = None
 
-    for ri in recipe['recipeItems']:
+    for ri in (recipe.get('recipeItems') or []):
         recipe_item = RecipeItem(ri)
 
         if recipe_item.has_standalone_subrecipe():
@@ -323,7 +323,7 @@ def get_recipe_ingredients_and_standalone_data(recipe: Dict) -> Dict:
                     f"standalone for recipe: {recipe_item.root}."
                 )
 
-    for iu in recipe['ingredientsWithUsages']:
+    for iu in (recipe.get('ingredientsWithUsages') or []):
         ingredient = RecipeItem(iu)
 
         if not ingredient.is_packaging():
@@ -382,7 +382,6 @@ def format_standalone_data(
 
     if standalone and standalone.has_standalone_subrecipe():
         subrecipe = standalone.subrecipe
-        print(type(subrecipe))
         standalone_recipe_item_net_weight = standalone.mass()
         standalone_nutritionals_quantity = standalone.standalone_nutritionals_quantity()
         standalone_nutritionals_unit = standalone.standalone_nutritionals_unit()
