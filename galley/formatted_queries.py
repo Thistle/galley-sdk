@@ -4,15 +4,17 @@ from copy import deepcopy
 from typing import Dict, List, Optional
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE, GALLEY_ERROR_PREFIX
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
-from galley.enums import (DietaryFlagEnum,
-                          IngredientCategoryTagTypeEnum,
-                          IngredientCategoryValueEnum,
-                          MenuCategoryEnum,
-                          MenuItemCategoryEnum,
-                          PreparationEnum,
-                          UnitEnum,
-                          RecipeCategoryTagTypeEnum,
-                          RecipeMediaEnum)
+from galley.enums import (
+    UnitEnum,
+    RecipeMediaEnum,
+    DietaryFlagEnum,
+    PreparationEnum,
+    MenuCategoryEnum,
+    MenuItemCategoryEnum,
+    RecipeCategoryTagTypeEnum,
+    IngredientCategoryValueEnum,
+    IngredientCategoryTagTypeEnum,
+)
 
 
 logger = logging.getLogger(__name__)

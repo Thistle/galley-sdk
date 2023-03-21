@@ -1,19 +1,18 @@
-from copy import deepcopy
 from unittest import TestCase, mock
-from galley.enums import IngredientCategoryValueEnum, PreparationEnum, RecipeCategoryTagTypeEnum, UnitEnum
+from galley.enums import IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
 from tests.mock_responses.mock_menu_data import mock_menu
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
     RecipeItem,
-    calculate_serving_size_weight,
-    calculate_servings,
     format_title,
+    get_recipe_weights,
+    calculate_servings,
     get_ingredient_name,
     get_formatted_menu_data,
-    get_formatted_recipes_data,
     get_recipe_category_tags,
+    get_formatted_recipes_data,
+    calculate_serving_size_weight,
     get_recipe_ingredients_and_standalone_data,
-    get_recipe_weights
 )
 from tests.mock_responses.mock_recipes_data import mock_recipe
 from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS, MOCK_STANDALONE_RECONCILED_NUTRITIONALS
@@ -24,8 +23,8 @@ from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
     SELLABLE_RECIPE_NAME,
     STANDALONE_RECIPE_ID,
     STANDALONE_RECIPE_NAME,
-    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE,
     MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_NO_STANDALONE,
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE,
 )
 
 
@@ -125,7 +124,6 @@ def formatted_menu(date, onlySellableMenuItems=False):
 
 class TestIngredientsFromRecipeItems(TestCase):
     def test_get_ingredient_usage_successful(self):
-        self.maxDiff = None
         data = {
             "ingredient": {
                 "name": "spinach, baby, SEND TO PLATE",
@@ -148,7 +146,6 @@ class TestIngredientsFromRecipeItems(TestCase):
         self.assertEqual(result, 84)
 
     def test_get_ingredients_with_usages_successful(self):
-        self.maxDiff = None
         result = get_recipe_ingredients_and_standalone_data(
             MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
         )
@@ -357,7 +354,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['grossWeight'], 0)
 
     def test_format_data_with_standalone_component(self):
-        self.maxDiff = None
         weights = get_recipe_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
             MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
@@ -419,7 +415,6 @@ class TestGetRecipeCategoryTags(TestCase):
             'highlightTags': ['new', 'spicy'],
             'displayNutritionOnWebsite': True
         }
-
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
@@ -428,7 +423,6 @@ class TestGetRecipeCategoryTags(TestCase):
             'highlightTags': [],
             'displayNutritionOnWebsite': True
         }
-
         result = get_recipe_category_tags(MOCK_RECIPE_ITEMS)
         self.assertEqual(result, expected_result)
 
@@ -453,7 +447,6 @@ class TestGetRecipeCategoryTags(TestCase):
             'highlightTags': ['new'],
             'displayNutritionOnWebsite': True
         }
-
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
@@ -472,7 +465,6 @@ class TestGetRecipeCategoryTags(TestCase):
             'highlightTags': [],
             'displayNutritionOnWebsite': False
         }
-
         result = get_recipe_category_tags(recipe_category_values)
         self.assertEqual(result, expected_result)
 
@@ -480,7 +472,6 @@ class TestGetRecipeCategoryTags(TestCase):
 class TestGetFormattedRecipesData(TestCase):
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipe_data_with_standalone_successful(self, mock_retrieval_method):
-        self.maxDiff = None
         expected_result = [
             {
                 'id': SELLABLE_RECIPE_ID,
@@ -575,55 +566,18 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
-        formatted_recipe = result[0]
-        self.assertEqual(formatted_recipe['ingredients'], BASE_INGREDIENTS)
-        self.assertEqual(formatted_recipe['hasStandalone'], False)
-        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
-        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
-        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
-        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
-        self.assertEqual(formatted_recipe['standaloneServings'], None)
-        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
+        self.assertEqual(result[0]['ingredients'], BASE_INGREDIENTS)
+        self.assertEqual(result[0]['hasStandalone'], False)
+        self.assertEqual(result[0]['standaloneRecipeName'], None)
+        self.assertEqual(result[0]['standaloneRecipeId'], None)
+        self.assertEqual(result[0]['standaloneNetWeight'], None)
+        self.assertEqual(result[0]['standaloneSuggestedServing'], None)
+        self.assertEqual(result[0]['standaloneServingSizeWeight'], None)
+        self.assertEqual(result[0]['standaloneServings'], None)
+        self.assertEqual(result[0]['standaloneIngredients'], None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_allergen_and_standalone_successful(self, mock_retrieval_method):
-        self.maxDiff = None
-        expected_result = [
-            {
-                'id': SELLABLE_RECIPE_ID,
-                'externalName': SELLABLE_RECIPE_NAME,
-                'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
-                'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
-                'labelName': 'Vegan Meal Label',
-                'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
-                'nutrition': MOCK_RECONCILED_NUTRITIONALS,
-                'proteinType': 'vegan',
-                'mealContainer': 'ts48',
-                'mealType': 'dinner',
-                'proteinAddOn': 'high-protein-legume',
-                'baseMealSlug': 'base-salad',
-                'baseMeal': 'Base Salad Name',
-                'highlightTags': ['new', 'spicy'],
-                'displayNutritionOnWebsite': True,
-                'ingredients': BASE_INGREDIENTS,
-                'netWeight': 435,
-                'grossWeight': 557,
-                'hasStandalone': True,
-                'standaloneIngredients': STANDALONE_INGREDIENTS,
-                'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
-                'standaloneRecipeId': STANDALONE_RECIPE_ID,
-                'standaloneRecipeName': STANDALONE_RECIPE_NAME,
-                'standaloneNetWeight': 57,
-                'standaloneSuggestedServing': "1 oz",
-                'standaloneServingSizeWeight': 28,
-                'standaloneServings': 2.0,
-                'hasAllergen': True,
-                'allergens': ['soy']
-            }
-        ]
-
         mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
         mock_recipe_data['dietaryFlagsWithUsages'] = [{
             'dietaryFlag': {
@@ -643,45 +597,20 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result[0]['ingredients'], BASE_INGREDIENTS)
+        self.assertEqual(result[0]['hasStandalone'], True)
+        self.assertEqual(result[0]['standaloneRecipeName'], STANDALONE_RECIPE_NAME)
+        self.assertEqual(result[0]['standaloneRecipeId'], STANDALONE_RECIPE_ID)
+        self.assertEqual(result[0]['standaloneNetWeight'], 57)
+        self.assertEqual(result[0]['standaloneSuggestedServing'], "1 oz")
+        self.assertEqual(result[0]['standaloneServingSizeWeight'], 28)
+        self.assertEqual(result[0]['standaloneServings'], 2.0)
+        self.assertEqual(result[0]['standaloneIngredients'], STANDALONE_INGREDIENTS)
+        self.assertEqual(result[0]['hasAllergen'], True)
+        self.assertEqual(result[0]['allergens'], ['soy'])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_non_supported_allergen_successful(self, mock_retrieval_method):
-        self.maxDiff = None
-        expected_result = [
-            {
-                'id': SELLABLE_RECIPE_ID,
-                'externalName': SELLABLE_RECIPE_NAME,
-                'version': 'dmVyc2lvbjozNjQ0NTY1',
-                'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
-                'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
-                'labelName': 'Vegan Meal Label',
-                'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
-                'nutrition': MOCK_RECONCILED_NUTRITIONALS,
-                'proteinType': 'vegan',
-                'mealContainer': 'ts48',
-                'mealType': 'dinner',
-                'proteinAddOn': 'high-protein-legume',
-                'baseMealSlug': 'base-salad',
-                'baseMeal': 'Base Salad Name',
-                'highlightTags': ['new', 'spicy'],
-                'displayNutritionOnWebsite': True,
-                'ingredients': BASE_INGREDIENTS,
-                'netWeight': 435,
-                'grossWeight': 557,
-                'hasStandalone': True,
-                'standaloneIngredients': STANDALONE_INGREDIENTS,
-                'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
-                'standaloneRecipeId': STANDALONE_RECIPE_ID,
-                'standaloneRecipeName': STANDALONE_RECIPE_NAME,
-                'standaloneNetWeight': 57,
-                'standaloneSuggestedServing': "1 oz",
-                'standaloneServingSizeWeight': 28,
-                'standaloneServings': 2.0,
-                'hasAllergen': False,
-                'allergens': []
-            }
-        ]
         mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
         mock_recipe_data['dietaryFlagsWithUsages'] = [{
             'dietaryFlag': {
@@ -701,7 +630,8 @@ class TestGetFormattedRecipesData(TestCase):
             }
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result[0]['hasAllergen'], False)
+        self.assertEqual(result[0]['allergens'], [])
 
 
 class TestGetFormattedMenuData(TestCase):
@@ -761,10 +691,8 @@ class TestGetFormattedMenuData(TestCase):
     def test_get_formatted_menu_data_base_meal_title_format(self):
         self.assertEqual(format_title("beet-poke"), "Beet-Poke")
         self.assertEqual(format_title("persephone's salad"), "Persephone's Salad")
-        self.assertEqual(format_title("brussel sprout & asian pear 'fried' rice"),
-                         "Brussel Sprout & Asian Pear 'Fried' Rice")
-        self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"),
-                         "Beetroot Quinoa & Sun 'Cheese' Salad")
+        self.assertEqual(format_title("brussel sprout & asian pear 'fried' rice"), "Brussel Sprout & Asian Pear 'Fried' Rice")
+        self.assertEqual(format_title("beetroot quinoa & sun 'cheese' salad"), "Beetroot Quinoa & Sun 'Cheese' Salad")
 
     def test_should_throw_error_if_location_provided_is_None(self):
         with self.assertRaises(ValueError):

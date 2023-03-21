@@ -1,19 +1,12 @@
 import logging
 from typing import Any
-from unittest import TestCase, mock
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import LocationEnum
-from sgqlc.operation import Operation, Selection
-
-from galley.queries import (
-    Query,
-    get_menu_query,
-    get_raw_menu_data,
-    get_raw_recipes_data,
-    recipe_connection_query
-)
+from galley.queries import Query, get_menu_query, get_raw_menu_data, get_raw_recipes_data, recipe_connection_query
 from tests.mock_responses import mock_recipes_data
 from tests.mock_responses.mock_menu_data import mock_menu
+from unittest import TestCase, mock
+from sgqlc.operation import Operation, Selection
 
 
 logger = logging.getLogger(__name__)

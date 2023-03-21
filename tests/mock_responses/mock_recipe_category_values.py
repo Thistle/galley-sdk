@@ -1,5 +1,4 @@
-from galley.common import DEFAULT_MENU_TYPE
-from galley.enums import MenuCategoryEnum, RecipeCategoryTagTypeEnum
+from galley.enums import RecipeCategoryTagTypeEnum
 
 
 MEAL_TYPE_CATEGORY_VALUE = {
@@ -56,15 +55,6 @@ HIGHLIGHT_TWO_CATEGORY_VALUE = {
     }
 }
 
-MISCELLANEOUS_CATEGORY_VALUE = {
-    'name': 'true',
-    'category': {
-        'id': "",
-        'itemType': 'recipe',
-        'name': 'is perishable'
-    }
-}
-
 MEAL_CONTAINER_CATEGORY_VALUE = {
     'name': 'ts48',
     'category': {
@@ -83,6 +73,15 @@ BASE_MEAL_SLUG_CATEGORY_VALUE = {
     }
 }
 
+MISCELLANEOUS_CATEGORY_VALUE = {
+    'name': 'true',
+    'category': {
+        'id': "",
+        'itemType': 'recipe',
+        'name': 'is perishable'
+    }
+}
+
 MOCK_RECIPE_CATEGORY_VALUES = [
     MEAL_TYPE_CATEGORY_VALUE,
     BASE_MEAL_CATEGORY_VALUE,
@@ -90,7 +89,7 @@ MOCK_RECIPE_CATEGORY_VALUES = [
     PROTEIN_ADDON_CATEGORY_VALUE,
     HIGHLIGHT_ONE_CATEGORY_VALUE,
     HIGHLIGHT_TWO_CATEGORY_VALUE,
-    MISCELLANEOUS_CATEGORY_VALUE,
     MEAL_CONTAINER_CATEGORY_VALUE,
     BASE_MEAL_SLUG_CATEGORY_VALUE,
+    MISCELLANEOUS_CATEGORY_VALUE,
 ]

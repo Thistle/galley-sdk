@@ -1,5 +1,5 @@
-from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime as d, list_of)
-from sgqlc.types.relay import (Connection, Node)
+from sgqlc.types import ID, ArgDict, Enum, Field, Input, Int, Type, datetime as d, list_of
+from sgqlc.types.relay import Connection, Node
 
 
 class CategoryItemTypeEnum(Enum):

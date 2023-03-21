@@ -1,17 +1,22 @@
 import logging
 from typing import Any, Dict, Iterable, List, Optional
-
+from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
+from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
+from galley.types import (
+    Menu,
+    Recipe,
+    FilterInput,
+    MenuFilterInput,
+    RecipeConnection,
+    PaginationOptions,
+    RecipeItemConnection,
+    RecipeConnectionFilter,
+    RecipeItemConnectionFilter,
+    RecipeItemConnectionPaginationOptions
+)
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
-from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
-from galley.types import (FilterInput, Menu, MenuFilterInput,
-                          PaginationOptions, Recipe, RecipeConnection,
-                          RecipeConnectionFilter,
-                          RecipeItemConnectionFilter,
-                          RecipeItemConnection,
-                          RecipeItemConnectionPaginationOptions)
 
 logger = logging.getLogger(__name__)
 

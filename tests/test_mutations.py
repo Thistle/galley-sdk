@@ -1,13 +1,11 @@
 import logging
-from unittest import mock, TestCase
-from sgqlc.endpoint.http import HTTPEndpoint
-
 from galley.mutations import (
     upsert_menu_data,
     build_upsert_mutation_query,
     bulk_update_recipe_item_data,
     build_bulk_update_recipe_item_query
 )
+from unittest import mock, TestCase
 
 
 logger = logging.getLogger(__name__)
