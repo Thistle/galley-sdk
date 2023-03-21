@@ -581,10 +581,127 @@ class TestGetFormattedRecipesData(TestCase):
                 }
             }
         }
-        result = get_formatted_recipes_data(recipe_ids=['1', '2'], location_name=DEFAULT_LOCATION)
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
 
-   
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_with_allergen_and_standalone_successful(self, mock_retrieval_method):
+        self.maxDiff = None
+        expected_result = [
+            {
+                'id': SELLABLE_RECIPE_ID,
+                'externalName': SELLABLE_RECIPE_NAME,
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
+                'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
+                'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
+                'labelName': 'Vegan Meal Label',
+                'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
+                'nutrition': MOCK_RECONCILED_NUTRITIONALS,
+                'proteinType': 'vegan',
+                'mealContainer': 'ts48',
+                'mealType': 'dinner',
+                'proteinAddOn': 'high-protein-legume',
+                'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
+                'ingredients': BASE_INGREDIENTS,
+                'netWeight': 435,
+                'grossWeight': 557,
+                'hasStandalone': True,
+                'standaloneIngredients': STANDALONE_INGREDIENTS,
+                'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+                'standaloneRecipeId': STANDALONE_RECIPE_ID,
+                'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+                'standaloneNetWeight': 57,
+                'standaloneSuggestedServing': "1 oz",
+                'standaloneServingSizeWeight': 28,
+                'standaloneServings': 2.0,
+                'hasAllergen': True,
+                'allergens': ['soy']
+            }
+        ]
+
+        mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
+        mock_recipe_data['dietaryFlagsWithUsages'] = [{
+            'dietaryFlag': {
+                'id': 'ZGlldGFyeUZsYWc6Ng==',
+                'name': 'soy beans'
+            }
+        }]
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': mock_recipe_data
+                        }]
+                    }
+                }
+            }
+        }
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
+        self.assertEqual(result, expected_result)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_with_non_supported_allergen_successful(self, mock_retrieval_method):
+        self.maxDiff = None
+        expected_result = [
+            {
+                'id': SELLABLE_RECIPE_ID,
+                'externalName': SELLABLE_RECIPE_NAME,
+                'version': 'dmVyc2lvbjozNjQ0NTY1',
+                'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
+                'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
+                'labelName': 'Vegan Meal Label',
+                'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
+                'nutrition': MOCK_RECONCILED_NUTRITIONALS,
+                'proteinType': 'vegan',
+                'mealContainer': 'ts48',
+                'mealType': 'dinner',
+                'proteinAddOn': 'high-protein-legume',
+                'baseMealSlug': 'base-salad',
+                'baseMeal': 'Base Salad Name',
+                'highlightTags': ['new', 'spicy'],
+                'displayNutritionOnWebsite': True,
+                'ingredients': BASE_INGREDIENTS,
+                'netWeight': 435,
+                'grossWeight': 557,
+                'hasStandalone': True,
+                'standaloneIngredients': STANDALONE_INGREDIENTS,
+                'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+                'standaloneRecipeId': STANDALONE_RECIPE_ID,
+                'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+                'standaloneNetWeight': 57,
+                'standaloneSuggestedServing': "1 oz",
+                'standaloneServingSizeWeight': 28,
+                'standaloneServings': 2.0,
+                'hasAllergen': False,
+                'allergens': []
+            }
+        ]
+        mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
+        mock_recipe_data['dietaryFlagsWithUsages'] = [{
+            'dietaryFlag': {
+                'id': 'ZGlldGFyeUZsYWc6MTc=',
+                'name': 'sulphites'
+            }
+        }]
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': mock_recipe_data
+                        }]
+                    }
+                }
+            }
+        }
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
+        self.assertEqual(result, expected_result)
+
+
 class TestGetFormattedMenuData(TestCase):
     def response(self, *menus):
         return ({
