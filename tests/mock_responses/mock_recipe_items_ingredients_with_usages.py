@@ -1873,7 +1873,7 @@ def MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_NO_STANDALONE():
     ]
     ingredientsWithUsages = [
         {**iu, 'usages': usages} for iu in INGREDIENTS_WITH_USAGES
-        if (usages:= [
+        if (usages := [
                 usage for usage in iu['usages']
                 if all(
                     recipe['id'] != STANDALONE_RECIPE_ID

@@ -5,7 +5,7 @@ from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
     RecipeItem,
     format_title,
-    get_recipe_weights,
+    get_recipe_label_and_weights,
     calculate_servings,
     get_ingredient_name,
     get_formatted_menu_data,
@@ -339,22 +339,22 @@ class TestCalculateServingSizeWeight(TestCase):
 
 class TestFormattedRecipeTreeComponents(TestCase):
     def test_weights_with_pkg_and_standalone(self):
-        result = get_recipe_weights(MOCK_RECIPE_ITEMS)
+        result = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS)
         self.assertEqual(result['netWeight'], 435)
         self.assertEqual(result['grossWeight'], 557)
 
     def test_weight_from_recipe_items_successful_no_pkg_no_standalone(self):
-        result = get_recipe_weights(MOCK_RECIPE_ITEMS[:3])
+        result = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS[:3])
         self.assertEqual(result['netWeight'], 435)
         self.assertEqual(result['grossWeight'], 435)
 
     def test_weight_from_recipe_items_empty(self):
-        result = get_recipe_weights([])
+        result = get_recipe_label_and_weights([])
         self.assertEqual(result['netWeight'], 0)
         self.assertEqual(result['grossWeight'], 0)
 
     def test_format_data_with_standalone_component(self):
-        weights = get_recipe_weights(MOCK_RECIPE_ITEMS)
+        weights = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
             MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
         )
@@ -381,7 +381,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         data['recipeItems'][3]['subRecipe']['nutritionalsQuantity'] = None
         data['recipeItems'][3]['subRecipe']['nutritionalsUnit'] = None
 
-        weights = get_recipe_weights(data['recipeItems'])
+        weights = get_recipe_label_and_weights(data['recipeItems'])
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(data)
         result = weights | ingredients_and_standalone_data
         expected = {
