@@ -1,7 +1,11 @@
 from tests.mock_responses import mock_recipe_tree_components
 from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS
 from tests.mock_responses.mock_recipe_category_values import MOCK_RECIPE_CATEGORY_VALUES
-from tests.mock_responses.mock_recipe_items_ingredients_with_usages import MOCK_RECIPE_ITEMS, MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES, SELLABLE_RECIPE_ID, SELLABLE_RECIPE_NAME
+from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
+    SELLABLE_RECIPE_ID,
+    SELLABLE_RECIPE_NAME,
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE
+)
 
 
 def mock_recipe_base(id):
@@ -54,7 +58,7 @@ def mock_recipe_base(id):
 def mock_recipe(id):
     return ({
         **mock_recipe_base(id),
-        **MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+        **MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
     })
 
 

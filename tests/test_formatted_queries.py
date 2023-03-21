@@ -24,39 +24,33 @@ from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
     SELLABLE_RECIPE_NAME,
     STANDALONE_RECIPE_ID,
     STANDALONE_RECIPE_NAME,
-    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE,
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_NO_STANDALONE,
 )
 
 
-BASE_INGREDIENTS = ['Buckwheat Groats',
+BASE_INGREDIENTS = ['Rainbow Carrots*',
+                    'Buckwheat Groats',
                     'Spring Mix Lettuce*, Kale* or Seasonal Greens*§',
                     'Kidney Beans*',
-                    'Rainbow Carrots*',
                     'Red Beets',
                     'Dried Cherries*',
-                    'Hemp Seeds',
                     'Pumpkin Seed',
-                    'Sunflower Seeds',
                     'Extra Virgin Olive Oil',
                     'Parsley',
-                    'Sea Salt',
                     'Rice Bran Oil',
-                    'Garlic Powder',
-                    'Chili Powder',
-                    'Cumin']
+                    'Sea Salt']
 
 
 STANDALONE_INGREDIENTS = ['Rice Bran Oil',
                           'Aquafaba (Chickpeas, Water)*',
-                          'Champagne Vinegar',
                           'Maple Syrup*',
                           'Dijon Mustard (Water, Mustard Seeds, Vinegar, Salt)',
                           'Garlic',
                           'Apple Cider Vinegar',
                           'Garbanzo Beans (Garbanzo Beans, Water, Salt)',
-                          'Sea Salt',
                           'Poppy Seeds*',
-                          'Black Pepper']
+                          'Sea Salt']
 
 
 def formatted_menu(date, onlySellableMenuItems=False):
@@ -156,24 +150,9 @@ class TestIngredientsFromRecipeItems(TestCase):
     def test_get_ingredients_with_usages_successful(self):
         self.maxDiff = None
         result = get_recipe_ingredients_and_standalone_data(
-            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
         )
-        self.assertEqual(result['ingredients'], ['Buckwheat Groats',
-                                                 'Spring Mix Lettuce*, Kale* or Seasonal Greens*§',
-                                                 'Kidney Beans*',
-                                                 'Rainbow Carrots*',
-                                                 'Red Beets',
-                                                 'Dried Cherries*',
-                                                 'Hemp Seeds',
-                                                 'Pumpkin Seed',
-                                                 'Sunflower Seeds',
-                                                 'Extra Virgin Olive Oil',
-                                                 'Parsley',
-                                                 'Sea Salt',
-                                                 'Rice Bran Oil',
-                                                 'Garlic Powder',
-                                                 'Chili Powder',
-                                                 'Cumin'])
+        self.assertEqual(result['ingredients'], BASE_INGREDIENTS)
 
     def test_get_ingredient_usages_empty(self):
         recipe = {'recipeItems': [], 'ingredientsWithUsages': []}
@@ -381,7 +360,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.maxDiff = None
         weights = get_recipe_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
-            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES
+            MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
         )
         result = weights | ingredients_and_standalone_data
         expected = {
@@ -402,13 +381,11 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result, expected)
 
     def test_format_recipe_tree_components_data_with_standalone_missing_nutritionals_quantity_data(self):
-        recipeItems = deepcopy(MOCK_RECIPE_ITEMS)
-        ingredientsWithUsages = deepcopy(MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES['ingredientsWithUsages'])
-        recipeItems[3]['subRecipe']['nutritionalsQuantity'] = None
-        recipeItems[3]['subRecipe']['nutritionalsUnit'] = None
-        data = {'recipeItems': recipeItems, 'ingredientsWithUsages': ingredientsWithUsages}
+        data = MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
+        data['recipeItems'][3]['subRecipe']['nutritionalsQuantity'] = None
+        data['recipeItems'][3]['subRecipe']['nutritionalsUnit'] = None
 
-        weights = get_recipe_weights(recipeItems)
+        weights = get_recipe_weights(data['recipeItems'])
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(data)
         result = weights | ingredients_and_standalone_data
         expected = {
@@ -583,6 +560,31 @@ class TestGetFormattedRecipesData(TestCase):
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result, [])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_recipes_data_no_standalone(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = {
+            'data': {
+                'viewer': {
+                    'recipeConnection': {
+                        'edges': [{
+                            'node': MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_NO_STANDALONE()
+                        }]
+                    }
+                }
+            }
+        }
+        result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
+        formatted_recipe = result[0]
+        self.assertEqual(formatted_recipe['ingredients'], BASE_INGREDIENTS)
+        self.assertEqual(formatted_recipe['hasStandalone'], False)
+        self.assertEqual(formatted_recipe['standaloneRecipeName'], None)
+        self.assertEqual(formatted_recipe['standaloneRecipeId'], None)
+        self.assertEqual(formatted_recipe['standaloneNetWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneSuggestedServing'], None)
+        self.assertEqual(formatted_recipe['standaloneServingSizeWeight'], None)
+        self.assertEqual(formatted_recipe['standaloneServings'], None)
+        self.assertEqual(formatted_recipe['standaloneIngredients'], None)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_allergen_and_standalone_successful(self, mock_retrieval_method):
