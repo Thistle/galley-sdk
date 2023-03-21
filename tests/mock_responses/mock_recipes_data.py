@@ -7,7 +7,7 @@ from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
 )
 
 
-def mock_recipe_base(id):
+def mock_recipe_base(id: str):
     return ({
         'id': SELLABLE_RECIPE_ID,
         'externalName': SELLABLE_RECIPE_NAME,
@@ -54,7 +54,7 @@ def mock_recipe_base(id):
 })
 
 
-def mock_recipe(id):
+def mock_recipe(id: str):
     return ({
         **mock_recipe_base(id),
         **MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
@@ -73,21 +73,13 @@ def mock_page_info(end_index: int = 1,
     })
 
 
-def mock_recipe_connection(ids,
+def mock_recipe_connection(ids: list[str],
                            end_index: int = 1,
                            has_next_page: bool = False,
                            has_previous_page: bool = False,
                            start_index: int = 0):
-    edges = []
-    for id in ids:
-        edges.append(
-            {
-                'node': mock_recipe(id)
-            }
-        )
-
     return ({
-        'edges': edges,
+        'edges': [dict(node=mock_recipe(id)) for id in ids],
         'pageInfo': mock_page_info(
             end_index=end_index,
             has_next_page=has_next_page,

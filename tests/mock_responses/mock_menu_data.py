@@ -34,49 +34,34 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                 'recipe': {
                     'externalName': 'Test Recipe Name 1',
                     'categoryValues': [
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein addon'
+                        {
+                            'name': '',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNjIxMA==',
-                         'name': 'chipotle pulled pork'
+                        {
+                            'name': 'test-recipe-name-1',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal'
+                        {
+                            'name': 'dinner',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNjYzMQ==',
-                         'name': ''},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal slug'
-                        },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNTcwNA==',
-                         'name': 'test-recipe-name-1'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal container'
-                        },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
-                         'name': 'ts32'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal type'
-                        },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNDYzMQ==',
-                         'name': 'dinner'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein type'
-                        },
-                         'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
-                         'name': 'vegan'}
+                        {
+                            'name': 'vegan',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
+                        }
                     ],
                     'isDish': True,
                     "versionConnection": {
@@ -134,64 +119,47 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                 'recipe': {
                     'externalName': 'Test Recipe Name 2',
                     'categoryValues': [
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein addon'
+                        {
+                            'name': '',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNjIxMA==',
-                            'name': 'chipotle pulled pork'
+                        {
+                            'name': 'test-recipe-name-2',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal'
+                        {
+                            'name': 'dinner',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNjYzMQ==',
-                            'name': ''},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal slug'
+                        {
+                            'name': 'vegan',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNTcwNA==',
-                            'name': 'test-recipe-name-2'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal container'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
-                            'name': 'ts32'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal type'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNDYzMQ==',
-                            'name': 'dinner'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein type'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
-                            'name': 'vegan'},
                         {
                             'name': 'new',
                             'category': {
                                 'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value,
-                                'itemType': 'recipe',
-                                'name': 'highlight_1'
-                            }
+                                'itemType': 'recipe'
+                            },
                         },
                         {
                             'name': 'spicy',
                             'category': {
                                 'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value,
-                                'itemType': 'recipe',
-                                'name': 'highlight_2'
-                            }
+                                'itemType': 'recipe'
+                            },
                         },
                     ],
                     'isDish': True,
@@ -250,55 +218,39 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                 'recipe': {
                     'externalName': 'Test Recipe Name 3',
                     'categoryValues': [
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_ADDON_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein addon'
+                        {
+                            'name': '',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNjIxMA==',
-                            'name': 'chipotle pulled pork'
+                        {
+                            'name': 'test-recipe-name-3',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal'
+                        {
+                            'name': 'lunch',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNjYzMQ==',
-                            'name': ''},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.BASE_MEAL_SLUG_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'base meal slug'
+                        {
+                            'name': 'meat',
+                            'category': {
+                                'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
+                                'itemType': 'recipe'
+                            },
                         },
-                            'id': 'uniqueCatvalueId',
-                            'name': 'test-recipe-name-3'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_CONTAINER_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal container'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNTExNg==',
-                            'name': 'ts32'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.MEAL_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'meal type'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNDYzMQ==',
-                            'name': 'lunch'},
-                        {'category': {
-                            'id': RecipeCategoryTagTypeEnum.PROTEIN_TYPE_TAG.value,
-                            'itemType': 'recipe',
-                            'name': 'protein type'
-                        },
-                            'id': 'Y2F0ZWdvcnlWYWx1ZToxNDQ4OQ==',
-                            'name': 'meat'},
                         {
                             'name': 'new',
                             'category': {
                                 'id': RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value,
-                                'itemType': 'recipe',
-                                'name': 'highlight_1'
+                                'itemType': 'recipe'
                             }
                         },
                     ],
