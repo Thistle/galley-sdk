@@ -182,7 +182,6 @@ class FormattedRecipe:
         self.description = recipe_data.get('description')
         self.is_sellable = recipe_data.get('isDish')
         self.menu_photo_url = get_menu_photo_url(recipe_data.get('media', []))
-        self.plate_photo_url = get_plate_photo_url(recipe_data.get('files', {}).get('photos', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.tags = get_recipe_category_tags(recipe_data.get('categoryValues', []))
         self.label_and_weights = get_recipe_label_and_weights(recipe_data.get('recipeItems', []))
@@ -420,17 +419,13 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
 
 
 def get_menu_photo_url(media: List) -> Optional[str]:
-    for photo in media:
-        if photo.get('caption') == RecipeMediaEnum.MENU_CAPTION.value and photo.get('sourceUrl'):
-            return photo.get('sourceUrl')
-    return None
-
-
-def get_plate_photo_url(photos: List) -> Optional[str]:
-    for photo in photos:
-        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
-            return photo.get('sourceUrl')
-    return None
+    return next((
+        url for photo in media
+        if (
+            bool(re.search(r'(?i)menu', photo.get('caption') or ''))
+            and (url := photo.get('sourceUrl'))
+        )
+    ), None)
 
 
 def get_item_code(menu_item: Dict) -> str:

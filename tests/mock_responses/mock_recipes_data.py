@@ -31,7 +31,7 @@ def mock_recipe_base(id: str):
             },
             {
                 'altText': f'menu{id}.jpg',
-                'caption': 'menu',
+                'caption': 'Menu Photo',
                 'sourceUrl': f'https://cdn.filestackcontent.com/MENU{id}',
                 'mediaId': 'bWVkaWE6OTEwNA==',
                 'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'

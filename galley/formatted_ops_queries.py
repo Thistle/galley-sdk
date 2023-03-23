@@ -6,13 +6,13 @@ from galley.formatted_queries import (
     get_menu_type,
     get_item_code,
     get_external_name,
-    get_plate_photo_url,
     get_recipe_category_tags
 )
 from galley.enums import (
+    UnitEnum,
     ContainerEnum,
     DietaryFlagEnum,
-    UnitEnum,
+    RecipeMediaEnum,
     PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
@@ -198,6 +198,13 @@ def get_cupping_container(preparations: List) -> Optional[bool]:
     return next((prep.get('name')
                  for prep in preparations
                  if prep.get('id') in ContainerEnum.CUPPING.values), None)
+
+
+def get_plate_photo_url(photos: List) -> Optional[str]:
+    for photo in photos:
+        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
+            return photo.get('sourceUrl')
+    return None
 
 
 def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
