@@ -156,28 +156,19 @@ def get_menu_query(dates: List[str], location_id: str) -> Operation:
 def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
-    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'volume')
     query.viewer.menus.menuItems.unit.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.files.__fields__('photos')
-    query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues')
-    query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
-    # query top level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues', 'quantity')
+    query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues', 'files')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.__fields__('id', 'ancestorComponentIds', 'quantity')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.unitValues.__fields__('value')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.unitValues.unit.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations', 'quantity')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=[location_id])
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
-    # query second level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues', 'quantity')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.unit.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.__fields__('preparations')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
-    # query third level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantity')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.unit.__fields__('id', 'name')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'dietaryFlags')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'dietaryFlagsWithUsages')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages(location_id=location_id)
     return query
 
 
@@ -185,7 +176,7 @@ def get_raw_menu_data(
     dates: List[str],
     location_name: str,
     menu_type: str,
-    is_ops: bool=False,
+    is_ops: bool = False,
 ) -> Optional[List[Dict]]:
     """
     Returns a list of dictionaries containing the menu data for the week.

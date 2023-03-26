@@ -129,6 +129,7 @@ class RecipeTreeComponent(Type):
     quantityUnitValues = Field(UnitValue)
     ingredient = Field(Ingredient)
     recipeItem = Field('RecipeItem')
+    ancestorComponentIds = Field(list_of(ID))
 
 
 class AncestorRecipe(Type):
