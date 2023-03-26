@@ -1,8 +1,7 @@
 import re
 import logging
-from copy import deepcopy
 from functools import reduce
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import get_menu_type, get_item_code, get_external_name, get_recipe_category_tags
@@ -43,26 +42,18 @@ class RecipeItem:
     ) -> None:
         subrecipe, ingredient = recipeitem['subRecipe'], recipeitem['ingredient']
 
-        self.components = components or []
         self.data = subrecipe or ingredient or {}
         self.type = SUBRECIPE if subrecipe else INGREDIENT
-        self.usage = dict(value=quantity or 0, unit=unit or {})
+        self.usage: Dict = dict(value=quantity or 0, unit=unit or {})
         self.preparations = recipeitem.pop('preparations') or []
         self.instructions = self.data.pop('recipeInstructions', [])
         self.category_values = self.data.pop('categoryValues', [])
         self.unit_values = self.usage['unit'].pop('unitValues', [])
         self.allergens = self.data.pop('dietaryFlagsWithUsages',
                                        self.data.pop('dietaryFlags', []))
+        self.components = components or []
 
-    def format_instructions(self) -> List[Dict[int, str]]:
-        """
-        Returns a dict list of text and 1-based
-        ordinal indices if self.instructions is
-        not empty, otherwise returns [].
-
-        Ex: [in] [{'text': 'Mix', 'position': 0}]
-           [out] [{'id': 1, 'text': 'Mix'}]
-        """
+    def format_instructions(self) -> List[Dict]:
         return [{
             'id': instruction['position'] + 1,
             'text': instruction['text']
@@ -204,10 +195,11 @@ class RecipeItem:
                     RecipeItem(
                         component.get('recipeItem'),
                         component.get('components'),
-                        (component.get('recipeItem') or {}).get('quantity'),
-                        (component.get('recipeItem') or {}).get('unit')
+                        component.get('recipeItem').get('quantity'),
+                        component.get('recipeItem').get('unit')
                     ).to_subcomponent_dict()
                     for component in self.components
+                    if component.get('recipeItem')
                 ]
             }
         return component
@@ -233,7 +225,7 @@ def get_plate_photo_url(photos: List) -> Optional[str]:
     ), None)
 
 
-def build_recipe_tree(acc: Tuple, rtc: Dict) -> Tuple:
+def build_recipe_tree(acc: Tuple[Dict, Dict], rtc: Dict) -> Tuple[Dict, Dict]:
     ancestors = rtc['ancestorComponentIds']
     tree, components = acc
     components[rtc['id']] = rtc
@@ -248,8 +240,7 @@ def build_recipe_tree(acc: Tuple, rtc: Dict) -> Tuple:
 
 
 def format_components(rtc: List) -> List[Dict]:
-    tree, _ = reduce(build_recipe_tree, rtc, ({}, {}))
-    # tree = build_recipe_tree(rtc)
+    tree, _ = reduce(build_recipe_tree, rtc, ({}, {}))  # type: Tuple[Dict, Dict]
     primary_components = []
 
     for component in tree['recipe']['components']:
