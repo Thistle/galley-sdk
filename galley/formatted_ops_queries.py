@@ -1,13 +1,10 @@
+import re
 import logging
-from typing import Dict, List, Optional, Union
+from functools import reduce
+from typing import Any, Dict, List, Optional, Tuple
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
-from galley.formatted_queries import (
-    get_menu_type,
-    get_item_code,
-    get_external_name,
-    get_recipe_category_tags
-)
+from galley.formatted_queries import get_menu_type, get_item_code, get_external_name, get_recipe_category_tags
 from galley.enums import (
     UnitEnum,
     ContainerEnum,
@@ -15,219 +12,276 @@ from galley.enums import (
     RecipeMediaEnum,
     PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
-    IngredientCategoryValueEnum as IngredientCValEnum,
+    IngredientCategoryValueEnum as IngredientCVEnum,
     RecipeCategoryTagTypeEnum as RecipeCTagEnum
 )
 
-
 logger = logging.getLogger(__name__)
 
+
+INGREDIENT = 'ingredient'
+SUBRECIPE  = 'recipe'
 
 BASE_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
 BASE_MEALS = {f'{b}{n+1}' for b in BASE_CODES for n in range(6)}
 JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
 SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
-MEAL_CODE_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
-
+MEAL_CODES = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
 DEFAULT_BIN_WEIGHT_VALUE = 60
-DEFAULT_BIN_WEIGHT_UNIT = 'lb'
+DEFAULT_BIN_WEIGHT_UNIT  = 'lb'
 
 
-class FormattedRecipeComponent:
-    def __init__(self, rtc):
-        self.quantity_values = rtc.get('quantityUnitValues') or []
-        self.quantity = rtc.get('quantity') or 0.0
-        self.unit = rtc.get('unit', {}).get('name') or ''
-        self.recipeitem = rtc.get('recipeItem') or {}
-        self.ingredient = self.recipeitem.get('ingredient') or {}
-        self.subrecipe = self.recipeitem.get('subRecipe') or {}
-        self.preparations = self.recipeitem.get('preparations') or []
-        self.rtc = self.subrecipe.get('recipeTreeComponents') or []
+class RecipeItem:
+    def __init__(
+        self,
+        recipeitem: Dict,
+        components: Optional[List] = None,
+        quantity: Optional[float] = None,
+        unit: Optional[Dict] = None,
+    ) -> None:
+        subrecipe, ingredient = recipeitem['subRecipe'], recipeitem['ingredient']
 
-        if self.ingredient:
-            self.type = 'ingredient'
-            self.data = self.ingredient
-            self.dietary_flags = self.data.get('dietaryFlags')
-        else:
-            self.type = 'recipe'
-            self.data = self.subrecipe
-            self.dietary_flags = self.data.get('dietaryFlagsWithUsages')
+        self.data = subrecipe or ingredient or {}
+        self.type = SUBRECIPE if subrecipe else INGREDIENT
+        self.usage: Dict = dict(value=quantity or 0, unit=unit or {})
+        self.preparations = recipeitem.pop('preparations') or []
+        self.instructions = self.data.pop('recipeInstructions', [])
+        self.category_values = self.data.pop('categoryValues', [])
+        self.unit_values = self.usage['unit'].pop('unitValues', [])
+        self.allergens = self.data.pop('dietaryFlagsWithUsages',
+                                       self.data.pop('dietaryFlags', []))
+        self.components = components or []
 
-    def to_primary_component_dict(self):
-        component = dict(
-            type=self.type,
-            id=self.data.get('id'),
-            name=self.data.get('name'),
-            usage=dict(value=self.quantity, unit=self.unit),
-            quantityValues=format_quantity_value(self.quantity_values),
-            binWeight=format_bin_weight(self.data.get('categoryValues')),
-            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            cuppingContainer=get_cupping_container(self.preparations)
+    def format_instructions(self) -> List[Dict]:
+        return [{
+            'id': instruction['position'] + 1,
+            'text': instruction['text']
+        } for instruction in self.instructions]
+
+    def get_cupping_container(self) -> Optional[bool]:
+        """
+        Returns the cupping container preparation
+        for a recipe component, otherwise returns
+        None.
+        """
+        return next((
+            prep['name'] for prep in self.preparations
+            if prep['id'] in ContainerEnum.CUPPING.values
+        ), None)
+
+    def is_core_recipe(self) -> bool:
+        """
+        Returns True if recipe is a "Core Recipe"
+        preparation.
+        """
+        return any(
+            prep['id'] == PrepEnum.CORE_RECIPE.value
+            for prep in self.preparations
         )
 
-        if self.type == 'recipe':
-            return dict(
+    def is_packaging(self) -> bool:
+        """
+        Returns True if ingredient is packaging.
+        """
+        return any(
+            cv['id'] == IngredientCVEnum.FOOD_PACKAGE.value
+            for cv in self.category_values
+        )
+
+    def format_bin_weight(self) -> Dict:
+        """
+        Returns a dict containing either a custom
+        bin weight value pulled from Galley, or a
+        default value if none exists. Unit always
+        returns 'lb'.
+        """
+        tags = set([
+            RecipeCTagEnum.BIN_WEIGHT_TAG.value,
+            IngredientCTagEnum.BIN_WEIGHT_TAG.value
+        ])
+        value = next((
+            cv['name'] for cv in self.category_values
+            if cv['category']['id'] in tags
+        ), DEFAULT_BIN_WEIGHT_VALUE)
+        return {
+            'value': float(value),
+            'unit': DEFAULT_BIN_WEIGHT_UNIT
+        }
+
+    def format_name(self) -> Optional[str]:
+        """
+        Returns 'externalName' for a recipe if it
+        exists, otherwise returns 'name'. Returns
+        'name' for an ingredient if it exists, or
+        returns None.
+        """
+        if (
+            self.data.get('externalName')
+            and self.type == SUBRECIPE
+        ):
+            return self.data['externalName']
+        return self.data.get('name') or None
+
+    def format_allergens(self) -> List[str]:
+        """
+        Returns a list of flagged allergens. Uses
+        'dietaryFlagsWithUsages' for recipes, and
+        'dietaryFlags' for ingredients. Return []
+        if self.allergens is empty or None.
+        """
+        df_mapping = {
+            DietaryFlagEnum.SESAME_SEEDS.value: 'sesame_seeds',
+            DietaryFlagEnum.SMOKED_MEATS.value: 'smoked_meats',
+            DietaryFlagEnum.SHELLFISH.value: 'shellfish',
+            DietaryFlagEnum.SOY_BEANS.value: 'soy',
+            DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
+            DietaryFlagEnum.COCONUT.value: 'coconut',
+            DietaryFlagEnum.PEANUTS.value: 'peanuts',
+            DietaryFlagEnum.BEEF.value: 'beef',
+            DietaryFlagEnum.FISH.value: 'fish',
+            DietaryFlagEnum.LAMB.value: 'lamb',
+            DietaryFlagEnum.PORK.value: 'pork',
+        }
+        return [
+            allergen for df in self.allergens
+            if (allergen := df_mapping.get(
+                    df.get('id') or
+                    df.get('dietaryFlag').get('id')
+                ))
+        ]
+
+    def format_quantity_values(self) -> List[Dict]:
+        """
+        Returns a list of recipe component usage in
+        ounces (oz) and pounds (lb).
+        """
+        usage, unit = self.usage.values()
+        units = set([UnitEnum.OZ.value, UnitEnum.LB.value])
+
+        base = next((
+            uv['value'] for uv in self.unit_values
+            if uv['unit']['id'] == unit.get('id')
+        ), None) or 0
+        return [{
+            'value': usage / base * uv['value'],
+            'unit': uv['unit']['name']
+        } for uv in self.unit_values if uv['unit']['id'] in units]
+
+    def format_usage(self) -> Dict:
+        value, unit = self.usage.values()
+        return {
+            'value': value,
+            'unit': unit.get('name')
+        }
+
+    def to_primary_component_dict(self):
+        component: Dict = {
+            'allergens': self.format_allergens(),
+            'binWeight': self.format_bin_weight(),
+            'cuppingContainer': self.get_cupping_container(),
+            'id': self.data.get('id'),
+            'name': self.data.get('name'),
+            'quantityValues': self.format_quantity_values(),
+            'type': self.type,
+            'usage': self.format_usage()
+        }
+
+        if self.type == SUBRECIPE:
+            return {
                 **component,
-                instructions=format_instructions(self.subrecipe.get('recipeInstructions')),
-                recipeComponents=[FormattedRecipeComponent(rtc).to_subcomponent_dict()
-                                  for rtc in self.rtc]
-            )
+                'instructions': self.format_instructions(),
+                'recipeComponents': [
+                    RecipeItem(
+                        component.get('recipeItem'),
+                        component.get('components'),
+                        component.get('recipeItem').get('quantity'),
+                        component.get('recipeItem').get('unit')
+                    ).to_subcomponent_dict()
+                    for component in self.components
+                    if component.get('recipeItem')
+                ]
+            }
         return component
 
     def to_subcomponent_dict(self):
-        return dict(
-            type=self.type,
-            id=self.data.get('id'),
-            name=format_name(self.data, is_recipe=(self.type=='recipe')),
-            allergens=format_allergens(self.dietary_flags, is_recipe=(self.type=='recipe')),
-            usage=dict(value=self.quantity, unit=self.unit)
-        )
-
-
-def format_name(data: Dict, is_recipe=True) -> Optional[str]:
-    """
-    Returns recipe 'externalName' if it exists, otherwise returns 'name'.
-    Default returns 'name' for non-recipe (ingredient) types if 'name'
-    exists. If 'name' doesn't exist, returns None.
-    """
-    if data.get('externalName') and is_recipe:
-        return data['externalName']
-    return data.get('name') or None
-
-
-def format_instructions(instructions: List) -> List[Optional[Dict[str, Union[int, str]]]]:
-    """
-    Takes in a list of instructions and returns a formatted dict list
-    of instruction text and its ordinal position at 1-based index.
-    If empty list or None passed in, returns [].
-
-    Example: [in] [{'text': 'instruction text', 'position': 0}, ...]
-             [out] [{'id': 1, 'text': 'instruction text'}, ...]
-    """
-    return [dict(id=i['position'] + 1, text=i['text'])
-            for i in instructions] if instructions else []
-
-
-def format_allergens(dietary_flags: List, is_recipe=True) -> Optional[List[str]]:
-    """
-    Takes in a list of dietary flags (dfs) and returns a list of flagged
-    allergens. Defaults to parse 'dietaryFlagsWithUsages' for a recipe,
-    and parses 'dietaryFlags' for an ingredient when is_recipe=False.
-    If dfs is an empty list or None, or no allergens exist, returns [].
-    """
-    df_mapping = {
-        DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
-        DietaryFlagEnum.SOY_BEANS.value: 'soy',
-        DietaryFlagEnum.SHELLFISH.value: 'shellfish',
-        DietaryFlagEnum.PORK.value: 'pork',
-        DietaryFlagEnum.FISH.value: 'fish',
-        DietaryFlagEnum.COCONUT.value: 'coconut',
-        DietaryFlagEnum.PEANUTS.value: 'peanuts',
-        DietaryFlagEnum.LAMB.value: 'lamb',
-        DietaryFlagEnum.SMOKED_MEATS.value: 'smoked_meats',
-        DietaryFlagEnum.BEEF.value: 'beef',
-        DietaryFlagEnum.SESAME_SEEDS.value: 'sesame_seeds',
-    }
-    allergens = []
-    if dietary_flags:
-        for df in dietary_flags:
-            allergen = df.get('dietaryFlag', {}).get('id') if is_recipe else df.get('id')
-            if allergen and allergen in df_mapping:
-                allergens.append(df_mapping[allergen])
-    return allergens
-
-
-def format_bin_weight(category_values: List) -> Dict:
-    """
-    Takes in a list of recipe or ingredient category values and returns a
-    dict containing either a bin weight value (in lb) pulled from Galley,
-    or DEFAULT_BIN_WEIGHT_VALUE if none exists. Bin weight unit always
-    returns 'lb'.
-    """
-    tags = set([RecipeCTagEnum.BIN_WEIGHT_TAG.value, IngredientCTagEnum.BIN_WEIGHT_TAG.value])
-    value = DEFAULT_BIN_WEIGHT_VALUE
-
-    if category_values:
-        for cv in category_values:
-            if cv.get('category', {}).get('id') in tags:
-                value = cv['name']
-                break
-    return dict(value=float(value),
-                unit=DEFAULT_BIN_WEIGHT_UNIT)
-
-
-def format_quantity_value(quantity_values: List) -> List[Dict]:
-    """
-    Filters a list of quantity values to return only unit values in
-    ounces (oz) and pounds (lb).
-    """
-    quantities = list()
-    units = set([UnitEnum.OZ.value, UnitEnum.LB.value])
-
-    for qv in quantity_values:
-        if qv.get('unit', {}).get('id') in units:
-            quantities.append(dict(value=qv['value'],
-                                   unit=qv['unit']['name']))
-    return quantities
-
-
-def is_core_recipe(recipeitem: Dict) -> bool:
-    """
-    Returns True if a recipe component contains a "Core Recipe"
-    preparation.
-    """
-    preparations = recipeitem.get('preparations') or []
-    return any(prep.get('id') == PrepEnum.CORE_RECIPE.value for prep in preparations)
-
-
-def is_packaging(ingredient: Dict) -> bool:
-    """
-    Checks and returns True if an ingredient-typed component is a food
-    package item.
-    """
-    cvs = ingredient.get('categoryValues') or []
-    return any(cv.get('id') == IngredientCValEnum.FOOD_PACKAGE.value for cv in cvs)
-
-
-def get_cupping_container(preparations: List) -> Optional[bool]:
-    """
-    Returns True if a recipe component contains a cupping container
-    preparation.
-    """
-    return next((prep.get('name')
-                 for prep in preparations
-                 if prep.get('id') in ContainerEnum.CUPPING.values), None)
+        return {
+            'allergens': self.format_allergens(),
+            'id': self.data.get('id'),
+            'name': self.format_name(),
+            'type': self.type,
+            'usage': self.format_usage()
+        }
 
 
 def get_plate_photo_url(photos: List) -> Optional[str]:
-    for photo in photos:
-        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
-            return photo.get('sourceUrl')
-    return None
+    caption = rf'(?i){RecipeMediaEnum.PLATE_CAPTION.value}'
+    return next((
+        url for photo in photos
+        if (
+            bool(re.search(caption, photo.get('caption') or ''))
+            and (url := photo.get('sourceUrl'))
+        )
+    ), None)
 
 
-def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
-    components: List = []
-    for rtc in recipe_tree_components:
-        recipeitem = rtc.get('recipeItem') or {}
-        ingredient = recipeitem.get('ingredient') or {}
-        subrecipe = recipeitem.get('subRecipe') or {}
+def build_recipe_tree(acc: Tuple[Dict, Dict], rtc: Dict) -> Tuple[Dict, Dict]:
+    ancestors = rtc['ancestorComponentIds']
+    tree, components = acc
+    components[rtc['id']] = rtc
 
-        if ingredient and is_packaging(ingredient):
+    if len(ancestors) == 0:
+        tree['recipe'] = rtc
+
+    if 0 < len(ancestors) <= 3:
+        parent = components[ancestors[-1]]
+        parent.setdefault('components', []).append(rtc)
+    return tree, components
+
+
+def format_components(rtc: List) -> List[Dict]:
+    tree, _ = reduce(build_recipe_tree, rtc, ({}, {}))  # type: Tuple[Dict, Dict]
+    primary_components = []
+
+    for component in tree['recipe']['components']:
+        if not component['recipeItem']:
             continue
-        if subrecipe and is_core_recipe(recipeitem):
-            components.extend(subrecipe.get('recipeTreeComponents') or [])
+
+        recipeitem = RecipeItem(
+            component.get('recipeItem'),
+            component.get('components'),
+            component.get('quantity'),
+            component.get('unit')
+        )
+        if (
+            recipeitem.type == INGREDIENT
+            and recipeitem.is_packaging()
+        ):
+            continue
+        if (
+            recipeitem.type == SUBRECIPE
+            and recipeitem.is_core_recipe()
+        ):
+            primary_components += [
+                RecipeItem(
+                    c.get('recipeItem'),
+                    c.get('components'),
+                    c.get('quantity'),
+                    c.get('unit')
+                ) for c in component['components']
+            ]
         else:
-            components.append(rtc)
-    return [FormattedRecipeComponent(c).to_primary_component_dict()
-            for c in components]
+            primary_components += [recipeitem]
+    return [
+        pc.to_primary_component_dict()
+        for pc in primary_components
+    ]
 
 
 def get_formatted_ops_menu_data(
     dates: List[str],
-    location_name: str=DEFAULT_LOCATION,
-    menu_type: str=DEFAULT_MENU_TYPE,
+    location_name: str = DEFAULT_LOCATION,
+    menu_type: str = DEFAULT_MENU_TYPE,
 ) -> Optional[List[Dict]]:
     menus = get_raw_menu_data(dates, location_name, menu_type, is_ops=True)
 
@@ -236,32 +290,30 @@ def get_formatted_ops_menu_data(
 
     formatted_menus = []
     for menu in menus:
-        formatted_menu: Dict = dict(
-            name=menu.get('name'),
-            id=menu.get('id'),
-            date=menu.get('date'),
-            location=menu['location'].get('name'),
-            categoryMenuType=get_menu_type(menu),
-            menuItems=[]
-        )
+        formatted_menu: Dict = {
+            'name': menu.get('name'),
+            'id': menu.get('id'),
+            'date': menu.get('date'),
+            'location': menu['location'].get('name'),
+            'categoryMenuType': get_menu_type(menu),
+            'menuItems': []
+        }
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
             meal_code = get_item_code(menu_item)
-            if meal_code.lower() in MEAL_CODE_WHITELIST:
+            if meal_code.lower() in MEAL_CODES:
                 recipe = menu_item.get('recipe') or {}
-                files = recipe.get('files') or {}
-                category_values = recipe.get('categoryValues') or []
-                formatted_menu['menuItems'].append(dict(
-                    menuItemId=menu_item.get('id'),
-                    mealCode=meal_code,
-                    recipeId=menu_item.get('recipeId'),
-                    recipeName=get_external_name(recipe),
-                    mealContainer=get_recipe_category_tags(category_values).get('mealContainer'),
-                    platePhotoUrl=get_plate_photo_url(files.get('photos') or []),
-                    totalCount=menu_item.get('volume'),
-                    totalCountUnit=menu_item.get('unit', {}).get('name'),
-                    primaryRecipeComponents=format_ops_menu_rtc_data(recipe.get('recipeTreeComponents') or [])
-                ))
+                formatted_menu['menuItems'].append({
+                    'menuItemId': menu_item.get('id'),
+                    'mealCode': meal_code,
+                    'recipeId': menu_item.get('recipeId'),
+                    'recipeName': get_external_name(recipe),
+                    'mealContainer': get_recipe_category_tags(recipe.get('categoryValues') or []).get('mealContainer'),
+                    'platePhotoUrl': get_plate_photo_url(recipe.get('files', {}).get('photos') or []),
+                    'totalCount': menu_item.get('volume'),
+                    'totalCountUnit': menu_item.get('unit', {}).get('name'),
+                    'primaryRecipeComponents': format_components(recipe.get('recipeTreeComponents') or [])
+                })
         formatted_menus.append(formatted_menu)
     return formatted_menus
