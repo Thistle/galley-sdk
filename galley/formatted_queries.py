@@ -419,10 +419,11 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
 
 
 def get_menu_photo_url(media: List) -> Optional[str]:
+    caption = rf'(?i){RecipeMediaEnum.MENU_CAPTION.value}'
     return next((
         url for photo in media
         if (
-            bool(re.search(r'(?i)menu', photo.get('caption') or ''))
+            bool(re.search(caption, photo.get('caption') or ''))
             and (url := photo.get('sourceUrl'))
         )
     ), None)

@@ -143,6 +143,17 @@ class RecipeUsage(Type):
     unit = Field(Unit)
 
 
+class AncestorRecipe(Type):
+    id = Field(ID)
+    name = str
+
+
+class RecipeUsage(Type):
+    ancestorRecipes = Field(list_of(AncestorRecipe))
+    quantity = float
+    unit = Field(Unit)
+
+
 class IngredientWithUsages(Type):
     ingredient = Field(Ingredient)
     totalQuantity = float
