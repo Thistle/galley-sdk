@@ -4,229 +4,28 @@ from galley.enums import LocationEnum
 from galley.queries import (get_ops_menu_query,
                             get_ops_recipe_item_connection_query,
                             get_raw_recipe_items_data_via_connection)
+from tests.test_queries import get_argument_from_query_selector
+
 
 logger = logging.getLogger(__name__)
 
 
 class TestOpsMenuDataQuery(TestCase):
-    def setUp(self) -> None:
-        self.expected_query = '''query {
-            viewer {
-            menus(where: {date: ["2022-03-28"], locationId: "bG9jYXRpb246MTkyOA=="}) {
-            id
-            name
-            date
-            location {
-            name
-            }
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            menuItems {
-            id
-            recipeId
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            recipe {
-            files {
-            photos {
-            sourceUrl
-            caption
-            }
-            }
-            id
-            name
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            recipeTreeComponents(levels: [1]) {
-            quantityUnitValues {
-            value
-            unit {
-            id
-            name
-            }
-            }
-            quantity
-            unit {
-            id
-            name
-            }
-            recipeItem {
-            preparations {
-            id
-            name
-            }
-            ingredient {
-            id
-            name
-            externalName
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            dietaryFlags {
-            id
-            name
-            }
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            recipeInstructions {
-            text
-            position
-            }
-            dietaryFlagsWithUsages {
-            dietaryFlag {
-            id
-            name
-            }
-            }
-            recipeTreeComponents(levels: [1]) {
-            quantityUnitValues {
-            value
-            unit {
-            id
-            name
-            }
-            }
-            quantity
-            unit {
-            id
-            name
-            }
-            recipeItem {
-            preparations {
-            id
-            name
-            }
-            ingredient {
-            id
-            name
-            externalName
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            dietaryFlags {
-            id
-            name
-            }
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            categoryValues {
-            id
-            name
-            category {
-            id
-            name
-            itemType
-            }
-            }
-            recipeInstructions {
-            text
-            position
-            }
-            dietaryFlagsWithUsages {
-            dietaryFlag {
-            id
-            name
-            }
-            }
-            recipeTreeComponents(levels: [1]) {
-            quantity
-            unit {
-            id
-            name
-            }
-            recipeItem {
-            ingredient {
-            id
-            name
-            externalName
-            dietaryFlags {
-            id
-            name
-            }
-            }
-            subRecipe {
-            id
-            name
-            externalName
-            dietaryFlagsWithUsages {
-            dietaryFlag {
-            id
-            name
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            volume
-            unit {
-            id
-            name
-            }
-            }
-            }
-            }
-            }'''.replace(' '*12, '')
-
-    def test_get_ops_menu_query(self):
+    def test_get_ops_menu_query_should_include_locationVendorItems_with_locationId(self):
         query = get_ops_menu_query(dates=["2022-03-28"], location_id=LocationEnum.VACAVILLE.value)
-        query_str = bytes(query).decode('utf-8')
-        self.maxDiff = None
-        self.assertEqual(query_str, self.expected_query)
+        arg = get_argument_from_query_selector(
+            query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.locationVendorItems,
+            'location_ids'
+        )
+        self.assertEqual(arg, [LocationEnum.VACAVILLE.value])
+
+    def test_get_ops_menu_query_should_include_dietaryFlagsWithUsages_with_locationId(self):
+        query = get_ops_menu_query(dates=["2022-03-28"], location_id=LocationEnum.VACAVILLE.value)
+        arg = get_argument_from_query_selector(
+            query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages,
+            'location_id'
+        )
+        self.assertEqual(arg, LocationEnum.VACAVILLE.value)
 
 
 class TestOpsRecipeItemConnectionQuery(TestCase):
