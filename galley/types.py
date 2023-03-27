@@ -1,6 +1,5 @@
-from sgqlc.types import (ID, ArgDict, Enum, Field, Input, Int, Type, datetime
-                         as d, list_of)
-from sgqlc.types.relay import (Connection, Node)
+from sgqlc.types import ID, ArgDict, Enum, Field, Input, Int, Type, datetime as d, list_of
+from sgqlc.types.relay import Connection, Node
 
 
 class CategoryItemTypeEnum(Enum):
@@ -19,14 +18,15 @@ class CategoryValue(Type):
     category = Field(Category)
 
 
+class UnitValue(Type):
+    value = float
+    unit = Field('Unit')
+
+
 class Unit(Type):
     id = Field(ID)
     name = Field(str)
-
-
-class UnitValue(Type):
-    value = float
-    unit = Field(Unit)
+    unitValues = Field(list_of(UnitValue))
 
 
 class Nutrition(Type):
@@ -109,7 +109,8 @@ class Ingredient(Type):
     externalName = str
     categoryValues = Field(CategoryValue)
     dietaryFlags = Field('DietaryFlag')
-    locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=ID))
+    locationVendorItems = Field(list_of(LocationVendorItem), args=ArgDict(location_ids=list_of(ID)))
+
 
 class RecipeInstruction(Type):
     text = str
@@ -130,11 +131,23 @@ class RecipeTreeComponent(Type):
     recipeItem = Field('RecipeItem')
 
 
+class AncestorRecipe(Type):
+    id = Field(ID)
+    name = str
+
+
+class RecipeUsage(Type):
+    ancestorRecipes = Field(list_of(AncestorRecipe))
+    quantity = float
+    unit = Field(Unit)
+
+
 class IngredientWithUsages(Type):
     ingredient = Field(Ingredient)
     totalQuantity = float
     unit = Field(Unit)
     totalQuantityUnitValues = Field(UnitValue)
+    usages = Field(list_of(RecipeUsage))
 
 
 class SubRecipe(Type):
@@ -149,7 +162,6 @@ class SubRecipe(Type):
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages', args=ArgDict(location_id=ID))
     categoryValues = Field(CategoryValue)
-    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeItem(Type):
@@ -257,7 +269,7 @@ class RecipeNode(Node):
     recipeItems = Field(RecipeItem)
     media = Field(RecipeMedia)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
-    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
+    ingredientsWithUsages = Field(list_of(IngredientWithUsages))
 
 
 class RecipeEdge(Type):

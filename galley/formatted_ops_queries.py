@@ -3,16 +3,16 @@ from typing import Dict, List, Optional, Union
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
-    get_category_menu_type,
-    get_meal_code,
+    get_menu_type,
+    get_item_code,
     get_external_name,
-    get_plate_photo_url,
     get_recipe_category_tags
 )
 from galley.enums import (
+    UnitEnum,
     ContainerEnum,
     DietaryFlagEnum,
-    QuantityUnitEnum,
+    RecipeMediaEnum,
     PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCValEnum,
@@ -163,7 +163,7 @@ def format_quantity_value(quantity_values: List) -> List[Dict]:
     ounces (oz) and pounds (lb).
     """
     quantities = list()
-    units = set([QuantityUnitEnum.OZ.value, QuantityUnitEnum.LB.value])
+    units = set([UnitEnum.OZ.value, UnitEnum.LB.value])
 
     for qv in quantity_values:
         if qv.get('unit', {}).get('id') in units:
@@ -200,6 +200,13 @@ def get_cupping_container(preparations: List) -> Optional[bool]:
                  if prep.get('id') in ContainerEnum.CUPPING.values), None)
 
 
+def get_plate_photo_url(photos: List) -> Optional[str]:
+    for photo in photos:
+        if photo.get('caption') == RecipeMediaEnum.PLATE_CAPTION.value and photo.get('sourceUrl'):
+            return photo.get('sourceUrl')
+    return None
+
+
 def format_ops_menu_rtc_data(recipe_tree_components: List) -> List[Optional[Dict]]:
     components: List = []
     for rtc in recipe_tree_components:
@@ -234,13 +241,13 @@ def get_formatted_ops_menu_data(
             id=menu.get('id'),
             date=menu.get('date'),
             location=menu['location'].get('name'),
-            categoryMenuType=get_category_menu_type(menu.get('categoryValues')),
+            categoryMenuType=get_menu_type(menu),
             menuItems=[]
         )
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
-            meal_code = get_meal_code(menu_item.get('categoryValues'))
+            meal_code = get_item_code(menu_item)
             if meal_code.lower() in MEAL_CODE_WHITELIST:
                 recipe = menu_item.get('recipe') or {}
                 files = recipe.get('files') or {}

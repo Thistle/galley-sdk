@@ -1,18 +1,22 @@
 import logging
-from re import template
 from typing import Any, Dict, Iterable, List, Optional
-
+from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
+from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
+from galley.types import (
+    Menu,
+    Recipe,
+    FilterInput,
+    MenuFilterInput,
+    RecipeConnection,
+    PaginationOptions,
+    RecipeItemConnection,
+    RecipeConnectionFilter,
+    RecipeItemConnectionFilter,
+    RecipeItemConnectionPaginationOptions
+)
 from sgqlc.operation import Operation
 from sgqlc.types import ArgDict, Field, Type
 
-from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
-from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
-from galley.types import (FilterInput, Menu, MenuFilterInput,
-                          PaginationOptions, Recipe, RecipeConnection,
-                          RecipeConnectionFilter,
-                          RecipeItemConnectionFilter,
-                          RecipeItemConnection,
-                          RecipeItemConnectionPaginationOptions)
 
 logger = logging.getLogger(__name__)
 
@@ -40,8 +44,8 @@ class Viewer(Type):
     menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
 
 
-# This is graphql root for querying data according to sgqlc lib.
-# So this class name has to be Query.
+# This is graphql root for querying data according
+# to sgqlc lib, so this class name has to be Query
 class Query(Type):
     viewer = Field(Viewer)
 
@@ -67,7 +71,7 @@ class Query(Type):
 
 def recipe_connection_query(
     recipe_ids: List[str],
-    location_id: int,
+    location_id: str,
     page_size: int = DEFAULT_PAGE_SIZE,
     start_index: int = 0
 ) -> Optional[Operation]:
@@ -78,43 +82,28 @@ def recipe_connection_query(
     )
     query.viewer.recipeConnection.edges()
     query.viewer.recipeConnection.pageInfo()
-    query.viewer.recipeConnection.totalCount
-
-    query.viewer.recipeConnection.edges.node.\
-        __fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.media.\
-        __fields__('altText', 'caption', 'sourceUrl')
-    query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node.\
-        __fields__('id')
-    query.viewer.recipeConnection.edges.node.recipeItems.\
-        __fields__('preparations')
-    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.\
-        __fields__('id', 'allIngredients', 'name', 'externalName', 'nutritionalsQuantity', 'nutritionalsUnit', 'recipeInstructions')
-    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.\
-        __fields__('id', 'name', 'externalName', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems(location_ids=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents(levels=[1]).\
-        __fields__('id', 'quantity', 'unit', 'quantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.\
-        __fields__('quantity', 'unit', 'preparations', 'subRecipeId')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.\
-        __fields__('name','externalName', 'categoryValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.\
-        __fields__('id', 'externalName', 'name', 'allIngredients', 'nutritionalsQuantity', 'nutritionalsUnit')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[0]).\
-        __fields__('quantity', 'unit', 'quantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.\
-        __fields__('totalQuantity', 'unit', 'totalQuantityUnitValues')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.\
-        __fields__('id', 'externalName', 'name')
-    query.viewer.recipeConnection.edges.node.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.locationVendorItems(location_ids=location_id)
+    query.viewer.recipeConnection.totalCount()
+    query.viewer.recipeConnection.edges.node.__fields__('id', 'externalName', 'name', 'notes', 'description', 'media', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
-    query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id).dietaryFlag.\
-        __fields__('id')
+    query.viewer.recipeConnection.edges.node.recipeItems.__fields__('recipeId', 'preparations', 'quantity')
+    query.viewer.recipeConnection.edges.node.recipeItems.unit.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeItems.unit.unitValues.__fields__('value')
+    query.viewer.recipeConnection.edges.node.recipeItems.unit.unitValues.unit.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.__fields__('id', 'name', 'externalName', 'nutritionalsQuantity')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.nutritionalsUnit.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeItems.subRecipe.reconciledNutritionals(location_id=location_id)
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.locationVendorItems(location_ids=[location_id])
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.ingredient.locationVendorItems(location_ids=[location_id])
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.usages.__fields__('ancestorRecipes', 'quantity')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.usages.unit.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.usages.unit.unitValues.__fields__('value')
+    query.viewer.recipeConnection.edges.node.ingredientsWithUsages.usages.unit.unitValues.unit.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.versionConnection(paginationOptions=PaginationOptions(orderBy='createdAt', sortDirection="desc", first=1)).edges.node
     return query
+
 
 def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[List[Dict]]:
     has_next_page = True
@@ -151,39 +140,46 @@ def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[
         has_next_page = page_info.get('hasNextPage', False)
     return raw_recipes_data
 
+
 def get_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
-    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'media', 'isDish', 'dietaryFlagsWithUsages')
-    query.viewer.menus.menuItems.recipe.dietaryFlagsWithUsages.dietaryFlag.__fields__('id', 'name')
+    query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'media', 'isDish')
+    query.viewer.menus.menuItems.recipe.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.menus.menuItems.recipe.media.__fields__('altText', 'caption', 'sourceUrl')
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')
     query.viewer.menus.menuItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     return query
 
+
 def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
-    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume', 'unit')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
+    query.viewer.menus.menuItems.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.files.__fields__('photos')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues')
     query.viewer.menus.menuItems.recipe.files.photos.__fields__('sourceUrl', 'caption')
     # query top level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantity', 'unit', 'quantityUnitValues')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues', 'quantity')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
     # query second level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantity', 'unit', 'quantityUnitValues')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantityUnitValues', 'quantity')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.__fields__('preparations')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions', 'dietaryFlagsWithUsages')
     # query third level recipeTreeComponents
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantity', 'unit')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents(levels=[1]).__fields__('quantity')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'dietaryFlagsWithUsages')
     return query
+
 
 def get_raw_menu_data(
     dates: List[str],
@@ -205,16 +201,19 @@ def get_raw_menu_data(
         location_id = LocationEnum[location_name.upper()].value
     except KeyError:
         raise ValueError(f"{GALLEY_ERROR_PREFIX} Invalid location name: {f'{location_name}'}")
+
     query = get_menu_query(dates=dates, location_id=location_id)
 
     if is_ops:
         query = get_ops_menu_query(dates=dates, location_id=location_id)
 
     validated_response_data = validate_response_data(
-            make_request_to_galley(
-                op=query.__to_graphql__(auto_select_depth=3),
-                variables={'date': dates}),
-            'menus')
+        make_request_to_galley(
+            op=query.__to_graphql__(auto_select_depth=3),
+            variables={'date': dates}
+        ),
+        'menus'
+    )
 
     response = []
     if validated_response_data:
@@ -232,6 +231,7 @@ def get_raw_menu_data(
                         continue
     return response
 
+
 def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.recipeItemConnection(filters=RecipeItemConnectionFilter(subRecipeIds=sub_recipe_ids)).__fields__('edges')
@@ -239,6 +239,7 @@ def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation
     query.viewer.recipeItemConnection.edges.node.__fields__('id', 'recipeId', 'preparations')
     query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
     return query
+
 
 def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
     query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)
@@ -248,6 +249,7 @@ def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[L
                 variables={'subRecipeIds': sub_recipe_ids}),
             'recipeItemConnection')
     return validated_response_data
+
 
 def get_untagged_core_recipe_item_ids_via_connection(ids):
     preparationTag = PreparationEnum.CORE_RECIPE.value
