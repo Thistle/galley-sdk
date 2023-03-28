@@ -1,7 +1,7 @@
 import re
 import logging
 from functools import reduce
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import get_menu_type, get_item_code, get_external_name, get_recipe_category_tags
@@ -16,20 +16,21 @@ from galley.enums import (
     RecipeCategoryTagTypeEnum as RecipeCTagEnum
 )
 
+
 logger = logging.getLogger(__name__)
 
 
 INGREDIENT = 'ingredient'
-SUBRECIPE  = 'recipe'
+SUBRECIPE = 'recipe'
 
 BASE_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
 BASE_MEALS = {f'{b}{n+1}' for b in BASE_CODES for n in range(6)}
 JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
 SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
-MEAL_CODES = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
+MEAL_CODES_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
 DEFAULT_BIN_WEIGHT_VALUE = 60
-DEFAULT_BIN_WEIGHT_UNIT  = 'lb'
+DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
 
 class RecipeItem:
@@ -45,12 +46,11 @@ class RecipeItem:
         self.data = subrecipe or ingredient or {}
         self.type = SUBRECIPE if subrecipe else INGREDIENT
         self.usage: Dict = dict(value=quantity or 0, unit=unit or {})
-        self.preparations = recipeitem.pop('preparations') or []
-        self.instructions = self.data.pop('recipeInstructions', [])
-        self.category_values = self.data.pop('categoryValues', [])
-        self.unit_values = self.usage['unit'].pop('unitValues', [])
-        self.allergens = self.data.pop('dietaryFlagsWithUsages',
-                                       self.data.pop('dietaryFlags', []))
+        self.preparations = recipeitem.pop('preparations', []) or []
+        self.instructions = self.data.pop('recipeInstructions', []) or []
+        self.unit_values = self.usage['unit'].pop('unitValues', []) or []
+        self.category_values = self.data.pop('categoryValues', []) or []
+        self.allergens = self.data.pop('dietaryFlagsWithUsages', self.data.pop('dietaryFlags', [])) or []
         self.components = components or []
 
     def format_instructions(self) -> List[Dict]:
@@ -61,9 +61,8 @@ class RecipeItem:
 
     def get_cupping_container(self) -> Optional[bool]:
         """
-        Returns the cupping container preparation
-        for a recipe component, otherwise returns
-        None.
+        Returns the cupping container preparation for a
+        recipe component, otherwise returns None.
         """
         return next((
             prep['name'] for prep in self.preparations
@@ -72,8 +71,8 @@ class RecipeItem:
 
     def is_core_recipe(self) -> bool:
         """
-        Returns True if recipe is a "Core Recipe"
-        preparation.
+        Returns True if a recipe component has a "Core
+        Recipe" preparation.
         """
         return any(
             prep['id'] == PrepEnum.CORE_RECIPE.value
@@ -82,7 +81,7 @@ class RecipeItem:
 
     def is_packaging(self) -> bool:
         """
-        Returns True if ingredient is packaging.
+        Returns True if item is a packaging ingredient.
         """
         return any(
             cv['id'] == IngredientCVEnum.FOOD_PACKAGE.value
@@ -91,10 +90,9 @@ class RecipeItem:
 
     def format_bin_weight(self) -> Dict:
         """
-        Returns a dict containing either a custom
-        bin weight value pulled from Galley, or a
-        default value if none exists. Unit always
-        returns 'lb'.
+        Returns a dict containing either a custom bin
+        weight value pulled from Galley, or a default
+        value if none exist. Unit always returns 'lb'.
         """
         tags = set([
             RecipeCTagEnum.BIN_WEIGHT_TAG.value,
@@ -111,10 +109,9 @@ class RecipeItem:
 
     def format_name(self) -> Optional[str]:
         """
-        Returns 'externalName' for a recipe if it
-        exists, otherwise returns 'name'. Returns
-        'name' for an ingredient if it exists, or
-        returns None.
+        Returns a recipe externalName if one exists, or
+        returns name. Returns an ingredient name if one
+        exists, or returns None.
         """
         if (
             self.data.get('externalName')
@@ -125,10 +122,10 @@ class RecipeItem:
 
     def format_allergens(self) -> List[str]:
         """
-        Returns a list of flagged allergens. Uses
-        'dietaryFlagsWithUsages' for recipes, and
-        'dietaryFlags' for ingredients. Return []
-        if self.allergens is empty or None.
+        Returns a flagged allergens list. Recipes use
+        dietaryFlagsWithUsages, while ingredients use
+        dietaryFlags. Returns [] if self.allergens is
+        empty or None.
         """
         df_mapping = {
             DietaryFlagEnum.SESAME_SEEDS.value: 'sesame_seeds',
@@ -153,8 +150,8 @@ class RecipeItem:
 
     def format_quantity_values(self) -> List[Dict]:
         """
-        Returns a list of recipe component usage in
-        ounces (oz) and pounds (lb).
+        Returns a list containing converted usage unit
+        values in ounces (oz) and pounds (lb).
         """
         usage, unit = self.usage.values()
         units = set([UnitEnum.OZ.value, UnitEnum.LB.value])
@@ -302,7 +299,7 @@ def get_formatted_ops_menu_data(
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
             meal_code = get_item_code(menu_item)
-            if meal_code.lower() in MEAL_CODES:
+            if meal_code.lower() in MEAL_CODES_WHITELIST:
                 recipe = menu_item.get('recipe') or {}
                 formatted_menu['menuItems'].append({
                     'menuItemId': menu_item.get('id'),
