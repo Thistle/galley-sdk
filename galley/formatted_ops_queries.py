@@ -229,11 +229,10 @@ def build_recipe_tree(acc: Tuple[Dict, Dict], rtc: Dict) -> Tuple[Dict, Dict]:
 
     if len(ancestors) == 0:
         tree['recipe'] = rtc
-
-    if 0 < len(ancestors) <= 3:
+    else:
         parent = components[ancestors[-1]]
         parent.setdefault('components', []).append(rtc)
-    return tree, components
+    return acc
 
 
 def format_components(rtc: List) -> List[Dict]:

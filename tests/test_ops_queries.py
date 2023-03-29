@@ -11,6 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class TestOpsMenuDataQuery(TestCase):
+    def test_get_ops_menu_query_should_include_recipeTreeComponents_with_levels_0_to_3(self):
+        query = get_ops_menu_query(dates=["2022-03-28"], location_id=LocationEnum.VACAVILLE.value)
+        arg = get_argument_from_query_selector(
+            query.viewer.menus.menuItems.recipe.recipeTreeComponents,
+            'levels'
+        )
+        self.assertEqual(arg, [0, 1, 2, 3])
+
     def test_get_ops_menu_query_should_include_locationVendorItems_with_locationId(self):
         query = get_ops_menu_query(dates=["2022-03-28"], location_id=LocationEnum.VACAVILLE.value)
         arg = get_argument_from_query_selector(

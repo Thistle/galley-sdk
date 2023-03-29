@@ -235,60 +235,6 @@ MOCK_RECIPE_TREE_COMPONENTS = [
         }
     },
     {
-        "id": "j3k9vc4ai2",
-        "ancestorComponentIds": [
-            "x5ccun97m7",
-            "k41l3crd8of",
-            "d44pdeapsdk",
-            "wuet0e3vilq"
-        ],
-        "quantity": 0.06009615379315811,
-        "unit": {
-            "id": UnitEnum.LB.value,
-            "name": "lb",
-            "unitValues": [
-                {
-                    "value": 453.59237,
-                    "unit": {
-                        "id": UnitEnum.G.value,
-                        "name": "g"
-                    }
-                },
-                {
-                    "value": 16.000000014109585,
-                    "unit": {
-                        "id": UnitEnum.OZ.value,
-                        "name": "oz"
-                    }
-                },
-                {
-                    "value": 1,
-                    "unit": {
-                        "id": UnitEnum.LB.value,
-                        "name": "lb"
-                    }
-                }
-            ]
-        },
-        "recipeItem": {
-            "preparations": [],
-            "quantity": 75,
-            "unit": {
-                "id": UnitEnum.LB.value,
-                "name": "lb"
-            },
-            "ingredient": {
-                "locationVendorItems": [],
-                "id": "aW5ncmVkaWVudDoyNDQ3NDQ=",
-                "name": "quinoa, rainbow, dry",
-                "externalName": "Quinoa",
-                "categoryValues": [],
-                "dietaryFlags": []
-            },
-            "subRecipe": None
-        }
-    },
-    {
         "id": "ss91mevjky",
         "ancestorComponentIds": [
             "x5ccun97m7",
@@ -417,60 +363,6 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 ],
                 "dietaryFlagsWithUsages": []
             }
-        }
-    },
-    {
-        "id": "vy2t2yi9vkj",
-        "ancestorComponentIds": [
-            "x5ccun97m7",
-            "k41l3crd8of",
-            "d44pdeapsdk",
-            "a3rm32jf58"
-        ],
-        "quantity": 0.001644736839204444,
-        "unit": {
-            "id": UnitEnum.LB.value,
-            "name": "lb",
-            "unitValues": [
-                {
-                    "value": 453.59237,
-                    "unit": {
-                        "id": UnitEnum.G.value,
-                        "name": "g"
-                    }
-                },
-                {
-                    "value": 16.000000014109585,
-                    "unit": {
-                        "id": UnitEnum.OZ.value,
-                        "name": "oz"
-                    }
-                },
-                {
-                    "value": 1,
-                    "unit": {
-                        "id": UnitEnum.LB.value,
-                        "name": "lb"
-                    }
-                }
-            ]
-        },
-        "recipeItem": {
-            "preparations": [],
-            "quantity": 2,
-            "unit": {
-                "id": UnitEnum.LB.value,
-                "name": "lb"
-            },
-            "ingredient": {
-                "locationVendorItems": [],
-                "id": "aW5ncmVkaWVudDoyNDk1NDE=",
-                "name": "onion, green (scallion), whole",
-                "externalName": "Scallion",
-                "categoryValues": [],
-                "dietaryFlags": []
-            },
-            "subRecipe": None
         }
     },
     {
@@ -613,60 +505,6 @@ MOCK_RECIPE_TREE_COMPONENTS = [
         }
     },
     {
-        "id": "bwcj1c4z5zm",
-        "ancestorComponentIds": [
-            "x5ccun97m7",
-            "k41l3crd8of",
-            "hdeta8wr90j",
-            "trr5acd7ly"
-        ],
-        "quantity": 0.022321428551744446,
-        "unit": {
-            "id": UnitEnum.LB.value,
-            "name": "lb",
-            "unitValues": [
-                {
-                    "value": 453.59237,
-                    "unit": {
-                        "id": UnitEnum.G.value,
-                        "name": "g"
-                    }
-                },
-                {
-                    "value": 16.000000014109585,
-                    "unit": {
-                        "id": UnitEnum.OZ.value,
-                        "name": "oz"
-                    }
-                },
-                {
-                    "value": 1,
-                    "unit": {
-                        "id": UnitEnum.LB.value,
-                        "name": "lb"
-                    }
-                }
-            ]
-        },
-        "recipeItem": {
-            "preparations": [],
-            "quantity": 20,
-            "unit": {
-                "id": UnitEnum.LB.value,
-                "name": "lb"
-            },
-            "ingredient": {
-                "locationVendorItems": [],
-                "id": "aW5ncmVkaWVudDoyNDQ5MDU=",
-                "name": "vinegar, apple cider",
-                "externalName": "Apple Cider Vinegar",
-                "categoryValues": [],
-                "dietaryFlags": []
-            },
-            "subRecipe": None
-        }
-    },
-    {
         "id": "oz9yp3l0aek",
         "ancestorComponentIds": [
             "x5ccun97m7",
@@ -733,65 +571,6 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ]
             }
-        }
-    },
-    {
-        "id": "x133e7x7hp",
-        "ancestorComponentIds": [
-            "x5ccun97m7",
-            "k41l3crd8of",
-            "hdeta8wr90j",
-            "oz9yp3l0aek"
-        ],
-        "quantity": 0.09374999991732666,
-        "unit": {
-            "id": UnitEnum.LB.value,
-            "name": "lb",
-            "unitValues": [
-                {
-                    "value": 453.59237,
-                    "unit": {
-                        "id": UnitEnum.G.value,
-                        "name": "g"
-                    }
-                },
-                {
-                    "value": 16.000000014109585,
-                    "unit": {
-                        "id": UnitEnum.OZ.value,
-                        "name": "oz"
-                    }
-                },
-                {
-                    "value": 1,
-                    "unit": {
-                        "id": UnitEnum.LB.value,
-                        "name": "lb"
-                    }
-                }
-            ]
-        },
-        "recipeItem": {
-            "preparations": [],
-            "quantity": 40,
-            "unit": {
-                "id": UnitEnum.LB.value,
-                "name": "lb"
-            },
-            "ingredient": {
-                "locationVendorItems": [],
-                "id": "aW5ncmVkaWVudDoyNDQ4Nzc=",
-                "name": "tofu, firm",
-                "externalName": "Tofu",
-                "categoryValues": [],
-                "dietaryFlags": [
-                    {
-                        "id": DietaryFlagEnum.SOY_BEANS.value,
-                        "name": "soybeans"
-                    }
-                ]
-            },
-            "subRecipe": None
         }
     },
     {
@@ -1704,60 +1483,6 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 ],
                 "dietaryFlagsWithUsages": []
             }
-        }
-    },
-    {
-        "id": "tv3haa35fk",
-        "ancestorComponentIds": [
-            "x5ccun97m7",
-            "9ty070197l",
-            "arlkvxgdzvv",
-            "4pf3lu669b"
-        ],
-        "quantity": 0.00520833332874037,
-        "unit": {
-            "id": UnitEnum.LB.value,
-            "name": "lb",
-            "unitValues": [
-                {
-                    "value": 453.59237,
-                    "unit": {
-                        "id": UnitEnum.G.value,
-                        "name": "g"
-                    }
-                },
-                {
-                    "value": 16.000000014109585,
-                    "unit": {
-                        "id": UnitEnum.OZ.value,
-                        "name": "oz"
-                    }
-                },
-                {
-                    "value": 1,
-                    "unit": {
-                        "id": UnitEnum.LB.value,
-                        "name": "lb"
-                    }
-                }
-            ]
-        },
-        "recipeItem": {
-            "preparations": [],
-            "quantity": 40,
-            "unit": {
-                "id": UnitEnum.LB.value,
-                "name": "lb"
-            },
-            "ingredient": {
-                "locationVendorItems": [],
-                "id": "aW5ncmVkaWVudDoyNDQ0NjI=",
-                "name": "garlic, cloves",
-                "externalName": "Garlic",
-                "categoryValues": [],
-                "dietaryFlags": []
-            },
-            "subRecipe": None
         }
     },
     {

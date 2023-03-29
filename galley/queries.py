@@ -159,6 +159,7 @@ def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'volume')
     query.viewer.menus.menuItems.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.__fields__('id', 'name', 'categoryValues', 'files')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents(levels=[0, 1, 2, 3])
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.__fields__('id', 'ancestorComponentIds', 'quantity')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.unitValues.__fields__('value')
