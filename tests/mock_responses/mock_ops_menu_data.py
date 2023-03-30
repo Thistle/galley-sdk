@@ -1,441 +1,92 @@
+from copy import deepcopy
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
-from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum
+from galley.enums import IngredientCategoryTagTypeEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum, UnitEnum
 
-mock_recipeTreeComponents = [
+
+MOCK_RECIPE_TREE_COMPONENTS = [
     {
-        'quantity': 8.85,
-        'unit': {
-            'id': 'dW5pdDoz',
-            'name': 'oz'
-        },
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                'value': 250.893279435
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                'value': 0.250893279435
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 8.85
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.5531249995122273
-            },
-            {
-                'unit': { 'id': 'dW5pdDoxNA==','name': 'each' },
-                'value': 1
-            }
-        ],
-        'recipeItem': {
-            'preparations': [
+        "id": "x5ccun97m7",
+        "ancestorComponentIds": [],
+        "quantity": 1,
+        "unit": {
+            "id": UnitEnum.EACH.value,
+            "name": "each",
+            "unitValues": [
                 {
-                    'id': PreparationEnum.CORE_RECIPE.value,
-                    'name': 'Base Recipe'
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.EACH.value,
+                        "name": "each"
+                    }
+                }
+            ]
+        },
+        "recipeItem": None
+    },
+    {
+        "id": "k41l3crd8of",
+        "ancestorComponentIds": [
+            "x5ccun97m7"
+        ],
+        "quantity": 1,
+        "unit": {
+            "id": UnitEnum.EACH.value,
+            "name": "each",
+            "unitValues": [
+                {
+                    "value": 222.54375633499996,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 7.85,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.4906249995673427,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.EACH.value,
+                        "name": "each"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [
+                {
+                    "id": PreparationEnum.CORE_RECIPE.value,
+                    "name": "Core Recipe"
                 }
             ],
-            'ingredient': None,
-            'subRecipe': {
-                'externalName': None,
-                'id': 'cmVjaXBlOjE5MjY1NA==',
-                'name': 'Greek Salad with Crispy Chickpeas BASE',
-                'recipeInstructions': [],
-                'categoryValues': [],
-                'dietaryFlagsWithUsages': [
+            "quantity": 1,
+            "unit": {
+                "id": UnitEnum.EACH.value,
+                "name": "each"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE5MjY1NA==",
+                "name": "Greek Salad with Crispy Chickpeas BASE",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [],
+                "dietaryFlagsWithUsages": [
                     {
-                        'dietaryFlag': {
-                            'id': 'ZGlldGFyeUZsYWc6Ng==',
-                            'name': 'soy beans'
-                        }
-                    }
-                ],
-                'recipeTreeComponents': [
-                    {
-                        'quantity': 4,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                                'value': 113.3980924
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.1133980924
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 4
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.2499999997795377
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4NDI0ODk=', 'name': 'batch' },
-                                'value': 0.004166666662992295
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0MjU=', 'name': 'min batch' },
-                                'value': 0.024999999977953772
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0MjY=', 'name': 'max batch' },
-                                'value': 0.004166666662992295
-                            }
-                        ],
-                        'recipeItem': {
-                            'preparations': [
-                                {
-                                    'id': PreparationEnum.TWO_OZ_RAM.value,
-                                    'name': '2 oz RAM'
-                                }
-                            ],
-                            'ingredient': None,
-                            'subRecipe': {
-                                'externalName': None,
-                                'id':'cmVjaXBlOjE4OTcwNA==',
-                                'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
-                                'dietaryFlagsWithUsages': [],
-                                'categoryValues': [
-                                    {
-                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NA==",
-                                        "name": "50",
-                                        "category": {
-                                            "id": "Y2F0ZWdvcnk6MzExOQ==",
-                                            "name": "bin weight",
-                                            "itemType": "recipe"
-                                        }
-                                    }
-                                ],
-                                'recipeInstructions': [
-                                    {
-                                        'position': 0,
-                                        'text': 'Stage lexans for mixing. With sleeved gloves, mix the cucumber, red bell pepper, olives, hemp seeds, parsley and scallions in the quinoa being sure to distribute each ingredient evenly.'
-                                    }
-                                ],
-                                'recipeTreeComponents': [
-                                    {
-                                        'quantity': 30,
-                                        'unit': {
-                                            'id': 'dW5pdDo0',
-                                            'name': 'lb'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': None,
-                                            'subRecipe': {
-                                                'id': 'cmVjaXBlOjE4ODYwNg==',
-                                                'name': 'Cooked Rainbow Quinoa',
-                                                'externalName': None,
-                                                'dietaryFlagsWithUsages': [],
-                                                'recipeInstructions': [
-                                                    {
-                                                        'position': 0,
-                                                        'text': 'Bring water in tilt skillet to a boil. Add quinoa to tilt skillet, no more than 75 lbs at a time.'
-                                                    },
-                                                    {
-                                                        'position': 1,
-                                                        'text': 'Simmer, close lid, and cook until tender, stirring occasionally to prevent dry spots in the corners.'
-                                                    },
-                                                    {
-                                                        'position': 2,
-                                                        'text': 'After 10 minutes turn off heat and let steam for 5 minutes.'
-                                                    },
-                                                    {
-                                                        'position': 3,
-                                                        'text': 'Scoop quinoa onto sheet trays to cool down.'
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    {
-                                        'quantity': 7,
-                                        'unit': {
-                                            'id': 'dW5pdDo0',
-                                            'name': 'lb'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': {
-                                                'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
-                                                'name': 'olives, kalamata, sliced',
-                                                'externalName': 'Kalamata Olives',
-                                                'dietaryFlags': []
-                                            },
-                                            'subRecipe': None
-                                        }
-                                    },
-                                    {
-                                        'quantity': 8,
-                                        'unit': {
-                                            'id': 'dW5pdDoz',
-                                            'name': 'oz'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': None,
-                                            'subRecipe': {
-                                                'id': 'cmVjaXBlOjE3Mjk2NQ==',
-                                                'name': 'Sliced Scallion',
-                                                'externalName': None,
-                                                'dietaryFlagsWithUsages': [],
-                                                'recipeInstructions': [
-                                                    {
-                                                        'position': 0,
-                                                        'text': 'Pick off any stickers, twisty ties, or rubber bands from any bunched herbs.'
-                                                    },
-                                                    {
-                                                        'position': 1,
-                                                        'text': 'Using the 2 compartment sink, wash the produce well using a diluted veg wash solution.'
-                                                    },
-                                                    {
-                                                        'position': 2,
-                                                        'text': 'Once rinsed and visibly clean, strain onto perforated sheet trays.'
-                                                    },
-                                                    {
-                                                        'position': 3,
-                                                        'text': 'Let air dry on speed rack or spin dry using the electric spinner.'
-                                                    },
-                                                    {
-                                                        'position': 4,
-                                                        'text': 'Trim the tips of the scallions. Gather the scallions within your hand and line them up evenly slice across to make thin slices.'
-                                                    },
-                                                    {
-                                                        'position': 5,
-                                                        'text': 'Store in a cambro.'
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        'quantity': 1.5,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g' },
-                                'value': 42.52428465
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg' },
-                                'value': 0.04252428465
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 1.5
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.09374999991732665
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0Mjc=', 'name': 'min batch' },
-                                'value': 0.009374999991732665
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MjU0Mjg=', 'name': 'max batch' },
-                                'value': 0.0015624999986221107
-                            }
-                        ],
-                        'recipeItem': {
-                            'preparations': [
-                                {
-                                    'id': PreparationEnum.INSERT12.value,
-                                    'name': 'INSERT12'
-                                }
-                            ],
-                            'ingredient': None,
-                            'subRecipe': {
-                                'externalName': None,
-                                'id': 'cmVjaXBlOjE3NjQ3Mw==',
-                                'name': 'Tofu Feta',
-                                'categoryValues': [],
-                                'dietaryFlagsWithUsages': [
-                                    {
-                                        'dietaryFlag': {
-                                            'id': 'ZGlldGFyeUZsYWc6Ng==',
-                                            'name': 'soy beans'
-                                        }
-                                    }
-                                ],
-                                'recipeInstructions': [
-                                    {
-                                        'position': 0,
-                                        'text': 'Stage clear polycarbonate lexans for mixing and add brine for tofu feta.'
-                                    },
-                                    {
-                                        'position': 1,
-                                        'text': 'Dice Tofu into small 1/4" diced bite sized squares and add to each lexan, mixing well with the brine for tofu feta, being sure all of the tofu is submerged.'
-                                    },
-                                    {
-                                        'position': 2,
-                                        'text': 'Let sit at least 4 hours, best overnight.'
-                                    },
-                                    {
-                                        'position': 3,
-                                        'text': 'Strain well before serving.'
-                                    }
-                                ],
-                                'recipeTreeComponents': [
-                                    {
-                                        'quantity': 56,
-                                        'unit': {
-                                            'id': 'dW5pdDo0',
-                                            'name': 'lb'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': None,
-                                            'subRecipe': {
-                                                'id': 'cmVjaXBlOjE5MDA5MQ==',
-                                                'name': 'Small Diced Tofu (1/4")',
-                                                'externalName': None,
-                                                'dietaryFlagsWithUsages': [
-                                                    {
-                                                        'dietaryFlag': {
-                                                            'id': 'ZGlldGFyeUZsYWc6Ng==',
-                                                            'name': 'soy beans'
-                                                        }
-                                                    }
-                                                ],
-                                                'recipeInstructions': [
-                                                    {
-                                                        'position': 0,
-                                                        'text': 'Start by opening the bags of firm tofu over perforated lexans to strain any liquid.'
-                                                    },
-                                                    {
-                                                        'position': 1,
-                                                        'text': 'Dice the tofu into 1/4" pieces. Reserve in lexans.'
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
-                                ],
-                            }
-                        }
-                    },
-                    {
-                        'quantity': 2.5,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 2.5
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo1', 'name': 'l' },
-                                'value': 0.4657752582200901
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo2', 'name': 'ml' },
-                                'value': 465.7752582200901
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3', 'name': 'tsp' },
-                                'value': 94.49841062091676
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo4', 'name': 'tbsp' },
-                                'value': 31.49947027087968
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.15624999986221108
-                            }
-                        ],
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Spring Mix Lettuce*',
-                                'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-                                'name': 'lettuce, spring mix, SEND TO PLATE',
-                                'categoryValues': [
-                                    {
-                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Mw==",
-                                        "name": "30",
-                                        "category": {
-                                            "id": "Y2F0ZWdvcnk6MzExOA==",
-                                            "name": "bin weight",
-                                            "itemType": "ingredient"
-                                        }
-                                    }
-                                ],
-                                'dietaryFlags': []
-                            },
-                            'subRecipe': None
-                        }
-                    },
-                    {
-                        'quantity': 0.85,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                                'value': 24.097094634999998
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoy', 'name': 'kg'},
-                                'value': 0.024097094634999996
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz'},
-                                'value': 0.85
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb'},
-                                'value': 0.05312499995315176
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDoxNA==', 'name': 'each'},
-                                'value': 1
-                            }
-                        ],
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
-                                'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-                                'name': 'crispy roasted chickpeas, 0.85 oz bag',
-                                'categoryValues': [
-                                    {
-                                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NQ==",
-                                        "name": "40",
-                                        "category": {
-                                            "id": "Y2F0ZWdvcnk6MzExOA==",
-                                            "name": "bin weight",
-                                            "itemType": "ingredient"
-                                        }
-                                    }
-                                ],
-                                'dietaryFlags': [
-                                    {
-                                        'id': DietaryFlagEnum.SESAME_SEEDS.value,
-                                        'name': 'sesame seeds'
-                                    },
-                                    {
-                                        'id': DietaryFlagEnum.TREE_NUTS.value,
-                                        'name': 'tree nuts'
-                                    }
-                                ]
-                            },
-                            'subRecipe': None
+                        "dietaryFlag": {
+                            "id": DietaryFlagEnum.SOY_BEANS.value,
+                            "name": "soybeans"
                         }
                     }
                 ]
@@ -443,753 +94,1799 @@ mock_recipeTreeComponents = [
         }
     },
     {
-        'quantity': 3,
-        'unit': {
-            'id': 'dW5pdDoz',
-            'name': 'oz'
-        },
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 3
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.1874999998346533
-            },
-            {
-                'unit': { 'id': 'dW5pdDo5MzY4MzI=', 'name': 'max batch' },
-                'value': 0.0018749999983465329
-            },
-            {
-                'unit': { 'id': 'dW5pdDo5MzY4MzM=', 'name': 'min batch' },
-                'value': 0.012499999988976886
-            }
+        "id": "d44pdeapsdk",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of"
         ],
-        'recipeItem': {
-            'preparations': [],
-            'ingredient': None,
-            'subRecipe': {
-                'externalName': None,
-                'id': 'cmVjaXBlOjE3MDU4NA==',
-                'name': 'Smashed Chickpea Salad - COOKED GARBANZOS',
-                'recipeInstructions': [
-                    {
-                        'position': 0,
-                        'text': 'The hobart must be used for this task, do not mix by hand.'
-                    },
-                    {
-                        'position': 1,
-                        'text': 'Latch bowl into the hobart, ensuring it is secured. While it is lowered, add in the garbanzo beans, lemon juice, and olive oil.'
-                    },
-                    {
-                        'position': 2,
-                        'text': 'Equip the PADDLE attachment, and patiently press the up arrow to rise the bowl until locked in place. Slide over the safeguard.'
-                    },
-                    {
-                        'position': 3,
-                        'text': 'Mix on Level 1 for 2 minutes to mash the beans.'
-                    },
-                    {
-                        'position': 4,
-                        'text': 'Slide the safeguard back, and add the remaining ingredients to the mixture. Mix again for 1 minute until fully combined, while pausing every now and then to scrape down the sides and bottom of bowl with a rubber spatula.'
-                    },
-                    {
-                        'position': 5,
-                        'text': 'Lower the bowl, unlatch and grab a buddy to help pour mixture into a lexan.'
-                    },
-                    {
-                        'position': 6,
-                        'text': 'Clean the entire machine after each project, take the bowl and attachments back to the dishpit.'
+        "quantity": 4,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
                     }
-                ],
-                'categoryValues': [
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [
+                {
+                    'id': PreparationEnum.TWO_OZ_RAM.value,
+                    'name': '2 oz RAM'
+                }
+            ],
+            "quantity": 4,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE4OTcwNA==",
+                "name": "Olive, Red Pepper & Cucumber Quinoa Pilaf",
+                "externalName": None,
+                "categoryValues": [
                     {
-                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Ng==",
-                        "name": "60",
+                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NA==",
+                        "name": "50",
                         "category": {
-                            "id": "Y2F0ZWdvcnk6MzExOQ==",
+                            "id": RecipeCategoryTagTypeEnum.BIN_WEIGHT_TAG.value,
                             "name": "bin weight",
                             "itemType": "recipe"
                         }
                     }
                 ],
-                'dietaryFlagsWithUsages': [],
-                'recipeTreeComponents': [
+                "recipeInstructions": [
                     {
-                        'quantity': 0.75,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Sumac',
-                                'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
-                                'name': 'spice sumac',
-                                'categoryValues': [],
-                                'dietaryFlags': []
-                            },
-                            'subRecipe': None
-                        }
-                    },
-                    {
-                        'quantity': 2,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Black Pepper',
-                                'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
-                                'name': 'spice, black pepper, ground',
-                                'categoryValues': [],
-                                'dietaryFlags': []
-                            },
-                            'subRecipe': None
-                        }
-                    },
-                    {
-                        'quantity': 75,
-                        'unit': {
-                            'id': 'dW5pdDo0',
-                            'name': 'lb'
-                        },
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': None,
-                            'subRecipe': {
-                                'externalName': None,
-                                'id': 'cmVjaXBlOjE3NjQ4MA==',
-                                'name': 'Cooked Garbanzo Beans',
-                                'categoryValues': [],
-                                'dietaryFlagsWithUsages': [],
-                                'recipeInstructions': [
-                                    {
-                                        'position': 0,
-                                        'text': 'Start by straining and rinsing the beans. Sift through on sheet trays to make sure there aren’t any rocks, discolored beans, or any other foreign objects.'
-                                    },
-                                    {
-                                        'position': 1,
-                                        'text': 'Transfer the sifted beans to a tilt skillet, no more than 75# at a time. Cover with about a foot of water and bring to a boil by setting the temperature to high. Flavor the beans now with salt and the addition of a sachet of mirepoix.'
-                                    },
-                                    {
-                                        'position': 2,
-                                        'text': 'Once brought to a simmer, stir the beans and cover. Set a timer for 40 minutes and check in 5 minute increments afterwards for doneness. Season now with salt. To make sure the beans are cooked through, taste with a spoon. A cooked bean should be creamy on the inside with skin that is intact, not broken.'
-                                    },
-                                    {
-                                        'position': 3,
-                                        'text': 'Turn off the heat and pick out the sachet. Strain beans from their liquids to cool down on sheet trays.'
-                                    }
-                                ],
-                                'recipeTreeComponents': [
-                                    {
-                                        'quantity': 5.125,
-                                        'unit': {
-                                            'id': 'dW5pdDo0',
-                                            'name': 'lb'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': None,
-                                            'subRecipe': {
-                                                'id': 'cmVjaXBlOjIwMjM5OA==',
-                                                'name': 'Mirepoix Sachet',
-                                                'externalName': None,
-                                                'dietaryFlagsWithUsages': [],
-                                                'recipeInstructions': [
-                                                    {
-                                                        'position': 0,
-                                                        'text': 'Place the onion, carrot, celery, garlic heads, and bay leaves in the center of the square of cheesecloth. Gather the corners together to make a small pouch, tying it tightly with twine.'
-                                                    },
-                                                    {
-                                                        'position': 1,
-                                                        'text': 'Keep one length of the twine long enough to tie to one of the pot handles, for easy removal.'
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    {
-                                        'quantity': 75,
-                                        'unit': {
-                                            'id': 'dW5pdDo0',
-                                            'name': 'lb'
-                                        },
-                                        'recipeItem': {
-                                            'ingredient': {
-                                                'id': 'aW5ncmVkaWVudDoyNDQyODE=',
-                                                'name': 'beans, garbanzo, dry',
-                                                'externalName': 'Garbanzo Beans',
-                                                'dietaryFlags': []
-                                            },
-                                            'subRecipe': None
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        'quantity': 6,
-                        'unit': {
-                            'id': 'dW5pdDo0',
-                            'name': 'lb'
-                        },
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Extra Virgin Olive Oil',
-                                'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
-                                'name': 'oil, olive',
-                                'categoryValues': [],
-                                'dietaryFlags': [],
-                            },
-                            'subRecipe': None
-                        }
-                    },
-                    {
-                        'quantity': 6,
-                        'unit': {
-                            'id': 'dW5pdDo0',
-                            'name': 'lb'
-                        },
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': {
-                                'externalName': 'Lemon Juice',
-                                'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
-                                'name': 'juice, lemon',
-                                'categoryValues': [],
-                                'dietaryFlags': []
-                            },
-                            'subRecipe': None
-                        }
+                        "text": "Stage lexans for mixing. With sleeved gloves, mix the cucumber, red bell pepper, olives, hemp seeds, parsley and scallions in the quinoa being sure to distribute each ingredient evenly.",
+                        "position": 0
                     }
                 ],
+                "dietaryFlagsWithUsages": []
             }
         }
     },
     {
-        "quantity": 0.75,
-        "unit": {
-            "id": "dW5pdDoz",
-            "name": "oz"
-        },
-        "quantityUnitValues": [
-            {
-                "unit": { "id": "dW5pdDox", "name": "g" },
-                "value": 21.262142325
-            },
-            {
-                "unit": { "id": "dW5pdDoy", "name": "kg" },
-                "value": 0.021262142325
-            },
-            {
-                "unit": { "id": "dW5pdDoz", "name": "oz" },
-                "value": 0.75
-            },
-            {
-                "unit": { "id": "dW5pdDo0", "name": "lb" },
-                "value": 0.04687499995866332
-            }
+        "id": "wuet0e3vilq",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of",
+            "d44pdeapsdk"
         ],
+        "quantity": 0.12499999988976887,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 30,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE4ODYwNg==",
+                "name": "Cooked Rainbow Quinoa",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Bring water in tilt skillet to a boil. Add quinoa to tilt skillet, no more than 75 lbs at a time.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Simmer, close lid, and cook until tender, stirring occasionally to prevent dry spots in the corners.",
+                        "position": 1
+                    },
+                    {
+                        "text": "After 10 minutes turn off heat and let steam for 5 minutes.",
+                        "position": 2
+                    },
+                    {
+                        "text": "Scoop quinoa onto sheet trays to cool down.",
+                        "position": 3
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "ss91mevjky",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of",
+            "d44pdeapsdk"
+        ],
+        "quantity": 0.021874999980709554,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 7,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ2Mzc=",
+                "name": "olives, kalamata, sliced",
+                "externalName": "Kalamata Olives",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "a3rm32jf58",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of",
+            "d44pdeapsdk"
+        ],
+        "quantity": 0.024999999977953775,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 8,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE3Mjk2NQ==",
+                "name": "Sliced Scallion",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Pick off any stickers, twisty ties, or rubber bands from any bunched herbs.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Using the 2 compartment sink, wash the produce well using a diluted veg wash solution.",
+                        "position": 1
+                    },
+                    {
+                        "text": "Once rinsed and visibly clean, strain onto perforated sheet trays.",
+                        "position": 2
+                    },
+                    {
+                        "text": "Let air dry on speed rack or spin dry using the electric spinner.",
+                        "position": 3
+                    },
+                    {
+                        "text": "Trim the tips of the scallions. Gather the scallions within your hand and line them up evenly slice across to make thin slices.",
+                        "position": 4
+                    },
+                    {
+                        "text": "Store in a cambro.",
+                        "position": 5
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "hdeta8wr90j",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of"
+        ],
+        "quantity": 1.5,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
         "recipeItem": {
             "preparations": [
                 {
-                    "id": PreparationEnum.TWELVE_OZ_ROUND_INSERT.value,
-                    "name": "12-oz-clean-round-sided-INSERT"
+                    "id": PreparationEnum.INSERT12.value,
+                    "name": "INSERT12"
                 }
             ],
-            "ingredient": {
-                "id": "aW5ncmVkaWVudDoyNDUyMDQ=",
-                "name": "crackers, Mary's seeded GF, SEND TO PLATE",
-                "externalName": "Seed Crackers (Brown Rice, Quinoa, Pumpkin Seeds, Sunflower Seeds, Sesame Seeds, Flax Seeds, Poppy Seeds, Minced Onion, Garlic Powder, Sea Salt)*",
+            "quantity": 1.5,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE3NjQ3Mw==",
+                "name": "Tofu Feta",
+                "externalName": None,
                 "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Stage clear polycarbonate lexans for mixing and add brine for tofu feta.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Dice Tofu into small 1/4\" diced bite sized squares and add to each lexan, mixing well with the brine for tofu feta, being sure all of the tofu is submerged.",
+                        "position": 1
+                    },
+                    {
+                        "text": "Let sit at least 4 hours, best overnight.",
+                        "position": 2
+                    },
+                    {
+                        "text": "Strain well before serving.",
+                        "position": 3
+                    }
+                ],
+                "dietaryFlagsWithUsages": [
+                    {
+                        "dietaryFlag": {
+                            "id": DietaryFlagEnum.SOY_BEANS.value,
+                            "name": "soybeans"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "trr5acd7ly",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of",
+            "hdeta8wr90j"
+        ],
+        "quantity": 0.06696428565523334,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 25,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjIxNjA2MA==",
+                "name": "Brine for \"Feta\"",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Stage clear polycarbonate lexans for mixing. In each lexan combine all of the ingredients blend using an immersion blender.",
+                        "position": 0
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "oz9yp3l0aek",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of",
+            "hdeta8wr90j"
+        ],
+        "quantity": 0.09374999991732666,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 35,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE5MDA5MQ==",
+                "name": "Small Diced Tofu (1/4\")",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Start by opening the bags of firm tofu over perforated lexans to strain any liquid.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Dice the tofu into 1/4\" pieces. Reserve in lexans.",
+                        "position": 1
+                    }
+                ],
+                "dietaryFlagsWithUsages": [
+                    {
+                        "dietaryFlag": {
+                            "id": DietaryFlagEnum.SOY_BEANS.value,
+                            "name": "soybeans"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "3oiimc548lt",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of"
+        ],
+        "quantity": 2.5,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 2.5,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ1NjE=",
+                "name": "lettuce, spring mix, SEND TO PLATE",
+                "externalName": "Spring Mix Lettuce* or Seasonal Greens*\u00a7",
+                "categoryValues": [
+                    {
+                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3Mw==",
+                        "name": "30",
+                        "category": {
+                            "id": IngredientCategoryTagTypeEnum.BIN_WEIGHT_TAG.value,
+                            "name": "bin weight",
+                            "itemType": "ingredient"
+                        }
+                    }
+                ],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "8o8ode59qdc",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "k41l3crd8of"
+        ],
+        "quantity": 1,
+        "unit": {
+            "id": UnitEnum.EACH.value,
+            "name": "each",
+            "unitValues": [
+                {
+                    "value": 24.097094634999998,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 0.85,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.05312499995315176,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.EACH.value,
+                        "name": "each"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 1,
+            "unit": {
+                "id": UnitEnum.EACH.value,
+                "name": "each"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNzQ4ODA=",
+                "name": "crispy roasted chickpeas, 0.85 oz bag, SEND TO PLATE",
+                "externalName": "Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)",
+                "categoryValues": [
+                    {
+                        "id": "Y2F0ZWdvcnlWYWx1ZToxODQ3NQ==",
+                        "name": "40",
+                        "category": {
+                            "id": IngredientCategoryTagTypeEnum.BIN_WEIGHT_TAG.value,
+                            "name": "bin weight",
+                            "itemType": "ingredient"
+                        }
+                    }
+                ],
                 "dietaryFlags": [
                     {
-                        "id": "ZGlldGFyeUZsYWc6MTY=",
+                        "id": DietaryFlagEnum.SESAME_SEEDS.value,
                         "name": "sesame seeds"
                     },
+                    {
+                        "id": DietaryFlagEnum.TREE_NUTS.value,
+                        "name": "tree nuts"
+                    }
+
                 ]
             },
             "subRecipe": None
         }
     },
     {
-        'quantity': 2.3,
-        'unit': {
-            'id': 'dW5pdDoz',
-            'name': 'oz'
-        },
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                'value': 2.3
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                'value': 0.14374999987323417
-            },
-            {
-                'unit': { 'id': 'dW5pdDoxNA==', 'name': 'each' },
-                'value': 1
-            },
-            {
-                'unit': { 'id': 'dW5pdDo3ODA1MzM=', 'name': 'case' },
-                'value': 0.006666666666666667
-            }
+        "id": "p1izi6jy93l",
+        "ancestorComponentIds": [
+            "x5ccun97m7"
         ],
-        'recipeItem': {
-            'preparations': [],
-            'ingredient': {
-                'id': 'aW5ncmVkaWVudDoyNDQ4OTQ=',
-                'name': 'TS20 - 20oz Meal Boxes',
-                'externalName': 'TS20',
-                'dietaryFlags': [],
-                'categoryValues': [
+        "quantity": 3,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 3,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE3MDU4NA==",
+                "name": "Smashed Chickpea Salad - COOKED GARBANZOS",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
                     {
-                        'id': 'Y2F0ZWdvcnlWYWx1ZToxNDgwMg==',
-                        'name': 'warehouse - packaging'
+                        "text": "The hobart must be used for this task, do not mix by hand.",
+                        "position": 0
                     },
                     {
-                        'id': IngredientCategoryValueEnum.FOOD_PACKAGE.value,
-                        'name': 'food pkg'
+                        "text": "Latch bowl into the hobart, ensuring it is secured. While it is lowered, add in the garbanzo beans, lemon juice, and olive oil.",
+                        "position": 1
+                    },
+                    {
+                        "text": "Equip the PADDLE attachment, and patiently press the up arrow to rise the bowl until locked in place. Slide over the safeguard.",
+                        "position": 2
+                    },
+                    {
+                        "text": "Mix on Level 1 for 2 minutes to mash the beans.",
+                        "position": 3
+                    },
+                    {
+                        "text": "Slide the safeguard back, and add the remaining ingredients to the mixture. Mix again for 1 minute until fully combined, while pausing every now and then to scrape down the sides and bottom of bowl with a rubber spatula.",
+                        "position": 4
+                    },
+                    {
+                        "text": "Lower the bowl, unlatch and grab a buddy to help pour mixture into a lexan.",
+                        "position": 5
+                    },
+                    {
+                        "text": "Clean the entire machine after each project, take the bowl and attachments back to the dishpit.",
+                        "position": 6
                     }
                 ],
-            },
-            'subRecipe': None
+                "dietaryFlagsWithUsages": []
+            }
         }
     },
     {
-        'quantity': 2,
-        'unit': {
-            'id': 'dW5pdDoz',
-            'name': 'oz'
-        },
-        'quantityUnitValues': [
-            {
-                'unit': { 'id': 'dW5pdDox', 'name': 'g'},
-                'value': 56.6990462
-            },
-            {
-                'unit': { 'id': 'dW5pdDoy', 'name': 'kg'},
-                'value': 0.0566990462
-            },
-            {
-                'unit': { 'id': 'dW5pdDoz', 'name': 'oz'},
-                'value': 2
-            },
-            {
-                'unit': { 'id': 'dW5pdDo0', 'name': 'lb'},
-                'value': 0.12499999988976886
-            }
+        "id": "lkjyq9qnvy",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l"
         ],
-        'recipeItem': {
-            'preparations': [
+        "quantity": 0.0014062499987599,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
                 {
-                    'id': PreparationEnum.TWO_OZ_WINPAK.value,
-                    'name': '2 oz WINPAK'
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
                 },
                 {
-                    'id': 'cHJlcGFyYXRpb246MjgzMzQ=',
-                    'name': 'standalone'
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
                 }
-            ],
-            'ingredient': None,
-            'subRecipe': {
-                'externalName': 'Red Wine Vinaigrette',
-                'id': 'cmVjaXBlOjIyMzU3MQ==',
-                'name': 'Red Wine Vinaigrette 2oz',
-                'recipeInstructions': [],
-                'categoryValues': [],
-                'dietaryFlagsWithUsages': [],
-                'recipeTreeComponents': [
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 0.75,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ4MzQ=",
+                "name": "spice, sumac",
+                "externalName": "Sumac",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "4n11rdaopm7",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l"
+        ],
+        "quantity": 0.003749999996693066,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 2,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
+                "name": "spice, black pepper, ground",
+                "externalName": "Black Pepper",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "t2xotugmk6p",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l"
+        ],
+        "quantity": 0.14062499987598998,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 75,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE3NjQ4MA==",
+                "name": "Cooked Garbanzo Beans",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
                     {
-                        'quantity': 2,
-                        'unit': {
-                            'id': 'dW5pdDoz',
-                            'name': 'oz'
-                        },
-                        'quantityUnitValues': [
-                            {
-                                'unit': { 'id': 'dW5pdDoz', 'name': 'oz' },
-                                'value': 2
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo0', 'name': 'lb' },
-                                'value': 0.12499999988976886
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo3NTU1MjQ=', 'name': 'batch' },
-                                'value': 0.0020833333314961475
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MzUzMzg=', 'name': 'max batch' },
-                                'value': 0.0020833333314961475
-                            },
-                            {
-                                'unit': { 'id': 'dW5pdDo5MzUzMzk=', 'name': 'min batch' },
-                                'value': 0.012499999988976886
-                            }
-                        ],
-                        'recipeItem': {
-                            'preparations': [],
-                            'ingredient': None,
-                            'subRecipe': {
-                                'externalName': None,
-                                'id': 'cmVjaXBlOjE3NDI4OA==',
-                                'name': 'Red Wine Vinaigrette BASE',
-                                'categoryValues': [],
-                                'dietaryFlagsWithUsages': [],
-                                'recipeInstructions': [
-                                    {
-                                        'position': 0,
-                                        'text': 'Please keep in mind the tamper seal from bottled containers can fall into the recipe you are making. Be sure to discard any tamper seals immediately after breaking the seal.'
-                                    },
-                                    {
-                                        'position': 1,
-                                        'text': 'In blixer combine half of the liquids to break up the red onion and garlic. Add the remaining liquids (except oil) and blend.'
-                                    },
-                                    {
-                                        'position': 2,
-                                        'text': 'Slowly add in oil through opening on the lid until emulsified.'
-                                    },
-                                    {
-                                        'position': 3,
-                                        'text': 'Pour into lexans.'
-                                    }
-                                ],
-                                'recipeTreeComponents': []
-                            }
+                        "text": "Start by straining and rinsing the beans. Sift through on sheet trays to make sure there aren\u2019t any rocks, discolored beans, or any other foreign objects.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Transfer the sifted beans to a tilt skillet, no more than 75# at a time. Cover with about a foot of water and bring to a boil by setting the temperature to high. Flavor the beans now with salt.",
+                        "position": 1
+                    },
+                    {
+                        "text": "Once brought to a simmer, stir the beans and cover. Set a timer for 40 minutes and check in 5 minute increments afterwards for doneness. Season now with salt. To make sure the beans are cooked through, taste with a spoon. A cooked bean should be creamy on the inside with skin that is intact, not broken.",
+                        "position": 2
+                    },
+                    {
+                        "text": "Turn off the heat. Strain beans from their liquids to cool down on sheet trays.",
+                        "position": 3
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "whkxj26090m",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l",
+            "t2xotugmk6p"
+        ],
+        "quantity": 0.07031249993799499,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 75,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQyODE=",
+                "name": "beans, garbanzo, dry",
+                "externalName": "Garbanzo Beans",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "22r2c3aruw4",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l"
+        ],
+        "quantity": 0.0112499999900792,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 6,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ2MzA=",
+                "name": "oil, olive",
+                "externalName": "Extra Virgin Olive Oil",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "vyx5cb1ymt",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "p1izi6jy93l"
+        ],
+        "quantity": 0.0112499999900792,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 6,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ1MzU=",
+                "name": "juice, lemon",
+                "externalName": "Lemon Juice",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "sb4q527ncb",
+        "ancestorComponentIds": [
+            "x5ccun97m7"
+        ],
+        "quantity": 1,
+        "unit": {
+            "id": UnitEnum.EACH.value,
+            "name": "each",
+            "unitValues": [
+                {
+                    "value": 65.20390312999999,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 2.3,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.14374999987323417,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.EACH.value,
+                        "name": "each"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 1,
+            "unit": {
+                "id": UnitEnum.EACH.value,
+                "name": "each"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDU5MDM=",
+                "name": "TS48 - 48oz Meal Boxes",
+                "externalName": "48 oz Meal Boxes",
+                "categoryValues": [
+                    {
+                        "id": IngredientCategoryValueEnum.FOOD_PACKAGE.value,
+                        "name": "food pkg",
+                        "category": {
+                            "id": "Y2F0ZWdvcnk6MjQyMA==",
+                            "name": "accounting group",
+                            "itemType": "ingredient"
                         }
                     }
-                ]
+                ],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "9ty070197l",
+        "ancestorComponentIds": [
+            "x5ccun97m7"
+        ],
+        "quantity": 2,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [
+                {
+                    "id": PreparationEnum.TWO_OZ_WINPAK.value,
+                    "name": "2 oz WINPAK"
+                },
+                {
+                    "id": PreparationEnum.STANDALONE.value,
+                    "name": "standalone"
+                }
+            ],
+            "quantity": 2,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjIyMzU3MQ==",
+                "name": "Red Wine Vinaigrette 2oz",
+                "externalName": "Red Wine Vinaigrette",
+                "categoryValues": [],
+                "recipeInstructions": [],
+                "dietaryFlagsWithUsages": []
             }
+        }
+    },
+    {
+        "id": "arlkvxgdzvv",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "9ty070197l"
+        ],
+        "quantity": 2,
+        "unit": {
+            "id": UnitEnum.OZ.value,
+            "name": "oz",
+            "unitValues": [
+                {
+                    "value": 28.3495231,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.06249999994488443,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 2,
+            "unit": {
+                "id": UnitEnum.OZ.value,
+                "name": "oz"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE3NDI4OA==",
+                "name": "Red Wine Vinaigrette BASE",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "In blixer combine half of the liquids to break up the red onion and garlic.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Slowly add in oil through opening on the lid until emulsified.",
+                        "position": 1
+                    },
+                    {
+                        "text": "Pour into lexans.",
+                        "position": 2
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "jyoqmn9ieg",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "9ty070197l",
+            "arlkvxgdzvv"
+        ],
+        "quantity": 0.022916666646457626,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 11,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ5MTE=",
+                "name": "vinegar, red wine",
+                "externalName": "Red Wine Vinegar",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "3v0evgbhdzf",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "9ty070197l",
+            "arlkvxgdzvv"
+        ],
+        "quantity": 0.007291666660236518,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 3.5,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNDQ3NzA=",
+                "name": "sauce, mustard, dijon",
+                "externalName": "Dijon Mustard (Water, Mustard Seeds, Vinegar, Salt)",
+                "categoryValues": [],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+    },
+    {
+        "id": "4pf3lu669b",
+        "ancestorComponentIds": [
+            "x5ccun97m7",
+            "9ty070197l",
+            "arlkvxgdzvv"
+        ],
+        "quantity": 0.00520833332874037,
+        "unit": {
+            "id": UnitEnum.LB.value,
+            "name": "lb",
+            "unitValues": [
+                {
+                    "value": 453.59237,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 16.000000014109585,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 2.5,
+            "unit": {
+                "id": UnitEnum.LB.value,
+                "name": "lb"
+            },
+            "ingredient": None,
+            "subRecipe": {
+                "id": "cmVjaXBlOjE4NDY0Mg==",
+                "name": "Minced Garlic",
+                "externalName": None,
+                "categoryValues": [],
+                "recipeInstructions": [
+                    {
+                        "text": "Add the garlic cloves to the blixer to process.  Pulse until finely minced.",
+                        "position": 0
+                    },
+                    {
+                        "text": "Transfer to a cambro or lexan.",
+                        "position": 1
+                    }
+                ],
+                "dietaryFlagsWithUsages": []
+            }
+        }
+    },
+    {
+        "id": "2shnflhm1zl",
+        "ancestorComponentIds": [
+            "x5ccun97m7"
+        ],
+        "quantity": 1,
+        "unit": {
+            "id": UnitEnum.EACH.value,
+            "name": "each",
+            "unitValues": [
+                {
+                    "value": 3.685438003,
+                    "unit": {
+                        "id": UnitEnum.G.value,
+                        "name": "g"
+                    }
+                },
+                {
+                    "value": 0.13,
+                    "unit": {
+                        "id": UnitEnum.OZ.value,
+                        "name": "oz"
+                    }
+                },
+                {
+                    "value": 0.008124999992834976,
+                    "unit": {
+                        "id": UnitEnum.LB.value,
+                        "name": "lb"
+                    }
+                },
+                {
+                    "value": 1,
+                    "unit": {
+                        "id": UnitEnum.EACH.value,
+                        "name": "each"
+                    }
+                }
+            ]
+        },
+        "recipeItem": {
+            "preparations": [],
+            "quantity": 1,
+            "unit": {
+                "id": UnitEnum.EACH.value,
+                "name": "each"
+            },
+            "ingredient": {
+                "locationVendorItems": [],
+                "id": "aW5ncmVkaWVudDoyNzQ5NjA=",
+                "name": "WINPAK Portion Cups",
+                "externalName": "WIN2 - WINPAK Portion Cups 2oz WIN2",
+                "categoryValues": [
+                    {
+                        "id": IngredientCategoryValueEnum.FOOD_PACKAGE.value,
+                        "name": "food pkg",
+                        "category": {
+                            "id": "Y2F0ZWdvcnk6MjQyMA==",
+                            "name": "accounting group",
+                            "itemType": "ingredient"
+                        }
+                    }
+                ],
+                "dietaryFlags": []
+            },
+            "subRecipe": None
         }
     }
 ]
 
 
-mock_formatted_primaryRecipeComponents = [
+MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
     {
-        'type': 'recipe',
-        'id': 'cmVjaXBlOjE4OTcwNA==',
-        'name': 'Olive Red Pepper & Cucumber Quinoa Pilaf',
-        'allergens': [],
-        'cuppingContainer': '2 oz RAM',
-        'usage': {
-            'value': 4,
-            'unit': 'oz'
+        "allergens": [],
+        "binWeight": {
+            "unit": "lb",
+            "value": 50.0
         },
-        'quantityValues': [{
-            'value': 4,
-            'unit': 'oz'
-        }, {
-            'value': 0.2499999997795377,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 50.0,
-            'unit': 'lb'
-        },
-        'instructions':  [
+        "cuppingContainer": "2 oz RAM",
+        "id": "cmVjaXBlOjE4OTcwNA==",
+        "instructions": [
             {
-                'id': 1,
-                'text': 'Stage lexans for mixing. With sleeved gloves, mix the cucumber, red bell pepper, olives, hemp seeds, parsley and scallions in the quinoa being sure to distribute each ingredient evenly.'
+                "id": 1,
+                "text": "Stage lexans for mixing. With sleeved gloves, mix the cucumber, red bell pepper, olives, hemp seeds, parsley and scallions in the quinoa being sure to distribute each ingredient evenly."
             }
         ],
-        'recipeComponents': [
+        "name": "Olive, Red Pepper & Cucumber Quinoa Pilaf",
+        "quantityValues": [
             {
-                'type': 'recipe',
-                'id': 'cmVjaXBlOjE4ODYwNg==',
-                'name': 'Cooked Rainbow Quinoa',
-                'allergens': [],
-                'usage': {
-                    'value': 30,
-                    'unit': 'lb'
-                }
+                "unit": "oz",
+                "value": 4.0
             },
             {
-                'type': 'ingredient',
-                'id': 'aW5ncmVkaWVudDoyNDQ2Mzc=',
-                'name': 'olives, kalamata, sliced',
-                'allergens': [],
-                'usage': {
-                    'value': 7,
-                    'unit': 'lb'
-                }
-            },
-            {
-                'type': 'recipe',
-                'id': 'cmVjaXBlOjE3Mjk2NQ==',
-                'name': 'Sliced Scallion',
-                'allergens': [],
-                'usage': {
-                    'value': 8,
-                    'unit': 'oz'
-                }
-            },
-        ],
-    },
-    {
-        'type': 'recipe',
-        'id': 'cmVjaXBlOjE3NjQ3Mw==',
-        'name': 'Tofu Feta',
-        'allergens': ['soy'],
-        'cuppingContainer': 'INSERT12',
-        'usage': {
-            'value': 1.5,
-            'unit': 'oz'
-        },
-        'quantityValues': [{
-            'value': 1.5,
-            'unit': 'oz'
-        }, {
-            'value': 0.09374999991732665,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 60.0,
-            'unit': 'lb'
-        },
-        'instructions': [
-            {
-                'id': 1,
-                'text': 'Stage clear polycarbonate lexans for mixing and add brine for tofu feta.'
-            },
-            {
-                'id': 2,
-                'text': 'Dice Tofu into small 1/4" diced bite sized squares and add to each lexan, mixing well with the brine for tofu feta, being sure all of the tofu is submerged.'
-            },
-            {
-                'id': 3,
-                'text': 'Let sit at least 4 hours, best overnight.'
-            },
-            {
-                'id': 4,
-                'text': 'Strain well before serving.'
+                "unit": "lb",
+                "value": 0.2499999997795377
             }
         ],
-        'recipeComponents': [
+        "recipeComponents": [
             {
-                'type': 'recipe',
-                'id': 'cmVjaXBlOjE5MDA5MQ==',
-                'name': 'Small Diced Tofu (1/4")',
-                'allergens': ['soy'],
-                'usage': {
-                    'value': 56,
-                    'unit': 'lb'
+                "allergens": [],
+                "id": "cmVjaXBlOjE4ODYwNg==",
+                "name": "Cooked Rainbow Quinoa",
+                "type": "recipe",
+                "usage": {
+                    "unit": "lb",
+                    "value": 30
+                }
+            },
+            {
+                "allergens": [],
+                "id": "aW5ncmVkaWVudDoyNDQ2Mzc=",
+                "name": "olives, kalamata, sliced",
+                "type": "ingredient",
+                "usage": {
+                    "unit": "lb",
+                    "value": 7
+                }
+            },
+            {
+                "allergens": [],
+                "id": "cmVjaXBlOjE3Mjk2NQ==",
+                "name": "Sliced Scallion",
+                "type": "recipe",
+                "usage": {
+                    "unit": "oz",
+                    "value": 8
                 }
             }
         ],
-    },
-    {
-        'type': 'ingredient',
-        'id': 'aW5ncmVkaWVudDoyNDQ1NjE=',
-        'name': 'lettuce, spring mix, SEND TO PLATE',
-        'allergens': [],
-        'cuppingContainer': None,
-        'usage': {
-            'value': 2.5,
-            'unit': 'oz'
-        },
-        'quantityValues': [{
-            'value': 2.5,
-            'unit': 'oz'
-        }, {
-            'value': 0.15624999986221108,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 30.0,
-            'unit': 'lb'
+        "type": "recipe",
+        "usage": {
+            "unit": "oz",
+            "value": 4
         }
     },
     {
-        'type': 'ingredient',
-        'id': 'aW5ncmVkaWVudDoyNzQ4ODA=',
-        'name': 'crispy roasted chickpeas, 0.85 oz bag',
-        'allergens': ['sesame_seeds', 'tree_nuts'],
-        'cuppingContainer': None,
-        'usage': {
-            'value': 0.85,
-            'unit': 'oz'
+        "allergens": [
+            "soy"
+        ],
+        "binWeight": {
+            "unit": "lb",
+            "value": 60.0
         },
-        'quantityValues': [{
-            'value': 0.85,
-            'unit': 'oz'
-        }, {
-            'value': 0.05312499995315176,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 40.0,
-            'unit': 'lb'
-        },
-    },
-    {
-        'type': 'recipe',
-        'id': 'cmVjaXBlOjE3MDU4NA==',
-        'name': 'Smashed Chickpea Salad - COOKED GARBANZOS',
-        'allergens': [],
-        'cuppingContainer': None,
-        'usage': {
-            'value': 3,
-            'unit': 'oz'
-        },
-        'quantityValues': [{
-            'value': 3,
-            'unit': 'oz'
-        }, {
-            'value': 0.1874999998346533,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 60.0,
-            'unit': 'lb'
-        },
-        'instructions': [
+        "cuppingContainer": "INSERT12",
+        "id": "cmVjaXBlOjE3NjQ3Mw==",
+        "instructions": [
             {
-                'id': 1,
-                'text': 'The hobart must be used for this task, do not mix by hand.'
+                "id": 1,
+                "text": "Stage clear polycarbonate lexans for mixing and add brine for tofu feta."
             },
             {
-                'id': 2,
-                'text': 'Latch bowl into the hobart, ensuring it is secured. While it is lowered, add in the garbanzo beans, lemon juice, and olive oil.'
+                "id": 2,
+                "text": "Dice Tofu into small 1/4\" diced bite sized squares and add to each lexan, mixing well with the brine for tofu feta, being sure all of the tofu is submerged."
             },
             {
-                'id': 3,
-                'text': 'Equip the PADDLE attachment, and patiently press the up arrow to rise the bowl until locked in place. Slide over the safeguard.'
+                "id": 3,
+                "text": "Let sit at least 4 hours, best overnight."
             },
             {
-                'id': 4,
-                'text': 'Mix on Level 1 for 2 minutes to mash the beans.'
-            },
-            {
-                'id': 5,
-                'text': 'Slide the safeguard back, and add the remaining ingredients to the mixture. Mix again for 1 minute until fully combined, while pausing every now and then to scrape down the sides and bottom of bowl with a rubber spatula.'
-            },
-            {
-                'id': 6,
-                'text': 'Lower the bowl, unlatch and grab a buddy to help pour mixture into a lexan.'
-            },
-            {
-                'id': 7,
-                'text': 'Clean the entire machine after each project, take the bowl and attachments back to the dishpit.'
+                "id": 4,
+                "text": "Strain well before serving."
             }
         ],
-        'recipeComponents': [
+        "name": "Tofu Feta",
+        "quantityValues": [
             {
-                'type': 'ingredient',
-                'id': 'aW5ncmVkaWVudDoyNDQ4MzQ=',
-                'name': 'spice sumac',
-                'allergens': [],
-                'usage': {
-                    'value': 0.75,
-                    'unit': 'oz'
-                }
+                "unit": "oz",
+                "value": 1.5
             },
             {
-                'type': 'ingredient',
-                'id': 'aW5ncmVkaWVudDoyNDQ3OTM=',
-                'name': 'spice, black pepper, ground',
-                'allergens': [],
-                'usage': {
-                    'value': 2,
-                    'unit': 'oz'
-                }
-            },
-            {
-                'type': 'recipe',
-                'id': 'cmVjaXBlOjE3NjQ4MA==',
-                'name': 'Cooked Garbanzo Beans',
-                'allergens': [],
-                'usage': {
-                    'value': 75,
-                    'unit': 'lb'
-                }
-            },
-            {
-                'type': 'ingredient',
-                'id': 'aW5ncmVkaWVudDoyNDQ2MzA=',
-                'name': 'oil, olive',
-                'allergens': [],
-                'usage': {
-                    'value': 6,
-                    'unit': 'lb'
-                }
-            },
-            {
-                'type': 'ingredient',
-                'id': 'aW5ncmVkaWVudDoyNDQ1MzU=',
-                'name': 'juice, lemon',
-                'allergens': [],
-                'usage': {
-                    'value': 6,
-                    'unit': 'lb'
-                }
-            },
+                "unit": "lb",
+                "value": 0.09374999991732665
+            }
         ],
-    },
-    {
-        'type': 'ingredient',
-        'id': 'aW5ncmVkaWVudDoyNDUyMDQ=',
-        'name': "crackers, Mary's seeded GF, SEND TO PLATE",
-        'allergens': ['sesame_seeds'],
-        'cuppingContainer': '12-oz-clean-round-sided-INSERT',
-        'usage': {
-            'value': 0.75,
-            'unit': 'oz'
-        },
-        'quantityValues':[{
-            'value': 0.75,
-            'unit': 'oz'
-        }, {
-            'value': 0.04687499995866332,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 60.0,
-            'unit': 'lb'
-        },
-    },
-    {
-        'type': 'recipe',
-        'id': 'cmVjaXBlOjIyMzU3MQ==',
-        'name': 'Red Wine Vinaigrette 2oz',
-        'allergens': [],
-        'cuppingContainer': '2 oz WINPAK',
-        'usage': {
-            'value': 2,
-            'unit': 'oz'
-        },
-        'quantityValues': [{
-            'value': 2,
-            'unit': 'oz'
-        }, {
-            'value': 0.12499999988976886,
-            'unit': 'lb'
-        }],
-        'binWeight': {
-            'value': 60.0,
-            'unit': 'lb'
-        },
-        'instructions': [],
-        'recipeComponents': [
+        "recipeComponents": [
             {
-                'type': 'recipe',
-                'id': 'cmVjaXBlOjE3NDI4OA==',
-                'name': 'Red Wine Vinaigrette BASE',
-                'allergens': [],
-                'usage': {
-                    'value': 2,
-                    'unit': 'oz'
+                "allergens": [],
+                "id": "cmVjaXBlOjIxNjA2MA==",
+                "name": "Brine for \"Feta\"",
+                "type": "recipe",
+                "usage": {
+                    "unit": "lb",
+                    "value": 25
+                }
+            },
+            {
+                "allergens": [
+                    "soy"
+                ],
+                "id": "cmVjaXBlOjE5MDA5MQ==",
+                "name": "Small Diced Tofu (1/4\")",
+                "type": "recipe",
+                "usage": {
+                    "unit": "lb",
+                    "value": 35
                 }
             }
         ],
+        "type": "recipe",
+        "usage": {
+            "unit": "oz",
+            "value": 1.5
+        }
+    },
+    {
+        "allergens": [],
+        "binWeight": {
+            "unit": "lb",
+            "value": 30.0
+        },
+        "cuppingContainer": None,
+        "id": "aW5ncmVkaWVudDoyNDQ1NjE=",
+        "name": "lettuce, spring mix, SEND TO PLATE",
+        "quantityValues": [
+            {
+                "unit": "oz",
+                "value": 2.5
+            },
+            {
+                "unit": "lb",
+                "value": 0.15624999986221108
+            }
+        ],
+        "type": "ingredient",
+        "usage": {
+            "unit": "oz",
+            "value": 2.5
+        }
+    },
+    {
+        "allergens": [
+            "sesame_seeds",
+            "tree_nuts"
+        ],
+        "binWeight": {
+            "unit": "lb",
+            "value": 40.0
+        },
+        "cuppingContainer": None,
+        "id": "aW5ncmVkaWVudDoyNzQ4ODA=",
+        "name": "crispy roasted chickpeas, 0.85 oz bag, SEND TO PLATE",
+        "quantityValues": [
+            {
+                "unit": "oz",
+                "value": 0.85
+            },
+            {
+                "unit": "lb",
+                "value": 0.05312499995315176
+            }
+        ],
+        "type": "ingredient",
+        "usage": {
+            "unit": "each",
+            "value": 1
+        }
+    },
+    {
+        "allergens": [],
+        "binWeight": {
+            "unit": "lb",
+            "value": 60.0
+        },
+        "cuppingContainer": None,
+        "id": "cmVjaXBlOjE3MDU4NA==",
+        "instructions": [
+            {
+                "id": 1,
+                "text": "The hobart must be used for this task, do not mix by hand."
+            },
+            {
+                "id": 2,
+                "text": "Latch bowl into the hobart, ensuring it is secured. While it is lowered, add in the garbanzo beans, lemon juice, and olive oil."
+            },
+            {
+                "id": 3,
+                "text": "Equip the PADDLE attachment, and patiently press the up arrow to rise the bowl until locked in place. Slide over the safeguard."
+            },
+            {
+                "id": 4,
+                "text": "Mix on Level 1 for 2 minutes to mash the beans."
+            },
+            {
+                "id": 5,
+                "text": "Slide the safeguard back, and add the remaining ingredients to the mixture. Mix again for 1 minute until fully combined, while pausing every now and then to scrape down the sides and bottom of bowl with a rubber spatula."
+            },
+            {
+                "id": 6,
+                "text": "Lower the bowl, unlatch and grab a buddy to help pour mixture into a lexan."
+            },
+            {
+                "id": 7,
+                "text": "Clean the entire machine after each project, take the bowl and attachments back to the dishpit."
+            }
+        ],
+        "name": "Smashed Chickpea Salad - COOKED GARBANZOS",
+        "quantityValues": [
+            {
+                "unit": "oz",
+                "value": 3.0
+            },
+            {
+                "unit": "lb",
+                "value": 0.1874999998346533
+            }
+        ],
+        "recipeComponents": [
+            {
+                "allergens": [],
+                "id": "aW5ncmVkaWVudDoyNDQ4MzQ=",
+                "name": "spice, sumac",
+                "type": "ingredient",
+                "usage": {
+                    "unit": "oz",
+                    "value": 0.75
+                }
+            },
+            {
+                "allergens": [],
+                "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
+                "name": "spice, black pepper, ground",
+                "type": "ingredient",
+                "usage": {
+                    "unit": "oz",
+                    "value": 2
+                }
+            },
+            {
+                "allergens": [],
+                "id": "cmVjaXBlOjE3NjQ4MA==",
+                "name": "Cooked Garbanzo Beans",
+                "type": "recipe",
+                "usage": {
+                    "unit": "lb",
+                    "value": 75
+                }
+            },
+            {
+                "allergens": [],
+                "id": "aW5ncmVkaWVudDoyNDQ2MzA=",
+                "name": "oil, olive",
+                "type": "ingredient",
+                "usage": {
+                    "unit": "lb",
+                    "value": 6
+                }
+            },
+            {
+                "allergens": [],
+                "id": "aW5ncmVkaWVudDoyNDQ1MzU=",
+                "name": "juice, lemon",
+                "type": "ingredient",
+                "usage": {
+                    "unit": "lb",
+                    "value": 6
+                }
+            }
+        ],
+        "type": "recipe",
+        "usage": {
+            "unit": "oz",
+            "value": 3
+        }
+    },
+    {
+        "allergens": [],
+        "binWeight": {
+            "unit": "lb",
+            "value": 60.0
+        },
+        "cuppingContainer": "2 oz WINPAK",
+        "id": "cmVjaXBlOjIyMzU3MQ==",
+        "instructions": [],
+        "name": "Red Wine Vinaigrette 2oz",
+        "quantityValues": [
+            {
+                "unit": "oz",
+                "value": 2.0
+            },
+            {
+                "unit": "lb",
+                "value": 0.12499999988976886
+            }
+        ],
+        "recipeComponents": [
+            {
+                "allergens": [],
+                "id": "cmVjaXBlOjE3NDI4OA==",
+                "name": "Red Wine Vinaigrette BASE",
+                "type": "recipe",
+                "usage": {
+                    "unit": "oz",
+                    "value": 2
+                }
+            }
+        ],
+        "type": "recipe",
+        "usage": {
+            "unit": "oz",
+            "value": 2
+        }
     }
 ]
 
@@ -1250,7 +1947,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 }
                             ]
                         },
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 923,
                     'unit': {
@@ -1297,7 +1994,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 }
                             ]
                         },
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 1228,
                     'unit': {
@@ -1333,7 +2030,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 549,
                     'unit': {
@@ -1369,7 +2066,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 123,
                     'unit': {
@@ -1405,7 +2102,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 321,
                     'unit': {
@@ -1441,7 +2138,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': []
                     },
                     'volume': 456,
                     'unit': {
@@ -1467,7 +2164,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                         'name': 'Juice',
                         'categoryValues': [],
                         'files': {},
-                        'recipeTreeComponents': mock_recipeTreeComponents
+                        'recipeTreeComponents': []
                     },
                     'volume': 199,
                     'unit': {
