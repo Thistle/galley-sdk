@@ -1,3 +1,4 @@
+from copy import deepcopy
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import IngredientCategoryTagTypeEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum, UnitEnum
 
@@ -1946,7 +1947,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 }
                             ]
                         },
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 923,
                     'unit': {
@@ -1993,7 +1994,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 }
                             ]
                         },
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 1228,
                     'unit': {
@@ -2029,7 +2030,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 549,
                     'unit': {
@@ -2065,7 +2066,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 123,
                     'unit': {
@@ -2101,7 +2102,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
                     },
                     'volume': 321,
                     'unit': {
@@ -2137,7 +2138,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                             }
                         ],
                         'files': {},
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': []
                     },
                     'volume': 456,
                     'unit': {
@@ -2163,7 +2164,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                         'name': 'Juice',
                         'categoryValues': [],
                         'files': {},
-                        'recipeTreeComponents': MOCK_RECIPE_TREE_COMPONENTS
+                        'recipeTreeComponents': []
                     },
                     'volume': 199,
                     'unit': {

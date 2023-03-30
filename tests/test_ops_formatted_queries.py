@@ -23,7 +23,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
             'totalCount': 923,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': [],
+            'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,
 
         }, {
             'menuItemId': 'MENUITEM2DEF-OPS',
@@ -34,7 +34,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'platePhotoUrl': 'https://cdn.filestackcontent.com/IQM3KcAkRye81xuN5JY4',
             'totalCount': 1228,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': [],
+            'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,
 
         }, {
             'menuItemId': 'MENUITEM3GHI-OPS',
@@ -45,7 +45,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'platePhotoUrl': None,
             'totalCount': 549,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': [],
+            'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,
 
         }, {
             'menuItemId': 'MENUITEM4JKL-OPS',
@@ -56,7 +56,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'platePhotoUrl': None,
             'totalCount': 123,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': [],
+            'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,
         }, {
             'menuItemId': 'MENUITEM5MNO-OPS',
             'mealCode': 'sch',
@@ -66,7 +66,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'platePhotoUrl': None,
             'totalCount': 321,
             'totalCountUnit': 'each',
-            'primaryRecipeComponents': [],
+            'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,
         }]
     }
     return formatted_ops_menu
@@ -284,9 +284,6 @@ class TestGetFormattedBinWeightData(TestCase):
 
 
 class TestGetFormattedOpsMenuData(TestCase):
-    def setUp(self):
-        self.MOCK_RECIPE_TREE_COMPONENTS = deepcopy(MOCK_RECIPE_TREE_COMPONENTS)
-
     def response(self, *menus):
         return ({
             'data': {
@@ -298,7 +295,7 @@ class TestGetFormattedOpsMenuData(TestCase):
 
     def test_format_primary_recipe_components(self):
         self.maxDiff = None
-        result = format_components(self.MOCK_RECIPE_TREE_COMPONENTS)
+        result = format_components(deepcopy(MOCK_RECIPE_TREE_COMPONENTS))
         self.assertEqual(result, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -308,6 +305,28 @@ class TestGetFormattedOpsMenuData(TestCase):
         meal_codes = set(mi['mealCode'] for mi in result[0]['menuItems'])
         self.assertTrue('av' not in meal_codes and 'hla' not in meal_codes)
         self.assertEqual(set(['lm1', 'lv2', 'dv3', 'ssa', 'sch']), meal_codes)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
+        self.maxDiff = None
+        mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
+        result = get_formatted_ops_menu_data(['2022-03-28'])
+        self.assertEqual(result, [formatted_ops_menu('2022-03-28')])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_get_formatted_ops_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
+        self.maxDiff = None
+        mock_retrieval_method.return_value = self.response(
+            mock_ops_menu('2022-03-28'),
+            mock_ops_menu('2022-04-04'),
+            mock_ops_menu('2022-04-18')
+        )
+        result = get_formatted_ops_menu_data(['2022-03-28', '2022-04-04', '2022-04-18'])
+        self.assertEqual(result, [
+            formatted_ops_menu('2022-03-28'),
+            formatted_ops_menu('2022-04-04'),
+            formatted_ops_menu('2022-04-18')
+        ])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_exception(self, mock_retrieval_method):
