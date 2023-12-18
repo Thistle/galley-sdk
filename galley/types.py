@@ -135,6 +135,7 @@ class RecipeTreeComponent(Type):
 class AncestorRecipe(Type):
     id = Field(ID)
     name = str
+    dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages', args=ArgDict(location_id=ID))
 
 
 class RecipeUsage(Type):
