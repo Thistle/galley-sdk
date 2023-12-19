@@ -1,9 +1,11 @@
 from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS
 from tests.mock_responses.mock_recipe_category_values import MOCK_RECIPE_CATEGORY_VALUES
 from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
+    BASE_RECIPE_ALLERGEN_ID,
     SELLABLE_RECIPE_ID,
     SELLABLE_RECIPE_NAME,
-    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE
+    MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE,
+    STANDALONE_ALLERGEN_ID
 )
 
 
@@ -50,7 +52,10 @@ def mock_recipe_base(id: str):
         },
         'isDish': True,
         'reconciledNutritionals': MOCK_RECONCILED_NUTRITIONALS,
-        'dietaryFlagsWithUsages': []
+        'dietaryFlagsWithUsages': [
+            {"dietaryFlag": {"id": BASE_RECIPE_ALLERGEN_ID}},
+            {"dietaryFlag": {"id": STANDALONE_ALLERGEN_ID}},
+        ]
 })
 
 

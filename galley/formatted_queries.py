@@ -223,12 +223,12 @@ def get_allergens(dietary_flags: List[Dict]) -> List:
     }
     allergens = set(
         allergen_labels[id] for df in dietary_flags
-        if (id :=
+        if (id := (
             df.get('dietaryFlag', {}).get('id')
             or df.get('id')
-        ) and id in allergen_labels
+        )) and id in allergen_labels
     )
-    return list(allergens)
+    return sorted(allergens)
 
 
 def get_recipe_label_and_weights(recipe_items: List[Dict]) -> Dict:
@@ -360,7 +360,7 @@ def _format_base_recipe_allergens(ingredients_usages: List) -> List:
     allergens = set()
     for iu in ingredients_usages:
         allergens |= set(get_allergens(iu['ingredient']['dietaryFlags']))
-    return list(allergens)
+    return sorted(allergens)
 
 
 def format_ingredients_usages(ingredients_usages: List) -> List:
