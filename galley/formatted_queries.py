@@ -99,7 +99,7 @@ def format_suggested_serving(
 class RecipeItem:
     def __init__(self, recipe_item: Dict) -> None:
         recipe_item = deepcopy(recipe_item)
-        self.root = recipe_item.get('recipeId')
+        self.recipe_id = recipe_item.get('recipeId')
         self.ingredient = recipe_item.get('ingredient') or {}
         self.subrecipe = recipe_item.get('subRecipe') or {}
         self.preparations = recipe_item.get('preparations') or []
@@ -185,10 +185,11 @@ class FormattedRecipe:
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.tags = get_recipe_category_tags(recipe_data.get('categoryValues', []))
         self.label_and_weights = get_recipe_label_and_weights(recipe_data.get('recipeItems', []))
-        self.allergens = get_recipe_allergens(recipe_data.get('dietaryFlagsWithUsages', []))
         self.ingredients_and_standalone = get_recipe_ingredients_and_standalone_data(recipe_data)
         version_edges = recipe_data.get('versionConnection', {}).get('edges', [])
         self.version_id = version_edges[0].get('node', {}).get('id') if version_edges else None
+        # A combined list of allergens across the base recipe and standalone subrecipe, if any.
+        self.allergens = get_allergens(recipe_data.get('dietaryFlagsWithUsages', []))
 
     def to_dict(self):
         return {
@@ -199,14 +200,15 @@ class FormattedRecipe:
             'description': self.description,
             'menuPhotoUrl': self.menu_photo_url,
             'nutrition': self.nutrition,
+            'allergens': self.allergens,
+            'hasAllergen': bool(self.allergens),
             **self.label_and_weights,
             **self.ingredients_and_standalone,
             **self.tags,
-            **self.allergens
         }
 
 
-def get_recipe_allergens(dietry_flags: List[Dict]) -> Dict:
+def get_allergens(dietary_flags: List[Dict]) -> List:
     allergen_labels = {
         DietaryFlagEnum.TREE_NUTS.value: 'tree nuts',
         DietaryFlagEnum.SOY_BEANS.value: 'soy',
@@ -219,14 +221,14 @@ def get_recipe_allergens(dietry_flags: List[Dict]) -> Dict:
         DietaryFlagEnum.SMOKED_MEATS.value: 'smoked meats',
         DietaryFlagEnum.BEEF.value: 'beef'
     }
-    allergens = [
-        allergen for df in dietry_flags
-        if (allergen := allergen_labels.get(df.get('dietaryFlag', {}).get('id')))
-    ]
-    return {
-        'hasAllergen': len(allergens) > 0,
-        'allergens': allergens
-    }
+    allergens = set(
+        allergen_labels[id] for df in dietary_flags
+        if (id := (
+            df.get('dietaryFlag', {}).get('id')
+            or df.get('id')
+        )) and id in allergen_labels
+    )
+    return sorted(allergens)
 
 
 def get_recipe_label_and_weights(recipe_items: List[Dict]) -> Dict:
@@ -325,7 +327,7 @@ def get_recipe_ingredients_and_standalone_data(recipe: Dict) -> Dict:
             else:
                 logger.error(
                     f"{GALLEY_ERROR_PREFIX} Found more than one "
-                    f"standalone for recipe: {recipe_item.root}."
+                    f"standalone for recipe: {recipe_item.recipe_id}."
                 )
 
     for iu in (recipe.get('ingredientsWithUsages') or []):
@@ -349,8 +351,16 @@ def get_recipe_ingredients_and_standalone_data(recipe: Dict) -> Dict:
                     components_usages.append(ingredient_usage)
     return {
         'ingredients': format_ingredients_usages(components_usages),
+        'baseRecipeAllergens': _format_base_recipe_allergens(components_usages),
         **format_standalone_data(standalone, standalone_usages)
     }
+
+
+def _format_base_recipe_allergens(ingredients_usages: List) -> List:
+    allergens = set()
+    for iu in ingredients_usages:
+        allergens |= set(get_allergens(iu['ingredient']['dietaryFlags']))
+    return sorted(allergens)
 
 
 def format_ingredients_usages(ingredients_usages: List) -> List:
@@ -383,6 +393,7 @@ def format_standalone_data(
         'standaloneSuggestedServing': None,
         'standaloneServingSizeWeight': None,
         'standaloneServings': None,
+        'standaloneAllergens': None,
     }
 
     if standalone and standalone.has_standalone_subrecipe():
@@ -398,6 +409,7 @@ def format_standalone_data(
         standalone_data['standaloneRecipeId'] = standalone.id
         standalone_data['standaloneRecipeName'] = get_external_name(subrecipe)
         standalone_data['standaloneNutrition'] = subrecipe.get('reconciledNutritionals')
+        standalone_data['standaloneAllergens'] = get_allergens(subrecipe.get('dietaryFlagsWithUsages', []))
         standalone_data['standaloneIngredients'] = format_ingredients_usages(standalone_usages)
         standalone_data['standaloneNetWeight'] = round(standalone_recipe_item_net_weight or 0) or None
         standalone_data['standaloneSuggestedServing'] = format_suggested_serving(standalone_nutritionals_quantity, standalone_nutritionals_unit)

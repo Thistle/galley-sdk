@@ -35,9 +35,9 @@ $ pip install -r requirements.txt
 > Note: When using galley-sdk in the future, make sure you run `pyenv activate py38` beforehand to be in the correct virtual envrionment.
 
 ### Using the supplied Development Container
-To use the development container you will need a docker environment installed.  
+To use the development container you will need a docker environment installed.
 
-If you are using VS Code you can then just open the project and you will be prompted to open the project in a container.  
+If you are using VS Code you can then just open the project and you will be prompted to open the project in a container.
 
 You will not need to install any local python or virtual environments if you use the development container.
 
@@ -61,9 +61,9 @@ GALLEY_URL=<Galley's-staging-or-production-url>
 Now you can use the package to make requests to Galley. For example, to retrieve recipe data:
 ```
 import galley
-from galley.queries import get_recipe_data
+from galley.queries import get_raw_recipes_data
 
-get_recipe_data()
+get_raw_recipes_data(["cmVjaXBlOjE4MTc5OQ=="], "Burlington")
 ```
 
 ## Tests

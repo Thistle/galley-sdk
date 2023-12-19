@@ -7,6 +7,8 @@ SELLABLE_RECIPE_ID = "cmVjaXBlOjIwMjA1OQ=="
 SELLABLE_RECIPE_NAME = "Very Delicious Salad"
 STANDALONE_RECIPE_ID = "cmVjaXBlOjIyMTEzMg=="
 STANDALONE_RECIPE_NAME = "Very Creamy Dressing"
+STANDALONE_ALLERGEN_ID = "ZGlldGFyeUZsYWc6Ng=="
+BASE_RECIPE_ALLERGEN_ID = "ZGlldGFyeUZsYWc6OTc="
 
 
 MOCK_RECIPE_ITEMS = [
@@ -60,6 +62,7 @@ MOCK_RECIPE_ITEMS = [
             "nutritionalsQuantity": None,
             "nutritionalsUnit": None,
             "reconciledNutritionals": MOCK_RECONCILED_NUTRITIONALS,
+            "dietaryFlagsWithUsages": [{"dietaryFlag": {"id": BASE_RECIPE_ALLERGEN_ID}}]
         },
         "ingredient": None
     },
@@ -103,6 +106,7 @@ MOCK_RECIPE_ITEMS = [
         },
         "subRecipe": None,
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -167,7 +171,8 @@ MOCK_RECIPE_ITEMS = [
             "externalName": None,
             "nutritionalsQuantity": None,
             "nutritionalsUnit": None,
-            "reconciledNutritionals": MOCK_RECONCILED_NUTRITIONALS
+            "reconciledNutritionals": MOCK_RECONCILED_NUTRITIONALS,
+            "dietaryFlagsWithUsages": []
         },
         "ingredient": None
     },
@@ -220,7 +225,8 @@ MOCK_RECIPE_ITEMS = [
                 "id": UnitEnum.OZ.value,
                 "name": "oz"
             },
-            "reconciledNutritionals": MOCK_STANDALONE_RECONCILED_NUTRITIONALS
+            "reconciledNutritionals": MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
+            "dietaryFlagsWithUsages": [{"dietaryFlag": {"id": STANDALONE_ALLERGEN_ID}}]
         },
         "ingredient": None
     },
@@ -264,6 +270,7 @@ MOCK_RECIPE_ITEMS = [
         },
         "subRecipe": None,
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -331,6 +338,7 @@ MOCK_RECIPE_ITEMS = [
         },
         "subRecipe": None,
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -378,6 +386,7 @@ MOCK_RECIPE_ITEMS = [
 INGREDIENTS_WITH_USAGES = [
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -439,6 +448,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -505,6 +515,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -572,6 +583,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -633,6 +645,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -694,6 +707,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -760,6 +774,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -861,6 +876,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1002,6 +1018,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1063,6 +1080,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [{"id": BASE_RECIPE_ALLERGEN_ID}],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1124,6 +1142,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1185,6 +1204,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1246,6 +1266,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1317,6 +1338,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1383,6 +1405,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1449,6 +1472,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1523,6 +1547,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1606,6 +1631,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1677,6 +1703,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1738,6 +1765,7 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
+            "dietaryFlags": [],
             "locationVendorItems": [
                 {
                     "vendorItems": [
@@ -1886,3 +1914,4 @@ def MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_NO_STANDALONE():
         'recipeItems': mockRecipeItems,
         'ingredientsWithUsages': ingredientsWithUsages
     }
+

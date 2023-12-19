@@ -294,7 +294,6 @@ class TestGetFormattedOpsMenuData(TestCase):
         })
 
     def test_format_primary_recipe_components(self):
-        self.maxDiff = None
         result = format_components(deepcopy(MOCK_RECIPE_TREE_COMPONENTS))
         self.assertEqual(result, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS)
 
@@ -308,14 +307,12 @@ class TestGetFormattedOpsMenuData(TestCase):
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
-        self.maxDiff = None
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
         result = get_formatted_ops_menu_data(['2022-03-28'])
         self.assertEqual(result, [formatted_ops_menu('2022-03-28')])
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_multiple_valid_menus(self, mock_retrieval_method):
-        self.maxDiff = None
         mock_retrieval_method.return_value = self.response(
             mock_ops_menu('2022-03-28'),
             mock_ops_menu('2022-04-04'),

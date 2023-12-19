@@ -52,6 +52,11 @@ STANDALONE_INGREDIENTS = ['Rice Bran Oil',
                           'Sea Salt']
 
 
+ALLERGENS = ['coconut', 'soy']
+BASE_ALLERGENS = ['coconut']
+STANDALONE_ALLERGENS = ['soy']
+
+
 def formatted_menu(date, onlySellableMenuItems=False):
     formatted_menu = {
         'name': f"{date} 1_2_3",
@@ -74,7 +79,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeName': 'Test Recipe Name 1',
             'recipeProteinType': 'vegan',
         }, {
-            'allergens': ['coconut', 'soy'],
+            'allergens': ALLERGENS,
             'baseMeal': '',
             'deliveryDate': f"{date}",
             'hasAllergen': True,
@@ -88,7 +93,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeName': 'Test Recipe Name 2',
             'recipeProteinType': 'vegan',
         }, {
-            'allergens': ['soy'],
+            'allergens': STANDALONE_ALLERGENS,
             'baseMeal': '',
             'deliveryDate': f"{date}",
             'hasAllergen': True,
@@ -361,6 +366,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = weights | ingredients_and_standalone_data
         expected = {
             'ingredients': BASE_INGREDIENTS,
+            'baseRecipeAllergens': BASE_ALLERGENS,
             'netWeight': 435,
             'grossWeight': 557,
             'hasStandalone': True,
@@ -369,6 +375,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'standaloneRecipeName': STANDALONE_RECIPE_NAME,
             'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
             'standaloneIngredients': STANDALONE_INGREDIENTS,
+            'standaloneAllergens': STANDALONE_ALLERGENS,
             'standaloneNetWeight': 57,
             'standaloneSuggestedServing': "1 oz",
             'standaloneServingSizeWeight': 28,
@@ -386,6 +393,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = weights | ingredients_and_standalone_data
         expected = {
             'ingredients': BASE_INGREDIENTS,
+            'baseRecipeAllergens': BASE_ALLERGENS,
             'netWeight': 435,
             'grossWeight': 557,
             'hasStandalone': True,
@@ -394,6 +402,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'standaloneRecipeName': STANDALONE_RECIPE_NAME,
             'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
             'standaloneIngredients': STANDALONE_INGREDIENTS,
+            'standaloneAllergens': STANDALONE_ALLERGENS,
             'standaloneNetWeight': 57,
             'standaloneSuggestedServing': None,
             'standaloneServingSizeWeight': None,
@@ -491,6 +500,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
                 'ingredients': BASE_INGREDIENTS,
+                'baseRecipeAllergens': BASE_ALLERGENS,
                 'netWeight': 435,
                 'grossWeight': 557,
                 'hasStandalone': True,
@@ -498,12 +508,13 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
                 'standaloneRecipeId': STANDALONE_RECIPE_ID,
                 'standaloneRecipeName': STANDALONE_RECIPE_NAME,
+                'standaloneAllergens': STANDALONE_ALLERGENS,
                 'standaloneNetWeight': 57,
                 'standaloneSuggestedServing': "1 oz",
                 'standaloneServingSizeWeight': 28,
                 'standaloneServings': 2.0,
-                'hasAllergen': False,
-                'allergens': []
+                'hasAllergen': True,
+                'allergens': ALLERGENS
             }
         ]
         mock_retrieval_method.return_value = {
@@ -571,6 +582,7 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(result[0]['standaloneRecipeName'], None)
         self.assertEqual(result[0]['standaloneRecipeId'], None)
         self.assertEqual(result[0]['standaloneNetWeight'], None)
+        self.assertEqual(result[0]['standaloneAllergens'], None)
         self.assertEqual(result[0]['standaloneSuggestedServing'], None)
         self.assertEqual(result[0]['standaloneServingSizeWeight'], None)
         self.assertEqual(result[0]['standaloneServings'], None)
@@ -583,6 +595,11 @@ class TestGetFormattedRecipesData(TestCase):
             'dietaryFlag': {
                 'id': 'ZGlldGFyeUZsYWc6Ng==',
                 'name': 'soy beans'
+            }
+        }, {
+            'dietaryFlag': {
+                'id': 'ZGlldGFyeUZsYWc6OTc=',
+                'name': 'coconut'
             }
         }]
         mock_retrieval_method.return_value = {
@@ -598,16 +615,18 @@ class TestGetFormattedRecipesData(TestCase):
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result[0]['ingredients'], BASE_INGREDIENTS)
+        self.assertEqual(result[0]['baseRecipeAllergens'], BASE_ALLERGENS)
         self.assertEqual(result[0]['hasStandalone'], True)
         self.assertEqual(result[0]['standaloneRecipeName'], STANDALONE_RECIPE_NAME)
         self.assertEqual(result[0]['standaloneRecipeId'], STANDALONE_RECIPE_ID)
         self.assertEqual(result[0]['standaloneNetWeight'], 57)
+        self.assertEqual(result[0]['standaloneAllergens'], STANDALONE_ALLERGENS)
         self.assertEqual(result[0]['standaloneSuggestedServing'], "1 oz")
         self.assertEqual(result[0]['standaloneServingSizeWeight'], 28)
         self.assertEqual(result[0]['standaloneServings'], 2.0)
         self.assertEqual(result[0]['standaloneIngredients'], STANDALONE_INGREDIENTS)
         self.assertEqual(result[0]['hasAllergen'], True)
-        self.assertEqual(result[0]['allergens'], ['soy'])
+        self.assertEqual(result[0]['allergens'], ALLERGENS)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_non_supported_allergen_successful(self, mock_retrieval_method):

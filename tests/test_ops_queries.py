@@ -73,7 +73,6 @@ class TestOpsRecipeItemConnectionQuery(TestCase):
     def test_get_ops_recipe_item_connection_query(self):
         query = get_ops_recipe_item_connection_query(sub_recipe_ids=["cmVjaXBlOjIwMjI5NA=="])
         query_str = bytes(query).decode('utf-8')
-        self.maxDiff = None
         self.assertEqual(query_str, self.expected_query)
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -84,8 +83,6 @@ class TestOpsRecipeItemConnectionQuery(TestCase):
             self.response(self.data['WRONGID=='], self.data['cmVjaXBlOjIwMjI5NA==']),
             self.response(self.data['WRONGID==']),
         ]
-
-        self.maxDiff = None
 
         # one valid menu name
         result1 = get_raw_recipe_items_data_via_connection(["cmVjaXBlOjIwMjI5NA=="])
