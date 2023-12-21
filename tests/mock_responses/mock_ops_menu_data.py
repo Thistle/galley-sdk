@@ -1,6 +1,12 @@
 from copy import deepcopy
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import IngredientCategoryTagTypeEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum, IngredientCategoryValueEnum, DietaryFlagEnum, UnitEnum
+from galley.formatted_ops_queries import ALLERGEN_LABELS
+
+
+SOY = ALLERGEN_LABELS[DietaryFlagEnum.SOYBEANS.name]
+TREE_NUTS = ALLERGEN_LABELS[DietaryFlagEnum.TREE_NUTS.name]
+SESAME_SEEDS = ALLERGEN_LABELS[DietaryFlagEnum.SESAME_SEEDS.name]
 
 
 MOCK_RECIPE_TREE_COMPONENTS = [
@@ -1622,9 +1628,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         }
     },
     {
-        "allergens": [
-            "soy"
-        ],
+        "allergens": [SOY],
         "binWeight": {
             "unit": "lb",
             "value": 60.0
@@ -1672,9 +1676,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
                 }
             },
             {
-                "allergens": [
-                    "soy"
-                ],
+                "allergens": [SOY],
                 "id": "cmVjaXBlOjE5MDA5MQ==",
                 "name": "Small Diced Tofu (1/4\")",
                 "type": "recipe",
@@ -1716,10 +1718,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         }
     },
     {
-        "allergens": [
-            "sesame_seeds",
-            "tree_nuts"
-        ],
+        "allergens": [SESAME_SEEDS, TREE_NUTS],
         "binWeight": {
             "unit": "lb",
             "value": 40.0

@@ -359,7 +359,6 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['grossWeight'], 0)
 
     def test_format_data_with_standalone_component(self):
-        self.maxDiff = None
         weights = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
             MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()

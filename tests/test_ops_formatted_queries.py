@@ -4,7 +4,7 @@ from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import DietaryFlagEnum as DF, PreparationEnum
 from galley.formatted_queries import get_menu_type, get_item_code
 from galley.formatted_ops_queries import RecipeItem, format_components, get_formatted_ops_menu_data
-from tests.mock_responses.mock_ops_menu_data import mock_ops_menu, MOCK_RECIPE_TREE_COMPONENTS, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS
+from tests.mock_responses.mock_ops_menu_data import SESAME_SEEDS, SOY, TREE_NUTS, mock_ops_menu, MOCK_RECIPE_TREE_COMPONENTS, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS
 
 
 def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE):
@@ -184,12 +184,12 @@ class TestFormattedAllergenData(TestCase):
     def test_format_recipe_allergen_data_successful(self):
         recipeitem = self.MOCK_RECIPE_TREE_COMPONENTS[idx("id", "hdeta8wr90j")]['recipeItem']
         result = RecipeItem(recipeitem=recipeitem).format_allergens()
-        self.assertEqual(result, ['soy'])
+        self.assertEqual(result, [SOY])
 
     def test_format_ingredient_allergen_data_successful(self):
         recipeitem = self.MOCK_RECIPE_TREE_COMPONENTS[idx("id", "8o8ode59qdc")]['recipeItem']
         result = RecipeItem(recipeitem=recipeitem).format_allergens()
-        self.assertEqual(result, ['sesame_seeds', 'tree_nuts'])
+        self.assertEqual(result, [SESAME_SEEDS, TREE_NUTS])
 
     def test_format_recipe_allergen_data_empty(self):
         recipeitem = {
