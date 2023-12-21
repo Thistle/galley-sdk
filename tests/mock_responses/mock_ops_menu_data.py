@@ -85,8 +85,8 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 "dietaryFlagsWithUsages": [
                     {
                         "dietaryFlag": {
-                            "id": DietaryFlagEnum.SOY_BEANS.value,
-                            "name": "soybeans"
+                            "id": DietaryFlagEnum.SOYBEANS.id,
+                            "name": DietaryFlagEnum.SOYBEANS.name,
                         }
                     }
                 ]
@@ -439,8 +439,8 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 "dietaryFlagsWithUsages": [
                     {
                         "dietaryFlag": {
-                            "id": DietaryFlagEnum.SOY_BEANS.value,
-                            "name": "soybeans"
+                            "id": DietaryFlagEnum.SOYBEANS.id,
+                            "name": DietaryFlagEnum.SOYBEANS.name,
                         }
                     }
                 ]
@@ -566,8 +566,8 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 "dietaryFlagsWithUsages": [
                     {
                         "dietaryFlag": {
-                            "id": DietaryFlagEnum.SOY_BEANS.value,
-                            "name": "soybeans"
+                            "id": DietaryFlagEnum.SOYBEANS.id,
+                            "name": DietaryFlagEnum.SOYBEANS.name,
                         }
                     }
                 ]
@@ -702,12 +702,12 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 ],
                 "dietaryFlags": [
                     {
-                        "id": DietaryFlagEnum.SESAME_SEEDS.value,
-                        "name": "sesame seeds"
+                        "id": DietaryFlagEnum.SESAME_SEEDS.id,
+                        "name": DietaryFlagEnum.SESAME_SEEDS.name,
                     },
                     {
-                        "id": DietaryFlagEnum.TREE_NUTS.value,
-                        "name": "tree nuts"
+                        "id": DietaryFlagEnum.TREE_NUTS.id,
+                        "name": DietaryFlagEnum.TREE_NUTS.name,
                     }
 
                 ]

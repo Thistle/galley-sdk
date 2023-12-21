@@ -20,6 +20,20 @@ from galley.enums import (
 logger = logging.getLogger(__name__)
 
 
+ALLERGEN_LABELS = {
+    DietaryFlagEnum.SMOKED_MEATS.name: 'smoked meats',
+    DietaryFlagEnum.SHELLFISH.name: 'shellfish',
+    DietaryFlagEnum.TREE_NUTS.name: 'tree nuts',
+    DietaryFlagEnum.SOYBEANS.name: 'soy',
+    DietaryFlagEnum.COCONUT.name: 'coconut',
+    DietaryFlagEnum.PEANUTS.name: 'peanuts',
+    DietaryFlagEnum.FISH.name: 'fish',
+    DietaryFlagEnum.BEEF.name: 'beef',
+    DietaryFlagEnum.LAMB.name: 'lamb',
+    DietaryFlagEnum.PORK.name: 'pork',
+}
+
+
 def get_ingredient_name(ingredient: Dict) -> Optional[str]:
     name = ingredient.get("externalName") or ingredient.get("name")
     byname = (get_ingredient_primary_vendor_item(ingredient) or {}).get("ingredientListStr")
@@ -209,24 +223,12 @@ class FormattedRecipe:
 
 
 def get_allergens(dietary_flags: List[Dict]) -> List:
-    allergen_labels = {
-        DietaryFlagEnum.TREE_NUTS.value: 'tree nuts',
-        DietaryFlagEnum.SOY_BEANS.value: 'soy',
-        DietaryFlagEnum.SHELLFISH.value: 'shellfish',
-        DietaryFlagEnum.PORK.value: 'pork',
-        DietaryFlagEnum.FISH.value: 'fish',
-        DietaryFlagEnum.COCONUT.value: 'coconut',
-        DietaryFlagEnum.PEANUTS.value: 'peanuts',
-        DietaryFlagEnum.LAMB.value: 'lamb',
-        DietaryFlagEnum.SMOKED_MEATS.value: 'smoked meats',
-        DietaryFlagEnum.BEEF.value: 'beef'
-    }
     allergens = set(
-        allergen_labels[id] for df in dietary_flags
-        if (id := (
-            df.get('dietaryFlag', {}).get('id')
-            or df.get('id')
-        )) and id in allergen_labels
+        ALLERGEN_LABELS[allergen] for df in dietary_flags
+        if (allergen := (
+            df.get('dietaryFlag', {}).get('name')
+            or df.get('name')
+        )) and allergen in ALLERGEN_LABELS
     )
     return sorted(allergens)
 
@@ -343,8 +345,7 @@ def get_recipe_ingredients_and_standalone_data(recipe: Dict) -> Dict:
 
                 if any(
                     ancestor.get('id') == standalone.id
-                    for ancestor in usage.get('ancestorRecipes')
-                    if standalone
+                    for ancestor in usage.get('ancestorRecipes') if standalone
                 ):
                     standalone_usages.append(ingredient_usage)
                 else:

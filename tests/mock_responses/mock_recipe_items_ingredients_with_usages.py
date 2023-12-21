@@ -1,14 +1,12 @@
 from copy import deepcopy
-from galley.enums import IngredientCategoryTagTypeEnum, IngredientCategoryValueEnum, PreparationEnum, UnitEnum
+from galley.enums import DietaryFlagEnum, IngredientCategoryTagTypeEnum, IngredientCategoryValueEnum, PreparationEnum, UnitEnum
 from tests.mock_responses.mock_nutrition_data import MOCK_RECONCILED_NUTRITIONALS, MOCK_STANDALONE_RECONCILED_NUTRITIONALS
 
 
-SELLABLE_RECIPE_ID = "cmVjaXBlOjIwMjA1OQ=="
-SELLABLE_RECIPE_NAME = "Very Delicious Salad"
-STANDALONE_RECIPE_ID = "cmVjaXBlOjIyMTEzMg=="
-STANDALONE_RECIPE_NAME = "Very Creamy Dressing"
-STANDALONE_ALLERGEN_ID = "ZGlldGFyeUZsYWc6Ng=="
-BASE_RECIPE_ALLERGEN_ID = "ZGlldGFyeUZsYWc6OTc="
+SELLABLE_RECIPE_ID, SELLABLE_RECIPE_NAME = "cmVjaXBlOjIwMjA1OQ=", "Very Rainbow Catepillar Salad"
+STANDALONE_RECIPE_ID, STANDALONE_RECIPE_NAME = "cmVjaXBlOjIyMTEzMg=", "Very Creamy Beet Dressing"
+STANDALONE_DF_ID, STANDALONE_DF_NAME = DietaryFlagEnum.SOYBEANS.id, DietaryFlagEnum.SOYBEANS.name
+BASE_RECIPE_DF_ID, BASE_RECIPE_DF_NAME = DietaryFlagEnum.COCONUT.id, DietaryFlagEnum.COCONUT.name
 
 
 MOCK_RECIPE_ITEMS = [
@@ -62,7 +60,14 @@ MOCK_RECIPE_ITEMS = [
             "nutritionalsQuantity": None,
             "nutritionalsUnit": None,
             "reconciledNutritionals": MOCK_RECONCILED_NUTRITIONALS,
-            "dietaryFlagsWithUsages": [{"dietaryFlag": {"id": BASE_RECIPE_ALLERGEN_ID}}]
+            "dietaryFlagsWithUsages": [
+                {
+                    "dietaryFlag": {
+                        "id": BASE_RECIPE_DF_ID,
+                        "name": BASE_RECIPE_DF_NAME,
+                    }
+                }
+            ]
         },
         "ingredient": None
     },
@@ -226,7 +231,14 @@ MOCK_RECIPE_ITEMS = [
                 "name": "oz"
             },
             "reconciledNutritionals": MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
-            "dietaryFlagsWithUsages": [{"dietaryFlag": {"id": STANDALONE_ALLERGEN_ID}}]
+            "dietaryFlagsWithUsages": [
+                {
+                    "dietaryFlag": {
+                        "id": STANDALONE_DF_ID,
+                        "name": STANDALONE_DF_NAME,
+                    }
+                }
+            ]
         },
         "ingredient": None
     },
@@ -1080,7 +1092,12 @@ INGREDIENTS_WITH_USAGES = [
     },
     {
         "ingredient": {
-            "dietaryFlags": [{"id": BASE_RECIPE_ALLERGEN_ID}],
+            "dietaryFlags": [
+                {
+                    "id": BASE_RECIPE_DF_ID,
+                    "name": BASE_RECIPE_DF_NAME,
+                },
+            ],
             "locationVendorItems": [
                 {
                     "vendorItems": [

@@ -98,28 +98,37 @@ class RecipeMediaEnum(Enum):
 
 class DietaryFlagEnum(Enum):
     # Enum for Dietary Flags
-    BEEF = 'ZGlldGFyeUZsYWc6MTM3'
-    CELERY = 'ZGlldGFyeUZsYWc6MTA='
-    COCONUT = 'ZGlldGFyeUZsYWc6OTc='
-    CRUSTANCEANS = 'ZGlldGFyeUZsYWc6MTQ='
-    EGGS = 'ZGlldGFyeUZsYWc6Mw=='
-    FISH = 'ZGlldGFyeUZsYWc6Nw=='
-    GLUTEN = 'ZGlldGFyeUZsYWc6MTE='
-    LAMB = 'ZGlldGFyeUZsYWc6MTM1'
-    LUPIN = 'ZGlldGFyeUZsYWc6MTI='
-    MILK = 'ZGlldGFyeUZsYWc6MQ=='
-    MOLLUSCS = 'ZGlldGFyeUZsYWc6MTM='
-    MUSTARD = 'ZGlldGFyeUZsYWc6MTU='
-    NON_VEGAN = 'ZGlldGFyeUZsYWc6OTk='
-    PEANUTS = 'ZGlldGFyeUZsYWc6NA=='
-    PORK = 'ZGlldGFyeUZsYWc6OTg='
-    SESAME_SEEDS = 'ZGlldGFyeUZsYWc6MTY='
-    SHELLFISH = 'ZGlldGFyeUZsYWc6OA=='
-    SMOKED_MEATS = 'ZGlldGFyeUZsYWc6MTM2'
-    SOY_BEANS = 'ZGlldGFyeUZsYWc6Ng=='
-    SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
-    TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
-    WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
+    BEEF = ('', 'beef')
+    CELERY = ('', 'celery')
+    COCONUT = ('', 'coconut')
+    CRUSTANCEANS = ('', 'crustaceans')
+    EGGS = ('', 'eggs')
+    FISH = ('', 'fish')
+    GLUTEN = ('', 'gluten')
+    LAMB = ('', 'lamb')
+    LUPIN = ('', 'lupin')
+    MILK = ('', 'milk')
+    MOLLUSCS = ('', 'molluscs')
+    MUSTARD = ('', 'mustard')
+    NON_VEGAN = ('', 'non vegan')
+    PEANUTS = ('', 'peanuts')
+    PORK = ('', 'pork')
+    SESAME = ('', 'sesame')
+    SESAME_SEEDS = ('', 'sesame seeds')
+    SHELLFISH = ('', 'shellfish')
+    SMOKED_MEATS = ('', 'smoked meats')
+    SOYBEANS = ('', 'soybeans')
+    SULPHITES = ('', 'sulphites')
+    TREE_NUTS = ('', 'tree nuts')
+    WHEAT = ('', 'wheat')
+
+    @property
+    def id(self):
+        return self.value[0]
+
+    @property
+    def name(self):
+        return self.value[1]
 
 
 class UnitEnum(Enum):

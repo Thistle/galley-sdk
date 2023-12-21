@@ -1,8 +1,9 @@
 from unittest import TestCase, mock
-from galley.enums import IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
+from galley.enums import DietaryFlagEnum, IngredientCategoryValueEnum, RecipeCategoryTagTypeEnum
 from tests.mock_responses.mock_menu_data import mock_menu
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import (
+    ALLERGEN_LABELS,
     RecipeItem,
     format_title,
     get_recipe_label_and_weights,
@@ -52,10 +53,9 @@ STANDALONE_INGREDIENTS = ['Rice Bran Oil',
                           'Sea Salt']
 
 
-ALLERGENS = ['coconut', 'soy']
-BASE_ALLERGENS = ['coconut']
-STANDALONE_ALLERGENS = ['soy']
-
+BASE_RECIPE_ALLERGENS = [ALLERGEN_LABELS[DietaryFlagEnum.COCONUT.name]]
+STANDALONE_ALLERGENS = [ALLERGEN_LABELS[DietaryFlagEnum.SOYBEANS.name]]
+SELLABLE_RECIPE_ALLERGENS = BASE_RECIPE_ALLERGENS + STANDALONE_ALLERGENS
 
 def formatted_menu(date, onlySellableMenuItems=False):
     formatted_menu = {
@@ -79,7 +79,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeName': 'Test Recipe Name 1',
             'recipeProteinType': 'vegan',
         }, {
-            'allergens': ALLERGENS,
+            'allergens': SELLABLE_RECIPE_ALLERGENS,
             'baseMeal': '',
             'deliveryDate': f"{date}",
             'hasAllergen': True,
@@ -359,6 +359,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['grossWeight'], 0)
 
     def test_format_data_with_standalone_component(self):
+        self.maxDiff = None
         weights = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
             MOCK_RECIPE_ITEMS_INGREDIENTS_WITH_USAGES_ONE_STANDALONE()
@@ -366,7 +367,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = weights | ingredients_and_standalone_data
         expected = {
             'ingredients': BASE_INGREDIENTS,
-            'baseRecipeAllergens': BASE_ALLERGENS,
+            'baseRecipeAllergens': BASE_RECIPE_ALLERGENS,
             'netWeight': 435,
             'grossWeight': 557,
             'hasStandalone': True,
@@ -393,7 +394,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
         result = weights | ingredients_and_standalone_data
         expected = {
             'ingredients': BASE_INGREDIENTS,
-            'baseRecipeAllergens': BASE_ALLERGENS,
+            'baseRecipeAllergens': BASE_RECIPE_ALLERGENS,
             'netWeight': 435,
             'grossWeight': 557,
             'hasStandalone': True,
@@ -500,7 +501,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
                 'ingredients': BASE_INGREDIENTS,
-                'baseRecipeAllergens': BASE_ALLERGENS,
+                'baseRecipeAllergens': BASE_RECIPE_ALLERGENS,
                 'netWeight': 435,
                 'grossWeight': 557,
                 'hasStandalone': True,
@@ -514,7 +515,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'standaloneServingSizeWeight': 28,
                 'standaloneServings': 2.0,
                 'hasAllergen': True,
-                'allergens': ALLERGENS
+                'allergens': SELLABLE_RECIPE_ALLERGENS
             }
         ]
         mock_retrieval_method.return_value = {
@@ -593,13 +594,13 @@ class TestGetFormattedRecipesData(TestCase):
         mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
         mock_recipe_data['dietaryFlagsWithUsages'] = [{
             'dietaryFlag': {
-                'id': 'ZGlldGFyeUZsYWc6Ng==',
-                'name': 'soy beans'
+                'id': DietaryFlagEnum.SOYBEANS.id,
+                'name': DietaryFlagEnum.SOYBEANS.name,
             }
         }, {
             'dietaryFlag': {
-                'id': 'ZGlldGFyeUZsYWc6OTc=',
-                'name': 'coconut'
+                'id': DietaryFlagEnum.COCONUT.id,
+                'name': DietaryFlagEnum.COCONUT.name,
             }
         }]
         mock_retrieval_method.return_value = {
@@ -615,7 +616,7 @@ class TestGetFormattedRecipesData(TestCase):
         }
         result = get_formatted_recipes_data(recipe_ids=[SELLABLE_RECIPE_ID], location_name=DEFAULT_LOCATION)
         self.assertEqual(result[0]['ingredients'], BASE_INGREDIENTS)
-        self.assertEqual(result[0]['baseRecipeAllergens'], BASE_ALLERGENS)
+        self.assertEqual(result[0]['baseRecipeAllergens'], BASE_RECIPE_ALLERGENS)
         self.assertEqual(result[0]['hasStandalone'], True)
         self.assertEqual(result[0]['standaloneRecipeName'], STANDALONE_RECIPE_NAME)
         self.assertEqual(result[0]['standaloneRecipeId'], STANDALONE_RECIPE_ID)
@@ -626,15 +627,15 @@ class TestGetFormattedRecipesData(TestCase):
         self.assertEqual(result[0]['standaloneServings'], 2.0)
         self.assertEqual(result[0]['standaloneIngredients'], STANDALONE_INGREDIENTS)
         self.assertEqual(result[0]['hasAllergen'], True)
-        self.assertEqual(result[0]['allergens'], ALLERGENS)
+        self.assertEqual(result[0]['allergens'], SELLABLE_RECIPE_ALLERGENS)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_recipes_data_with_non_supported_allergen_successful(self, mock_retrieval_method):
         mock_recipe_data = mock_recipe(SELLABLE_RECIPE_ID)
         mock_recipe_data['dietaryFlagsWithUsages'] = [{
             'dietaryFlag': {
-                'id': 'ZGlldGFyeUZsYWc6MTc=',
-                'name': 'sulphites'
+                'id': DietaryFlagEnum.SULPHITES.id,
+                'name': DietaryFlagEnum.SULPHITES.name,
             }
         }]
         mock_retrieval_method.return_value = {
