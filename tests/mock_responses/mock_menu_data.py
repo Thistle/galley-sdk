@@ -1,5 +1,5 @@
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
-from galley.enums import MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum
+from galley.enums import DietaryFlagEnum, MenuCategoryEnum, MenuItemCategoryEnum, PreparationEnum, RecipeCategoryTagTypeEnum
 
 
 def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE):
@@ -182,14 +182,14 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                     'dietaryFlagsWithUsages': [
                         {
                             'dietaryFlag': {
-                                'id': 'ZGlldGFyeUZsYWc6OTc=',
-                                'name': 'coconut'
+                                'id': DietaryFlagEnum.COCONUT.id,
+                                'name': DietaryFlagEnum.COCONUT.name,
                             }
                         },
                         {
                             'dietaryFlag': {
-                                'id': 'ZGlldGFyeUZsYWc6Ng==',
-                                'name': 'soy beans'
+                                'id': DietaryFlagEnum.SOYBEANS.id,
+                                'name': DietaryFlagEnum.SOYBEANS.name,
                             }
                         }
                     ],
@@ -274,8 +274,8 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                     'dietaryFlagsWithUsages': [
                         {
                             'dietaryFlag': {
-                                'id': 'ZGlldGFyeUZsYWc6Ng==',
-                                'name': 'soy beans'
+                                'id': DietaryFlagEnum.SOYBEANS.id,
+                                'name': DietaryFlagEnum.SOYBEANS.name,
                             }
                         }
                     ],

@@ -32,6 +32,19 @@ MEAL_CODES_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 DEFAULT_BIN_WEIGHT_VALUE = 60
 DEFAULT_BIN_WEIGHT_UNIT = 'lb'
 
+ALLERGEN_LABELS = {
+    DietaryFlagEnum.SESAME_SEEDS.name: 'sesame_seeds',
+    DietaryFlagEnum.SMOKED_MEATS.name: 'smoked_meats',
+    DietaryFlagEnum.SHELLFISH.name: 'shellfish',
+    DietaryFlagEnum.TREE_NUTS.name: 'tree_nuts',
+    DietaryFlagEnum.SOYBEANS.name: 'soy',
+    DietaryFlagEnum.COCONUT.name: 'coconut',
+    DietaryFlagEnum.PEANUTS.name: 'peanuts',
+    DietaryFlagEnum.BEEF.name: 'beef',
+    DietaryFlagEnum.FISH.name: 'fish',
+    DietaryFlagEnum.LAMB.name: 'lamb',
+    DietaryFlagEnum.PORK.name: 'pork',
+}
 
 class RecipeItem:
     def __init__(
@@ -50,7 +63,7 @@ class RecipeItem:
         self.instructions = self.data.pop('recipeInstructions', []) or []
         self.unit_values = self.usage['unit'].pop('unitValues', []) or []
         self.category_values = self.data.pop('categoryValues', []) or []
-        self.allergens = self.data.pop('dietaryFlagsWithUsages', self.data.pop('dietaryFlags', [])) or []
+        self.dietary_flags = self.data.pop('dietaryFlagsWithUsages', self.data.pop('dietaryFlags', [])) or []
         self.components = components or []
 
     def format_instructions(self) -> List[Dict]:
@@ -124,29 +137,17 @@ class RecipeItem:
         """
         Returns a flagged allergens list. Recipes use
         dietaryFlagsWithUsages, while ingredients use
-        dietaryFlags. Returns [] if self.allergens is
+        dietaryFlags. Returns [] if self.dietary_flags is
         empty or None.
         """
-        df_mapping = {
-            DietaryFlagEnum.SESAME_SEEDS.value: 'sesame_seeds',
-            DietaryFlagEnum.SMOKED_MEATS.value: 'smoked_meats',
-            DietaryFlagEnum.SHELLFISH.value: 'shellfish',
-            DietaryFlagEnum.SOY_BEANS.value: 'soy',
-            DietaryFlagEnum.TREE_NUTS.value: 'tree_nuts',
-            DietaryFlagEnum.COCONUT.value: 'coconut',
-            DietaryFlagEnum.PEANUTS.value: 'peanuts',
-            DietaryFlagEnum.BEEF.value: 'beef',
-            DietaryFlagEnum.FISH.value: 'fish',
-            DietaryFlagEnum.LAMB.value: 'lamb',
-            DietaryFlagEnum.PORK.value: 'pork',
-        }
-        return [
-            allergen for df in self.allergens
-            if (allergen := df_mapping.get(
-                    df.get('id') or
-                    df.get('dietaryFlag').get('id')
-                ))
-        ]
+        allergens = set(
+            allergen for df in self.dietary_flags
+            if (allergen := ALLERGEN_LABELS.get(
+                df.get('dietaryFlag', {}).get('name')
+                or df.get('name')
+            ))
+        )
+        return sorted(allergens)
 
     def format_quantity_values(self) -> List[Dict]:
         """

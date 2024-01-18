@@ -98,28 +98,37 @@ class RecipeMediaEnum(Enum):
 
 class DietaryFlagEnum(Enum):
     # Enum for Dietary Flags
-    BEEF = 'ZGlldGFyeUZsYWc6MTM3'
-    CELERY = 'ZGlldGFyeUZsYWc6MTA='
-    COCONUT = 'ZGlldGFyeUZsYWc6OTc='
-    CRUSTANCEANS = 'ZGlldGFyeUZsYWc6MTQ='
-    EGGS = 'ZGlldGFyeUZsYWc6Mw=='
-    FISH = 'ZGlldGFyeUZsYWc6Nw=='
-    GLUTEN = 'ZGlldGFyeUZsYWc6MTE='
-    LAMB = 'ZGlldGFyeUZsYWc6MTM1'
-    LUPIN = 'ZGlldGFyeUZsYWc6MTI='
-    MILK = 'ZGlldGFyeUZsYWc6MQ=='
-    MOLLUSCS = 'ZGlldGFyeUZsYWc6MTM='
-    MUSTARD = 'ZGlldGFyeUZsYWc6MTU='
-    NON_VEGAN = 'ZGlldGFyeUZsYWc6OTk='
-    PEANUTS = 'ZGlldGFyeUZsYWc6NA=='
-    PORK = 'ZGlldGFyeUZsYWc6OTg='
-    SESAME_SEEDS = 'ZGlldGFyeUZsYWc6MTY='
-    SHELLFISH = 'ZGlldGFyeUZsYWc6OA=='
-    SMOKED_MEATS = 'ZGlldGFyeUZsYWc6MTM2'
-    SOY_BEANS = 'ZGlldGFyeUZsYWc6Ng=='
-    SULPHITES = 'ZGlldGFyeUZsYWc6MTc='
-    TREE_NUTS = 'ZGlldGFyeUZsYWc6NQ=='
-    WHEAT = 'ZGlldGFyeUZsYWc6Mg=='
+    BEEF = ('ZGlldGFyeUZsYWc6MTM3', 'beef')
+    CELERY = ('ZGlldGFyeUZsYWc6MTA=', 'celery')
+    COCONUT = ('ZGlldGFyeUZsYWc6OTc=', 'coconut')
+    CRUSTANCEANS = ('ZGlldGFyeUZsYWc6MTQ=', 'crustaceans')
+    EGGS = ('ZGlldGFyeUZsYWc6Mw==', 'eggs')
+    FISH = ('ZGlldGFyeUZsYWc6Nw==', 'fish')
+    GLUTEN = ('ZGlldGFyeUZsYWc6MTE=', 'gluten')
+    LAMB = ('ZGlldGFyeUZsYWc6MTM1', 'lamb')
+    LUPIN = ('ZGlldGFyeUZsYWc6MTI=', 'lupin')
+    MILK = ('ZGlldGFyeUZsYWc6MQ==', 'milk')
+    MOLLUSCS = ('ZGlldGFyeUZsYWc6MTM=', 'molluscs')
+    MUSTARD = ('ZGlldGFyeUZsYWc6MTU=', 'mustard')
+    NON_VEGAN = ('ZGlldGFyeUZsYWc6OTk=', 'non vegan')
+    PEANUTS = ('ZGlldGFyeUZsYWc6NA==', 'peanuts')
+    PORK = ('ZGlldGFyeUZsYWc6OTg=', 'pork')
+    SESAME = ('ZGlldGFyeUZsYWc6MzI4', 'sesame')
+    SESAME_SEEDS = ('ZGlldGFyeUZsYWc6MTY=', 'sesame seeds')
+    SHELLFISH = ('ZGlldGFyeUZsYWc6OA==', 'shellfish')
+    SMOKED_MEATS = ('ZGlldGFyeUZsYWc6MTM2', 'smoked meats')
+    SOYBEANS = ('ZGlldGFyeUZsYWc6Ng==', 'soybeans')
+    SULPHITES = ('ZGlldGFyeUZsYWc6MTc=', 'sulphites')
+    TREE_NUTS = ('ZGlldGFyeUZsYWc6NQ==', 'tree nuts')
+    WHEAT = ('ZGlldGFyeUZsYWc6Mg==', 'wheat')
+
+    @property
+    def id(self):
+        return self.value[0]
+
+    @property
+    def name(self):
+        return self.value[1]
 
 
 class UnitEnum(Enum):
