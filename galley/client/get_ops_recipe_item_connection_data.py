@@ -35,3 +35,10 @@ class GetOpsRecipeItemConnectionDataViewerRecipeItemConnectionEdgesNodePreparati
 ):
     id: str
     name: str
+
+
+GetOpsRecipeItemConnectionData.model_rebuild()
+GetOpsRecipeItemConnectionDataViewer.model_rebuild()
+GetOpsRecipeItemConnectionDataViewerRecipeItemConnection.model_rebuild()
+GetOpsRecipeItemConnectionDataViewerRecipeItemConnectionEdges.model_rebuild()
+GetOpsRecipeItemConnectionDataViewerRecipeItemConnectionEdgesNode.model_rebuild()

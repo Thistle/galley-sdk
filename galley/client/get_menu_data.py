@@ -98,3 +98,13 @@ class GetMenuDataViewerMenuConnectionPageInfo(BaseModel):
     endIndex: Optional[int]
     hasPreviousPage: Optional[bool]
     hasNextPage: Optional[bool]
+
+
+GetMenuData.model_rebuild()
+GetMenuDataViewer.model_rebuild()
+GetMenuDataViewerMenuConnection.model_rebuild()
+GetMenuDataViewerMenuConnectionEdges.model_rebuild()
+GetMenuDataViewerMenuConnectionEdgesNode.model_rebuild()
+GetMenuDataViewerMenuConnectionEdgesNodeMenuItems.model_rebuild()
+GetMenuDataViewerMenuConnectionEdgesNodeMenuItemsRecipe.model_rebuild()
+GetMenuDataViewerMenuConnectionEdgesNodeMenuItemsRecipeDietaryFlagsWithUsages.model_rebuild()
