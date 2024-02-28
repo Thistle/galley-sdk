@@ -4,10 +4,11 @@ from typing import Dict, Optional, Any
 import httpx
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
-from galley_client import GalleyClient
 
 from galley import api_key, api_url, max_retries
 import logging
+
+from galley_client.client import GalleyClient
 
 logger = logging.getLogger(__name__)
 
