@@ -1,8 +1,10 @@
 import backoff
 from http import HTTPStatus
 from typing import Dict, Optional, Any
+import httpx
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
+from galley_client import GalleyClient
 
 from galley import api_key, api_url, max_retries
 import logging
@@ -22,6 +24,16 @@ def build_galley_endpoint() -> HTTPEndpoint:
     }
     return HTTPEndpoint(api_url, headers)
 
+def build_galley_client() -> GalleyClient:
+    return GalleyClient(
+        api_url,
+        http_client=httpx.Client(
+            timeout=30,
+            headers={
+                'x-api-key': api_key
+            }
+        )
+    )
 
 def can_retry(data: Optional[Dict]) -> bool:
     return data.get('status') in [

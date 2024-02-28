@@ -1,0 +1,392 @@
+query GetMenuData(
+  $date: [DateOnly!]!,
+  $locationId: String!
+) {
+  viewer {
+    menuConnection(filters: {
+      date: $date,
+      locationId: [$locationId]
+    }) {
+      edges {
+        node {
+          id
+          name
+          date
+          location {
+            name
+          }
+          categoryValues {
+            ...CategoryFields
+          }
+          menuItems {
+            id
+            recipeId
+            categoryValues {
+              ...CategoryFields
+            }
+            recipe {
+              name
+              externalName
+              categoryValues {
+                ...CategoryFields
+              }
+              media {
+                altText
+                caption
+                sourceUrl
+              }
+              isDish
+              dietaryFlagsWithUsages(locationId: $locationId) {
+                dietaryFlag {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        startIndex
+        endIndex
+        hasPreviousPage
+        hasNextPage
+      }
+      totalCount
+    }
+  }
+}
+
+query GetOpsMenuData(
+  $date: [DateOnly!]!,
+  $locationId: String!
+) {
+  viewer {
+    menuConnection(filters: {
+      date: $date,
+      locationId: [$locationId]
+    }) {
+      edges {
+        node {
+          id
+          name
+          date
+          location {
+            name
+          }
+          categoryValues {
+            ...CategoryFields
+          }
+          menuItems {
+            id
+            recipeId
+            categoryValues {
+              ...CategoryFields
+            }
+            volume
+            unit {
+              id
+              name
+            }
+            recipe {
+              name
+              id
+              categoryValues {
+                ...CategoryFields
+              }
+              media {
+                altText
+                caption
+                sourceUrl
+              }
+              recipeTreeComponents(levels: [0, 1, 2, 3]) {
+                id
+                ancestorComponentIds
+                quantity
+                unit {
+                  ...UnitFields
+                }
+                recipeItem {
+                  preparations {
+                    id
+                    name
+                  }
+                  quantity
+                  unit {
+                    id
+                    name
+                  }
+                  ingredient {
+                    locationVendorItems(locationIds: [$locationId]) {
+                      vendorItems {
+                        name
+                        priority
+                        ingredientListStr
+                      }
+                    }
+                    id
+                    name
+                    externalName
+                    categoryValues {
+                      ...CategoryFields
+                    }
+                    dietaryFlags {
+                      id
+                      name
+                    }
+                  }
+                  subRecipe {
+                    id
+                    name
+                    externalName
+                    categoryValues {
+                      ...CategoryFields
+                    }
+                    recipeInstructions {
+                      text
+                      position
+                    }
+                    dietaryFlagsWithUsages(locationId: $locationId) {
+                      dietaryFlag {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        startIndex
+        endIndex
+        hasPreviousPage
+        hasNextPage
+      }
+      totalCount
+    }
+  }
+}
+
+query GetRecipeData(
+  $id: [String!],
+  $locationId: String!,
+  $pageSize: Int = 20,
+  $startIndex: Int = 0
+) {
+  viewer {
+    recipeConnection(filters: {id: $id}, paginationOptions: {first: $pageSize, startIndex: $startIndex}) {
+      edges {
+        node {
+          id
+          externalName
+          name
+          notes
+          description
+          media {
+            altText
+            caption
+            sourceUrl
+          }
+          categoryValues {
+            ...CategoryFields
+          }
+          dietaryFlagsWithUsages(locationId: $locationId) {
+            dietaryFlag {
+              id
+              name
+            }
+          }
+          reconciledNutritionals(locationId: $locationId) {
+            ...NutritionFields
+          }
+          recipeItems {
+            recipeId
+            preparations {
+              id
+              name
+            }
+            quantity
+            unit {
+              ...UnitFields
+            }
+            subRecipe {
+              id
+              name
+              externalName
+              nutritionalsQuantity
+              nutritionalsUnit {
+                id
+                name
+              }
+              reconciledNutritionals(locationId: $locationId) {
+                ...NutritionFields
+              }
+            }
+            ingredient {
+              locationVendorItems(locationIds: [$locationId]) {
+                vendorItems {
+                  name
+                  priority
+                  ingredientListStr
+                }
+              }
+              id
+              name
+              externalName
+              categoryValues {
+                ...CategoryFields
+              }
+            }
+          }
+          ingredientsWithUsages {
+            ingredient {
+              locationVendorItems(locationIds: [$locationId]) {
+                vendorItems {
+                  name
+                  priority
+                  ingredientListStr
+                }
+              }
+              id
+              name
+              externalName
+              categoryValues {
+                ...CategoryFields
+              }
+            }
+            usages {
+              ancestorRecipes {
+                id
+                name
+              }
+              quantity
+              unit {
+                ...UnitFields
+              }
+            }
+          }
+          versionConnection(paginationOptions: {first: 1, orderBy: "createdAt", sortDirection: desc}) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        startIndex
+        endIndex
+        hasPreviousPage
+        hasNextPage
+      }
+      totalCount
+    }
+  }
+}
+
+query GetOpsRecipeItemConnectionData($subRecipeIds: [String!]) {
+  viewer {
+    recipeItemConnection(filters: {subRecipeIds: $subRecipeIds}) {
+      edges {
+        node {
+          id
+          recipeId
+          preparations {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment CategoryFields on CategoryValue {
+  id
+  name
+  category {
+    id
+    name
+    itemType
+  }
+}
+
+fragment UnitFields on Unit {
+  id
+  name
+  unitValues {
+    value
+    unit {
+      id
+      name
+    }
+  }
+}
+
+fragment NutritionFields on ReconciledNutritionals {
+  addedSugarG
+  addedSugarPercentDRV
+  calciumMg
+  calciumPercentRDI
+  caloriesKCal
+  carbsG
+  carbsPercentDRV
+  cholesterolMg
+  cholesterolPercentDRV
+  copperMg
+  copperPercentRDI
+  fiberG
+  fiberPercentDRV
+  folateMcg
+  folatePercentRDI
+  ironMg
+  ironPercentRDI
+  magnesiumMg
+  magnesiumPercentRDI
+  manganeseMg
+  manganesePercentRDI
+  niacinMg
+  niacinPercentRDI
+  pantothenicAcidMg
+  phosphorusMg
+  phosphorusPercentRDI
+  potassiumMg
+  potassiumPercentRDI
+  proteinG
+  proteinPercentRDI
+  riboflavinMg
+  riboflavinPercentRDI
+  saturatedFatG
+  saturatedFatPercentDRV
+  seleniumMcg
+  seleniumPercentRDI
+  sodiumMg
+  sodiumPercentDRV
+  sugarG
+  sugarPercentDRV
+  thiaminMg
+  thiaminPercentRDI
+  totalFatG
+  totalFatPercentDRV
+  transFatG
+  vitaminAMcg
+  vitaminAPercentRDI
+  vitaminB12Mcg
+  vitaminB12PercentRDI
+  vitaminB6Mg
+  vitaminB6PercentRDI
+  vitaminCMg
+  vitaminCPercentRDI
+  vitaminDMcg
+  vitaminDPercentRDI
+  vitaminEMg
+  vitaminEPercentRDI
+  vitaminKMcg
+  vitaminKPercentRDI
+  zincMg
+  zincPercentRDI
+}
