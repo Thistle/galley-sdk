@@ -25,7 +25,7 @@ def build_galley_endpoint() -> HTTPEndpoint:
     }
     return HTTPEndpoint(api_url, headers)
 
-def build_galley_client(timeout: int = 10) -> Client:
+def build_galley_client(timeout: int = 30) -> Client:
     return Client(
         api_url,
         http_client=httpx.Client(
