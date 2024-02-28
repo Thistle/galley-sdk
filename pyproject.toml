@@ -6,3 +6,4 @@ client_name = "GalleyClient"
 async_client = false
 include_all_inputs = false
 include_all_enums = false
+convert_to_snake_case = false

@@ -32,20 +32,20 @@ def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[
     while has_next_page:
         raw_data = client.get_recipe_data(
             id=recipe_ids,
-            location_id=location_id,
-            page_size=page_size,
-            start_index=start_index
+            locationId=location_id,
+            pageSize=page_size,
+            startIndex=start_index
         )
 
-        collection = raw_data.viewer.recipe_connection
+        collection = raw_data.viewer.recipeConnection
 
         for edge in collection.edges:
             recipe = edge.node
             if recipe:
                 recipes.append(recipe)
 
-        start_index = collection.page_info.end_index
-        has_next_page = collection.page_info.has_next_page or False
+        start_index = collection.pageInfo.endIndex
+        has_next_page = collection.pageInfo.hasNextPage or False
     return [recipe.dict() for recipe in recipes]
 
 
@@ -79,10 +79,10 @@ def get_raw_menu_data(
 
     menus = []
     if raw_data:
-        for edge in raw_data.viewer.menu_connection.edges:
+        for edge in raw_data.viewer.menuConnection.edges:
             menu = edge.node
             if menu.location.name == location_name:
-                category_values = menu.category_values
+                category_values = menu.categoryValues
                 for category_value in category_values:
                     if (
                         category_value.category.id == MenuCategoryEnum.MENU_TYPE.value
@@ -97,8 +97,8 @@ def get_raw_menu_data(
 
 def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> GetOpsRecipeItemConnectionDataViewerRecipeItemConnection:
     client = build_galley_client()
-    response = client.get_ops_recipe_item_connection_data(sub_recipe_ids=sub_recipe_ids)
-    return response.viewer.recipe_item_connection
+    response = client.get_ops_recipe_item_connection_data(subRecipeIds=sub_recipe_ids)
+    return response.viewer.recipeItemConnection
 
 
 def get_untagged_core_recipe_item_ids_via_connection(ids):
