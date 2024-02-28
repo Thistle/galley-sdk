@@ -24,11 +24,11 @@ def build_galley_endpoint() -> HTTPEndpoint:
     }
     return HTTPEndpoint(api_url, headers)
 
-def build_galley_client() -> GalleyClient:
+def build_galley_client(timeout: int = 10) -> GalleyClient:
     return GalleyClient(
         api_url,
         http_client=httpx.Client(
-            timeout=30,
+            timeout=timeout,
             headers={
                 'x-api-key': api_key
             }

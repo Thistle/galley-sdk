@@ -70,12 +70,12 @@ def get_raw_menu_data(
     except KeyError:
         raise ValueError(f"{GALLEY_ERROR_PREFIX} Invalid location name: {f'{location_name}'}")
 
-    client = build_galley_client()
-
     if is_ops:
-        raw_data = client.get_ops_menu_data(date=dates, location_id=location_id)
+        client = build_galley_client(timeout=90) # ops query is slow
+        raw_data = client.get_ops_menu_data(date=dates, locationId=location_id)
     else:
-        raw_data = client.get_menu_data(date=dates, location_id=location_id)
+        client = build_galley_client()
+        raw_data = client.get_menu_data(date=dates, locationId=location_id)
 
     menus = []
     if raw_data:
