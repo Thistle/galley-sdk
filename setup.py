@@ -6,5 +6,5 @@ setup(
     name='galley_sdk',
     version='0.46.0',
     packages=['galley', 'galley.client'],
-    install_requires=['sgqlc==14.0', 'backoff==1.11.1']
+    install_requires=['sgqlc==14.0', 'backoff==1.11.1', 'httpx>=0.27.0', 'pydantic>=2.0.0']
 )
