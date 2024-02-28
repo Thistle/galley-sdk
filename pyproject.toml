@@ -1,8 +1,9 @@
 [tool.ariadne-codegen]
 queries_path = "queries.graphql"
 schema_path = "schema.graphql"
-target_package_name = "galley_client"
-client_name = "GalleyClient"
+target_package_name = "client"
+target_package_path = "galley"
+client_name = "Client"
 async_client = false
 include_all_inputs = false
 include_all_enums = false

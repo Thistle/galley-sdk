@@ -1,10 +1,8 @@
 import logging
 from typing import Dict, List, Optional
+from galley.client.get_ops_recipe_item_connection_data import GetOpsRecipeItemConnectionDataViewerRecipeItemConnection
 from galley.common import GALLEY_ERROR_PREFIX, build_galley_client
 from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
-
-from galley_client.get_ops_recipe_item_connection_data import GetOpsRecipeItemConnectionDataViewerRecipeItemConnection
-
 
 logger = logging.getLogger(__name__)
 
