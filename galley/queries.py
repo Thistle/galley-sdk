@@ -83,7 +83,7 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges()
     query.viewer.recipeConnection.pageInfo()
     query.viewer.recipeConnection.totalCount()
-    query.viewer.recipeConnection.edges.node.__fields__('id', 'externalName', 'name', 'notes', 'description', 'categoryValues')
+    query.viewer.recipeConnection.edges.node.__fields__('id', 'externalName', 'name', 'notes', 'description', 'categoryValues', 'files')
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.recipeItems.__fields__('recipeId', 'preparations', 'quantity')

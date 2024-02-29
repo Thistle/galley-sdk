@@ -264,6 +264,7 @@ class RecipeNode(Node):
     recipeItems = Field(RecipeItem)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
     ingredientsWithUsages = Field(list_of(IngredientWithUsages))
+    files = Field(Files)
 
 
 class RecipeEdge(Type):
