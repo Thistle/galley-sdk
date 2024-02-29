@@ -6,7 +6,7 @@ from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE, GALLEY_ERROR_PREF
 from galley.queries import get_raw_menu_data, get_raw_recipes_data
 from galley.enums import (
     UnitEnum,
-    RecipeMediaEnum,
+    EntityMediaEnum,
     DietaryFlagEnum,
     PreparationEnum,
     MenuCategoryEnum,
@@ -195,7 +195,7 @@ class FormattedRecipe:
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
         self.is_sellable = recipe_data.get('isDish')
-        self.menu_photo_url = get_menu_photo_url(recipe_data.get('media', []))
+        self.menu_photo_url = get_menu_photo_url(recipe_data.get('files', {}).get('photos', []))
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.tags = get_recipe_category_tags(recipe_data.get('categoryValues', []))
         self.label_and_weights = get_recipe_label_and_weights(recipe_data.get('recipeItems', []))
@@ -431,10 +431,10 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
     return None
 
 
-def get_menu_photo_url(media: List) -> Optional[str]:
-    caption = rf'(?i){RecipeMediaEnum.MENU_CAPTION.value}'
+def get_menu_photo_url(photos: List) -> Optional[str]:
+    caption = rf'(?i){EntityMediaEnum.MENU_CAPTION.value}'
     return next((
-        url for photo in media
+        url for photo in photos
         if (
             bool(re.search(caption, photo.get('caption') or ''))
             and (url := photo.get('sourceUrl'))

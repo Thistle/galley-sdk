@@ -88,9 +88,9 @@ class RecipeCategoryTagTypeEnum(Enum):
     BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOQ=='
 
 
-class RecipeMediaEnum(Enum):
+class EntityMediaEnum(Enum):
     """
-    Enum for RecipeMedia. <field name>: <field value>
+    Enum for EntityMedia. <field name>: <field value>
     """
     MENU_CAPTION = 'menu'
     PLATE_CAPTION = 'plating'

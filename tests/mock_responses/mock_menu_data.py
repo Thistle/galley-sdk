@@ -75,22 +75,24 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                             }
                         ]
                     },
-                    'media': [
-                        {
-                            'altText': 'Recipe_1_Plating.jpg',
-                            'caption': 'plating',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Plating',
-                            'mediaId': 'bWVkaWE6TEOwNQ==',
-                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
-                        },
-                        {
-                            'altText': 'Recipe_1_Menu.jpg',
-                            'caption': 'menu',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
-                            'mediaId': 'bWVkaWE6OTEwNA==',
-                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
-                        },
-                    ],
+                    'files': {
+                        'photos':[
+                            {
+                                'altText': 'Recipe_1_Plating.jpg',
+                                'caption': 'plating',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Plating',
+                                'mediaId': 'bWVkaWE6TEOwNQ==',
+                                'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                            },
+                            {
+                                'altText': 'Recipe_1_Menu.jpg',
+                                'caption': 'menu',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                            }
+                        ]
+                    },
                     'dietaryFlagsWithUsages': [],
                     'recipeItems': [{
                         'preparations': [
@@ -163,22 +165,24 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                         },
                     ],
                     'isDish': True,
-                    'media': [
-                        {
-                            'altText': 'Recipe_2_Plating.jpg',
-                            'caption': 'plating',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Plating',
-                            'mediaId': 'bWVkaWE6TEOwNQ==',
-                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
-                        },
-                        {
-                            'altText': 'Recipe_2_Menu.jpg',
-                            'caption': 'menu',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
-                            'mediaId': 'bWVkaWE6OTEwNA==',
-                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
-                        },
-                    ],
+                    'files': {
+                        'photos': [
+                            {
+                                'altText': 'Recipe_2_Plating.jpg',
+                                'caption': 'plating',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Plating',
+                                'mediaId': 'bWVkaWE6TEOwNQ==',
+                                'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                            },
+                            {
+                                'altText': 'Recipe_2_Menu.jpg',
+                                'caption': 'menu',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                            },
+                        ]
+                    },
                     'dietaryFlagsWithUsages': [
                         {
                             'dietaryFlag': {
@@ -255,22 +259,24 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                         },
                     ],
                     'isDish': True,
-                    'media': [
-                        {
-                            'altText': 'Recipe_3_Plating.jpg',
-                            'caption': 'plating',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Plating',
-                            'mediaId': 'bWVkaWE6TEOwNQ==',
-                            'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
-                        },
-                        {
-                            'altText': 'Recipe_3_Menu.jpg',
-                            'caption': 'menu',
-                            'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
-                            'mediaId': 'bWVkaWE6OTEwNA==',
-                            'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
-                        },
-                    ],
+                    'files': {
+                        'photos': [
+                            {
+                                'altText': 'Recipe_3_Plating.jpg',
+                                'caption': 'plating',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Plating',
+                                'mediaId': 'bWVkaWE6TEOwNQ==',
+                                'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                            },
+                            {
+                                'altText': 'Recipe_3_Menu.jpg',
+                                'caption': 'menu',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                            },
+                        ]
+                    },
                     'dietaryFlagsWithUsages': [
                         {
                             'dietaryFlag': {

@@ -18,29 +18,31 @@ def mock_recipe_base(id: str):
         'notes': f'Some notes about recipe {id}',
         'description': f'Details about recipe {id}',
         'categoryValues': MOCK_RECIPE_CATEGORY_VALUES,
-        'media': [
-            {
-                'altText': 'None.jpg',
-                'caption': None,
-                'sourceUrl': 'https://cdn.filestackcontent.com/HaCZIYLBRfWmeMtErKSU',
-                'mediaId': 'bWVkaWE6OTEwNA==',
-                'storageKey': 'Thistle/Media/ujTTMJETR1eV9LJMJTJo_None.jpg'
-            },
-            {
-                'altText': 'Plating.jpg',
-                'caption': 'Plating Photo',
-                'sourceUrl': 'https://cdn.filestackcontent.com/rVVEymFAQv4m0LTYz3IV',
-                'mediaId': 'bWVkaWE6TEOwNQ==',
-                'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
-            },
-            {
-                'altText': f'menu{id}.jpg',
-                'caption': 'Menu Photo',
-                'sourceUrl': f'https://cdn.filestackcontent.com/MENU{id}',
-                'mediaId': 'bWVkaWE6OTEwNA==',
-                'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
-            },
-        ],
+        'files': {
+            'photos': [
+                {
+                    'altText': 'None.jpg',
+                    'caption': None,
+                    'sourceUrl': 'https://cdn.filestackcontent.com/HaCZIYLBRfWmeMtErKSU',
+                    'mediaId': 'bWVkaWE6OTEwNA==',
+                    'storageKey': 'Thistle/Media/ujTTMJETR1eV9LJMJTJo_None.jpg'
+                },
+                {
+                    'altText': 'Plating.jpg',
+                    'caption': 'Plating Photo',
+                    'sourceUrl': 'https://cdn.filestackcontent.com/rVVEymFAQv4m0LTYz3IV',
+                    'mediaId': 'bWVkaWE6TEOwNQ==',
+                    'storageKey': 'Thistle/Media/TnLOVsiTG61I5W1VFwqw_.jpg'
+                },
+                {
+                    'altText': f'menu{id}.jpg',
+                    'caption': 'Menu Photo',
+                    'sourceUrl': f'https://cdn.filestackcontent.com/MENU{id}',
+                    'mediaId': 'bWVkaWE6OTEwNA==',
+                    'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
+                },
+            ],
+        },
         'versionConnection': {
             'edges': [
                 {
