@@ -179,6 +179,12 @@ class RecipeItem(Type):
     reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
 
 
+class RecipeMedia(Type):
+    altText = str
+    caption = str
+    sourceUrl = str
+
+
 class EntityMedia(Type):
     caption = str
     sourceUrl = str
@@ -231,6 +237,7 @@ class Recipe(Type):
     versionConnection = Field(RecipeVersionConnection)
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
+    media = Field(RecipeMedia)
     files = Field(Files)
     isDish = bool
     totalYield = float
@@ -262,6 +269,7 @@ class RecipeNode(Node):
     versionConnection = Field(RecipeVersionConnection, args=ArgDict({'paginationOptions': PaginationOptions}))
     categoryValues = Field(CategoryValue)
     recipeItems = Field(RecipeItem)
+    media = Field(RecipeMedia)
     dietaryFlagsWithUsages = Field(DietaryFlagsWithUsages, args=ArgDict(location_id=ID))
     ingredientsWithUsages = Field(list_of(IngredientWithUsages))
 

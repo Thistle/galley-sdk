@@ -9,7 +9,7 @@ from galley.enums import (
     UnitEnum,
     ContainerEnum,
     DietaryFlagEnum,
-    EntityMediaEnum,
+    RecipeMediaEnum,
     PreparationEnum as PrepEnum,
     IngredientCategoryTagTypeEnum as IngredientCTagEnum,
     IngredientCategoryValueEnum as IngredientCVEnum,
@@ -213,7 +213,7 @@ class RecipeItem:
 
 
 def get_plate_photo_url(photos: List) -> Optional[str]:
-    caption = rf'(?i){EntityMediaEnum.PLATE_CAPTION.value}'
+    caption = rf'(?i){RecipeMediaEnum.PLATE_CAPTION.value}'
     return next((
         url for photo in photos
         if (
