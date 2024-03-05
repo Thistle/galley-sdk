@@ -98,6 +98,8 @@ class EntityMediaEnum(Enum):
 
 class DietaryFlagEnum(Enum):
     # Enum for Dietary Flags
+    # TODO: Remove or update the ids from the
+    # enum since these are currently outdated
     BEEF = ('ZGlldGFyeUZsYWc6MTM3', 'beef')
     CELERY = ('ZGlldGFyeUZsYWc6MTA=', 'celery')
     COCONUT = ('ZGlldGFyeUZsYWc6OTc=', 'coconut')
