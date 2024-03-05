@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 ALLERGEN_LABELS = {
     DietaryFlagEnum.SMOKED_MEATS.name: 'smoked meats',
+    DietaryFlagEnum.SESAME_SEEDS.name: 'sesame',
     DietaryFlagEnum.SHELLFISH.name: 'shellfish',
     DietaryFlagEnum.TREE_NUTS.name: 'tree nuts',
     DietaryFlagEnum.SOYBEANS.name: 'soy',
