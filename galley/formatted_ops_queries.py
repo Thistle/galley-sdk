@@ -1,7 +1,7 @@
 import re
 import logging
 from functools import reduce
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Set, Union
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import get_menu_type, get_item_code, get_external_name, get_recipe_category_tags
@@ -22,12 +22,6 @@ logger = logging.getLogger(__name__)
 
 INGREDIENT = 'ingredient'
 SUBRECIPE = 'recipe'
-
-BASE_CODES = ['s', 'b', 'lv', 'lm', 'dv', 'dm']
-BASE_MEALS = {f'{b}{n+1}' for b in BASE_CODES for n in range(6)}
-JAR_SALADS = {'ssa', 'ssb', 'ssc', 'ssd'}
-SIDE_SOUPS = {'scw', 'sp',  'sm',  'sch'}
-MEAL_CODES_WHITELIST = BASE_MEALS | JAR_SALADS | SIDE_SOUPS
 
 DEFAULT_BIN_WEIGHT_VALUE = 60
 DEFAULT_BIN_WEIGHT_UNIT = 'lb'
@@ -277,6 +271,7 @@ def format_components(rtc: List) -> List[Dict]:
 
 def get_formatted_ops_menu_data(
     dates: List[str],
+    product_codes_filter: Union[Set[str], List[str]],
     location_name: str = DEFAULT_LOCATION,
     menu_type: str = DEFAULT_MENU_TYPE,
 ) -> Optional[List[Dict]]:
@@ -298,12 +293,12 @@ def get_formatted_ops_menu_data(
 
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
-            meal_code = get_item_code(menu_item)
-            if meal_code.lower() in MEAL_CODES_WHITELIST:
+            product_code = get_item_code(menu_item)
+            if product_code.lower() in product_codes_filter:
                 recipe = menu_item.get('recipe') or {}
                 formatted_menu['menuItems'].append({
                     'menuItemId': menu_item.get('id'),
-                    'mealCode': meal_code,
+                    'mealCode': product_code,
                     'recipeId': menu_item.get('recipeId'),
                     'recipeName': get_external_name(recipe),
                     'mealContainer': get_recipe_category_tags(recipe.get('categoryValues') or []).get('mealContainer'),
