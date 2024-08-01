@@ -72,7 +72,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
     return formatted_ops_menu
 
 
-class TestMealCodeFromMenuItemCategoryValues(TestCase):
+class TestProductCodeFromMenuItemCategoryValues(TestCase):
     def test_get_item_code_successful(self):
         expected_result = 'lv2'
         result = get_item_code(mock_ops_menu('2022-03-28')['menuItems'][1])
@@ -298,17 +298,23 @@ class TestGetFormattedOpsMenuData(TestCase):
         self.assertEqual(result, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS)
 
     @mock.patch('galley.queries.make_request_to_galley')
-    def test_get_formatted_ops_menu_data_returns_whitelisted_meal_codes(self, mock_retrieval_method):
+    def test_get_formatted_ops_menu_data_returns_approved_product_codes(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
-        result = get_formatted_ops_menu_data(['2022-03-28'])
-        meal_codes = set(mi['mealCode'] for mi in result[0]['menuItems'])
-        self.assertTrue('av' not in meal_codes and 'hla' not in meal_codes)
-        self.assertEqual(set(['lm1', 'lv2', 'dv3', 'ssa', 'sch']), meal_codes)
+        result = get_formatted_ops_menu_data(
+            ['2022-03-28'],
+            pc_filter := {'lm1', 'lv2', 'dv3', 'ssa', 'sch'}
+        )
+        product_codes = set(mi['mealCode'] for mi in result[0]['menuItems'])
+        self.assertTrue('av' not in product_codes and 'hla' not in product_codes)
+        self.assertEqual(product_codes, pc_filter)
 
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_successful_for_one_valid_menu(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))
-        result = get_formatted_ops_menu_data(['2022-03-28'])
+        result = get_formatted_ops_menu_data(
+            ['2022-03-28'],
+            {'lm1', 'lv2', 'dv3', 'ssa', 'sch'}
+        )
         self.assertEqual(result, [formatted_ops_menu('2022-03-28')])
 
     @mock.patch('galley.queries.make_request_to_galley')
@@ -318,7 +324,10 @@ class TestGetFormattedOpsMenuData(TestCase):
             mock_ops_menu('2022-04-04'),
             mock_ops_menu('2022-04-18')
         )
-        result = get_formatted_ops_menu_data(['2022-03-28', '2022-04-04', '2022-04-18'])
+        result = get_formatted_ops_menu_data(
+            ['2022-03-28', '2022-04-04', '2022-04-18'],
+            {'lm1', 'lv2', 'dv3', 'ssa', 'sch'}
+        )
         self.assertEqual(result, [
             formatted_ops_menu('2022-03-28'),
             formatted_ops_menu('2022-04-04'),
@@ -329,12 +338,13 @@ class TestGetFormattedOpsMenuData(TestCase):
     def test_get_formatted_ops_menu_data_exception(self, mock_retrieval_method):
         mock_retrieval_method.return_value = None
         with self.assertRaises(ValueError):
-            get_formatted_ops_menu_data([])
+            get_formatted_ops_menu_data([], {})
 
     @mock.patch('galley.formatted_ops_queries.get_raw_menu_data')
     def test_get_formatted_ops_menu_data_args_defaults(self, mock_raw_menu_data):
         dates = ['2022-03-28', '2022-04-04']
-        get_formatted_ops_menu_data(dates)
+        pc_filter = {'lm1', 'lv2', 'dv3', 'ssa', 'sch'}
+        get_formatted_ops_menu_data(dates, pc_filter)
         mock_raw_menu_data.assert_called_with(dates, DEFAULT_LOCATION, DEFAULT_MENU_TYPE, is_ops=True)
-        get_formatted_ops_menu_data(dates, 'Montana', 'staging')
+        get_formatted_ops_menu_data(dates, pc_filter, 'Montana', 'staging')
         mock_raw_menu_data.assert_called_with(dates, 'Montana', 'staging', is_ops=True)
