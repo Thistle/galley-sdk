@@ -145,7 +145,7 @@ def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[
 def get_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
     query.viewer.menus(where=MenuFilterInput(date=dates, locationId=location_id)).__fields__('id', 'name', 'date', 'location', 'categoryValues', 'menuItems')
-    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe')
+    query.viewer.menus.menuItems.__fields__('id', 'recipeId', 'categoryValues', 'recipe', 'volume')
     query.viewer.menus.menuItems.recipe.__fields__('externalName', 'name', 'recipeItems', 'categoryValues', 'files', 'isDish')
     query.viewer.menus.menuItems.recipe.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.menus.menuItems.recipe.recipeItems.__fields__('subRecipeId', 'preparations')

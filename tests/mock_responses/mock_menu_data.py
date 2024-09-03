@@ -23,6 +23,7 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
             {
                 'id': 'MENUITEM1ABC',
                 'recipeId': 'RECIPE1ABC',
+                'volume': 100,
                 'categoryValues': [{
                     'name': 'dv1',
                     'category': {
@@ -108,6 +109,7 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
             {
                 'id': 'MENUITEM2DEF',
                 'recipeId': 'RECIPE2DEF',
+                'volume': 0,
                 'categoryValues': [
                     {
                         'name': 'dv2',
@@ -211,6 +213,7 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
             {
                 'id': 'MENUITEM3GHI',
                 'recipeId': 'RECIPE3GHI',
+                'volume': None,
                 'categoryValues': [{
                     'name': 'lm2',
                     'category': {
@@ -302,6 +305,7 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
             {
                 'id': 'MENUITEM4JKL',
                 'recipeId': 'RECIPE4JKL',
+                'volume': 300,
                 'categoryValues': [{
                     'name': 'non-sellable soup',
                     'category': {

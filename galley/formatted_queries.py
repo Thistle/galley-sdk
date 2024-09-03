@@ -519,6 +519,7 @@ def get_formatted_menu_data(
                 'recipeMenuPhotoUrl': formatted_recipe_dict.get('menuPhotoUrl', ''),
                 'recipeName': formatted_recipe_dict.get('externalName', ''),
                 'recipeProteinType': formatted_recipe_dict.get('proteinType', ''),
+                'volume': menu_item.get('volume'),
             })
         formatted_menus.append(formatted_menu)
     return formatted_menus
