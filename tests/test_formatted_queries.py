@@ -78,6 +78,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
             'recipeName': 'Test Recipe Name 1',
             'recipeProteinType': 'vegan',
+            'volume': 100,
         }, {
             'allergens': SELLABLE_RECIPE_ALLERGENS,
             'baseMeal': '',
@@ -92,6 +93,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu',
             'recipeName': 'Test Recipe Name 2',
             'recipeProteinType': 'vegan',
+            'volume': 0,
         }, {
             'allergens': STANDALONE_ALLERGENS,
             'baseMeal': '',
@@ -106,6 +108,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMenuPhotoUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu',
             'recipeName': 'Test Recipe Name 3',
             'recipeProteinType': 'meat',
+            'volume': None,
         }]
     }
     if not onlySellableMenuItems:
@@ -123,6 +126,7 @@ def formatted_menu(date, onlySellableMenuItems=False):
             'recipeMenuPhotoUrl': None,
             'recipeName': 'Test Recipe Name 4',
             'recipeProteinType': '',
+            'volume': 300,
         })
     return formatted_menu
 
