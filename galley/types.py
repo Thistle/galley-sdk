@@ -389,11 +389,11 @@ class IngredientNode(Type):
     usagesCount = int
     recipeItems = list_of(RecipeItem)
 
-class IngredientConnectionEdge(Type):
+class IngredientEdge(Type):
     node = Field(IngredientNode)
 
 class IngredientConnection(Connection):
-    edges = list_of(RecipeEdge)
+    edges = list_of(IngredientEdge)
     pageInfo = Field(PageInfoType)
     totalCount = int
 

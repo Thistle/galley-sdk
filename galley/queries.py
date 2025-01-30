@@ -310,5 +310,10 @@ def get_ingredient_usages_by_name(ingredient_names):
     ingredient_ids = get_ingredient_ids_by_name(ingredient_names)
     query = get_ingredient_usages_by_ids_query(ingredient_ids)
 
+    ingredient_connection = validate_response_data(
+                make_request_to_galley(
+                    op=query,
+                    variables={'id': ingredient_ids}),
+                'ingredientConnection')
 
     return []
