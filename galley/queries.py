@@ -1,11 +1,13 @@
 import logging
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
 from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
 from galley.types import (
     Menu,
     Recipe,
     FilterInput,
+    IngredientConnection,
+    IngredientConnectionFilter,
     MenuFilterInput,
     RecipeConnection,
     PaginationOptions,
@@ -37,6 +39,12 @@ class Viewer(Type):
         args=(ArgDict({
             'filters': RecipeItemConnectionFilter,
             'paginationOptions': RecipeItemConnectionPaginationOptions
+        }))
+    )
+    ingredientConnection = Field(
+        IngredientConnection,
+        args=(ArgDict({
+            'filters': IngredientConnectionFilter
         }))
     )
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
@@ -232,6 +240,25 @@ def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation
     query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
     return query
 
+def get_ingredient_id_by_name_query(name: str) -> Operation:
+    query = Operation(Query)
+    query.viewer.ingredientConnection(filters=IngredientConnectionFilter(name=name)).__fields__('edges')
+    query.viewer.ingredientConnection.edges.__fields__('node')
+    query.viewer.ingredientConnection.edges.node.__fields__('id', 'name')
+    return query
+
+def get_ingredient_usages_by_ids(ids: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.ingredientConnection(filters=IngredientConnectionFilter(id=ids)).__fields__('edges')
+    query.viewer.ingredientConnection.edges.__fields__('node')
+    query.viewer.ingredientConnection.edges.node.__fields__('id', 'name', 'usagesCount', 'recipeItems')
+    query.viewer.ingredientConnection.edges.node.recipeItems.__fields__('recipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.__fields__('id', 'name', 'isDish', 'recipeItems')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.__fields__('ingredient', 'subRecipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.ingredient.__fields__('id', 'name')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.subRecipe.__fields__('id', 'name')
+    query.viewer
+    return query
 
 def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
     query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)
@@ -241,7 +268,6 @@ def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[L
                 variables={'subRecipeIds': sub_recipe_ids}),
             'recipeItemConnection')
     return validated_response_data
-
 
 def get_untagged_core_recipe_item_ids_via_connection(ids):
     preparationTag = PreparationEnum.CORE_RECIPE.value
@@ -258,3 +284,27 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
         if preparationTag not in preparations:
             recipe_item_ids.append(recipe_item["id"])
     return recipe_item_ids
+
+def get_ingredient_ids_by_name(ingredient_names) -> List[Tuple]:
+    ingredients = []
+    for name in ingredient_names:
+        id = ''
+        query = get_ingredient_id_by_name_query(name=name)
+        ingredient_connection = validate_response_data(
+                make_request_to_galley(
+                    op=query,
+                    variables={'name': name}),
+                'ingredientConnection')
+        edge = ingredient_connection.get('edges', [])[0]
+        if edge:
+            id = edge.get('node', {}).get('id', '')
+
+        if id:
+            ingredients.append([name, id])
+        else:
+            logger.warning(f"No ingredient found with the name {name}")
+
+    return ingredients
+
+def get_ingredient_usages_by_name(ingredient_names):
+    return []
