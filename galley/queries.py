@@ -247,7 +247,7 @@ def get_ingredient_id_by_name_query(name: str) -> Operation:
     query.viewer.ingredientConnection.edges.node.__fields__('id', 'name')
     return query
 
-def get_ingredient_usages_by_ids(ids: List[str]) -> Operation:
+def get_ingredient_usages_by_ids_query(ids: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.ingredientConnection(filters=IngredientConnectionFilter(id=ids)).__fields__('edges')
     query.viewer.ingredientConnection.edges.__fields__('node')
@@ -285,7 +285,7 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
             recipe_item_ids.append(recipe_item["id"])
     return recipe_item_ids
 
-def get_ingredient_ids_by_name(ingredient_names) -> List[Tuple]:
+def get_ingredient_ids_by_name(ingredient_names) -> List[str]:
     ingredients = []
     for name in ingredient_names:
         id = ''
@@ -300,11 +300,15 @@ def get_ingredient_ids_by_name(ingredient_names) -> List[Tuple]:
             id = edge.get('node', {}).get('id', '')
 
         if id:
-            ingredients.append([name, id])
+            ingredients.append(id)
         else:
             logger.warning(f"No ingredient found with the name {name}")
 
     return ingredients
 
 def get_ingredient_usages_by_name(ingredient_names):
+    ingredient_ids = get_ingredient_ids_by_name(ingredient_names)
+    query = get_ingredient_usages_by_ids_query(ingredient_ids)
+
+
     return []
