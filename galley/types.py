@@ -383,21 +383,29 @@ class RecipeItemConnectionPaginationOptions(Input):
     sortDirection = SortDirectionEnum
     startIndex = int
 
+
 class IngredientNode(Type):
     id = ID
     name = str
     usagesCount = int
     recipeItems = list_of(RecipeItem)
 
+
 class IngredientEdge(Type):
     node = Field(IngredientNode)
+
 
 class IngredientConnection(Connection):
     edges = list_of(IngredientEdge)
     pageInfo = Field(PageInfoType)
     totalCount = int
 
+
+class IngredientConnectionSearch(Input):
+    query = str
+
+
 class IngredientConnectionFilter(Input):
     id = list_of(ID)
     name = str
-
+    search = IngredientConnectionSearch
