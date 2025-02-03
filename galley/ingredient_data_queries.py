@@ -1,5 +1,7 @@
 import csv
+import logging
 
+from typing import Any, Dict, List, Optional, Tuple
 from galley.enums import LocationEnum
 from galley.queries import (
     get_ingredient_usages_by_name,
@@ -7,7 +9,11 @@ from galley.queries import (
     get_raw_recipes_data
 )
 
-def get_candidate_usages_for_custom_preparation(ingredient_names):
+
+logger = logging.getLogger(__name__)
+
+
+def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     ingredient_connections = get_ingredient_usages_by_name(ingredient_names)
     included_usages = []
     excluded_usages = []
@@ -17,31 +23,27 @@ def get_candidate_usages_for_custom_preparation(ingredient_names):
         for usage in ingredient.get('node', {}).get('recipeItems', []):
             recipe = usage.get('recipe', {})
 
-            # Include if the ingredient is at the top level of a sellable recipe
-            if recipe.get('isDish', False):
-                included_usages.append({
-                    'ingredient_id': ingredient_id,
-                    'ingredient_name': ingredient_name,
-                    'recipe_id': recipe.get('id'),
-                    'recipe_name': recipe.get('name'),
-                    'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}',
-                    'note': 'Top level usage'
-                })
+            usage_data = {
+                'ingredient_id': ingredient_id,
+                'ingredient_name': ingredient_name,
+                'recipe_item_id': usage.get('id'),
+                'recipe_id': recipe.get('id'),
+                'recipe_name': recipe.get('name'),
+                'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}',
+            }
+
+            # Include if the ingredient is at the top level of a sellable recipe or BASE recipe
+            if recipe.get('isDish', False) or 'BASE' in recipe.get('name', ''):
+                usage_data['note'] = 'Top level usage'
+                included_usages.append(usage_data)
                 continue
 
             recipe_items = recipe.get('recipeItems', [])
 
             # Include if the ingredient is the only recipeItem in the recipe
             if len(recipe_items) == 1:
-                included_usages.append({
-                    'ingredient_id': ingredient_id,
-                    'ingredient_name': ingredient_name,
-                    'recipe_id': recipe.get('id'),
-                    'recipe_name': recipe.get('name'),
-                    'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}',
-                    'note': 'Single ingredient recipe'
-                })
-
+                usage_data['note'] = 'Single ingredient recipe'
+                included_usages.append(usage_data)
                 continue
 
             # Include if this recipe includes only a small number of
@@ -54,36 +56,34 @@ def get_candidate_usages_for_custom_preparation(ingredient_names):
                         break
 
                 if not includes_subrecipe:
-                    included_usages.append({
-                        'ingredient_id': ingredient_id,
-                        'ingredient_name': ingredient_name,
-                        'recipe_id': recipe.get('id'),
-                        'recipe_name': recipe.get('name'),
-                        'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}',
-                        'note': 'Sparse recipe'
-                    })
+                    usage_data['note'] = 'Sparse recipe'
+                    included_usages.append(usage_data)
                     continue
 
             excluded_usages.append(usage)
     return included_usages, excluded_usages
 
-def generate_csv_for_ingredient_usage_candidates(ingredient_names):
-    included_usages, excluded_usages = get_candidate_usages_for_custom_preparation(ingredient_names)
 
-    if len(included_usages) == 0 :
+def generate_csv_from_dict_list(data_list: List[Dict[str, Any]], filename: str) -> None:
+    if len(data_list) == 0:
+        logger.info("No csv generated, no data provided")
         return
 
-    usage_candidate_file = open('preparation_candidates.csv', 'w')
+    file = open(filename, 'w')
+    field_names = data_list[0].keys()
 
-    fieldnames = included_usages[0].keys()
-
-    writer = csv.DictWriter(usage_candidate_file, fieldnames=fieldnames)
+    writer = csv.DictWriter(file, fieldnames=field_names)
     writer.writeheader()
 
-    for usage in included_usages:
-        writer.writerow(usage)
+    for data in data_list:
+        writer.writerow(data)
 
-def get_candidate_recipes_from_recipe_names(recipe_names):
+def generate_csv_for_ingredient_usage_candidates(ingredient_names: List[str]) -> None:
+    included_usages, excluded_usages = get_candidate_usages_for_custom_preparation(ingredient_names)
+    generate_csv_from_dict_list(included_usages, 'preparation_candidates.csv')
+
+
+def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]] :
     included_recipes = []
     excluded_recipes = []
 
@@ -94,12 +94,14 @@ def get_candidate_recipes_from_recipe_names(recipe_names):
         recipe_items = recipe.get('recipeItems', [])
         includes_subrecipe = False
         ingredients = ""
+        recipe_item_ids = []
         for item in recipe_items:
             if item.get('subRecipe'):
                 includes_subrecipe = True
                 break
             else:
                 ingredients += f"{item.get('ingredient', {}).get('name')} | "
+                recipe_item_ids.append(item.get('id'))
 
         if includes_subrecipe:
             excluded_recipes.append(recipe)
@@ -108,25 +110,13 @@ def get_candidate_recipes_from_recipe_names(recipe_names):
             included_recipes.append({
                 'recipe_id': recipe.get('id'),
                 'recipe_name': recipe.get('name'),
+                'recipe_item_ids': recipe_item_ids,
                 'ingredients': ingredients,
                 'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}'
             })
 
     return included_recipes, excluded_recipes
 
-def generate_csv_for_recipe_candidates(recipe_names):
-
+def generate_csv_for_recipe_candidates(recipe_names: List[str]) -> None:
     included_recipes, excluded_recipes = get_candidate_recipes_from_recipe_names(recipe_names)
-
-    if len(included_recipes) == 0 :
-        return
-
-    recipe_candidate_file = open('recipe_candidates.csv', 'w')
-
-    fieldnames = included_recipes[0].keys()
-
-    writer = csv.DictWriter(recipe_candidate_file, fieldnames=fieldnames)
-    writer.writeheader()
-
-    for recipe in included_recipes:
-        writer.writerow(recipe)
+    generate_csv_from_dict_list(included_recipes, 'recipe_candidates.csv')
