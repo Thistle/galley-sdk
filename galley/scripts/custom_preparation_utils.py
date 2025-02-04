@@ -13,6 +13,8 @@ from galley.queries import (
 logger = logging.getLogger(__name__)
 
 
+# This script finds usages of given ingredients that might be processed
+# by a different team than Kitchen (e.g. Production in Burlington)
 def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     usages_by_ingredient_id = get_ingredient_usages_by_name(ingredient_names=ingredient_names)
 
@@ -63,7 +65,7 @@ def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> 
             excluded_usages.append(usage)
     return included_usages, excluded_usages
 
-
+# Generic List[Dict] -> csv script
 def generate_csv_from_dict_list(data_list: List[Dict[str, Any]], filename: str) -> None:
     if len(data_list) == 0:
         logger.info("No csv generated, no data provided")
@@ -78,11 +80,15 @@ def generate_csv_from_dict_list(data_list: List[Dict[str, Any]], filename: str) 
     for data in data_list:
         writer.writerow(data)
 
+# This script generates a csv of ingredient usages potentially processed by a
+# team other than Kitchn
 def generate_csv_for_ingredient_usage_candidates(ingredient_names: List[str]) -> None:
     included_usages, excluded_usages = get_candidate_usages_for_custom_preparation(ingredient_names)
     generate_csv_from_dict_list(included_usages, 'preparation_candidates.csv')
 
 
+# This script retrieves relevant data from a recipe to determine if
+# it might be processed by a different team than Kitchen
 def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]] :
     included_recipes = []
     excluded_recipes = []
@@ -110,13 +116,16 @@ def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[Li
             included_recipes.append({
                 'recipe_id': recipe.get('id'),
                 'recipe_name': recipe.get('name'),
-                'recipe_item_ids': recipe_item_ids,
+                'recipe_item_ids': ','.join(recipe_item_ids),
                 'ingredients': ingredients,
                 'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}'
             })
 
     return included_recipes, excluded_recipes
 
+
+# Generates a csv of relevant recipe data to determine whether a recipe
+# could be processed by a team other than Kitchen
 def generate_csv_for_recipe_candidates(recipe_names: List[str]) -> None:
     included_recipes, excluded_recipes = get_candidate_recipes_from_recipe_names(recipe_names)
     generate_csv_from_dict_list(included_recipes, 'recipe_candidates.csv')
