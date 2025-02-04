@@ -14,13 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-    ingredient_connections = get_ingredient_usages_by_name(ingredient_names)
+    usages_by_ingredient_id = get_ingredient_usages_by_name(ingredient_names=ingredient_names)
     included_usages = []
     excluded_usages = []
-    for ingredient in ingredient_connections.get('edges', []):
-        ingredient_name = ingredient.get('node', {}).get('name')
-        ingredient_id = ingredient.get('node', {}).get('id')
-        for usage in ingredient.get('node', {}).get('recipeItems', []):
+    for ingredient_id, ingredient_usages in usages_by_ingredient_id.items():
+        for usage in ingredient_usages:
+            ingredient_name = usage.get('ingredient_name')
             recipe = usage.get('recipe', {})
 
             usage_data = {

@@ -291,10 +291,10 @@ def get_ingredient_usages_by_ids_query(ids: List[str], page_size: int = DEFAULT_
     ).__fields__('edges', 'totalCount', 'pageInfo')
     query.viewer.ingredientConnection.edges.__fields__('node')
     query.viewer.ingredientConnection.edges.node.__fields__('id', 'name', 'usagesCount', 'recipeItems')
-    query.viewer.ingredientConnection.edges.node.recipeItems.__fields__('recipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.__fields__('id', 'preparations', 'recipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.preparations.__fields__('id', 'name')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.__fields__('id', 'name', 'isDish', 'recipeItems')
-    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.__fields__('id', 'ingredient', 'subRecipe', 'preparations')
-    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.__fields__('id', 'ingredient', 'subRecipe')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.ingredient.__fields__('id', 'name')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.subRecipe.__fields__('id', 'name')
     query.viewer
@@ -395,9 +395,9 @@ def get_ingredient_connection_by_ingredient_ids(ingredient_ids, start_index = 0)
     return ingredient_connection
 
 
-def get_ingredient_usages_by_name(ingredient_names):
+def get_ingredient_usages_by_name(ingredient_names: List[str]):
     ingredient_ids = get_ingredient_ids_by_name(ingredient_names)
-    return get_ingredient_usages_by_ingredient_ids(ingredient_ids)
+    return get_ingredient_usages_by_ingredient_ids(ingredient_ids=ingredient_ids)
 
 
 def get_ingredient_connection_by_search_term(search_term, start_index = 0):
@@ -430,13 +430,8 @@ def get_ingredient_usages_by_ingredient_ids(ingredient_ids, start_index = 0, ing
     if ingredient_connection:
         for edge in ingredient_connection.get("edges", []):
             for nri in edge.get("node", {}).get("recipeItems", []):
-                for rri in nri.get("recipe", {}).get("recipeItems", []):
-                    if (
-                        edge.get("node", {}).get("usagesCount", 0) > 0 and
-                        rri["ingredient"] and
-                        rri["ingredient"]["id"] == edge.get("node", {}).get("id")
-                    ):
-                        ingredient_usages[edge["node"]["id"]].append(rri)
+                nri["ingredient_name"] = edge.get("node", {}).get("name")
+                ingredient_usages[edge.get("node", {}).get("id")].append(nri)
 
         if ingredient_connection.get('pageInfo', {}).get('hasNextPage'):
             return get_ingredient_usages_by_ingredient_ids(
