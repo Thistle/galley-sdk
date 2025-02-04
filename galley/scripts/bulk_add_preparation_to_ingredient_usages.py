@@ -25,8 +25,8 @@ def bulk_add_plating_preparation_to_send_to_plate_ingredient_usages(
         ingredient_ids=ingredient_ids,
         preparation_id=PreparationEnum.PLATING_STATION.value,
         exclude_preparations=[
-            PreparationEnum.DELIVER_TO_WASH.value,
-            PreparationEnum.PLATING_STATION.value,
+            PreparationEnum.WASH_STATION.value,
+            PreparationEnum.BINNING_STATION.value,
         ],
         dry_run=dry_run,
     )
