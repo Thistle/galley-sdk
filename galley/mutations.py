@@ -2,9 +2,11 @@ from sgqlc.operation import Operation
 from sgqlc.types import Field, Type
 from typing import List
 from galley.common import make_request_to_galley, validate_response_data
-from galley.queries import get_ingredient_ids_by_name, get_ingredient_ids_by_search_term, get_ingredient_usages_by_ingredient_ids
+from galley.queries import get_ingredient_ids_by_name, get_ingredient_usages_by_ingredient_ids, get_recipe_item_preparations_by_preparation_ids
 from galley.types import (
     BulkMenusInput,
+    DeleteRecipeItemPreparationInput,
+    DeleteRecipeItemPreparationPayload,
     MenuInput,
     MenuItemInput,
     MenuPayload,
@@ -25,6 +27,7 @@ GALLEY_ERROR_PREFIX = "(GalleyError)"
 class Mutation(Type):
     bulkUpsertMenus = Field(MenuPayload, args={'input': BulkMenusInput})
     bulkUpdateRecipeItems = Field(BulkUpdateRecipeItemsPayload, args={'input': BulkUpdateRecipeItemsInput})
+    deleteRecipeItemPreparation = Field(DeleteRecipeItemPreparationPayload, args={'input': DeleteRecipeItemPreparationInput})
 
 
 # MENU MUTATIONS
@@ -133,56 +136,164 @@ def bulk_update_recipe_item_data(args):
     return valid_response
 
 
+def delete_recipe_item_preparation(recipe_item_preparation_id: str):
+    mutation = Operation(Mutation)
+    delete_input = DeleteRecipeItemPreparationInput(
+        recipeItemPreparationId=recipe_item_preparation_id
+    )
+    mutation.deleteRecipeItemPreparation(input=delete_input)
+    response = make_request_to_galley(op=mutation)
+    return validate_response_data(response)
+
+
 def bulk_add_preparation_to_ingredient_recipe_items(
-    ingredient_ids: List[str], preparation_id: str, exclude_preparations: List[str] = []
+    ingredient_ids: List[str],
+    preparation_id: str,
+    exclude_preparations: List[str] = [],
+    dry_run: bool = True,
 ):
-    ingredient_connection = get_ingredient_usages_by_ingredient_ids(ingredient_ids)
+    ingredient_usages = get_ingredient_usages_by_ingredient_ids(ingredient_ids)
     recipe_item_ids = [
         usage["id"]
-        for node in [edge["node"] for edge in ingredient_connection.get("edges", [])]
-        for item in node.get("recipeItems", [])
-        for usage in item["recipe"]["recipeItems"]
-        if usage["ingredient"]
-            and usage["ingredient"]["id"] == node.get("id")
-            and (
-                not (preparations := [p["id"] for p in usage["preparations"]]) or
-                not any(exclusion in preparations for exclusion in exclude_preparations)
+        for ingredient_id, usages in ingredient_usages.items()
+        for usage in usages
+        if (
+            not (preparations := [p["id"] for p in usage["preparations"]]) or
+            not (
+                preparation_id in preparations or
+                any(exclusion in preparations for exclusion in exclude_preparations)
             )
+        )
     ]
 
     if not recipe_item_ids:
-        logger.info("No recipe items found to update.")
+        logger.warning("No recipe items found to update.")
         return None
 
-    return bulk_update_recipe_item_data(
-        {
-            "ids": recipe_item_ids,
-            "attrs": {
-                "preparationIds": [preparation_id]
-            },
-        }
-    )
+    logger.warning(f"Adding {len(recipe_item_ids)} ingredient recipe item preparations.")
+
+    if not dry_run:
+        return bulk_update_recipe_item_data(
+            {
+                "ids": recipe_item_ids,
+                "attrs": {
+                    "preparationIds": [preparation_id]
+                },
+            }
+        )
+    return
 
 
-def bulk_add_deliver_to_production_preparation_to_send_to_plate_ingredient_usages(
-    exclude_ingredient_names: List[str] = [], exclude_ingredient_ids: List[str] = []
-):
-    if exclude_ingredient_names:
-        exclude_ingredient_ids.extend([
-            ingredient
-            for ingredient in get_ingredient_ids_by_name(
-                ingredient_names=exclude_ingredient_names
+def delete_ingredient_usage_preparations_by_preparation_ids(
+    preparation_ids: List[str],
+    include_ingredient_ids: List[str] = [],
+    exclude_ingredient_ids: List[str] = [],
+    dry_run: bool = True,
+) -> None:
+    delete_bin = []
+    recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
+
+    if not recipe_item_preparations:
+        logger.warning("No recipe item preparations found to delete.")
+        return None
+
+    if include_ingredient_ids:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if (
+                (ingredient := recipe_item_preparation["recipeItem"]["ingredient"])
+                and ingredient["id"] in include_ingredient_ids
             )
-        ])
-    ingredient_ids = list(
-        set(get_ingredient_ids_by_search_term(search_term="SEND TO PLATE")) -
-        set(exclude_ingredient_ids)
-    )
-    return bulk_add_preparation_to_ingredient_recipe_items(
-        ingredient_ids=ingredient_ids,
-        preparation_id=PreparationEnum.DELIVER_TO_PRODUCTION.value,
-        exclude_preparations=[
-            PreparationEnum.DELIVER_TO_WASH.value,
-            PreparationEnum.DELIVER_TO_PRODUCTION.value,
-        ],
-    )
+        ]
+    elif exclude_ingredient_ids:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if (
+                (ingredient := recipe_item_preparation["recipeItem"]["ingredient"])
+                and ingredient["id"] not in exclude_ingredient_ids
+            )
+        ]
+    else:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if recipe_item_preparation["recipeItem"]["ingredient"]
+        ]
+
+    logger.warning(f"Deleting {(total := len(delete_bin))} ingredient recipe item preparations.")
+
+    if not dry_run:
+        delete_count = 0
+        while delete_bin:
+            for _ in range(50):
+
+                if not delete_bin:
+                    break
+
+                item = delete_bin.pop()
+                try:
+                    delete_recipe_item_preparation(recipe_item_preparation_id=item["id"])
+                    delete_count += 1
+                except Exception as e:
+                    logger.error(
+                        f'Failure to delete preparation {item["preparationId"]} from '
+                        f'ingredient {item["recipeItem"]["ingredient"]["id"]} within '
+                        f'recipe {item["recipeItem"]["recipeId"]}: {e}'
+                    )
+                    continue
+            logger.warning(f"Deleted {delete_count} of {total} recipe item preparations.")
+    return
+
+
+# def swap_ingredient_usage_preparations_by_ingredients(
+#     preparation_id_to_remove: str,
+#     preparation_id_to_add_in: str,
+#     ingredient_ids: List[str] = [],
+#     ingredient_names: List[str] = [],
+# ) -> None:
+#     if ingredient_names:
+#         ingredient_ids.extend([
+#             ingredient
+#             for ingredient in get_ingredient_ids_by_name(
+#                 ingredient_names=ingredient_names
+#             )
+#         ])
+#     ingredient_ids = list(set(ingredient_ids))
+#     ingredient_usages = get_ingredient_usages_by_ingredient_ids(ingredient_ids)
+#     from pprint import pprint
+#     pprint(ingredient_usages)
+#     filtered_recipe_item_preparations = {
+#         usage["id"]: set(filter(
+#             lambda u: (
+#                 preparations := [p["id"] for p in u["preparations"]] and
+#                 preparation_id_to_remove in preparations and
+#                 preparation_id_to_add_in not in preparations
+#             ),
+#             usage["preparations"]
+#         ))
+#         for ingredient_id, usages in ingredient_usages.items()
+#         for usage in usages
+#     }
+
+#     if not filtered_recipe_item_preparations:
+#         logger.warning("No recipe items found to update.")
+#         return None
+
+#     for recipe_item_id, usage in filtered_recipe_item_preparations.items():
+#         preparation_ids = (
+#             set([p["id"] for p in usage["preparations"]]) -
+#             set([preparation_id_to_remove]) |
+#             set([preparation_id_to_add_in])
+#         )
+#         print(recipe_item_id, preparation_ids)
+#         # bulk_update_recipe_item_data(
+#         # {
+#         #     "ids": [recipe_item_id],
+#         #     "attrs": {
+#         #         "preparationIds": [preparation_ids]
+#         #     },
+#         # }
+#         # )
+#     return
