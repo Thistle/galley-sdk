@@ -117,9 +117,17 @@ class RecipeInstruction(Type):
     position = int
 
 
+class RecipeItemPreparation(Type):
+    id = Field(ID)
+    recipeItemId = str
+    preparationId = str
+    recipeItem = Field('RecipeItem')
+
+
 class Preparation(Type):
     id = Field(ID)
     name = str
+    recipeItemPreparations = Field(list_of(RecipeItemPreparation))
 
 
 class RecipeTreeComponent(Type):
@@ -382,3 +390,58 @@ class RecipeItemConnectionPaginationOptions(Input):
     orderBy = RecipeItemConnectionOrderByEnum
     sortDirection = SortDirectionEnum
     startIndex = int
+
+
+class IngredientNode(Type):
+    id = ID
+    name = str
+    usagesCount = int
+    recipeItems = list_of(RecipeItem)
+
+
+class IngredientEdge(Type):
+    node = Field(IngredientNode)
+
+
+class IngredientConnection(Connection):
+    edges = list_of(IngredientEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+
+
+class IngredientConnectionSearch(Input):
+    query = str
+
+
+class IngredientConnectionFilter(Input):
+    id = list_of(ID)
+    name = str
+    search = IngredientConnectionSearch
+
+
+class PreparationConnectionEdge(Type):
+    node = Field(Preparation)
+
+
+class PreparationConnection(RecipeItemConnectionEdge):
+    edges = list_of(PreparationConnectionEdge)
+    pageInfo = Field(PageInfoType)
+    totalCount = int
+
+
+class PreparationConnectionPaginationOptions(Input):
+    first = int
+    startIndex = int
+
+
+class PreparationConnectionFilter(Input):
+    id = list_of(ID)
+    name = str
+
+
+class DeleteRecipeItemPreparationPayload(Type):
+    recipeItem = Field(RecipeItem)
+
+
+class DeleteRecipeItemPreparationInput(Input):
+    recipeItemPreparationId = str
