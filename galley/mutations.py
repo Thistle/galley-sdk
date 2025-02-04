@@ -202,7 +202,7 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
             recipe_item_preparation
             for recipe_item_preparation in recipe_item_preparations
             if (
-                (ingredient := recipe_item_preparation["recipeItem"]["ingredient"])
+                (ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient"))
                 and ingredient["id"] in include_ingredient_ids
             )
         ]
@@ -211,7 +211,7 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
             recipe_item_preparation
             for recipe_item_preparation in recipe_item_preparations
             if (
-                (ingredient := recipe_item_preparation["recipeItem"]["ingredient"])
+                (ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient"))
                 and ingredient["id"] not in exclude_ingredient_ids
             )
         ]
@@ -219,7 +219,7 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
         delete_bin = [
             recipe_item_preparation
             for recipe_item_preparation in recipe_item_preparations
-            if recipe_item_preparation["recipeItem"]["ingredient"]
+            if recipe_item_preparation.get("recipeItem", {}).get("ingredient")
         ]
 
     logger.warning(f"Deleting {(total := len(delete_bin))} ingredient recipe item preparations.")

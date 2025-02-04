@@ -395,15 +395,15 @@ def get_ingredient_usages_by_ingredient_ids(ingredient_ids, start_index = 0, ing
     )
 
     if ingredient_connection:
-        for edge in ingredient_connection["edges"]:
-            if edge["node"]["usagesCount"] > 0:
-                for nri in edge["node"]["recipeItems"]:
-                    for rri in nri["recipe"]["recipeItems"]:
-                        if (
-                            rri["ingredient"] and
-                            rri["ingredient"]["id"] == edge["node"]["id"]
-                        ):
-                            ingredient_usages[edge["node"]["id"]].append(rri)
+        for edge in ingredient_connection.get("edges", []):
+            for nri in edge.get("node", {}).get("recipeItems", []):
+                for rri in nri.get("recipe", {}).get("recipeItems", []):
+                    if (
+                        edge.get("node", {}).get("usagesCount", 0) > 0 and
+                        rri["ingredient"] and
+                        rri["ingredient"]["id"] == edge.get("node", {}).get("id")
+                    ):
+                        ingredient_usages[edge["node"]["id"]].append(rri)
 
         if ingredient_connection.get('pageInfo', {}).get('hasNextPage'):
             return get_ingredient_usages_by_ingredient_ids(
@@ -422,7 +422,7 @@ def get_ingredient_ids_by_search_term(search_term, start_index = 0, ingredient_i
 
     if ingredient_connection:
         ingredient_ids.extend(
-            [edge["node"]["id"]for edge in ingredient_connection["edges"]]
+            [edge.get("node", {}).get("id") for edge in ingredient_connection.get("edges", [])]
         )
 
         if ingredient_connection.get('pageInfo', {}).get('hasNextPage'):
@@ -450,6 +450,6 @@ def get_recipe_item_preparations_by_preparation_ids(preparation_ids):
     preparation_connection = get_preparation_connection_by_preparation_ids(preparation_ids)
     return [
         node
-        for edge in preparation_connection["edges"]
-        for node in edge["node"]["recipeItemPreparations"]
+        for edge in preparation_connection.get("edges", [])
+        for node in edge.get("node", {}).get("recipeItemPreparations", [])
     ]
