@@ -1,9 +1,14 @@
 import logging
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from collections import defaultdict
+from typing import Any, Dict, Iterable, List, Optional
 from galley.common import GALLEY_ERROR_PREFIX, make_request_to_galley, validate_response_data
 from galley.enums import LocationEnum, MenuCategoryEnum, PreparationEnum
 from galley.types import (
+    IngredientConnectionSearch,
     Menu,
+    PreparationConnection,
+    PreparationConnectionFilter,
+    PreparationConnectionPaginationOptions,
     Recipe,
     FilterInput,
     IngredientConnection,
@@ -31,22 +36,31 @@ class Viewer(Type):
         RecipeConnection,
         args=(ArgDict({
             'filters': RecipeConnectionFilter,
-            'paginationOptions': PaginationOptions
+            'paginationOptions': PaginationOptions,
         }))
     )
     recipeItemConnection = Field(
         RecipeItemConnection,
         args=(ArgDict({
             'filters': RecipeItemConnectionFilter,
-            'paginationOptions': RecipeItemConnectionPaginationOptions
+            'paginationOptions': RecipeItemConnectionPaginationOptions,
         }))
     )
     ingredientConnection = Field(
         IngredientConnection,
         args=(ArgDict({
-            'filters': IngredientConnectionFilter
+            'filters': IngredientConnectionFilter,
+            'paginationOptions': PaginationOptions,
         }))
     )
+    preparationConnection = Field(
+        PreparationConnection,
+        args=(ArgDict({
+            'filters': PreparationConnectionFilter,
+            'paginationOptions': PreparationConnectionPaginationOptions,
+        }))
+    )
+
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args=(ArgDict({'id': str})))
     menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
@@ -249,6 +263,7 @@ def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation
     query.viewer.recipeItemConnection.edges.node.preparations.__fields__('id', 'name')
     return query
 
+
 def get_ingredient_id_by_name_query(name: str) -> Operation:
     query = Operation(Query)
     query.viewer.ingredientConnection(filters=IngredientConnectionFilter(name=name)).__fields__('edges')
@@ -256,18 +271,46 @@ def get_ingredient_id_by_name_query(name: str) -> Operation:
     query.viewer.ingredientConnection.edges.node.__fields__('id', 'name')
     return query
 
-def get_ingredient_usages_by_ids_query(ids: List[str]) -> Operation:
+
+def get_ingredients_by_search_term_query(search_term: str, page_size: int = DEFAULT_PAGE_SIZE, start_index: int = 0) -> Operation:
     query = Operation(Query)
-    query.viewer.ingredientConnection(filters=IngredientConnectionFilter(id=ids)).__fields__('edges')
+    query.viewer.ingredientConnection(
+        filters=IngredientConnectionFilter(search=IngredientConnectionSearch(query=search_term)),
+        paginationOptions=PaginationOptions(first=page_size, startIndex=start_index),
+    ).__fields__('edges', 'totalCount', 'pageInfo')
+    query.viewer.ingredientConnection.edges.__fields__('node')
+    query.viewer.ingredientConnection.edges.node.__fields__('id', 'name')
+    return query
+
+
+def get_ingredient_usages_by_ids_query(ids: List[str], page_size: int = DEFAULT_PAGE_SIZE, start_index: int = 0) -> Operation:
+    query = Operation(Query)
+    query.viewer.ingredientConnection(
+        filters=IngredientConnectionFilter(id=ids),
+        paginationOptions=PaginationOptions(first=page_size, startIndex=start_index),
+    ).__fields__('edges', 'totalCount', 'pageInfo')
     query.viewer.ingredientConnection.edges.__fields__('node')
     query.viewer.ingredientConnection.edges.node.__fields__('id', 'name', 'usagesCount', 'recipeItems')
-    query.viewer.ingredientConnection.edges.node.recipeItems.__fields__('id', 'recipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.__fields__('recipe')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.__fields__('id', 'name', 'isDish', 'recipeItems')
-    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.__fields__('id', 'ingredient', 'subRecipe')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.__fields__('id', 'ingredient', 'subRecipe', 'preparations')
+    query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.preparations.__fields__('id', 'name')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.ingredient.__fields__('id', 'name')
     query.viewer.ingredientConnection.edges.node.recipeItems.recipe.recipeItems.subRecipe.__fields__('id', 'name')
     query.viewer
     return query
+
+
+def get_preparations_by_preparation_ids_query(preparation_ids: List[str]) -> Operation:
+    query = Operation(Query)
+    query.viewer.preparationConnection(filters=PreparationConnectionFilter(id=preparation_ids)).__fields__('edges', 'totalCount', 'pageInfo')
+    query.viewer.preparationConnection.edges.__fields__('node')
+    query.viewer.preparationConnection.edges.node.__fields__('id', 'name', 'recipeItemPreparations')
+    query.viewer.preparationConnection.edges.node.recipeItemPreparations.__fields__('id', 'recipeItemId', 'preparationId', 'recipeItem')
+    query.viewer.preparationConnection.edges.node.recipeItemPreparations.recipeItem.__fields__('id', 'ingredient', 'recipeId', 'subRecipeId')
+    query.viewer.preparationConnection.edges.node.recipeItemPreparations.recipeItem.ingredient.__fields__('id', 'name')
+    return query
+
 
 def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[List[Dict]]:
     query = get_ops_recipe_item_connection_query(sub_recipe_ids=sub_recipe_ids)
@@ -314,17 +357,7 @@ def get_ingredient_ids_by_name(ingredient_names: List[str]) -> List[str]:
 
     return ingredient_ids
 
-def get_ingredient_usages_by_name(ingredient_names: List[str]) -> Dict[str, Any]:
-    ingredient_ids = get_ingredient_ids_by_name(ingredient_names)
-    query = get_ingredient_usages_by_ids_query(ingredient_ids)
 
-    ingredient_connections = validate_response_data(
-        make_request_to_galley(
-            op=query,
-            variables={'id': ingredient_ids}),
-        'ingredientConnection')
-
-    return ingredient_connections
 
 def get_recipe_ids_by_name(recipe_names):
     recipe_ids = []
@@ -348,3 +381,108 @@ def get_recipe_ids_by_name(recipe_names):
             logger.warning(f"No recipe found with the name {name}")
 
     return recipe_ids
+
+
+def get_ingredient_connection_by_ingredient_ids(ingredient_ids, start_index = 0):
+    query = get_ingredient_usages_by_ids_query(ingredient_ids, start_index=start_index)
+    ingredient_connection = validate_response_data(
+        make_request_to_galley(
+            op=query,
+            variables={'id': ingredient_ids}
+        ),
+        'ingredientConnection'
+    )
+    return ingredient_connection
+
+
+def get_ingredient_usages_by_name(ingredient_names):
+    ingredient_ids = get_ingredient_ids_by_name(ingredient_names)
+    return get_ingredient_usages_by_ingredient_ids(ingredient_ids)
+
+
+def get_ingredient_connection_by_search_term(search_term, start_index = 0):
+    query = get_ingredients_by_search_term_query(
+        search_term=search_term,
+        start_index=start_index,
+    )
+    ingredient_connection = validate_response_data(
+        make_request_to_galley(
+            op=query,
+            variables={
+                'search': {
+                    'query': search_term
+                }
+            }
+        ),
+        'ingredientConnection'
+    )
+    return ingredient_connection
+
+
+def get_ingredient_usages_by_ingredient_ids(ingredient_ids, start_index = 0, ingredient_usages = {}):
+    if not ingredient_usages:
+        ingredient_usages = defaultdict(list)
+
+    ingredient_connection = get_ingredient_connection_by_ingredient_ids(
+        ingredient_ids=ingredient_ids, start_index=start_index
+    )
+
+    if ingredient_connection:
+        for edge in ingredient_connection.get("edges", []):
+            for nri in edge.get("node", {}).get("recipeItems", []):
+                for rri in nri.get("recipe", {}).get("recipeItems", []):
+                    if (
+                        edge.get("node", {}).get("usagesCount", 0) > 0 and
+                        rri["ingredient"] and
+                        rri["ingredient"]["id"] == edge.get("node", {}).get("id")
+                    ):
+                        ingredient_usages[edge["node"]["id"]].append(rri)
+
+        if ingredient_connection.get('pageInfo', {}).get('hasNextPage'):
+            return get_ingredient_usages_by_ingredient_ids(
+                ingredient_ids=ingredient_ids,
+                start_index=ingredient_connection.get('pageInfo', {}).get('endIndex'),
+                ingredient_usages=ingredient_usages,
+            )
+    return ingredient_usages
+
+
+def get_ingredient_ids_by_search_term(search_term, start_index = 0, ingredient_ids = []):
+    ingredient_connection = get_ingredient_connection_by_search_term(
+        search_term=search_term,
+        start_index=start_index,
+    )
+
+    if ingredient_connection:
+        ingredient_ids.extend(
+            [edge.get("node", {}).get("id") for edge in ingredient_connection.get("edges", [])]
+        )
+
+        if ingredient_connection.get('pageInfo', {}).get('hasNextPage'):
+            return get_ingredient_ids_by_search_term(
+                search_term=search_term,
+                start_index=ingredient_connection.get('pageInfo', {}).get('endIndex'),
+                ingredient_ids=ingredient_ids,
+            )
+    return ingredient_ids
+
+
+def get_preparation_connection_by_preparation_ids(preparation_ids):
+    query = get_preparations_by_preparation_ids_query(preparation_ids)
+    preparation_connection = validate_response_data(
+        make_request_to_galley(
+            op=query,
+            variables={'id': preparation_ids}
+        ),
+        'preparationConnection'
+    )
+    return preparation_connection
+
+
+def get_recipe_item_preparations_by_preparation_ids(preparation_ids):
+    preparation_connection = get_preparation_connection_by_preparation_ids(preparation_ids)
+    return [
+        node
+        for edge in preparation_connection.get("edges", [])
+        for node in edge.get("node", {}).get("recipeItemPreparations", [])
+    ]

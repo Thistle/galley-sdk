@@ -36,6 +36,9 @@ class PreparationEnum(Enum):
     THREE_OZ_RAM = 'cHJlcGFyYXRpb246MjgxMTQ='
     TWO_OZ_WINPAK = 'cHJlcGFyYXRpb246MzEwMjI='
     TWELVE_OZ_ROUND_INSERT = 'cHJlcGFyYXRpb246Mjg2MDY='
+    PLATING_STATION = 'cHJlcGFyYXRpb246MTY1MTIy'
+    WASH_STATION = 'cHJlcGFyYXRpb246MTY1MTIz'
+    BINNING_STATION = 'cHJlcGFyYXRpb246MTY1NzU0'
 
 
 class ContainerEnum(set, Enum):  # type: ignore
