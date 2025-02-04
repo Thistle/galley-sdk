@@ -340,7 +340,6 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
 def get_ingredient_ids_by_name(ingredient_names: List[str]) -> List[str]:
     ingredient_ids = []
     for name in ingredient_names:
-        id = ''
         query = get_ingredient_id_by_name_query(name=name)
         ingredient_connection = validate_response_data(
                 make_request_to_galley(
@@ -348,21 +347,20 @@ def get_ingredient_ids_by_name(ingredient_names: List[str]) -> List[str]:
                     variables={'name': name}),
                 'ingredientConnection')
 
-        for edge in ingredient_connection.get('edges', []):
-            id = edge.get('node', {}).get('id', '')
-            ingredient_ids.append(id)
-
-        if not id:
+        if ingredient_connection and len(ingredient_connection.get('edges', [])) > 0:
+            for edge in ingredient_connection.get('edges', []):
+                id = edge.get('node', {}).get('id', '')
+                if id:
+                    ingredient_ids.append(id)
+        else:
             logger.warning(f"No ingredient found with the name {name}")
 
     return ingredient_ids
 
 
-
 def get_recipe_ids_by_name(recipe_names):
     recipe_ids = []
     for name in recipe_names:
-        id = ''
         query = get_recipe_id_by_name_query(
             name=name
         )
@@ -372,12 +370,12 @@ def get_recipe_ids_by_name(recipe_names):
                 variables={'name': name}),
             'recipeConnection')
 
-        if recipe_connection:
+        if recipe_connection and len(recipe_connection.get('edges', [])) > 0:
             for edge in recipe_connection.get('edges', []):
                 id = edge.get('node', {}).get('id', '')
-                recipe_ids.append(id)
-
-        if not id:
+                if id:
+                    recipe_ids.append(id)
+        else:
             logger.warning(f"No recipe found with the name {name}")
 
     return recipe_ids
