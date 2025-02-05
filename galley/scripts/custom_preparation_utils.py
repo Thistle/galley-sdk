@@ -2,8 +2,9 @@ import csv
 import logging
 
 from typing import Any, Dict, List, Tuple
-from galley.mutations import delete_recipe_item_preparation
+from galley.mutations import bulk_update_recipe_item_data, delete_recipe_item_preparation
 from galley.queries import (
+    get_ingredient_usages_by_ingredient_ids,
     get_ingredient_usages_by_name,
     get_recipe_ids_by_name,
     get_raw_recipes_data,
