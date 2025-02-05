@@ -1,12 +1,13 @@
 import csv
 import logging
 
-from typing import Any, Dict, List, Optional, Tuple
-from galley.enums import LocationEnum
+from typing import Any, Dict, List, Tuple
+from galley.mutations import delete_recipe_item_preparation
 from galley.queries import (
     get_ingredient_usages_by_name,
     get_recipe_ids_by_name,
-    get_raw_recipes_data
+    get_raw_recipes_data,
+    get_recipe_item_preparations_by_preparation_ids
 )
 
 
@@ -65,6 +66,7 @@ def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> 
             excluded_usages.append(usage)
     return included_usages, excluded_usages
 
+
 # Generic List[Dict] -> csv script
 def generate_csv_from_dict_list(data_list: List[Dict[str, Any]], filename: str) -> None:
     if len(data_list) == 0:
@@ -79,6 +81,7 @@ def generate_csv_from_dict_list(data_list: List[Dict[str, Any]], filename: str) 
 
     for data in data_list:
         writer.writerow(data)
+
 
 # This script generates a csv of ingredient usages potentially processed by a
 # team other than Kitchn
@@ -120,7 +123,6 @@ def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[Li
                 'ingredients': ingredients,
                 'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}'
             })
-
     return included_recipes, excluded_recipes
 
 
@@ -129,3 +131,117 @@ def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[Li
 def generate_csv_for_recipe_candidates(recipe_names: List[str]) -> None:
     included_recipes, excluded_recipes = get_candidate_recipes_from_recipe_names(recipe_names)
     generate_csv_from_dict_list(included_recipes, 'recipe_candidates.csv')
+
+
+def bulk_add_preparation_to_ingredient_recipe_items(
+    ingredient_ids: List[str],
+    preparation_id: str,
+    exclude_preparations: List[str] = [],
+    dry_run: bool = True,
+):
+    ingredient_usages = get_ingredient_usages_by_ingredient_ids(ingredient_ids)
+    recipe_item_ids = [
+        usage["id"]
+        for ingredient_id, usages in ingredient_usages.items()
+        for usage in usages
+        if (
+            not (preparations := [p["id"] for p in usage["preparations"]]) or
+            not (
+                preparation_id in preparations or
+                any(exclusion in preparations for exclusion in exclude_preparations)
+            )
+        )
+    ]
+
+    if not recipe_item_ids:
+        logger.warning("No recipe items found to update.")
+        return None
+
+    logger.warning(f"Adding {len(recipe_item_ids)} ingredient recipe item preparations.")
+
+    if not dry_run:
+        return bulk_update_recipe_item_data(
+            {
+                "ids": recipe_item_ids,
+                "attrs": {
+                    "preparationIds": [preparation_id]
+                },
+            }
+        )
+    return
+
+
+def delete_ingredient_usage_preparations_by_preparation_ids(
+    preparation_ids: List[str],
+    include_ingredient_ids: List[str] = [],
+    exclude_ingredient_ids: List[str] = [],
+    dry_run: bool = True,
+) -> None:
+    delete_bin = []
+    recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
+
+    if not recipe_item_preparations:
+        logger.warning("No recipe item preparations found to delete.")
+        return None
+
+    if include_ingredient_ids:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if (
+                ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient")
+                and ingredient["id"] in include_ingredient_ids
+            )
+        ]
+    elif exclude_ingredient_ids:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if (
+                ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient")
+                and ingredient["id"] not in exclude_ingredient_ids
+            )
+        ]
+    else:
+        delete_bin = [
+            recipe_item_preparation
+            for recipe_item_preparation in recipe_item_preparations
+            if recipe_item_preparation.get("recipeItem", {}).get("ingredient")
+        ]
+
+    logger.warning(f"Deleting {(total := len(delete_bin))} ingredient recipe item preparations.")
+
+    if not dry_run:
+        delete_count = 0
+        while delete_bin:
+            for _ in range(50):
+
+                if not delete_bin:
+                    break
+
+                item = delete_bin.pop()
+                try:
+                    delete_recipe_item_preparation(recipe_item_preparation_id=item["id"])
+                    delete_count += 1
+                except Exception as e:
+                    logger.error(
+                        f'Failure to delete preparation {item["preparationId"]} from '
+                        f'ingredient {item["recipeItem"]["ingredient"]["id"]} within '
+                        f'recipe {item["recipeItem"]["recipeId"]}: {e}'
+                    )
+                    continue
+            logger.warning(f"Deleted {delete_count} of {total} recipe item preparations.")
+    return
+
+
+# def handle_duplicate_recipe_item_preparations(preparation_ids):
+#     recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
+#     preparations = defaultdict(list)
+
+#     for rip in recipe_item_preparations:
+#         preparations[(rip.get('recipeItemId'), rip.get("preparationId"))].append(rip.get('recipeItemPreparationId'))
+
+#     for (recipe_item_id, _), recipe_item_preparations in preparations.items():
+#         for recipe_item_preparation_id in recipe_item_preparations[1:]:
+#             logger.warning(f"Deleting duplicate recipe item preparations for {recipe_item_id}.")
+#             delete_recipe_item_preparation(recipe_item_preparation_id=recipe_item_preparation_id)

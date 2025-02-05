@@ -60,7 +60,6 @@ class Viewer(Type):
             'paginationOptions': PreparationConnectionPaginationOptions,
         }))
     )
-
     recipes = Field(Recipe, args=(ArgDict({'where': FilterInput})))
     recipe = Field(Recipe, args=(ArgDict({'id': str})))
     menus = Field(Menu, args=(ArgDict({'where': MenuFilterInput})))
@@ -163,6 +162,7 @@ def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[
         has_next_page = page_info.get('hasNextPage', False)
     return raw_recipes_data
 
+
 def get_recipe_id_by_name_query(
     name: str,
     page_size: int = DEFAULT_PAGE_SIZE,
@@ -173,6 +173,7 @@ def get_recipe_id_by_name_query(
     query.viewer.recipeConnection.edges.__fields__('node')
     query.viewer.recipeConnection.edges.node.__fields__('id', 'name')
     return query
+
 
 def get_menu_query(dates: List[str], location_id: str) -> Operation:
     query = Operation(Query)
@@ -255,6 +256,7 @@ def get_raw_menu_data(
                         continue
     return response
 
+
 def get_ops_recipe_item_connection_query(sub_recipe_ids: List[str]) -> Operation:
     query = Operation(Query)
     query.viewer.recipeItemConnection(filters=RecipeItemConnectionFilter(subRecipeIds=sub_recipe_ids)).__fields__('edges')
@@ -321,6 +323,7 @@ def get_raw_recipe_items_data_via_connection(sub_recipe_ids: List) -> Iterable[L
             'recipeItemConnection')
     return validated_response_data
 
+
 def get_untagged_core_recipe_item_ids_via_connection(ids):
     preparationTag = PreparationEnum.CORE_RECIPE.value
     recipe_item_ids = []
@@ -336,6 +339,7 @@ def get_untagged_core_recipe_item_ids_via_connection(ids):
         if preparationTag not in preparations:
             recipe_item_ids.append(recipe_item["id"])
     return recipe_item_ids
+
 
 def get_ingredient_ids_by_name(ingredient_names: List[str]) -> List[str]:
     ingredient_ids = []
@@ -354,7 +358,6 @@ def get_ingredient_ids_by_name(ingredient_names: List[str]) -> List[str]:
                     ingredient_ids.append(id)
         else:
             logger.warning(f"No ingredient found with the name {name}")
-
     return ingredient_ids
 
 
@@ -377,7 +380,6 @@ def get_recipe_ids_by_name(recipe_names):
                     recipe_ids.append(id)
         else:
             logger.warning(f"No recipe found with the name {name}")
-
     return recipe_ids
 
 

@@ -1,8 +1,6 @@
 from sgqlc.operation import Operation
 from sgqlc.types import Field, Type
-from typing import List
 from galley.common import make_request_to_galley, validate_response_data
-from galley.queries import get_ingredient_ids_by_name, get_ingredient_usages_by_ingredient_ids, get_recipe_item_preparations_by_preparation_ids
 from galley.types import (
     BulkMenusInput,
     DeleteRecipeItemPreparationInput,
@@ -15,7 +13,6 @@ from galley.types import (
     BulkUpdateRecipeItemsInput,
     RecipeItemInput
 )
-from galley.enums import PreparationEnum
 import logging
 
 logger = logging.getLogger(__name__)
@@ -144,104 +141,3 @@ def delete_recipe_item_preparation(recipe_item_preparation_id: str):
     mutation.deleteRecipeItemPreparation(input=delete_input)
     response = make_request_to_galley(op=mutation)
     return validate_response_data(response)
-
-
-def bulk_add_preparation_to_ingredient_recipe_items(
-    ingredient_ids: List[str],
-    preparation_id: str,
-    exclude_preparations: List[str] = [],
-    dry_run: bool = True,
-):
-    ingredient_usages = get_ingredient_usages_by_ingredient_ids(ingredient_ids)
-    recipe_item_ids = [
-        usage["id"]
-        for ingredient_id, usages in ingredient_usages.items()
-        for usage in usages
-        if (
-            not (preparations := [p["id"] for p in usage["preparations"]]) or
-            not (
-                preparation_id in preparations or
-                any(exclusion in preparations for exclusion in exclude_preparations)
-            )
-        )
-    ]
-
-    if not recipe_item_ids:
-        logger.warning("No recipe items found to update.")
-        return None
-
-    logger.warning(f"Adding {len(recipe_item_ids)} ingredient recipe item preparations.")
-
-    if not dry_run:
-        return bulk_update_recipe_item_data(
-            {
-                "ids": recipe_item_ids,
-                "attrs": {
-                    "preparationIds": [preparation_id]
-                },
-            }
-        )
-    return
-
-
-def delete_ingredient_usage_preparations_by_preparation_ids(
-    preparation_ids: List[str],
-    include_ingredient_ids: List[str] = [],
-    exclude_ingredient_ids: List[str] = [],
-    dry_run: bool = True,
-) -> None:
-    delete_bin = []
-    recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
-
-    if not recipe_item_preparations:
-        logger.warning("No recipe item preparations found to delete.")
-        return None
-
-    if include_ingredient_ids:
-        delete_bin = [
-            recipe_item_preparation
-            for recipe_item_preparation in recipe_item_preparations
-            if (
-                (ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient"))
-                and ingredient["id"] in include_ingredient_ids
-            )
-        ]
-    elif exclude_ingredient_ids:
-        delete_bin = [
-            recipe_item_preparation
-            for recipe_item_preparation in recipe_item_preparations
-            if (
-                (ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient"))
-                and ingredient["id"] not in exclude_ingredient_ids
-            )
-        ]
-    else:
-        delete_bin = [
-            recipe_item_preparation
-            for recipe_item_preparation in recipe_item_preparations
-            if recipe_item_preparation.get("recipeItem", {}).get("ingredient")
-        ]
-
-    logger.warning(f"Deleting {(total := len(delete_bin))} ingredient recipe item preparations.")
-
-    if not dry_run:
-        delete_count = 0
-        while delete_bin:
-            for _ in range(50):
-
-                if not delete_bin:
-                    break
-
-                item = delete_bin.pop()
-                try:
-                    delete_recipe_item_preparation(recipe_item_preparation_id=item["id"])
-                    delete_count += 1
-                except Exception as e:
-                    logger.error(
-                        f'Failure to delete preparation {item["preparationId"]} from '
-                        f'ingredient {item["recipeItem"]["ingredient"]["id"]} within '
-                        f'recipe {item["recipeItem"]["recipeId"]}: {e}'
-                    )
-                    continue
-            logger.warning(f"Deleted {delete_count} of {total} recipe item preparations.")
-    return
