@@ -345,6 +345,7 @@ class MenuFilterInput(Input):
 
 class RecipeConnectionFilter(Input):
     id = list_of(str)
+    name = str
 
 
 class RecipeItemInput(Input):
