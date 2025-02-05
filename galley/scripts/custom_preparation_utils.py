@@ -178,6 +178,18 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
     exclude_ingredient_ids: List[str] = [],
     dry_run: bool = True,
 ) -> None:
+    """
+    Deletes preparations from recipe items by preparation IDs. If ingredient
+    IDs are included in include_ingredient_ids, deletions affect only those
+    ingredients' usages. If only exclude_ingredient_ids is passed in, the
+    specified preparations will be deleted from all recipe items except those
+    linked to the excluded ingredients. If no ingredient IDs are provided, the
+    specified preparations will be removed from all recipe items.
+
+    Note: include_ingredient_ids and exclude_ingredient_ids CANNOT be used
+    simultaneously. If both are provided, include_ingredient_ids takes precedence
+    and exclude_ingredient_ids will be ignored.
+    """
     delete_bin = []
     recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
 
@@ -233,16 +245,3 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
                     continue
             logger.warning(f"Deleted {delete_count} of {total} recipe item preparations.")
     return
-
-
-# def handle_duplicate_recipe_item_preparations(preparation_ids):
-#     recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
-#     preparations = defaultdict(list)
-
-#     for rip in recipe_item_preparations:
-#         preparations[(rip.get('recipeItemId'), rip.get("preparationId"))].append(rip.get('recipeItemPreparationId'))
-
-#     for (recipe_item_id, _), recipe_item_preparations in preparations.items():
-#         for recipe_item_preparation_id in recipe_item_preparations[1:]:
-#             logger.warning(f"Deleting duplicate recipe item preparations for {recipe_item_id}.")
-#             delete_recipe_item_preparation(recipe_item_preparation_id=recipe_item_preparation_id)
