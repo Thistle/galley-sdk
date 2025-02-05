@@ -5,7 +5,7 @@ from collections import defaultdict
 from typing import List, Dict
 
 from galley.enums import PreparationEnum
-from galley.mutations import bulk_add_preparation_to_ingredient_recipe_items, bulk_update_recipe_item_data, delete_recipe_item_preparation
+from galley.scripts.custom_preparation_utils import bulk_add_preparation_to_ingredient_recipe_items, bulk_update_recipe_item_data, delete_recipe_item_preparation
 from galley.queries import get_ingredient_ids_by_name, get_ingredient_ids_by_search_term, get_recipe_item_preparations_by_preparation_ids
 
 logger = logging.getLogger(__name__)
