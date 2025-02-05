@@ -1,3 +1,4 @@
+from collections import defaultdict
 import csv
 import logging
 
@@ -19,9 +20,9 @@ logger = logging.getLogger(__name__)
 # by a different team than Kitchen (e.g. Production in Burlington)
 def get_candidate_usages_for_custom_preparation(ingredient_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     usages_by_ingredient_id = get_ingredient_usages_by_name(ingredient_names=ingredient_names)
-
     included_usages = []
     excluded_usages = []
+
     for ingredient_id, ingredient_usages in usages_by_ingredient_id.items():
         for usage in ingredient_usages:
             ingredient_name = usage.get('ingredient_name')
@@ -179,16 +180,16 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
     dry_run: bool = True,
 ) -> None:
     """
-    Deletes preparations from recipe items by preparation IDs. If ingredient
-    IDs are included in include_ingredient_ids, deletions affect only those
-    ingredients' usages. If only exclude_ingredient_ids is passed in, the
-    specified preparations will be deleted from all recipe items except those
-    linked to the excluded ingredients. If no ingredient IDs are provided, the
-    specified preparations will be removed from all recipe items.
+    Deletes preparations from recipe items by preparation ID. If ingredients
+    are in include_ingredient_ids, deletions affect only those ingredients'
+    usages. If ingredients are only in exclude_ingredient_ids, the specified
+    preparations will be deleted from all recipe items except those linked
+    to the excluded ingredients. If no ingredients are provided, specified
+    preparations will be removed from ALL recipe items.
 
-    Note: include_ingredient_ids and exclude_ingredient_ids CANNOT be used
-    simultaneously. If both are provided, include_ingredient_ids takes precedence
-    and exclude_ingredient_ids will be ignored.
+    Note: This does not allow simultaneous use of include_ingredient_ids and
+    exclude_ingredient_ids. If both are provided, include_ingredient_ids takes
+    precedence.
     """
     delete_bin = []
     recipe_item_preparations = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
@@ -245,3 +246,18 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
                     continue
             logger.warning(f"Deleted {delete_count} of {total} recipe item preparations.")
     return
+
+
+def handle_duplicate_recipe_item_preparations(preparation_ids: List[str]) -> None:
+    preparation_usages = get_recipe_item_preparations_by_preparation_ids(preparation_ids)
+    recipe_item_preparations = defaultdict(list)
+    delete_count = 0
+
+    for pu in preparation_usages:
+        recipe_item_preparations[(pu.get('recipeItemId'), pu.get("preparationId"))].append(pu.get('id'))
+
+    for _, recipe_item_preparation_ids in recipe_item_preparations.items():
+        for recipe_item_preparation_id in recipe_item_preparation_ids[1:]:
+            delete_recipe_item_preparation(recipe_item_preparation_id)
+            delete_count += 1
+    logger.warning(f"Deleted {delete_count} duplicate recipe item preparations.")
