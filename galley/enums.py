@@ -38,7 +38,7 @@ class PreparationEnum(Enum):
     TWELVE_OZ_ROUND_INSERT = 'cHJlcGFyYXRpb246Mjg2MDY='
     PLATING_STATION = 'cHJlcGFyYXRpb246MTY1MTIy'
     WASH_STATION = 'cHJlcGFyYXRpb246MTY1MTIz'
-    BINNING_STATION = 'cHJlcGFyYXRpb246MTY1NzU0' # TODO: update with production id
+    BINNING_STATION = 'cHJlcGFyYXRpb246MTY1ODYz' # TODO: update with production id
 
 
 class ContainerEnum(set, Enum):  # type: ignore

@@ -39,9 +39,9 @@ def bulk_add_plating_preparation_to_send_to_plate_ingredient_usages(
 
 
 def add_preparations_to_recipe_items_from_dict(recipe_items_by_prep: Dict[str, List], dry_run=True) -> None:
-    for prep_id, recipe_items in recipe_items_by_prep.items():
-        logger.warning(f"Adding preparation {PreparationEnum(prep_id).name} ({prep_id}) to {len(recipe_items)} recipe_items")
-        logger.warning(f"recipe_item ids: {recipe_items}")
+    for prep_id, recipe_item_ids in recipe_items_by_prep.items():
+        logger.warning(f"Adding preparation {PreparationEnum(prep_id).name} ({prep_id}) to {len(recipe_item_ids)} recipe_items")
+        logger.warning(f"recipe_item ids: {recipe_item_ids}")
 
         if not dry_run:
             bulk_update_recipe_item_data(
