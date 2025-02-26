@@ -96,6 +96,7 @@ class EntityMediaEnum(Enum):
     Enum for EntityMedia. <field name>: <field value>
     """
     MENU_CAPTION = 'menu'
+    MENU_MODAL_CAPTION = 'menuModal'
     PLATE_CAPTION = 'plating'
 
 

@@ -196,7 +196,8 @@ class FormattedRecipe:
         self.notes = recipe_data.get('notes')
         self.description = recipe_data.get('description')
         self.is_sellable = recipe_data.get('isDish')
-        self.menu_photo_url = get_menu_photo_url(recipe_data.get('files', {}).get('photos', []))
+        self.menu_photo_url = get_menu_photo_url(recipe_data.get('files', {}).get('photos', []), EntityMediaEnum.MENU_CAPTION.value)
+        self.menu_modal_photo_url = get_menu_photo_url(recipe_data.get('files', {}).get('photos', []), EntityMediaEnum.MENU_MODAL_CAPTION.value)
         self.nutrition = recipe_data.get('reconciledNutritionals', {})
         self.tags = get_recipe_category_tags(recipe_data.get('categoryValues', []))
         self.label_and_weights = get_recipe_label_and_weights(recipe_data.get('recipeItems', []))
@@ -214,6 +215,7 @@ class FormattedRecipe:
             'notes': self.notes,
             'description': self.description,
             'menuPhotoUrl': self.menu_photo_url,
+            'menuModalPhotoUrl': self.menu_modal_photo_url,
             'nutrition': self.nutrition,
             'allergens': self.allergens,
             'hasAllergen': bool(self.allergens),
@@ -432,8 +434,8 @@ def get_meal_slug(menu_item: Dict) -> Optional[str]:
     return None
 
 
-def get_menu_photo_url(photos: List) -> Optional[str]:
-    caption = rf'(?i){EntityMediaEnum.MENU_CAPTION.value}'
+def get_menu_photo_url(photos: List, caption_str: str) -> Optional[str]:
+    caption = rf'(?i){caption_str}'
     return next((
         url for photo in photos
         if (
@@ -517,6 +519,7 @@ def get_formatted_menu_data(
                 'recipeId': menu_item.get('recipeId'),
                 'recipeMealType': formatted_recipe_dict.get('mealType', ''),
                 'recipeMenuPhotoUrl': formatted_recipe_dict.get('menuPhotoUrl', ''),
+                'recipeMenuModalPhotoUrl': formatted_recipe_dict.get('menuModalPhotoUrl', ''),
                 'recipeName': formatted_recipe_dict.get('externalName', ''),
                 'recipeProteinType': formatted_recipe_dict.get('proteinType', ''),
                 'volume': menu_item.get('volume'),
