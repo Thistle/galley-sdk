@@ -9,6 +9,7 @@ from tests.mock_responses.mock_recipe_items_ingredients_with_usages import (
     SELLABLE_RECIPE_ID,
     SELLABLE_RECIPE_NAME,
 )
+from typing import List
 
 
 def mock_recipe_base(id: str):
@@ -41,6 +42,13 @@ def mock_recipe_base(id: str):
                     'mediaId': 'bWVkaWE6OTEwNA==',
                     'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_menu{id}.jpg'
                 },
+                {
+                    'altText': f'modal{id}.jpg',
+                    'caption': 'Modal Photo',
+                    'sourceUrl': f'https://cdn.filestackcontent.com/MODAL{id}',
+                    'mediaId': 'bWVkaWE6OTEwNA==',
+                    'storageKey': f'Thistle/Media/1uTFWcWhTIGBpybJ1axc_modal{id}.jpg'
+                }
             ],
         },
         'versionConnection': {
@@ -92,7 +100,7 @@ def mock_page_info(end_index: int = 1,
     })
 
 
-def mock_recipe_connection(ids: list[str],
+def mock_recipe_connection(ids: List[str],
                            end_index: int = 1,
                            has_next_page: bool = False,
                            has_previous_page: bool = False,

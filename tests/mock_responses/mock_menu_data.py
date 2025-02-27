@@ -91,6 +91,13 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                                 'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu',
                                 'mediaId': 'bWVkaWE6OTEwNA==',
                                 'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
+                            },
+                            {
+                                'altText': 'Recipe_1_Menu_Modal.jpg',
+                                'caption': 'modal',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_1_Menu_Modal',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/a9XfT2GhLpQr7BwK3_dE.jpg'
                             }
                         ]
                     },
@@ -183,6 +190,13 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                                 'mediaId': 'bWVkaWE6OTEwNA==',
                                 'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
                             },
+                            {
+                                'altText': 'Recipe_2_Menu_Modal.jpg',
+                                'caption': 'modal',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_2_Menu_Modal',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/a9XfT2GhLpQr7BwK3_dE.jpg'
+                            }
                         ]
                     },
                     'dietaryFlagsWithUsages': [
@@ -278,6 +292,13 @@ def mock_menu(date, location_name= DEFAULT_LOCATION, menu_type=DEFAULT_MENU_TYPE
                                 'mediaId': 'bWVkaWE6OTEwNA==',
                                 'storageKey': 'Thistle/Media/1uTFWcWhTIGBpybJ1axc_.jpg'
                             },
+                            {
+                                'altText': 'Recipe_3_Menu_Modal.jpg',
+                                'caption': 'modal',
+                                'sourceUrl': 'https://cdn.filestackcontent.com/Recipe_3_Menu_Modal',
+                                'mediaId': 'bWVkaWE6OTEwNA==',
+                                'storageKey': 'Thistle/Media/a9XfT2GhLpQr7BwK3_dE.jpg'
+                            }
                         ]
                     },
                     'dietaryFlagsWithUsages': [
