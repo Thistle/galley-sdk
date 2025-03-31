@@ -95,6 +95,13 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                             "name": DietaryFlagEnum.SOYBEANS.name,
                         }
                     }
+                ],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "soybean"
+                        }
+                    }
                 ]
             }
         }
@@ -167,7 +174,29 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 0
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "quinoa"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "water"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "olives, kalamata, sliced"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "scallion, sliced"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -237,7 +266,19 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 3
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "quinoa"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "water"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -368,7 +409,14 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 5
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "scallion, sliced"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -449,6 +497,23 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                             "name": DietaryFlagEnum.SOYBEANS.name,
                         }
                     }
+                ],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "tofu, diced"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "feta, crumbled"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "salt"
+                        }
+                    }
                 ]
             }
         }
@@ -507,7 +572,14 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 0
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "feta, crumbled"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -574,6 +646,18 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "dietaryFlag": {
                             "id": DietaryFlagEnum.SOYBEANS.id,
                             "name": DietaryFlagEnum.SOYBEANS.name,
+                        }
+                    }
+                ],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "tofu, diced"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "salt"
                         }
                     }
                 ]
@@ -797,7 +881,34 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 6
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "spice, sumac"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "spice, black pepper, ground"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "garbanzo beans"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "juice, lemon"
+                        }
+                    },
+                    {
+                        "ingredient": {
+                            "name": "olive oil"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -970,7 +1081,14 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 3
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "garbanzo beans"
+                        }
+                    }
+                ],
             }
         }
     },
@@ -1255,7 +1373,8 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 "externalName": "Red Wine Vinaigrette",
                 "categoryValues": [],
                 "recipeInstructions": [],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": []
             }
         }
     },
@@ -1320,7 +1439,8 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 2
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": []
             }
         }
     },
@@ -1488,7 +1608,14 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         "position": 1
                     }
                 ],
-                "dietaryFlagsWithUsages": []
+                "dietaryFlagsWithUsages": [],
+                "allIngredientsWithUsages": [
+                    {
+                        "ingredient": {
+                            "name": "garlic, minced"
+                        }
+                    }
+                ]
             }
         }
     },
@@ -1565,6 +1692,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
 
 MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
     {
+        "allIngredients": ["quinoa", "water", "olives, kalamata, sliced", "scallion, sliced"],
         "allergens": [],
         "binWeight": {
             "unit": "lb",
@@ -1591,6 +1719,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         ],
         "recipeComponents": [
             {
+                "allIngredients": ["quinoa", "water"],
                 "allergens": [],
                 "id": "cmVjaXBlOjE4ODYwNg==",
                 "name": "Cooked Rainbow Quinoa",
@@ -1611,6 +1740,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
                 }
             },
             {
+                "allIngredients": ["scallion, sliced"],
                 "allergens": [],
                 "id": "cmVjaXBlOjE3Mjk2NQ==",
                 "name": "Sliced Scallion",
@@ -1628,6 +1758,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         }
     },
     {
+        "allIngredients": ["tofu, diced", "feta, crumbled", "salt"],
         "allergens": [SOY],
         "binWeight": {
             "unit": "lb",
@@ -1666,6 +1797,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         ],
         "recipeComponents": [
             {
+                "allIngredients": ["feta, crumbled"],
                 "allergens": [],
                 "id": "cmVjaXBlOjIxNjA2MA==",
                 "name": "Brine for \"Feta\"",
@@ -1676,6 +1808,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
                 }
             },
             {
+                "allIngredients": ["tofu, diced", "salt"],
                 "allergens": [SOY],
                 "id": "cmVjaXBlOjE5MDA5MQ==",
                 "name": "Small Diced Tofu (1/4\")",
@@ -1743,6 +1876,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         }
     },
     {
+        "allIngredients": ["spice, sumac", "spice, black pepper, ground", "garbanzo beans", "juice, lemon", "olive oil"],
         "allergens": [],
         "binWeight": {
             "unit": "lb",
@@ -1813,6 +1947,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
                 }
             },
             {
+                "allIngredients": ["garbanzo beans"],
                 "allergens": [],
                 "id": "cmVjaXBlOjE3NjQ4MA==",
                 "name": "Cooked Garbanzo Beans",
@@ -1850,6 +1985,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         }
     },
     {
+        "allIngredients": [],
         "allergens": [],
         "binWeight": {
             "unit": "lb",
@@ -1871,6 +2007,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         ],
         "recipeComponents": [
             {
+                "allIngredients": [],
                 "allergens": [],
                 "id": "cmVjaXBlOjE3NDI4OA==",
                 "name": "Red Wine Vinaigrette BASE",

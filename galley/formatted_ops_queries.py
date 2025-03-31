@@ -56,6 +56,7 @@ class RecipeItem:
         self.preparations = recipeitem.pop('preparations', []) or []
         self.instructions = self.data.pop('recipeInstructions', []) or []
         self.unit_values = self.usage['unit'].pop('unitValues', []) or []
+        self.all_ingredients = self.data.pop('allIngredientsWithUsages', []) or []
         self.category_values = self.data.pop('categoryValues', []) or []
         self.dietary_flags = self.data.pop('dietaryFlagsWithUsages', self.data.pop('dietaryFlags', [])) or []
         self.components = components or []
@@ -188,22 +189,30 @@ class RecipeItem:
                         component.get('recipeItem'),
                         component.get('components'),
                         component.get('recipeItem').get('quantity'),
-                        component.get('recipeItem').get('unit')
+                        component.get('recipeItem').get('unit'),
                     ).to_subcomponent_dict()
                     for component in self.components
                     if component.get('recipeItem')
+                ],
+                'allIngredients': [
+                    ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
                 ]
             }
         return component
 
     def to_subcomponent_dict(self):
-        return {
+        subcomponent: Dict = {
             'allergens': self.format_allergens(),
             'id': self.data.get('id'),
             'name': self.format_name(),
             'type': self.type,
-            'usage': self.format_usage()
+            'usage': self.format_usage(),
         }
+        if self.type == SUBRECIPE:
+            subcomponent['allIngredients'] = [
+                ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
+            ]
+        return subcomponent
 
 
 def get_plate_photo_url(photos: List) -> Optional[str]:

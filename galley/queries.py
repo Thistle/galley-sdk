@@ -202,6 +202,7 @@ def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=[location_id])
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.__fields__('name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages(location_id=location_id)
     return query
 
