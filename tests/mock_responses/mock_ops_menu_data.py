@@ -1699,6 +1699,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             "value": 50.0
         },
         "cuppingContainer": "2 oz RAM",
+        'externalName': None,
         "id": "cmVjaXBlOjE4OTcwNA==",
         "instructions": [
             {
@@ -1721,6 +1722,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": ["quinoa", "water"],
                 "allergens": [],
+                'externalName': None,
                 "id": "cmVjaXBlOjE4ODYwNg==",
                 "name": "Cooked Rainbow Quinoa",
                 "type": "recipe",
@@ -1731,6 +1733,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             },
             {
                 "allergens": [],
+                'externalName': 'Kalamata Olives',
                 "id": "aW5ncmVkaWVudDoyNDQ2Mzc=",
                 "name": "olives, kalamata, sliced",
                 "type": "ingredient",
@@ -1742,6 +1745,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": ["scallion, sliced"],
                 "allergens": [],
+                'externalName': None,
                 "id": "cmVjaXBlOjE3Mjk2NQ==",
                 "name": "Sliced Scallion",
                 "type": "recipe",
@@ -1765,6 +1769,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             "value": 60.0
         },
         "cuppingContainer": "INSERT12",
+        'externalName': None,
         "id": "cmVjaXBlOjE3NjQ3Mw==",
         "instructions": [
             {
@@ -1799,6 +1804,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": ["feta, crumbled"],
                 "allergens": [],
+                'externalName': None,
                 "id": "cmVjaXBlOjIxNjA2MA==",
                 "name": "Brine for \"Feta\"",
                 "type": "recipe",
@@ -1810,6 +1816,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": ["tofu, diced", "salt"],
                 "allergens": [SOY],
+                'externalName': None,
                 "id": "cmVjaXBlOjE5MDA5MQ==",
                 "name": "Small Diced Tofu (1/4\")",
                 "type": "recipe",
@@ -1832,6 +1839,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             "value": 30.0
         },
         "cuppingContainer": None,
+        'externalName': 'Spring Mix Lettuce* or Seasonal Greens*§',
         "id": "aW5ncmVkaWVudDoyNDQ1NjE=",
         "name": "lettuce, spring mix, SEND TO PLATE",
         "quantityValues": [
@@ -1858,6 +1866,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         },
         "cuppingContainer": None,
         "id": "aW5ncmVkaWVudDoyNzQ4ODA=",
+        'externalName': 'Crispy Chickpeas (Chickpeas, Sunflower Oil, Sea Salt)',
         "name": "crispy roasted chickpeas, 0.85 oz bag, SEND TO PLATE",
         "quantityValues": [
             {
@@ -1883,6 +1892,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             "value": 60.0
         },
         "cuppingContainer": None,
+        'externalName': None,
         "id": "cmVjaXBlOjE3MDU4NA==",
         "instructions": [
             {
@@ -1928,6 +1938,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
         "recipeComponents": [
             {
                 "allergens": [],
+                'externalName': 'Sumac',
                 "id": "aW5ncmVkaWVudDoyNDQ4MzQ=",
                 "name": "spice, sumac",
                 "type": "ingredient",
@@ -1938,6 +1949,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             },
             {
                 "allergens": [],
+                'externalName': 'Black Pepper',
                 "id": "aW5ncmVkaWVudDoyNDQ3OTM=",
                 "name": "spice, black pepper, ground",
                 "type": "ingredient",
@@ -1949,6 +1961,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": ["garbanzo beans"],
                 "allergens": [],
+                'externalName': None,
                 "id": "cmVjaXBlOjE3NjQ4MA==",
                 "name": "Cooked Garbanzo Beans",
                 "type": "recipe",
@@ -1959,6 +1972,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             },
             {
                 "allergens": [],
+                'externalName': 'Extra Virgin Olive Oil',
                 "id": "aW5ncmVkaWVudDoyNDQ2MzA=",
                 "name": "oil, olive",
                 "type": "ingredient",
@@ -1969,6 +1983,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             },
             {
                 "allergens": [],
+                'externalName': 'Lemon Juice',
                 "id": "aW5ncmVkaWVudDoyNDQ1MzU=",
                 "name": "juice, lemon",
                 "type": "ingredient",
@@ -1992,6 +2007,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             "value": 60.0
         },
         "cuppingContainer": "2 oz WINPAK",
+        'externalName': 'Red Wine Vinaigrette',
         "id": "cmVjaXBlOjIyMzU3MQ==",
         "instructions": [],
         "name": "Red Wine Vinaigrette 2oz",
@@ -2009,6 +2025,7 @@ MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS = [
             {
                 "allIngredients": [],
                 "allergens": [],
+                'externalName': None,
                 "id": "cmVjaXBlOjE3NDI4OA==",
                 "name": "Red Wine Vinaigrette BASE",
                 "type": "recipe",

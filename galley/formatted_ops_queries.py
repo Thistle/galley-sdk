@@ -173,6 +173,8 @@ class RecipeItem:
             'allergens': self.format_allergens(),
             'binWeight': self.format_bin_weight(),
             'cuppingContainer': self.get_cupping_container(),
+            # External name contains the ingredients list for pre-fab ingredients
+            'externalName': self.data.get('externalName'),
             'id': self.data.get('id'),
             'name': self.data.get('name'),
             'quantityValues': self.format_quantity_values(),
@@ -205,6 +207,8 @@ class RecipeItem:
             'allergens': self.format_allergens(),
             'id': self.data.get('id'),
             'name': self.format_name(),
+            # External name contains the ingredients list for pre-fab ingredients
+            'externalName': self.data.get('externalName'),
             'type': self.type,
             'usage': self.format_usage(),
         }
