@@ -173,9 +173,9 @@ class RecipeItem:
             'allergens': self.format_allergens(),
             'binWeight': self.format_bin_weight(),
             'cuppingContainer': self.get_cupping_container(),
-            # External name contains the ingredients list for pre-fab ingredients
-            'externalName': self.data.get('externalName'),
             'id': self.data.get('id'),
+            # Contains the ingredients list for pre-fab ingredients
+            'label': self.data.get('externalName'),
             'name': self.data.get('name'),
             'quantityValues': self.format_quantity_values(),
             'type': self.type,
@@ -196,7 +196,7 @@ class RecipeItem:
                     for component in self.components
                     if component.get('recipeItem')
                 ],
-                'allIngredients': [
+                'ingredients': [
                     ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
                 ]
             }
@@ -206,14 +206,14 @@ class RecipeItem:
         subcomponent: Dict = {
             'allergens': self.format_allergens(),
             'id': self.data.get('id'),
+            # Contains the ingredients list for pre-fab ingredients
+            'label': self.data.get('externalName'),
             'name': self.format_name(),
-            # External name contains the ingredients list for pre-fab ingredients
-            'externalName': self.data.get('externalName'),
             'type': self.type,
             'usage': self.format_usage(),
         }
         if self.type == SUBRECIPE:
-            subcomponent['allIngredients'] = [
+            subcomponent['ingredients'] = [
                 ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
             ]
         return subcomponent
