@@ -168,6 +168,11 @@ class RecipeItem:
             'unit': unit.get('name')
         }
 
+    def format_ingredients(self) -> List[Dict]:
+        return [
+            ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
+        ]
+
     def to_primary_component_dict(self):
         component: Dict = {
             'allergens': self.format_allergens(),
@@ -196,14 +201,12 @@ class RecipeItem:
                     for component in self.components
                     if component.get('recipeItem')
                 ],
-                'ingredients': [
-                    ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
-                ]
+                'ingredients': self.format_ingredients(),
             }
         return component
 
     def to_subcomponent_dict(self):
-        subcomponent: Dict = {
+        subcomponent = {
             'allergens': self.format_allergens(),
             'id': self.data.get('id'),
             # Contains the ingredients list for pre-fab ingredients
@@ -213,9 +216,7 @@ class RecipeItem:
             'usage': self.format_usage(),
         }
         if self.type == SUBRECIPE:
-            subcomponent['ingredients'] = [
-                ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
-            ]
+            subcomponent['ingredients'] = self.format_ingredients()
         return subcomponent
 
 
