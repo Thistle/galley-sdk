@@ -96,7 +96,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         }
                     }
                 ],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "soybean"
@@ -175,7 +175,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "quinoa"
@@ -267,7 +267,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "quinoa"
@@ -410,7 +410,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "scallion, sliced"
@@ -498,7 +498,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         }
                     }
                 ],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "tofu, diced"
@@ -573,7 +573,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "feta, crumbled"
@@ -649,7 +649,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                         }
                     }
                 ],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "tofu, diced"
@@ -882,7 +882,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "spice, sumac"
@@ -1082,7 +1082,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "garbanzo beans"
@@ -1374,7 +1374,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                 "categoryValues": [],
                 "recipeInstructions": [],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": []
+                "ingredientsWithUsages": []
             }
         }
     },
@@ -1440,7 +1440,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": []
+                "ingredientsWithUsages": []
             }
         }
     },
@@ -1609,7 +1609,7 @@ MOCK_RECIPE_TREE_COMPONENTS = [
                     }
                 ],
                 "dietaryFlagsWithUsages": [],
-                "allIngredientsWithUsages": [
+                "ingredientsWithUsages": [
                     {
                         "ingredient": {
                             "name": "garlic, minced"

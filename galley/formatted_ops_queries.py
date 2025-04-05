@@ -56,7 +56,7 @@ class RecipeItem:
         self.preparations = recipeitem.pop('preparations', []) or []
         self.instructions = self.data.pop('recipeInstructions', []) or []
         self.unit_values = self.usage['unit'].pop('unitValues', []) or []
-        self.all_ingredients = self.data.pop('allIngredientsWithUsages', []) or []
+        self.all_ingredients = self.data.pop('ingredientsWithUsages', []) or []
         self.category_values = self.data.pop('categoryValues', []) or []
         self.dietary_flags = self.data.pop('dietaryFlagsWithUsages', self.data.pop('dietaryFlags', [])) or []
         self.components = components or []
