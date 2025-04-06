@@ -108,6 +108,7 @@ def recipe_connection_query(
     query.viewer.recipeConnection.edges.node.dietaryFlagsWithUsages(location_id=location_id)
     query.viewer.recipeConnection.edges.node.reconciledNutritionals(location_id=location_id)
     query.viewer.recipeConnection.edges.node.recipeItems.__fields__('id', 'recipeId', 'preparations', 'quantity')
+    query.viewer.recipeConnection.edges.node.recipeItems.preparations.__fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeItems.unit.__fields__('id', 'name')
     query.viewer.recipeConnection.edges.node.recipeItems.unit.unitValues.__fields__('value')
     query.viewer.recipeConnection.edges.node.recipeItems.unit.unitValues.unit.__fields__('id', 'name')
@@ -198,11 +199,12 @@ def get_ops_menu_query(dates: List[str], location_id: str) -> Operation:
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.unitValues.__fields__('value')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.unit.unitValues.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.__fields__('preparations', 'quantity')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.preparations.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.unit.__fields__('id', 'name')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.locationVendorItems(location_ids=[location_id])
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.ingredient.__fields__('id', 'name', 'externalName', 'categoryValues', 'dietaryFlags')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.__fields__('id', 'name', 'externalName', 'categoryValues', 'recipeInstructions')
-    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages.ingredient.__fields__('name', 'externalName')
+    query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.allIngredientsWithUsages(location_id=location_id).ingredient.__fields__('name', 'externalName')
     query.viewer.menus.menuItems.recipe.recipeTreeComponents.recipeItem.subRecipe.dietaryFlagsWithUsages(location_id=location_id)
     return query
 
