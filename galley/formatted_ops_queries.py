@@ -40,6 +40,7 @@ ALLERGEN_LABELS = {
     DietaryFlagEnum.PORK.name: 'pork',
 }
 
+
 class RecipeItem:
     def __init__(
         self,

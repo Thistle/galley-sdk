@@ -172,7 +172,7 @@ class SubRecipe(Type):
     recipeTreeComponents = Field(RecipeTreeComponent, args=ArgDict(levels=list_of(Int)))
     dietaryFlagsWithUsages = Field('DietaryFlagsWithUsages', args=ArgDict(location_id=ID))
     categoryValues = Field(CategoryValue)
-    allIngredientsWithUsages = Field(list_of(IngredientWithUsages))
+    allIngredientsWithUsages = Field(list_of(IngredientWithUsages), args=ArgDict(location_id=ID))
 
 
 class RecipeItem(Type):
