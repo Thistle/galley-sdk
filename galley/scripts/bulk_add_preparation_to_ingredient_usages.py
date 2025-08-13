@@ -65,10 +65,11 @@ def add_preparations_to_recipe_items_from_ingredient_csv(filename: str, dry_run=
     items_by_prep = defaultdict(list)
 
     for item in recipe_items:
-        if item.get('preparation') in PreparationEnum._member_names_:
-            prep_id = PreparationEnum[item.get('preparation')].value
-            if prep_id:
-                items_by_prep[prep_id].append(item.get('recipe_item_id'))
+        try:
+            prep_id = PreparationEnum[str(item.get('preparation'))].value
+        except KeyError:
+            continue
+        items_by_prep[prep_id].append(item.get('recipe_item_id'))
     add_preparations_to_recipe_items_from_dict(recipe_items_by_prep=items_by_prep, dry_run=dry_run)
 
 
@@ -80,11 +81,12 @@ def add_preparations_to_recipe_items_from_recipe_csv(filename: str, dry_run=True
         for row in records:
             recipes.append(row)
 
-    items_by_prep = defaultdict(list)
+    items_by_prep: dict = defaultdict(list)
 
     for recipe in recipes:
-        if recipe.get('preparation') in PreparationEnum._member_names_:
-            prep_id = PreparationEnum[recipe.get('preparation')].value
-            if prep_id:
-                items_by_prep[prep_id].extend(recipe.get('recipe_item_ids').split(','))
+        try:
+            prep_id = PreparationEnum[str(recipe.get('preparation'))].value
+        except KeyError:
+            continue
+        items_by_prep[prep_id].extend(str(recipe.get('recipe_item_ids')).split(','))
     add_preparations_to_recipe_items_from_dict(recipe_items_by_prep=items_by_prep, dry_run=dry_run)
