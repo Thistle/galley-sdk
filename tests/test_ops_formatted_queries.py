@@ -202,17 +202,6 @@ class TestFormattedAllergenData(TestCase):
         result = RecipeItem(recipeitem=recipeitem).format_allergens()
         self.assertEqual(result, [])
 
-    def test_format_ingredient_allergen_data_empty(self):
-        recipeitem = {
-            "preparations": [],
-            "ingredient": {
-                "dietaryFlags": []
-            },
-            "subRecipe": None
-        }
-        result = RecipeItem(recipeitem=recipeitem).format_allergens()
-        self.assertEqual(result, [])
-
     def test_format_recipe_allergen_data_None(self):
         recipeitem = {
             "preparations": [],
@@ -224,7 +213,18 @@ class TestFormattedAllergenData(TestCase):
         result = RecipeItem(recipeitem=recipeitem).format_allergens()
         self.assertEqual(result, [])
 
-    def test_format_recipe_allergen_data_None(self):
+    def test_format_ingredient_allergen_data_empty(self):
+        recipeitem = {
+            "preparations": [],
+            "ingredient": {
+                "dietaryFlags": []
+            },
+            "subRecipe": None
+        }
+        result = RecipeItem(recipeitem=recipeitem).format_allergens()
+        self.assertEqual(result, [])
+
+    def test_format_ingredient_allergen_data_None(self):
         recipeitem = {
             "preparations": [],
             "ingredient": {

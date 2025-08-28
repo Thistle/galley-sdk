@@ -33,7 +33,7 @@ def can_retry(data: Optional[Dict]) -> bool:
 
 
 # REQUEST OPERATION FUNCTION TO QUERY / MUTATE GALLEY DATA
-@backoff.on_predicate(lambda: backoff.constant(interval=0.5), predicate=can_retry, max_tries=max_retries + 1)
+@backoff.on_predicate(lambda: backoff.constant(interval=1), predicate=can_retry, max_tries=max_retries + 1)
 def make_request_to_galley(op: Operation, variables: Optional[Dict] = None) -> Optional[Dict]:
     endpoint = build_galley_endpoint()
     return endpoint(op, {} if variables is None else variables)

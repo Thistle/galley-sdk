@@ -1,7 +1,7 @@
 import re
 import logging
 from functools import reduce
-from typing import Dict, List, Optional, Tuple, Set, Union
+from typing import Any, Dict, List, Optional, Tuple, Set, Union
 from galley.queries import get_raw_menu_data
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.formatted_queries import get_menu_type, get_item_code, get_external_name, get_recipe_category_tags
@@ -174,7 +174,7 @@ class RecipeItem:
             ingredient.get('name') for item in self.all_ingredients if (ingredient := item.get('ingredient', {}))
         ]
 
-    def to_primary_component_dict(self):
+    def to_primary_component_dict(self) -> dict[str, Any]:
         component: Dict = {
             'allergens': self.format_allergens(),
             'binWeight': self.format_bin_weight(),

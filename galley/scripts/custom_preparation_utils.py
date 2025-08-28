@@ -95,11 +95,14 @@ def generate_csv_for_ingredient_usage_candidates(ingredient_names: List[str]) ->
 # This script retrieves relevant data from a recipe to determine if
 # it might be processed by a different team than Kitchen
 def get_candidate_recipes_from_recipe_names(recipe_names: List[str]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]] :
-    included_recipes = []
-    excluded_recipes = []
+    included_recipes: List[Dict[str, Any]] = []
+    excluded_recipes: List[Dict[str, Any]] = []
 
     recipe_ids = get_recipe_ids_by_name(recipe_names)
     recipe_data = get_raw_recipes_data(recipe_ids=recipe_ids, location_name="burlington")
+
+    if recipe_data is None:
+        return included_recipes, excluded_recipes
 
     for recipe in recipe_data:
         recipe_items = recipe.get('recipeItems', [])
@@ -204,8 +207,8 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
             for recipe_item_preparation in recipe_item_preparations
             if (
                 ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient")
-                and ingredient["id"] in include_ingredient_ids
             )
+            and ingredient["id"] in include_ingredient_ids
         ]
     elif exclude_ingredient_ids:
         delete_bin = [
@@ -213,8 +216,8 @@ def delete_ingredient_usage_preparations_by_preparation_ids(
             for recipe_item_preparation in recipe_item_preparations
             if (
                 ingredient := recipe_item_preparation.get("recipeItem", {}).get("ingredient")
-                and ingredient["id"] not in exclude_ingredient_ids
             )
+            and ingredient["id"] not in exclude_ingredient_ids
         ]
     else:
         delete_bin = [
