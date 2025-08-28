@@ -7,6 +7,9 @@ This is a Python SDK for interacting with the graphql API published by Galley (r
 To set up your environment and install the required dependencies for local development, you will may use both Python and a virtual environment tool like [virtualenv](https://virtualenv.pypa.io/en/latest/#) or [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) or the supplied [Development Container](https://containers.dev/).
 
 ### virtualenv steps
+
+First make sure you're using Python 3.9. If you use pyenv, it'll select Python 3.9 automatically based on the .python-version file (and complain if you don't have 3.9 installed). Other installation methods are an exercise for the intrepid reader.
+
 ```
 $ git clone git@github.com:Thistle/galley-sdk.git
 $ cd galley-sdk
