@@ -21,7 +21,7 @@ def formatted_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_M
             'recipeName': 'Test Recipe Name 1',
             'mealContainer': 'ts48',
             'platePhotoUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot',
-            'platePlanogramUrl': 'https://media-assets.thistle.co/plating_planogram.jpg',
+            'platePlanogramUrl': 'https://cdn.filestackcontent.com/J8PnW7SVQHO7kWSUPjEy',
             'totalCount': 923,
             'totalCountUnit': 'each',
             'primaryRecipeComponents': MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS,

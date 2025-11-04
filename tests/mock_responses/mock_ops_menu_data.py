@@ -2100,7 +2100,7 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 },
                                  {
                                     'caption': 'plan',
-                                    'sourceUrl': 'https://media-assets.thistle.co/plating_planogram.jpg'
+                                    'sourceUrl': 'https://cdn.filestackcontent.com/J8PnW7SVQHO7kWSUPjEy'
                                 }
                             ]
                         },
