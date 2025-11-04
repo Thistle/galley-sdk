@@ -98,6 +98,7 @@ class EntityMediaEnum(Enum):
     MENU_CAPTION = 'menu'
     MENU_MODAL_CAPTION = 'modal'
     PLATE_CAPTION = 'plating'
+    PLANOGRAM_CAPTION = 'plan'
 
 
 class DietaryFlagEnum(Enum):
