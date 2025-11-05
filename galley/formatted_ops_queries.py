@@ -221,12 +221,12 @@ class RecipeItem:
         return subcomponent
 
 
-def get_plate_photo_url(photos: List) -> Optional[str]:
-    caption = rf'(?i){EntityMediaEnum.PLATE_CAPTION.value}'
+def get_photo_url(photos: List, caption: str) -> Optional[str]:
+    caption_regex = rf'(?i){caption}'
     return next((
         url for photo in photos
         if (
-            bool(re.search(caption, photo.get('caption') or ''))
+            bool(re.search(caption_regex, photo.get('caption') or ''))
             and (url := photo.get('sourceUrl'))
         )
     ), None)
@@ -317,7 +317,8 @@ def get_formatted_ops_menu_data(
                     'recipeId': menu_item.get('recipeId'),
                     'recipeName': get_external_name(recipe),
                     'mealContainer': get_recipe_category_tags(recipe.get('categoryValues') or []).get('mealContainer'),
-                    'platePhotoUrl': get_plate_photo_url(recipe.get('files', {}).get('photos') or []),
+                    'platePhotoUrl': get_photo_url(photos=recipe.get('files', {}).get('photos') or [], caption=EntityMediaEnum.PLATE_CAPTION.value),
+                    'platePlanogramUrl': get_photo_url(photos=recipe.get('files', {}).get('photos') or [], caption=EntityMediaEnum.PLANOGRAM_CAPTION.value),
                     'totalCount': menu_item.get('volume'),
                     'totalCountUnit': menu_item.get('unit', {}).get('name'),
                     'primaryRecipeComponents': format_components(recipe.get('recipeTreeComponents') or [])

@@ -2097,6 +2097,10 @@ def mock_ops_menu(date, location_name=DEFAULT_LOCATION, menu_type=DEFAULT_MENU_T
                                 {
                                     'caption': 'plating',
                                     'sourceUrl': 'https://cdn.filestackcontent.com/2X5ivrEYQvuEh30DyYot'
+                                },
+                                 {
+                                    'caption': 'plan',
+                                    'sourceUrl': 'https://cdn.filestackcontent.com/J8PnW7SVQHO7kWSUPjEy'
                                 }
                             ]
                         },
