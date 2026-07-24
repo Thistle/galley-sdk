@@ -1,9 +1,9 @@
 
 import os
-import importlib
+import importlib.util
 
 # instantiation of package dependencies that are only required for local development.
-dotenvlib = importlib.find_loader('dotenv')
+dotenvlib = importlib.util.find_spec('dotenv')
 if dotenvlib is not None:
     from dotenv import load_dotenv
     load_dotenv()
