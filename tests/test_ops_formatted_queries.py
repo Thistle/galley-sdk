@@ -302,6 +302,10 @@ class TestGetFormattedOpsMenuData(TestCase):
         result = format_components(deepcopy(MOCK_RECIPE_TREE_COMPONENTS))
         self.assertEqual(result, MOCK_FORMATTED_PRIMARY_RECIPE_COMPONENTS)
 
+    def test_format_primary_recipe_components_empty(self):
+        result = format_components([])
+        self.assertEqual(result, [])
+
     @mock.patch('galley.queries.make_request_to_galley')
     def test_get_formatted_ops_menu_data_returns_approved_product_codes(self, mock_retrieval_method):
         mock_retrieval_method.return_value = self.response(mock_ops_menu('2022-03-28'))

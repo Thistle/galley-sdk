@@ -249,7 +249,7 @@ def format_components(rtc: List) -> List[Dict]:
     tree, _ = reduce(build_recipe_tree, rtc, ({}, {}))  # type: Tuple[Dict, Dict]
     primary_components = []
 
-    for component in tree['recipe']['components']:
+    for component in tree.get('recipe', {}).get('components', []):
         if not component['recipeItem']:
             continue
 
