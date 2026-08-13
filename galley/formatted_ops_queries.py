@@ -249,7 +249,7 @@ def format_components(rtc: List) -> List[Dict]:
     tree, _ = reduce(build_recipe_tree, rtc, ({}, {}))  # type: Tuple[Dict, Dict]
     primary_components = []
 
-    for component in tree['recipe']['components']:
+    for component in tree.get('recipe', {}).get('components', []):
         if not component['recipeItem']:
             continue
 
@@ -286,7 +286,7 @@ def format_components(rtc: List) -> List[Dict]:
 
 def get_formatted_ops_menu_data(
     dates: List[str],
-    product_codes_filter: Union[Set[str], List[str]],
+    product_codes_filter: Optional[Union[Set[str], List[str]]] = None,
     location_name: str = DEFAULT_LOCATION,
     menu_type: str = DEFAULT_MENU_TYPE,
 ) -> Optional[List[Dict]]:
@@ -309,7 +309,7 @@ def get_formatted_ops_menu_data(
         menu_items = menu.get('menuItems') or []
         for menu_item in menu_items:
             product_code = get_item_code(menu_item)
-            if product_code.lower() in product_codes_filter:
+            if not product_codes_filter or product_code.lower() in product_codes_filter:
                 recipe = menu_item.get('recipe') or {}
                 formatted_menu['menuItems'].append({
                     'menuItemId': menu_item.get('id'),
