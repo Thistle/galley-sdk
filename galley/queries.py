@@ -445,7 +445,10 @@ def get_ingredient_usages_by_ingredient_ids(ingredient_ids, start_index = 0, ing
     return ingredient_usages
 
 
-def get_ingredient_ids_by_search_term(search_term, start_index = 0, ingredient_ids = []):
+def get_ingredient_ids_by_search_term(search_term, start_index = 0, ingredient_ids = None):
+    if ingredient_ids is None:
+        ingredient_ids = []
+
     ingredient_connection = get_ingredient_connection_by_search_term(
         search_term=search_term,
         start_index=start_index,

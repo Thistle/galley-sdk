@@ -2,7 +2,7 @@ import csv
 import logging
 
 from collections import defaultdict
-from typing import List, Dict
+from typing import Dict, List, Optional
 
 from galley.enums import PreparationEnum
 from galley.scripts.custom_preparation_utils import bulk_add_preparation_to_ingredient_recipe_items, bulk_update_recipe_item_data, delete_recipe_item_preparation
@@ -12,12 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 def bulk_add_plating_preparation_to_send_to_plate_ingredient_usages(
-    exclude_ingredient_ids: List[str] = [],
-    exclude_ingredient_names: List[str] = [],
+    exclude_ingredient_ids: Optional[List[str]] = None,
+    exclude_ingredient_names: Optional[List[str]] = None,
     dry_run: bool = True,
 ) -> None:
+    exclusions = list(exclude_ingredient_ids or [])
+
     if exclude_ingredient_names:
-        exclude_ingredient_ids.extend([
+        exclusions.extend([
             ingredient
             for ingredient in get_ingredient_ids_by_name(
                 ingredient_names=exclude_ingredient_names
@@ -25,7 +27,7 @@ def bulk_add_plating_preparation_to_send_to_plate_ingredient_usages(
         ])
     ingredient_ids = list(
         set(get_ingredient_ids_by_search_term(search_term="SEND TO PLATE")) -
-        set(exclude_ingredient_ids)
+        set(exclusions)
     )
     return bulk_add_preparation_to_ingredient_recipe_items(
         ingredient_ids=ingredient_ids,
