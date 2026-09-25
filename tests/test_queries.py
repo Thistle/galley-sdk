@@ -1,7 +1,7 @@
 import logging
 from galley.common import DEFAULT_LOCATION, DEFAULT_MENU_TYPE
 from galley.enums import LocationEnum
-from galley.queries import Query, get_menu_query, get_raw_menu_data, get_raw_recipes_data, recipe_connection_query
+from galley.queries import Query, get_ingredient_ids_by_search_term, get_menu_query, get_raw_menu_data, get_raw_recipes_data, recipe_connection_query
 from tests.mock_responses.mock_recipes_data import mock_page_info, mock_recipe, mock_recipe_connection
 from tests.mock_responses.mock_menu_data import mock_menu
 from unittest import TestCase, mock
@@ -283,3 +283,76 @@ class TestQueryGetRawRecipesData(TestCase):
         result = get_raw_recipes_data(recipe_ids=['1', '2', '3'], location_name=DEFAULT_LOCATION)
         self.assertEqual(mock_retrieval_method.call_count, 2)
         self.assertEqual(result, expected_recipe_data)
+
+
+class TestQueryGetIngredientIdsBySearchTerm(TestCase):
+    def response(self, ids, has_next_page=False, end_index=None):
+        return {
+            'data': {
+                'viewer': {
+                    'ingredientConnection': {
+                        'edges': [{'node': {'id': id, 'name': id}} for id in ids],
+                        'pageInfo': {
+                            'hasNextPage': has_next_page,
+                            'endIndex': len(ids) if end_index is None else end_index,
+                        },
+                        'totalCount': len(ids),
+                    }
+                }
+            }
+        }
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_each_search_returns_only_its_own_ingredient_ids(self, mock_retrieval_method):
+        mock_retrieval_method.side_effect = [
+            self.response(['ingredient-1', 'ingredient-2']),
+            self.response(['ingredient-3']),
+        ]
+
+        first = get_ingredient_ids_by_search_term(search_term='SEND TO PLATE')
+        second = get_ingredient_ids_by_search_term(search_term='DICED ONION')
+
+        self.assertEqual(first, ['ingredient-1', 'ingredient-2'])
+        self.assertEqual(second, ['ingredient-3'])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_search_does_not_mutate_the_result_of_an_earlier_search(self, mock_retrieval_method):
+        mock_retrieval_method.side_effect = [
+            self.response(['ingredient-1']),
+            self.response(['ingredient-2']),
+        ]
+
+        first = get_ingredient_ids_by_search_term(search_term='SEND TO PLATE')
+        second = get_ingredient_ids_by_search_term(search_term='DICED ONION')
+
+        self.assertEqual(first, ['ingredient-1'])
+        self.assertIsNot(first, second)
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_paginated_search_accumulates_every_page_once(self, mock_retrieval_method):
+        mock_retrieval_method.side_effect = [
+            self.response(['ingredient-1', 'ingredient-2'], has_next_page=True, end_index=2),
+            self.response(['ingredient-3'], end_index=3),
+        ]
+
+        result = get_ingredient_ids_by_search_term(search_term='SEND TO PLATE')
+
+        self.assertEqual(mock_retrieval_method.call_count, 2)
+        self.assertEqual(result, ['ingredient-1', 'ingredient-2', 'ingredient-3'])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_search_still_appends_to_a_caller_supplied_list(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = self.response(['ingredient-2'])
+
+        result = get_ingredient_ids_by_search_term(
+            search_term='SEND TO PLATE',
+            ingredient_ids=['ingredient-1'],
+        )
+
+        self.assertEqual(result, ['ingredient-1', 'ingredient-2'])
+
+    @mock.patch('galley.queries.make_request_to_galley')
+    def test_search_without_results_returns_an_empty_list(self, mock_retrieval_method):
+        mock_retrieval_method.return_value = self.response([])
+
+        self.assertEqual(get_ingredient_ids_by_search_term(search_term='SEND TO PLATE'), [])
