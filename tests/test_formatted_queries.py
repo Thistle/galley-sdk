@@ -429,6 +429,7 @@ class TestGetRecipeCategoryTags(TestCase):
             'proteinAddOn': 'high-protein-legume',
             'baseMealSlug': 'base-salad',
             'baseMeal': 'Base Salad Name',
+            'labelSubtitle': 'Salad with Caesar Dressing',
             'highlightTags': ['new', 'spicy'],
             'displayNutritionOnWebsite': True
         }
@@ -461,6 +462,7 @@ class TestGetRecipeCategoryTags(TestCase):
             'proteinAddOn': 'high-protein-legume',
             'baseMealSlug': 'base-salad',
             'baseMeal': 'Base Salad Name',
+            'labelSubtitle': 'Salad with Caesar Dressing',
             'highlightTags': ['new'],
             'displayNutritionOnWebsite': True
         }
@@ -506,6 +508,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'proteinAddOn': 'high-protein-legume',
                 'baseMealSlug': 'base-salad',
                 'baseMeal': 'Base Salad Name',
+                'labelSubtitle': 'Salad with Caesar Dressing',
                 'highlightTags': ['new', 'spicy'],
                 'displayNutritionOnWebsite': True,
                 'ingredients': BASE_INGREDIENTS,

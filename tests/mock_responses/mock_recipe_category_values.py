@@ -73,6 +73,15 @@ BASE_MEAL_SLUG_CATEGORY_VALUE = {
     }
 }
 
+LABEL_SUBTITLE_CATEGORY_VALUE = {
+    'name': 'Salad with Caesar Dressing',
+    'category': {
+        'id': RecipeCategoryTagTypeEnum.LABEL_SUBTITLE_TAG.value,
+        'itemType': 'recipe',
+        'name': 'label subtitle'
+    }
+}
+
 MISCELLANEOUS_CATEGORY_VALUE = {
     'name': 'true',
     'category': {
@@ -91,5 +100,6 @@ MOCK_RECIPE_CATEGORY_VALUES = [
     HIGHLIGHT_TWO_CATEGORY_VALUE,
     MEAL_CONTAINER_CATEGORY_VALUE,
     BASE_MEAL_SLUG_CATEGORY_VALUE,
+    LABEL_SUBTITLE_CATEGORY_VALUE,
     MISCELLANEOUS_CATEGORY_VALUE,
 ]

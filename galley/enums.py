@@ -87,6 +87,7 @@ class RecipeCategoryTagTypeEnum(Enum):
     HIGHLIGHT_ONE_TAG = 'Y2F0ZWdvcnk6MjU3OA=='
     HIGHLIGHT_TWO_TAG = 'Y2F0ZWdvcnk6MzA0OQ=='
     NO_NUTRITION_ON_WEBSITE_TAG = 'Y2F0ZWdvcnk6MzA2Ng=='
+    LABEL_SUBTITLE_TAG = 'Y2F0ZWdvcnk6NzMyMDU='
     # recipe only tag, separate value used for ingredient bin weight
     BIN_WEIGHT_TAG = 'Y2F0ZWdvcnk6MzExOQ=='
 
