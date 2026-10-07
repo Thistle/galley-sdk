@@ -272,7 +272,8 @@ def get_recipe_category_tags(category_values: List[Dict]) -> Dict:
         RecipeCategoryTagTypeEnum.BASE_MEAL_TAG.value: 'baseMeal',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_ONE_TAG.value: 'highlightOne',
         RecipeCategoryTagTypeEnum.HIGHLIGHT_TWO_TAG.value: 'highlightTwo',
-        RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value: 'noNutritionOnWebsite'
+        RecipeCategoryTagTypeEnum.NO_NUTRITION_ON_WEBSITE_TAG.value: 'noNutritionOnWebsite',
+        RecipeCategoryTagTypeEnum.LABEL_SUBTITLE_TAG.value: 'labelSubtitle',
     }
     recipe_tags = {
         label: name for cv in category_values
