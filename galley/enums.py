@@ -74,10 +74,6 @@ class LabelIngredientEnum(Enum):
     MUFFIN_AND_SMOOTHIE_CIRCLE = 'aW5ncmVkaWVudDoyNDU5MzA='
     HUMMUS_RECTANGLE = 'aW5ncmVkaWVudDoyNDU5Mjk='
     SOUPS = 'aW5ncmVkaWVudDoyNDU5Mjg='
-    KALE_AND_QUINOA_CESAR = 'aW5ncmVkaWVudDoyNDU5MzM='
-    SOUTHWESTERN_BLACK_BEAN = 'aW5ncmVkaWVudDoyNDU5MzU='
-    CRUNCHY_THAI_PEANUT = 'aW5ncmVkaWVudDoyNDU5MzQ='
-    SPICED_SEED_AND_KALE = 'aW5ncmVkaWVudDoyNDU5MzY='
 
 
 class IngredientCategoryTagTypeEnum(Enum):

@@ -24,7 +24,7 @@ TOP = LabelIngredientEnum.AUTOLABELER_TOP.value
 BOTTOM = LabelIngredientEnum.AUTOLABELER_BOTTOM.value
 CIRCLE = LabelIngredientEnum.MUFFIN_AND_SMOOTHIE_CIRCLE.value
 HUMMUS = LabelIngredientEnum.HUMMUS_RECTANGLE.value
-JAR_SALAD = LabelIngredientEnum.KALE_AND_QUINOA_CESAR.value
+JAR_SALAD = 'jar-salad-label'
 
 PREPARATION_IDS = {
     AUTOLABEL_TOP_TEMPLATE: 'prep-top',
