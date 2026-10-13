@@ -121,6 +121,7 @@ class RecipeItemPreparation(Type):
     id = Field(ID)
     recipeItemId = str
     preparationId = str
+    preparation = Field('Preparation')
     recipeItem = Field('RecipeItem')
 
 
@@ -183,6 +184,7 @@ class RecipeItem(Type):
     recipeId = str
     subRecipeId = str
     preparations = Field(Preparation)
+    recipeItemPreparations = Field(list_of(RecipeItemPreparation))
     quantity = float
     unit = Field(Unit)
     reconciledNutritionals = Field(Nutrition, args=ArgDict(location_id=ID))
@@ -347,6 +349,7 @@ class MenuFilterInput(Input):
 class RecipeConnectionFilter(Input):
     id = list_of(str)
     name = str
+    isDish = bool
 
 
 class RecipeItemInput(Input):
@@ -447,3 +450,17 @@ class DeleteRecipeItemPreparationPayload(Type):
 
 class DeleteRecipeItemPreparationInput(Input):
     recipeItemPreparationId = str
+
+
+class Error(Type):
+    message = str
+
+
+class UpsertPreparationInput(Input):
+    id = str
+    name = str
+
+
+class UpsertPreparationPayload(Type):
+    error = Field(Error)
+    preparation = Field(Preparation)
