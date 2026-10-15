@@ -56,6 +56,11 @@ STANDALONE_INGREDIENTS = ['Rice Bran Oil',
 BASE_RECIPE_ALLERGENS = [ALLERGEN_LABELS[DietaryFlagEnum.COCONUT.name]]
 STANDALONE_ALLERGENS = [ALLERGEN_LABELS[DietaryFlagEnum.SOYBEANS.name]]
 SELLABLE_RECIPE_ALLERGENS = BASE_RECIPE_ALLERGENS + STANDALONE_ALLERGENS
+LABELS = [{
+    'ingredientId': 'aW5ncmVkaWVudDoyNDU5MjY=',
+    'name': 'Vegan Meal Label',
+    'preparations': [],
+}]
 
 def formatted_menu(date, onlySellableMenuItems=False):
     formatted_menu = {
@@ -316,6 +321,67 @@ class TestRecipeItemLabelName(TestCase):
         self.assertEqual(recipe_item.get_label_name(), NAME)
 
 
+def mock_label_recipe_item(ingredient_id, external_name, preparations=()):
+    return {
+        'preparations': [{'id': id, 'name': name} for id, name in preparations],
+        'ingredient': {
+            'id': ingredient_id,
+            'name': external_name.lower(),
+            'externalName': external_name,
+            'categoryValues': [{
+                'id': IngredientCategoryValueEnum.LABEL.value
+            }],
+        }
+    }
+
+
+class TestRecipeItemLabel(TestCase):
+    def test_returns_none_if_not_a_label(self):
+        data = {
+            'preparations': [{'id': 'prep-1', 'name': 'Core Recipe'}],
+            'ingredient': {
+                'id': 'ingredient-1',
+                'categoryValues': [{
+                    'id': 'NotALabelId'
+                }]
+            }
+        }
+        recipe_item = RecipeItem(data)
+        self.assertEqual(recipe_item.get_label(), None)
+
+    def test_returns_empty_preparations_if_label_has_none(self):
+        recipe_item = RecipeItem(mock_label_recipe_item('label-1', 'Top Label'))
+        self.assertEqual(recipe_item.get_label(), {
+            'ingredientId': 'label-1',
+            'name': 'Top Label',
+            'preparations': [],
+        })
+
+    def test_returns_label_with_one_preparation(self):
+        recipe_item = RecipeItem(mock_label_recipe_item(
+            'label-1', 'Top Label', [('prep-1', '275x4625-autolabel-top-label')]
+        ))
+        self.assertEqual(recipe_item.get_label(), {
+            'ingredientId': 'label-1',
+            'name': 'Top Label',
+            'preparations': [{'id': 'prep-1', 'name': '275x4625-autolabel-top-label'}],
+        })
+
+    def test_returns_label_with_multiple_preparations(self):
+        recipe_item = RecipeItem(mock_label_recipe_item('label-1', 'Hummus Label', [
+            ('prep-1', '275x4625-hummus-one-color-label'),
+            ('prep-2', '275x4625-hummus-two-color-label'),
+        ]))
+        self.assertEqual(recipe_item.get_label(), {
+            'ingredientId': 'label-1',
+            'name': 'Hummus Label',
+            'preparations': [
+                {'id': 'prep-1', 'name': '275x4625-hummus-one-color-label'},
+                {'id': 'prep-2', 'name': '275x4625-hummus-two-color-label'},
+            ],
+        })
+
+
 class TestCalculateServings(TestCase):
     def test_calculate_servings_sucessful_with_expected_data(self):
         expected_result = 2.5
@@ -366,6 +432,29 @@ class TestFormattedRecipeTreeComponents(TestCase):
         self.assertEqual(result['netWeight'], 0)
         self.assertEqual(result['grossWeight'], 0)
 
+    def test_labels_empty_if_no_label_recipe_items(self):
+        result = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS[:3])
+        self.assertEqual(result['labelName'], None)
+        self.assertEqual(result['labels'], [])
+
+    def test_labels_include_every_label_recipe_item(self):
+        recipe_items = MOCK_RECIPE_ITEMS[:3] + [
+            mock_label_recipe_item('label-top', 'Top Label', [('prep-1', '275x4625-autolabel-top-label')]),
+            mock_label_recipe_item('label-bottom', 'Bottom Label'),
+        ]
+        result = get_recipe_label_and_weights(recipe_items)
+        self.assertEqual(result['labels'], [{
+            'ingredientId': 'label-top',
+            'name': 'Top Label',
+            'preparations': [{'id': 'prep-1', 'name': '275x4625-autolabel-top-label'}],
+        }, {
+            'ingredientId': 'label-bottom',
+            'name': 'Bottom Label',
+            'preparations': [],
+        }])
+        # labelName keeps returning the last label's name
+        self.assertEqual(result['labelName'], 'Bottom Label')
+
     def test_format_data_with_standalone_component(self):
         weights = get_recipe_label_and_weights(MOCK_RECIPE_ITEMS)
         ingredients_and_standalone_data = get_recipe_ingredients_and_standalone_data(
@@ -379,6 +468,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'grossWeight': 557,
             'hasStandalone': True,
             'labelName': "Vegan Meal Label",
+            'labels': LABELS,
             'standaloneRecipeId': STANDALONE_RECIPE_ID,
             'standaloneRecipeName': STANDALONE_RECIPE_NAME,
             'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
@@ -406,6 +496,7 @@ class TestFormattedRecipeTreeComponents(TestCase):
             'grossWeight': 557,
             'hasStandalone': True,
             'labelName': "Vegan Meal Label",
+            'labels': LABELS,
             'standaloneRecipeId': STANDALONE_RECIPE_ID,
             'standaloneRecipeName': STANDALONE_RECIPE_NAME,
             'standaloneNutrition': MOCK_STANDALONE_RECONCILED_NUTRITIONALS,
@@ -499,6 +590,7 @@ class TestGetFormattedRecipesData(TestCase):
                 'notes': f'Some notes about recipe {SELLABLE_RECIPE_ID}',
                 'description': f'Details about recipe {SELLABLE_RECIPE_ID}',
                 'labelName': 'Vegan Meal Label',
+                'labels': LABELS,
                 'menuPhotoUrl': f'https://cdn.filestackcontent.com/MENU{SELLABLE_RECIPE_ID}',
                 'menuModalPhotoUrl': f'https://cdn.filestackcontent.com/MODAL{SELLABLE_RECIPE_ID}',
                 'nutrition': MOCK_RECONCILED_NUTRITIONALS,
