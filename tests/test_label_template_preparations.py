@@ -25,6 +25,7 @@ TOP = LabelIngredientEnum.AUTOLABELER_TOP.value
 BOTTOM = LabelIngredientEnum.AUTOLABELER_BOTTOM.value
 CIRCLE = LabelIngredientEnum.MUFFIN_AND_SMOOTHIE_CIRCLE.value
 HUMMUS = LabelIngredientEnum.HUMMUS_RECTANGLE.value
+SOUP = LabelIngredientEnum.SOUPS.value
 JAR_SALAD = 'jar-salad-label'
 
 PREPARATION_IDS = {
@@ -103,6 +104,12 @@ class TestGetLabelTemplateAssignments(TestCase):
                 assignments['ri-hummus']['templates_to_add'],
                 f'{HUMMUS_ONE_COLOR_TEMPLATE}|{HUMMUS_TWO_COLOR_TEMPLATE}'
             )
+
+    def test_soup_label_gets_jar_salad_template_only_on_jar_salads(self):
+        for container, template in (('jar12clr', SOUP_TEMPLATE), ('jar27', JAR_SALAD_TEMPLATE)):
+            assignments = self.assign(mock_sellable('r1', [container], [mock_label_item('ri-soup', SOUP)]))
+            self.assertEqual(assignments['ri-soup']['action'], 'add')
+            self.assertEqual(assignments['ri-soup']['templates'], template)
 
     def test_adds_missing_hummus_template(self):
         assignments = self.assign(mock_sellable('r1', ['tssb3r'], [

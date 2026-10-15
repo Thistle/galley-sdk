@@ -61,6 +61,8 @@ LABEL_TEMPLATE_PREPARATIONS: Dict[Tuple[str, str], Tuple[str, ...]] = {
         for container in MUFFIN_SMOOTHIE_CONTAINERS
     },
     ('jar12clr', LabelIngredientEnum.SOUPS.value): (SOUP_TEMPLATE,),
+    # Jar salads print on the soup label stock
+    ('jar27', LabelIngredientEnum.SOUPS.value): (JAR_SALAD_TEMPLATE,),
     # There's no one color hummus label ingredient, so both templates generate
     **{
         (container, LabelIngredientEnum.HUMMUS_RECTANGLE.value): (HUMMUS_ONE_COLOR_TEMPLATE, HUMMUS_TWO_COLOR_TEMPLATE)
@@ -161,17 +163,12 @@ def get_label_template_assignments_from_galley() -> List[Dict]:
 
 def create_label_template_preparations(dry_run: bool = True) -> Dict[str, str]:
     """
-    Creates any label template preparations from LABEL_TEMPLATE_PREPARATIONS,
-    plus the jar salad template, that don't exist in Galley yet. Returns
-    template names mapped to their preparation ids (templates not yet created
-    are omitted).
+    Creates any label template preparations from LABEL_TEMPLATE_PREPARATIONS
+    that don't exist in Galley yet. Returns template names mapped to their
+    preparation ids (templates not yet created are omitted).
     """
     preparation_ids = {p['name']: p['id'] for p in get_preparations()}
-    # Jar salads still use the pre-printed stock, but create their template for when they switch
-    templates = sorted(
-        {name for names in LABEL_TEMPLATE_PREPARATIONS.values() for name in names}
-        | {JAR_SALAD_TEMPLATE}
-    )
+    templates = sorted({name for names in LABEL_TEMPLATE_PREPARATIONS.values() for name in names})
     missing = [name for name in templates if name not in preparation_ids]
 
     logger.warning(f"Creating {len(missing)} of {len(templates)} label template preparations: {missing}")
