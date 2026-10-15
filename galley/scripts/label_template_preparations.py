@@ -187,12 +187,12 @@ def generate_csv_for_label_template_assignments(filename: str = 'label_template_
     """
     Writes a csv of every label recipe item on a sellable recipe with its
     meal container, current and expected label templates, and the action
-    apply_label_template_preparations would take.
+    assign_label_template_preparations would take.
     """
     generate_csv_from_dict_list(get_label_template_assignments_from_galley(), filename)
 
 
-def apply_label_template_preparations(dry_run: bool = True) -> None:
+def assign_label_template_preparations(dry_run: bool = True) -> None:
     """
     Tags each label recipe item on a sellable recipe with the label template
     preparations for its recipe's meal container, replacing any other label

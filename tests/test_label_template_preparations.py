@@ -11,7 +11,7 @@ from galley.scripts.label_template_preparations import (
     JAR_SALAD_TEMPLATE,
     MUFFIN_SMOOTHIE_TEMPLATE,
     SOUP_TEMPLATE,
-    apply_label_template_preparations,
+    assign_label_template_preparations,
     create_label_template_preparations,
     get_label_template_assignments,
 )
@@ -198,7 +198,7 @@ class TestCreateLabelTemplatePreparations(TestCase):
 @mock.patch('galley.scripts.label_template_preparations.delete_recipe_item_preparation')
 @mock.patch('galley.scripts.label_template_preparations.get_raw_sellable_recipes_recipe_items_data')
 @mock.patch('galley.scripts.label_template_preparations.get_preparations')
-class TestApplyLabelTemplatePreparations(TestCase):
+class TestAssignLabelTemplatePreparations(TestCase):
     def setUp(self) -> None:
         self.preparations = [{'id': id, 'name': name} for name, id in PREPARATION_IDS.items()]
         self.recipes = [
@@ -215,14 +215,14 @@ class TestApplyLabelTemplatePreparations(TestCase):
     def test_dry_run_makes_no_changes(self, mock_get_preparations, mock_get_recipes, mock_delete, mock_bulk_update):
         mock_get_preparations.return_value = self.preparations
         mock_get_recipes.return_value = self.recipes
-        apply_label_template_preparations()
+        assign_label_template_preparations()
         mock_delete.assert_not_called()
         mock_bulk_update.assert_not_called()
 
     def test_replaces_and_adds_templates(self, mock_get_preparations, mock_get_recipes, mock_delete, mock_bulk_update):
         mock_get_preparations.return_value = self.preparations
         mock_get_recipes.return_value = self.recipes
-        apply_label_template_preparations(dry_run=False)
+        assign_label_template_preparations(dry_run=False)
         mock_delete.assert_called_once_with(recipe_item_preparation_id='rip-stale')
         self.assertEqual(
             sorted((c.args[0]['attrs']['preparationIds'][0], c.args[0]['ids']) for c in mock_bulk_update.call_args_list),
@@ -240,15 +240,15 @@ class TestApplyLabelTemplatePreparations(TestCase):
             mock_sellable(f'r{i}', ['ts48'], [mock_label_item(f'ri-{i}', TOP)])
             for i in range(BULK_UPDATE_BATCH_SIZE + 1)
         ]
-        apply_label_template_preparations(dry_run=False)
+        assign_label_template_preparations(dry_run=False)
         self.assertEqual([len(c.args[0]['ids']) for c in mock_bulk_update.call_args_list], [BULK_UPDATE_BATCH_SIZE, 1])
 
     def test_raises_when_template_missing(self, mock_get_preparations, mock_get_recipes, mock_delete, mock_bulk_update):
         mock_get_preparations.return_value = []
         mock_get_recipes.return_value = self.recipes
-        apply_label_template_preparations()
+        assign_label_template_preparations()
         with self.assertRaises(ValueError):
-            apply_label_template_preparations(dry_run=False)
+            assign_label_template_preparations(dry_run=False)
         mock_delete.assert_not_called()
         mock_bulk_update.assert_not_called()
 
