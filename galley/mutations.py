@@ -11,7 +11,9 @@ from galley.types import (
     UnitInput,
     BulkUpdateRecipeItemsPayload,
     BulkUpdateRecipeItemsInput,
-    RecipeItemInput
+    RecipeItemInput,
+    UpsertPreparationInput,
+    UpsertPreparationPayload
 )
 import logging
 
@@ -25,6 +27,7 @@ class Mutation(Type):
     bulkUpsertMenus = Field(MenuPayload, args={'input': BulkMenusInput})
     bulkUpdateRecipeItems = Field(BulkUpdateRecipeItemsPayload, args={'input': BulkUpdateRecipeItemsInput})
     deleteRecipeItemPreparation = Field(DeleteRecipeItemPreparationPayload, args={'input': DeleteRecipeItemPreparationInput})
+    upsertPreparation = Field(UpsertPreparationPayload, args={'input': UpsertPreparationInput})
 
 
 # MENU MUTATIONS
@@ -141,3 +144,22 @@ def delete_recipe_item_preparation(recipe_item_preparation_id: str):
     mutation.deleteRecipeItemPreparation(input=delete_input)
     response = make_request_to_galley(op=mutation)
     return validate_response_data(response)
+
+
+def build_upsert_preparation_mutation(name: str):
+    mutation = Operation(Mutation)
+    mutation.upsertPreparation(input=UpsertPreparationInput(name=name))
+    mutation.upsertPreparation.error.__fields__('message')
+    mutation.upsertPreparation.preparation.__fields__('id', 'name')
+    return mutation
+
+
+def upsert_preparation(name: str):
+    mutation = build_upsert_preparation_mutation(name)
+    response = make_request_to_galley(op=mutation)
+    payload = validate_response_data(response, 'upsertPreparation')
+
+    if not payload or payload.get('error'):
+        error = (payload or {}).get('error') or {}
+        raise ValueError(f"{GALLEY_ERROR_PREFIX} Error upserting preparation '{name}': {error.get('message')}")
+    return payload.get('preparation')

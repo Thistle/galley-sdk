@@ -164,6 +164,76 @@ def get_raw_recipes_data(recipe_ids: List[str], location_name: str) -> Optional[
     return raw_recipes_data
 
 
+def sellable_recipes_recipe_items_query(
+    page_size: int = DEFAULT_PAGE_SIZE,
+    start_index: int = 0
+) -> Operation:
+    query = Operation(Query)
+    query.viewer.recipeConnection(
+        filters=RecipeConnectionFilter(isDish=True),
+        paginationOptions=PaginationOptions(first=page_size, startIndex=start_index)
+    ).__fields__('pageInfo', 'totalCount')
+    query.viewer.recipeConnection.edges.node.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.categoryValues.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.categoryValues.category.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeItems.__fields__('id')
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.__fields__('id', 'name', 'externalName')
+    query.viewer.recipeConnection.edges.node.recipeItems.ingredient.categoryValues.__fields__('id', 'name')
+    query.viewer.recipeConnection.edges.node.recipeItems.recipeItemPreparations.__fields__('id')
+    query.viewer.recipeConnection.edges.node.recipeItems.recipeItemPreparations.preparation.__fields__('id', 'name')
+    return query
+
+
+def get_raw_sellable_recipes_recipe_items_data() -> List[Dict]:
+    """
+    Returns every sellable (isDish) recipe with its category values and
+    top-level recipe items, including each item's ingredient category
+    values and recipe item preparations.
+    """
+    recipes: Dict[str, Dict] = {}
+    has_next_page = True
+    start_index = 0
+
+    while has_next_page:
+        query = sellable_recipes_recipe_items_query(start_index=start_index)
+        recipe_connection = validate_response_data(
+            make_request_to_galley(op=query),
+            'recipeConnection'
+        )
+
+        if not recipe_connection:
+            break
+
+        for edge in recipe_connection.get('edges', []):
+            recipe = edge.get('node') or {}
+            if recipe.get('id'):
+                recipes[recipe['id']] = recipe
+
+        page_info = recipe_connection.get('pageInfo') or {}
+        has_next_page = page_info.get('hasNextPage', False)
+        # endIndex is the inclusive index of the last edge on this page
+        start_index = (page_info.get('endIndex') or 0) + 1
+    return list(recipes.values())
+
+
+def get_preparations_query() -> Operation:
+    query = Operation(Query)
+    query.viewer.preparationConnection().__fields__('totalCount')
+    query.viewer.preparationConnection.edges.node.__fields__('id', 'name')
+    return query
+
+
+def get_preparations() -> List[Dict]:
+    preparation_connection = validate_response_data(
+        make_request_to_galley(op=get_preparations_query()),
+        'preparationConnection'
+    )
+    return [
+        node for edge in (preparation_connection or {}).get('edges', [])
+        if (node := edge.get('node'))
+    ]
+
+
 def get_recipe_id_by_name_query(
     name: str,
     page_size: int = DEFAULT_PAGE_SIZE,

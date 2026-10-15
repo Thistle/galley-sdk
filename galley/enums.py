@@ -65,6 +65,17 @@ class IngredientCategoryValueEnum(Enum):
     LABEL = 'Y2F0ZWdvcnlWYWx1ZToyMjI3OA=='
 
 
+class LabelIngredientEnum(Enum):
+    """
+    Enum for ingredients tagged with the LABEL packaging type. <label name>: <ingredient id>
+    """
+    AUTOLABELER_TOP = 'aW5ncmVkaWVudDoxODEzMTkz'
+    AUTOLABELER_BOTTOM = 'aW5ncmVkaWVudDoxODEzMTk0'
+    MUFFIN_AND_SMOOTHIE_CIRCLE = 'aW5ncmVkaWVudDoyNDU5MzA='
+    HUMMUS_RECTANGLE = 'aW5ncmVkaWVudDoyNDU5Mjk='
+    SOUPS = 'aW5ncmVkaWVudDoyNDU5Mjg='
+
+
 class IngredientCategoryTagTypeEnum(Enum):
     """
     Enum for category tag types at ingredient (itemType) level. <category name>: <category id>
