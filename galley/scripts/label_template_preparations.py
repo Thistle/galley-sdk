@@ -68,10 +68,6 @@ LABEL_TEMPLATE_PREPARATIONS: Dict[Tuple[str, str], Tuple[str, ...]] = {
     },
 }
 
-# Templates to create in Galley that aren't mapped to label items yet.
-# Jar salads still use the pre-printed stock.
-UNMAPPED_TEMPLATES = (JAR_SALAD_TEMPLATE,)
-
 
 def is_label_recipe_item(recipe_item: Dict) -> bool:
     ingredient = recipe_item.get('ingredient') or {}
@@ -165,15 +161,16 @@ def get_label_template_assignments_from_galley() -> List[Dict]:
 
 def create_label_template_preparations(dry_run: bool = True) -> Dict[str, str]:
     """
-    Creates any label template preparations from LABEL_TEMPLATE_PREPARATIONS
-    and UNMAPPED_TEMPLATES that don't exist in Galley yet. Returns template
-    names mapped to their preparation ids (templates not yet created are
-    omitted).
+    Creates any label template preparations from LABEL_TEMPLATE_PREPARATIONS,
+    plus the jar salad template, that don't exist in Galley yet. Returns
+    template names mapped to their preparation ids (templates not yet created
+    are omitted).
     """
     preparation_ids = {p['name']: p['id'] for p in get_preparations()}
+    # Jar salads still use the pre-printed stock, but create their template for when they switch
     templates = sorted(
         {name for names in LABEL_TEMPLATE_PREPARATIONS.values() for name in names}
-        | set(UNMAPPED_TEMPLATES)
+        | {JAR_SALAD_TEMPLATE}
     )
     missing = [name for name in templates if name not in preparation_ids]
 
