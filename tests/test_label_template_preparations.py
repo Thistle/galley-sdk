@@ -8,6 +8,7 @@ from galley.scripts.label_template_preparations import (
     BULK_UPDATE_BATCH_SIZE,
     HUMMUS_ONE_COLOR_TEMPLATE,
     HUMMUS_TWO_COLOR_TEMPLATE,
+    JAR_SALAD_TEMPLATE,
     MUFFIN_SMOOTHIE_TEMPLATE,
     SOUP_TEMPLATE,
     apply_label_template_preparations,
@@ -184,11 +185,13 @@ class TestCreateLabelTemplatePreparations(TestCase):
             AUTOLABEL_BOTTOM_TEMPLATE,
             HUMMUS_ONE_COLOR_TEMPLATE,
             HUMMUS_TWO_COLOR_TEMPLATE,
+            JAR_SALAD_TEMPLATE,
             MUFFIN_SMOOTHIE_TEMPLATE,
             SOUP_TEMPLATE,
         ]))
         self.assertEqual(result[AUTOLABEL_TOP_TEMPLATE], 'prep-top')
         self.assertEqual(result[SOUP_TEMPLATE], f'new-{SOUP_TEMPLATE}')
+        self.assertEqual(result[JAR_SALAD_TEMPLATE], f'new-{JAR_SALAD_TEMPLATE}')
 
 
 @mock.patch('galley.scripts.label_template_preparations.bulk_update_recipe_item_data')
