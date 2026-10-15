@@ -1,7 +1,9 @@
 import logging
 from collections import Counter, defaultdict
 from typing import Dict, List, Tuple
+from urllib.parse import urlparse
 
+from galley import api_url
 from galley.enums import IngredientCategoryValueEnum, LabelIngredientEnum, RecipeCategoryTagTypeEnum
 from galley.mutations import bulk_update_recipe_item_data, delete_recipe_item_preparation, upsert_preparation
 from galley.queries import get_preparations, get_raw_sellable_recipes_recipe_items_data
@@ -41,6 +43,10 @@ LABEL_TEMPLATES = {
 UNSET_MEAL_CONTAINERS = {'not set'}
 
 BULK_UPDATE_BATCH_SIZE = 100
+
+# Csv recipe links open the Galley app for the API the script runs against,
+# e.g. staging-api.galleysolutions.com -> staging-app.galleysolutions.com
+GALLEY_APP_URL = f"https://{urlparse(api_url or '').netloc.replace('api', 'app', 1)}"
 
 AUTOLABEL_CONTAINERS = ('ts20', 'ts24', 'ts32', 'ts48', 'jar32')
 MUFFIN_SMOOTHIE_CONTAINERS = ('ts8', 'ts8ccr', 'ts12ccr', 'jar12clr', 'jar16')
@@ -145,7 +151,7 @@ def get_label_template_assignments(recipes: List[Dict]) -> List[Dict]:
                 'action': action,
                 'templates_to_add': '|'.join(templates_to_add),
                 'recipe_item_preparation_ids_to_delete': ','.join(rip['id'] for rip in delete),
-                'recipe_link': f'https://app.galleysolutions.com/recipes/{recipe.get("id")}',
+                'recipe_link': f'{GALLEY_APP_URL}/recipes/{recipe.get("id")}',
             })
     return assignments
 
