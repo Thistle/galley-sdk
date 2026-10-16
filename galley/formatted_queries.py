@@ -136,11 +136,28 @@ class RecipeItem:
             for cv in self.category_values
         )
 
+    def is_label(self) -> bool:
+        return any(cv.get('id') == IngredientCategoryValueEnum.LABEL.value for cv in self.category_values)
+
     def get_label_name(self) -> Optional[str]:
-        for cv in self.category_values:
-            if cv.get('id') == IngredientCategoryValueEnum.LABEL.value:
-                return get_external_name(self.ingredient)
-        return None
+        return get_external_name(self.ingredient) if self.is_label() else None
+
+    def get_label(self) -> Optional[Dict]:
+        """
+        Returns the label ingredient's id and name with the id and name of
+        every preparation on this recipe item, e.g. the label templates to
+        print on its label stock. Returns None if this isn't a label.
+        """
+        if not self.is_label():
+            return None
+        return {
+            'ingredientId': self.ingredient.get('id'),
+            'name': get_external_name(self.ingredient),
+            'preparations': [
+                {'id': prep.get('id'), 'name': prep.get('name')}
+                for prep in self.preparations
+            ],
+        }
 
     def mass(self, unit: str = UnitEnum.G.value):
         if self.unit and self.unit.get('id') == unit:
@@ -238,16 +255,19 @@ def get_allergens(dietary_flags: List[Dict]) -> List:
 
 def get_recipe_label_and_weights(recipe_items: List[Dict]) -> Dict:
     """
-    Returns a dictionary containing gross weight of entire
-    sellable package, net weight of only the base recipe +
-    protein addons (minus standalone component), and label
-    name for packaging.
+    Returns a dictionary containing gross weight of the entire sellable
+    recipe, the net weight of only the base recipe plus protein add-ons
+    (minus standalone component), the label name for packaging, and all
+    label ingredients on the recipe with its preparations.
     """
     net_weight, gross_weight, label = 0, 0, None
+    labels = []
 
     for ri in recipe_items:
         recipe_item = RecipeItem(ri)
         label = recipe_item.get_label_name() or label
+        if (label_data := recipe_item.get_label()):
+            labels.append(label_data)
         mass = recipe_item.mass() or 0
         if (
             not recipe_item.is_packaging()
@@ -257,6 +277,7 @@ def get_recipe_label_and_weights(recipe_items: List[Dict]) -> Dict:
         gross_weight += mass
     return {
         'labelName': label,
+        'labels': labels,
         'netWeight': round(net_weight),
         'grossWeight': round(gross_weight),
     }
